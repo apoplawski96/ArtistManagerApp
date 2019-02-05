@@ -35,7 +35,8 @@ class LoginActivity : AppCompatActivity() {
 
 
         loginButton.setOnClickListener {
-            signIn(loadAuthFields(loginEmailEditText, loginPasswordEditText).email, loadAuthFields(loginEmailEditText, loginPasswordEditText).password)
+            var loadAuthFieldsResult = loadAuthFields(loginEmailEditText, loginPasswordEditText)
+            signIn(loadAuthFieldsResult.email, loadAuthFieldsResult.password)
         }
 
     }
