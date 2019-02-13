@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -19,52 +20,37 @@ class TransitionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transition)
 
+        // Firebase stuff
         val auth = FirebaseAuth.getInstance()
+        val db = FirebaseFirestore.getInstance()
         var user = auth.currentUser
-        val intent : Intent = Intent()
 
         // Checking if user is logged in and saving the function response in the variable
-        var isLoggedIn = checkIfUserLoggedIn(user)
-        var isUserNew : Boolean = true
-        guideUser(isLoggedIn, isUserNew)
+        checkIfUserIsNewAndGuide(db, user)
+
     }
 
     // ************************************ FUNCTIONS SECTION START ************************************
 
-    fun guideUser(loggedIn : Boolean, userNew : Boolean) {
-        if (loggedIn){
-            // If the user haven't finished filling his profile info - we send him there
-            if (userNew){
-                val intent = Intent(context, CreateUserProfileActivity::class.java).apply {
-                    //putExtra("asdasd", "asda")
-                }
+    fun checkIfUserIsNewAndGuide(db : FirebaseFirestore, user : FirebaseUser?) {
+        val docRef = db.collection("users").document(user?.uid.toString())
+
+        docRef.get().addOnSuccessListener {
+            var completionStatus = it.getString("profileCompletionStatus")
+            if (completionStatus.equals("completed")){
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
-            // If the user already finished filling his profile - he goes to Main Activity
             } else {
-                val intent = Intent(context, MainActivity::class.java).apply {
-                    //putExtra("asdasd", "asda")
+                val intent = Intent(this, CreateUserProfileActivity::class.java).apply{
+                    putExtra("isDbRecordCreated", "true")
                 }
                 startActivity(intent)
             }
-
-        } // If user is not logged in - we go to LoginActivity
-        else {
-            val intent = Intent(context, LoginActivity::class.java).apply {
-                //putExtra("asdasd", "asda")
+        }.addOnFailureListener{
+            val intent = Intent(this, TransitionActivity::class.java).apply{
+                putExtra("isDbRecordCreated", "false")
             }
             startActivity(intent)
-        }
-    }
-
-    fun checkIfUserIsNew() {
-
-    }
-
-    fun checkIfUserLoggedIn(user : FirebaseUser?) : Boolean{
-        if (user != null){
-            return true
-        } else {
-            return false
         }
     }
 

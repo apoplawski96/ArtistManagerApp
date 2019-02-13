@@ -1,5 +1,6 @@
 package com.example.artistmanagerapp.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -22,36 +23,21 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-
-        // Firebase stuff
-        FirebaseApp.initializeApp(this)
-        auth = FirebaseAuth.getInstance()
-
         // View components
         val loginButton : Button = findViewById(R.id.login_button) as Button
         loginEmailEditText = findViewById(R.id.login_email_edit_text) as EditText
         loginPasswordEditText = findViewById(R.id.login_password_edit_text) as EditText
 
-        //Variables
+        // Variables
+        var user = auth.currentUser
 
+        // Firebase stuff
+        auth = FirebaseAuth.getInstance()
 
         loginButton.setOnClickListener {
             var loadAuthFieldsResult = loadAuthFields(loginEmailEditText, loginPasswordEditText)
             signIn(loadAuthFieldsResult.email, loadAuthFieldsResult.password)
         }
-
-    }
-
-    public override fun onStart() {
-        super.onStart()
-        FirebaseApp.initializeApp(this)
-
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        updateUI(currentUser)
-    }
-
-    fun updateUI(user : FirebaseUser?){
 
     }
 
@@ -63,13 +49,13 @@ class LoginActivity : AppCompatActivity() {
 
                 if (task.isSuccessful){
                     Log.d(TAG, "signInWithEmail:success")
-                    val user = auth.currentUser
                     Toast.makeText(baseContext, "Authentication successful.", Toast.LENGTH_SHORT).show()
-                    updateUI(user)
+                    // When login is successful - we go to TransitionActivity
+                    val intent = Intent(this, TransitionActivity::class.java)
+                    startActivity(intent)
                 } else {
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
-                    updateUI(null)
                 }
 
             }
@@ -77,7 +63,6 @@ class LoginActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Email and password can't be empty!", Toast.LENGTH_SHORT).show()
         }
-
 
     }
 
@@ -90,8 +75,6 @@ class LoginActivity : AppCompatActivity() {
 
         return result
     }
-
-
 
     companion object {
         private const val TAG = "EmailPasswordSignIn"
