@@ -33,24 +33,36 @@ class TransitionActivity : AppCompatActivity() {
     // ************************************ FUNCTIONS SECTION START ************************************
 
     fun checkIfUserIsNewAndGuide(db : FirebaseFirestore, user : FirebaseUser?) {
+        // Creating a reference to the "users -> userId" path
         val docRef = db.collection("users").document(user?.uid.toString())
 
-        docRef.get().addOnSuccessListener {
-            var completionStatus = it.getString("profileCompletionStatus")
-            if (completionStatus.equals("completed")){
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            } else {
-                val intent = Intent(this, CreateUserProfileActivity::class.java).apply{
-                    putExtra("isDbRecordCreated", "true")
+        // Getting a DocSnaphot from a path reference
+        docRef.get().addOnSuccessListener { docSnapshot ->
+            // If docSnahshot doesn't exist - database record is not yet created, so we pass a "false" value and create it in the next activity
+            if (!docSnapshot.exists()){
+                val intent = Intent(applicationContext, CreateUserProfileActivity::class.java).apply{
+                    putExtra("isDbRecordCreated", "false")
                 }
                 startActivity(intent)
+            } else {
+                // Getting and checking the "profileCompletionStatus" value
+                var completionStatus = docSnapshot.getString("profileCompletionStatus")
+
+                // If completionStatus is completed - we can go to MainActivity
+                if (completionStatus.equals("completed")){
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                } else if (completionStatus.equals("started")){
+                    val intent = Intent(applicationContext, CreateUserProfileActivity::class.java).apply{
+                        putExtra("isDbRecordCreated", "true")
+                    }
+                    startActivity(intent)
+                }
+
             }
+
         }.addOnFailureListener{
-            val intent = Intent(this, TransitionActivity::class.java).apply{
-                putExtra("isDbRecordCreated", "false")
-            }
-            startActivity(intent)
+
         }
     }
 

@@ -14,10 +14,6 @@ import com.google.firebase.auth.FirebaseUser
 
 class LoginActivity : AppCompatActivity() {
 
-    // Firebase stuff
-    private lateinit var auth: FirebaseAuth
-    private lateinit var loginEmailEditText : EditText
-    private lateinit var loginPasswordEditText : EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,23 +21,24 @@ class LoginActivity : AppCompatActivity() {
 
         // View components
         val loginButton : Button = findViewById(R.id.login_button) as Button
-        loginEmailEditText = findViewById(R.id.login_email_edit_text) as EditText
-        loginPasswordEditText = findViewById(R.id.login_password_edit_text) as EditText
+        val loginEmailEditText = findViewById(R.id.login_email_edit_text) as EditText
+        val loginPasswordEditText = findViewById(R.id.login_password_edit_text) as EditText
+
+        var auth = FirebaseAuth.getInstance()
 
         // Variables
         var user = auth.currentUser
 
         // Firebase stuff
-        auth = FirebaseAuth.getInstance()
 
         loginButton.setOnClickListener {
             var loadAuthFieldsResult = loadAuthFields(loginEmailEditText, loginPasswordEditText)
-            signIn(loadAuthFieldsResult.email, loadAuthFieldsResult.password)
+            signIn(loadAuthFieldsResult.email, loadAuthFieldsResult.password, auth)
         }
 
     }
 
-    fun signIn(email : String, password : String){
+    fun signIn(email : String, password : String, auth : FirebaseAuth){
 
         if (!email.isEmpty() && !password.isEmpty()){
 
