@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/home"
+    android:title="Home"
+    android:icon="@mipmap/ic_launcher_round">
+    </item>
+
+    <item android:id="@+id/frag2"
+          android:title="Frag2"
+          android:icon="@mipmap/ic_launcher_round">
+    </item>
+
+    <item android:id="@+id/frag3"
+          android:title="Frag3"
+          android:icon="@mipmap/ic_launcher_round">
+    </item>
+
+</menu>
