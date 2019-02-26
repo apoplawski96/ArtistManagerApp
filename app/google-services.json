@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "112777991343",
+    "firebase_url": "https://artistmanagerapp.firebaseio.com",
+    "project_id": "artistmanagerapp",
+    "storage_bucket": "artistmanagerapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112777991343:android:9a5473e72aae3793",
+        "android_client_info": {
+          "package_name": "com.example.artistmanagerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "112777991343-k4g48ngme2csgnp72rahcq2g42rqf9da.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.artistmanagerapp",
+            "certificate_hash": "8b54bee9421cf3b8427bd8d73540d4d7517c009d"
+          }
+        },
+        {
+          "client_id": "112777991343-5lisoevvh0v4lo3hdoku8vjf4quvdij2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYtlBStJTBYfQ4w-BqtUV5In_dJx_ySpQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "112777991343-5lisoevvh0v4lo3hdoku8vjf4quvdij2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
