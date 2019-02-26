@@ -20,7 +20,7 @@ class TransitionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transition)
 
-        // Firebase stuff
+        // Firebase stuff asdasd
         val auth = FirebaseAuth.getInstance()
         val db = FirebaseFirestore.getInstance()
         var user = auth.currentUser
