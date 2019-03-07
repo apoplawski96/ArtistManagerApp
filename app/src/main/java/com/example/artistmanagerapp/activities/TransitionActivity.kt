@@ -46,7 +46,7 @@ class TransitionActivity : AppCompatActivity() {
                 startActivity(intent)
             } else {
                 // Getting and checking the "profileCompletionStatus" value
-                var completionStatus = docSnapshot.getString("profileCompletionStatus")
+                var completionStatus = docSnapshot.getString(R.string.firestore_profilecompletionstatus.toString())
 
                 // If completionStatus is completed - we can go to MainActivity
                 if (completionStatus.equals("completed")){

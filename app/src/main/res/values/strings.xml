@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">ArtistManagerApp</string>
+
+    //Firebase Firestore - field names
+    <string name="firestore_email">email_address</string>
+    <string name="firestore_profilecompletionstatus">profile_completion_status</string>
+    <string name="firestore_artistpage">artist_page_id</string>
+    <string name="firestore_islinkedwithartistpage">is_linked_with_artist</string>
+    <string name="firestore_initartistscollection">init_artists_collection</string>
+
+    //Firebase Firestore - field values
+    <string name="firestore_profile_completed">completed</string>
+
+    //Firebase Firestore - collection names
+    <string name="firestore_users_collection">users</string>
+    <string name="firestore_artistpages_collection">artist_pages</string>
+
+
 </resources>

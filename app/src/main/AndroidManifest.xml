@@ -9,6 +9,12 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".activities.CreateOrJoinActivity">
+        </activity>
+        <activity android:name=".activities.SelectArtistPageActivity">
+        </activity>
+        <activity android:name=".activities.CheckArtistPageLinkActivity">
+        </activity>
         <activity android:name=".activities.BaseActivity">
         </activity>
         <activity android:name=".activities.TestActivity">

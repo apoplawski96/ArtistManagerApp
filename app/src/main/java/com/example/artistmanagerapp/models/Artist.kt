@@ -1,5 +1,7 @@
 package com.example.artistmanagerapp.models
 
-class Artist (firstName : String, lastName : String, val instrument : String) : Person(firstName, lastName) {
+import java.sql.Struct
+
+class Artist (firstName : String, lastName : String, val instrument : String, role : String) : Person(firstName, lastName, role) {
 
 }

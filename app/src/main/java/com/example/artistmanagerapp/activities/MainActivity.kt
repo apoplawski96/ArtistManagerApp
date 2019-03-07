@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.widget.TextView
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.fragments.HomeFragment
 import com.example.artistmanagerapp.models.Artist
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {item ->
         when (item.itemId){
             R.id.home -> {
+                replaceFragment(HomeFragment())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag2 -> {
@@ -47,6 +50,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
         false
+    }
+
+    private fun replaceFragment(fragment : Fragment){
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment_container, fragment)
+        fragmentTransaction.commit()
     }
 
 }
