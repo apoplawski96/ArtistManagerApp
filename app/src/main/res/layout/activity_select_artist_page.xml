@@ -7,4 +7,6 @@
         android:layout_height="match_parent"
         tools:context=".activities.SelectArtistPageActivity">
 
+    <include layout="@layout/horizontal_select_artist_recycler_view"></include>
+
 </android.support.constraint.ConstraintLayout>

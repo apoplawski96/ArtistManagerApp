@@ -15,6 +15,7 @@ abstract class BaseActivity : AppCompatActivity() {
     var user = auth.currentUser
 
     // Firebase Firestore paths
+    val perfectUserPath = db.collection("users").document("perfectUser")
     val userPath = db.collection("users").document(user?.uid.toString())
     val artistsCollectionPath = userPath.collection(R.string.firestore_artistpages_collection.toString())
 
