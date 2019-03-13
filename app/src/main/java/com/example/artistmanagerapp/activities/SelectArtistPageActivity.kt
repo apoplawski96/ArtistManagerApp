@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.Toast
 import com.example.artistmanagerapp.R
@@ -23,11 +24,13 @@ class SelectArtistPageActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_artist_page)
 
+        var selectArtistRecyclerView = findViewById(R.id.select_artist_recycler_view) as RecyclerView
+
         populateListWithFakeStuff()
         loadArtistPages()
 
-        select_artist_recycler_view.layoutManager = LinearLayoutManager(this, OrientationHelper.HORIZONTAL, false)
-        select_artist_recycler_view.adapter = SelectArtistPageAdapter(artistPageArrayList)
+        selectArtistRecyclerView.layoutManager = LinearLayoutManager(this, OrientationHelper.HORIZONTAL, false)
+        selectArtistRecyclerView.adapter = SelectArtistPageAdapter(artistPageArrayList)
 
         //Here I have to somehow upload the RecyclerView - I got the data, but the recycler view remains as it was
 

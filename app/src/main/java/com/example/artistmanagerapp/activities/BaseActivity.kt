@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -23,21 +24,13 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
 
-        exitIfUserNotLogged()
+        Utils.exitIfUserNotLogged()
     }
 
     override fun onResume() {
         super.onResume()
 
-        exitIfUserNotLogged()
-    }
-
-    fun exitIfUserNotLogged(){
-        if (user == null){
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            this.finish()
-        }
+        Utils.exitIfUserNotLogged()
     }
 
 }

@@ -25,7 +25,6 @@ class CheckArtistPageLinkActivity : BaseActivity() {
     }
 
     fun checkIfUserIsHasArtistPageLink() {
-
         artistsCollectionPath.document("perfect_artist_page_id").get().addOnCompleteListener{ docSnapshot ->
             if (!docSnapshot.getResult().exists()){
                 Toast.makeText(this, "Hujnicniema", Toast.LENGTH_SHORT).show()
@@ -35,7 +34,6 @@ class CheckArtistPageLinkActivity : BaseActivity() {
                 Toast.makeText(this, "Cosjest", Toast.LENGTH_SHORT).show()
                 goToSelectArtistPageActivity()
             }
-
         }.addOnFailureListener{
 
         }

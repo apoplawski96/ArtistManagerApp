@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.widget.TextView
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.fragments.HomeFragment
+import com.example.artistmanagerapp.fragments.TasksFragment
 import com.example.artistmanagerapp.models.Artist
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag2 -> {
+                replaceFragment(TasksFragment())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag3 -> {
