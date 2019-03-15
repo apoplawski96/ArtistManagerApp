@@ -56,19 +56,5 @@ class SelectArtistPageActivity : BaseActivity() {
     }
 
 
-    fun loadArtistPagesIntoRecyclerView(){
-        perfectUserPath.collection("artist_pages").get().addOnSuccessListener { queryDocumentSnapshot ->
-            Toast.makeText(this, queryDocumentSnapshot.documents.toString(), Toast.LENGTH_SHORT)
-            if (!queryDocumentSnapshot.isEmpty){
-                var artistPagesList : List <DocumentSnapshot> = queryDocumentSnapshot.documents
-
-                for (i in artistPagesList){
-                    artistPageArrayList.add(ArtistPage(i.get("artist_name").toString()))
-                }
-
-            }
-        }
-    }
-
 
 }

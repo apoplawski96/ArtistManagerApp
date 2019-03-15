@@ -14,4 +14,8 @@ object Utils : BaseActivity (){
         }
     }
 
+    fun checkIfParsingWorks(){
+
+    }
+
 }
