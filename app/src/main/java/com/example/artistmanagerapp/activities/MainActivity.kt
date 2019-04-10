@@ -25,15 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         bottom_nav_bar.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-        //to delete later
-        val logout = findViewById(R.id.logout_text_view) as TextView
-        logout.setOnClickListener {
-            auth.signOut()
-            val intent = Intent(this, LoginActivity::class.java).apply {
-                //putExtra("asdasd", "asda")
-            }
-            startActivity(intent)
-        }
+        replaceFragment(HomeFragment())
     }
 
 

@@ -20,7 +20,6 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val auth = FirebaseAuth.getInstance()
         var user = auth.currentUser
-        val intent : Intent = Intent()
 
         // Checking if user is logged in and saving the function response in the variable
         var isLoggedIn = checkIfUserLoggedIn(user)

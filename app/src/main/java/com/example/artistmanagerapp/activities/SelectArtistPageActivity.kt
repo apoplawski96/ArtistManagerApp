@@ -44,9 +44,9 @@ class SelectArtistPageActivity : BaseActivity() {
     fun loadArtistPages(){
         perfectUserPath.collection("artist_pages")
             .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    for (document in task.result){
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    for (document in documents){
                         artistPageArrayList.add(ArtistPage(document.get("artist_name").toString()))
                     }
                 } else {

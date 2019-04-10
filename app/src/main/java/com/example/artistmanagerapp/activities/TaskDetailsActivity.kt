@@ -14,8 +14,6 @@ class TaskDetailsActivity : BaseActivity(), TaskDetailPresenter {
         taskName.setText(taskOutput.title)
     }
 
-    private var taskData : Task = Task("dummy", "dummy")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_details)

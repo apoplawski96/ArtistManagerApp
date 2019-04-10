@@ -23,10 +23,10 @@ object TaskHelper {
         var tasksOutput : ArrayList<Task> = ArrayList()
 
         pathToTasksCollection.get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    for (document in task.result){
-                        tasksOutput.add(Task(document.get("title").toString(), document.id))
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    for (document in documents){
+                        tasksOutput!!.add(Task(document.get("title").toString(), document.id))
                     }
                     taskUpdater.updateTasks(tasksOutput)
                 } else {

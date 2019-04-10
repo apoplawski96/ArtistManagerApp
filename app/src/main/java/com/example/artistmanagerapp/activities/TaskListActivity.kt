@@ -13,7 +13,7 @@ import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.utils.TaskHelper
 
-class TaskListActivity : BaseActivity(), TaskUpdater, TaskListAdapter.OnTaskListener {
+class TaskListActivity : BaseActivity(), TaskUpdater{
 
     // Collections
     private var tasksList : ArrayList <Task> = ArrayList()
@@ -38,11 +38,6 @@ class TaskListActivity : BaseActivity(), TaskUpdater, TaskListAdapter.OnTaskList
         adapter?.updateItems(tasksOutput)
     }
 
-
-    override fun onTaskClick(position: Int) {
-        tasksList.get(position)
-        // Go to next activity
-    }
 
     fun taskItemClicked (taskItem : Task){
         Toast.makeText(this, "Clicked: ${taskItem.title}", Toast.LENGTH_SHORT).show()

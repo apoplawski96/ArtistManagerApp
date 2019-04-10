@@ -5,4 +5,8 @@
     <!-- Customize your theme here. -->
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="Base.ThemeOverlay.AppCompat.Light" />
+
 </resources>

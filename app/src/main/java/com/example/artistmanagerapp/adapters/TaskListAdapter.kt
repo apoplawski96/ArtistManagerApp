@@ -30,9 +30,6 @@ class TaskListAdapter (var taskList : ArrayList<Task>, val clickListener: (Task)
         notifyDataSetChanged()
     }
 
-    interface OnTaskListener {
-        fun onTaskClick (position: Int)
-    }
 
     class ViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView) {
         fun bind (task : Task, clickListener: (Task) -> Unit){
@@ -40,9 +37,6 @@ class TaskListAdapter (var taskList : ArrayList<Task>, val clickListener: (Task)
             itemView.task_title.text = task.title
         }
 
-
-        // tutaj niby mial byc zainicjalizowany on note listener
-        val taskTitle : TextView = itemView.findViewById(R.id.task_title) as TextView
     }
 
 }

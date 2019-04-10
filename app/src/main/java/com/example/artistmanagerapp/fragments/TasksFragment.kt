@@ -21,7 +21,7 @@ import com.example.artistmanagerapp.utils.TaskHelper
 import kotlinx.android.synthetic.main.fragment_tasks.*
 import kotlinx.android.synthetic.main.horizontal_select_artist_recycler_view.*
 
-class TasksFragment : BaseFragment(), TaskUpdater, TaskListAdapter.OnTaskListener{
+class TasksFragment : BaseFragment(), TaskUpdater{
 
     // Collections
     private var tasksList : ArrayList <Task> = ArrayList()
@@ -30,12 +30,6 @@ class TasksFragment : BaseFragment(), TaskUpdater, TaskListAdapter.OnTaskListene
 
     override fun updateTasks(tasksOutput: ArrayList<Task>) {
         adapter?.updateItems(tasksOutput)
-    }
-
-
-    override fun onTaskClick(position: Int) {
-        tasksList.get(position)
-        // Go to next activity
     }
 
     override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
