@@ -18,7 +18,12 @@ class ArtistEpkKindOfActivity : AppCompatActivity() {
         setContentView(R.layout.activity_artist_epk_kind_of)
 
         collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar) as CollapsingToolbarLayout
-        collapsingToolbarLayout!!.title = "Collapsing Toolbar"
+        collapsingToolbarLayout!!.title = "NOT ENOUGH"
+
+        collapsingToolbarLayout!!.setExpandedTitleMargin(40,40,40,40)
+
+        collapsingToolbarLayout!!.setExpandedTitleTextAppearance(R.style.ExpandedText)
+        collapsingToolbarLayout!!.setCollapsedTitleTextAppearance(R.style.CollapsedText)
 
         dynamicColor()
 

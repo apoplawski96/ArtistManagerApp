@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/contact_role" android:text="Booking (UK)"/>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/contact_name" android:text="Anchor Agency (Margaux Sasche)"/>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/contact_contact" android:text="margaux@anchoragency.eu"/>
+
+</LinearLayout>

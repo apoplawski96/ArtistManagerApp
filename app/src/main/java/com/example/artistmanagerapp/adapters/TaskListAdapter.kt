@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.models.Task
-import kotlinx.android.synthetic.main.task_item.view.*
+import kotlinx.android.synthetic.main.item_task.view.*
 
 class TaskListAdapter (var taskList : ArrayList<Task>, val clickListener: (Task) -> Unit) : RecyclerView.Adapter<TaskListAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view : View = LayoutInflater.from(parent.context).inflate(R.layout.task_item, parent, false)
+        val view : View = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
         return ViewHolder(view)
     }
 
@@ -36,7 +36,6 @@ class TaskListAdapter (var taskList : ArrayList<Task>, val clickListener: (Task)
             itemView.setOnClickListener {clickListener(task)}
             itemView.task_title.text = task.title
         }
-
     }
 
 }
