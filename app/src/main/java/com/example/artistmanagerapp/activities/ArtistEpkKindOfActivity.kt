@@ -1,13 +1,11 @@
-package com.example.artistmanagerapp
+package com.example.artistmanagerapp.activities
 
 import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v7.graphics.Palette
-import android.support.v7.widget.Toolbar
-import android.view.Menu
-import android.view.MenuItem
+import com.example.artistmanagerapp.R
 
 class ArtistEpkKindOfActivity : AppCompatActivity() {
 

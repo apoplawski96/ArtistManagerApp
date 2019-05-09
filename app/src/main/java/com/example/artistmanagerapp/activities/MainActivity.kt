@@ -8,6 +8,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.widget.TextView
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.fragments.GridMenuFragment
 import com.example.artistmanagerapp.fragments.HomeFragment
 import com.example.artistmanagerapp.fragments.TasksFragment
 import com.example.artistmanagerapp.models.Artist
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag2 -> {
-                replaceFragment(TasksFragment())
+                replaceFragment(GridMenuFragment())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag3 -> {

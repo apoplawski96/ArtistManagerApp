@@ -51,4 +51,6 @@ class TasksFragment : BaseFragment(), TaskUpdater{
         Toast.makeText(activity, "Clicked: ${taskItem.title}", Toast.LENGTH_SHORT).show()
     }
 
+
+
 }
