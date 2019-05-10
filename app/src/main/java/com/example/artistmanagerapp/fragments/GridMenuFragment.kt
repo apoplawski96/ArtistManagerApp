@@ -1,6 +1,7 @@
 package com.example.artistmanagerapp.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -15,6 +16,8 @@ import android.widget.Toast
 
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.MainActivity
+import com.example.artistmanagerapp.activities.TaskDetailsActivity
+import com.example.artistmanagerapp.activities.TaskListActivity
 import com.example.artistmanagerapp.adapters.MenuAdapter
 import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.models.MenuItem
@@ -45,10 +48,17 @@ class GridMenuFragment : Fragment() {
 
     fun menuItemClicked (menuItem: MenuItem){
         Toast.makeText(activity, "Clicked: ${menuItem.itemName}", Toast.LENGTH_SHORT).show()
+        var intent : Intent? = null
+
+        if (menuItem.itemName.equals("Task manager")){
+            intent = Intent(activity, TaskListActivity::class.java)
+        }
+
+        startActivity(intent)
     }
 
     fun populateMenuItemsList(){
-        menuItemsList.add(MenuItem("chuj1", R.mipmap.cover2))
+        menuItemsList.add(MenuItem("Task manager", R.mipmap.cover2))
         menuItemsList.add(MenuItem("chuj2", R.mipmap.cover2))
         menuItemsList.add(MenuItem("chuj3", R.mipmap.cover2))
     }

@@ -22,6 +22,9 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
     private var tasksList : ArrayList <Task> = ArrayList()
     // Adapters
     private var adapter: TaskListAdapter? = null
+    // BottomSheet stuff
+    private var mBottomSheetBehavior: BottomSheetBehavior<View?>? = null
+    var fragment = supportFragmentManager.findFragmentById(R.id.filter_fragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +32,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
 
         // Views
         var taskListRecyclerView = findViewById(R.id.task_list_recyclerview) as RecyclerView
+        fragment = supportFragmentManager.findFragmentById(R.id.filter_fragment)
 
         configureBackdrop()
 
@@ -43,34 +47,17 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
         adapter?.updateItems(tasksOutput)
     }
 
-
     fun taskItemClicked (taskItem : Task){
-        Toast.makeText(this, "Clicked: ${taskItem.title}", Toast.LENGTH_SHORT).show()
-        val intent = Intent(applicationContext, TaskDetailsActivity::class.java).apply{
-            putExtra("task_id", taskItem.taskId)
-        }
-        startActivity(intent)
+        mBottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-    private var mBottomSheetBehavior: BottomSheetBehavior<View?>? = null
-
     fun configureBackdrop(){
-
-        val fragment = supportFragmentManager.findFragmentById(R.id.filter_fragment)
-
         fragment?.let {
-
             BottomSheetBehavior.from(it.view)?.let { bsb ->
-
                 bsb.state = BottomSheetBehavior.STATE_HIDDEN
-                fab_filter.setOnClickListener{ bsb.state = BottomSheetBehavior.STATE_EXPANDED }
                 mBottomSheetBehavior = bsb
-
             }
-
         }
-
-
     }
 
 }
