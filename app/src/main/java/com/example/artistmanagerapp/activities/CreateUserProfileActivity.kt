@@ -3,81 +3,86 @@ package com.example.artistmanagerapp.activities
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.firebase.FirebaseDataWriter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 import kotlin.collections.HashMap
 
-class CreateUserProfileActivity : AppCompatActivity() {
+class CreateUserProfileActivity : BaseActivity() {
 
-    var userData : HashMap <String,Any> = HashMap()
+    // Views
+    var submitButton : Button? = null
+    var firstNameInput : EditText? = null
+    var lastNameInput : EditText? = null
+
+    // Collections
+    var userInitData : HashMap <String,Any> = HashMap()
+    var userProfileData : HashMap <String, Any> = HashMap()
     var artistPages : HashMap <String, Any> = HashMap()
-    val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_user_profile)
+        Log.d(ACTIVITY_WELCOME_TAG, "Welcome to CreateUserProfileActivity")
 
-        // Firebase stuff
-        val auth = FirebaseAuth.getInstance()
-        var user = auth.currentUser
+        // Views
+        firstNameInput = findViewById(R.id.first_name)
+        lastNameInput = findViewById(R.id.last_name)
+        submitButton = findViewById(R.id.submit_button)
+        submitButton?.setOnClickListener {
+            mapDataFromTextInputs(firstNameInput, lastNameInput)
+            FirebaseDataWriter().addUserDataToDb(usersPath, userProfileData, user?.uid.toString())
+        }
 
-        //
+        // Getting data from previous activity
         var intent : Intent = intent
         var isDbRecordCreated = intent.getStringExtra("isDbRecordCreated")
 
-        Toast.makeText(this, isDbRecordCreated, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, user?.uid.toString(), Toast.LENGTH_SHORT).show()
 
-        initUserDatabaseRecord(user)
-
-        if (isDbRecordCreated!=null){
-
-            if (isDbRecordCreated.equals("false")){
-                initUserDatabaseRecord(user)
-            } else {
-
-            }
-
+        if (isDbRecordCreated == "false"){
+            initUserDatabaseRecord(user)
         }
-
     }
 
     // ************************************ FUNCTIONS SECTION START ************************************
 
-    fun mapTextFromField(map : Map<String, Any>, key : String, value : String){
-
-    }
-
     fun initUserDatabaseRecord(user : FirebaseUser?){
-
         var userId = user?.uid.toString()
         var userEmail = user?.email.toString()
 
         // Paths
-        //var userPath = db.collection(R.string.firestore_users_collection.toString()).document(userId)
+        var userPath = db.collection(R.string.firestore_users_collection.toString()).document(userId)
         var userPathId = db.collection(R.string.firestore_users_collection.toString()).document(userId).id
         var artistsPath = db.collection(R.string.firestore_users_collection.toString()).document(userId).collection(R.string.firestore_artistpages_collection.toString()).document()
         var hartistsPath = db.collection(R.string.firestore_users_collection.toString()).document(userId).collection("asdasdasd").document().id
 
-        // User info stuff
-        userData.put(R.string.firestore_email.toString(), userEmail)
-        userData.put(R.string.firestore_profilecompletionstatus.toString(), "started")
+        // Setting up init user data to collection
+        userInitData.put("email_address", userEmail)
+        userInitData.put("profile_completion_status", "started")
 
-        db.collection(R.string.firestore_users_collection.toString()).document(userId).set(userData).addOnSuccessListener {
+        // Writing init user data to database
+        db.collection("users").document(userId).set(userInitData).addOnSuccessListener {
             Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {
             Toast.makeText(this, "Fallus", Toast.LENGTH_SHORT).show()
         }
 
         // Artist page stuff
-        artistPages.put(R.string.firestore_islinkedwithartistpage.toString(), "false")
-
+        //artistPages.put(R.string.firestore_islinkedwithartistpage.toString(), "false")
         //artistsPath.set(artistPages).ad
+    }
 
-
+    fun mapDataFromTextInputs(firstName : EditText?, lastName : EditText?){
+        userProfileData.put("first_name", firstName?.text.toString())
+        userProfileData.put("last_name", lastName?.text.toString())
     }
 
     // ************************************ FUNCTIONS SECTION ENDS ************************************

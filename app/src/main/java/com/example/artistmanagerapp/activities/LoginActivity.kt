@@ -10,8 +10,7 @@ import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.google.firebase.auth.FirebaseAuth
 
-class LoginActivity : AppCompatActivity() {
-
+class LoginActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(TAG, "signInWithEmail:success")
                     Toast.makeText(baseContext, "Authentication successful.", Toast.LENGTH_SHORT).show()
                     // When login is successful - we go to TransitionActivity
-                    val intent = Intent(this, CheckArtistPageLinkActivity::class.java)
+                    val intent = Intent(this, TransitionActivity::class.java)
                     startActivity(intent)
                 } else {
                     Log.w(TAG, "signInWithEmail:failure", task.exception)

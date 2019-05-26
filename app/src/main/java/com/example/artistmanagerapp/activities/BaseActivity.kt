@@ -12,6 +12,12 @@ import com.google.firebase.storage.StorageReference
 
 abstract class BaseActivity : AppCompatActivity() {
 
+    // Tags
+    val FIREBASE_TAG : String = "FIREBASE"
+    val FIREBASE_ERROR : String = "FIREBASE_ERROR"
+    val ACTIVITY_WELCOME_TAG : String = "ACTIVITY_START"
+
+
     // Firebase basic stuff
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
@@ -20,6 +26,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
 
     // Firebase paths
+    val usersPath = db.collection("users")
     val userPath = db.collection("users").document(user?.uid.toString())
     val artistsCollectionPath = userPath.collection(R.string.firestore_artistpages_collection.toString())
     val avatarPath = storageRef.child("avatars/perfectUser/avatar.jpg")
@@ -29,17 +36,26 @@ abstract class BaseActivity : AppCompatActivity() {
     val perfectUserPath = db.collection("users").document("perfectUser")
     val perfectArtistPagePath = db.collection("artist_pages").document("perfect_artistpage_id")
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_base)
+        //setContentView(R.layout.activity_base)
 
-        Utils.exitIfUserNotLogged()
+        exitIfUserNotLogged()
     }
 
     override fun onResume() {
         super.onResume()
 
-        Utils.exitIfUserNotLogged()
+        //exitIfUserNotLogged()
+    }
+
+    fun exitIfUserNotLogged(){
+        /*if (user == null){
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            startActivity(intent)
+            this.finish()
+        }*/
     }
 
 }
