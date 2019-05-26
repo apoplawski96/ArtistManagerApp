@@ -1,6 +1,7 @@
 package com.example.artistmanagerapp.fragments
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -46,12 +47,17 @@ class HomeFragment : BaseFragment(), TaskUpdater, UserDataPresenter {
     override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
 
+        // Values
+        val context : Context? = context
+
         // Views
         taskListRecyclerView = rootView.findViewById(R.id.task_list_home_recyclerview) as RecyclerView
         displayName = rootView.findViewById(R.id.user_display_name)
         artistRole = rootView.findViewById(R.id.role_display_name)
         val userAvatar = rootView.findViewById(R.id.user_avatar_home) as CircleImageView
         val bandAvatar = rootView.findViewById(R.id.background_band) as ImageView
+
+        val pathToTasksCollection = perfectArtistPagePath.collection("tasks")
 
         // Load band photo
         val options = RequestOptions()
@@ -61,7 +67,7 @@ class HomeFragment : BaseFragment(), TaskUpdater, UserDataPresenter {
         // Parse and show task list
         TaskHelper.parseTasks(perfectArtistPagePath.collection("tasks"), this)
         taskListRecyclerView?.layoutManager = LinearLayoutManager(MainActivity(), OrientationHelper.VERTICAL, false)
-        adapter = TaskListAdapter(tasksList) { taskItem : Task -> taskItemClicked(taskItem)}
+        adapter = TaskListAdapter(context, tasksList, pathToTasksCollection) { taskItem : Task -> taskItemClicked(taskItem)}
         taskListRecyclerView?.adapter = adapter
 
         // Show user data

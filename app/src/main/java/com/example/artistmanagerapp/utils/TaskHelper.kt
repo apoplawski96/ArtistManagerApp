@@ -11,8 +11,14 @@ import com.google.firebase.firestore.Query
 
 object TaskHelper {
 
-    fun addTask (taskData : HashMap<String, Any>, pathToTasksCollection : CollectionReference){
-        pathToTasksCollection.document().set(taskData)
+    fun addTask (task : Task, pathToTasksCollection : CollectionReference){
+        pathToTasksCollection.document().set(task)
+    }
+
+    fun changeTaskCompletionStatus (taskId: String, completionStatus : Boolean, pathToTasksCollection: CollectionReference){
+        val taskPath = pathToTasksCollection.document(taskId)
+
+        taskPath.update("isCompleted", completionStatus)
     }
 
     fun returnTasksWhereEqualTo (pathToTasksCollection: CollectionReference, key : String, value : String) : Query {
@@ -26,7 +32,11 @@ object TaskHelper {
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
                     for (document in documents){
-                        tasksOutput!!.add(Task(document.get("title").toString(), document.id))
+                        // Need to change isCompleted later
+                        tasksOutput!!.add(Task(
+                            document.get("title").toString(),
+                            document.id,
+                            document.get("isCompleted").toString().toBoolean()))
                     }
                     taskUpdater.updateTasks(tasksOutput)
                 } else {
@@ -43,7 +53,8 @@ object TaskHelper {
                 if (documentSnapshot.exists()){
                     var taskTitle = documentSnapshot.getString("title").toString()
                     var taskId = documentSnapshot.getString("id").toString()
-                    outputTask = Task (taskTitle, taskId)
+                    // Need to change isCompleted later
+                    outputTask = Task (taskTitle, taskId, true)
                 }
                 taskDetailPresenter.showTask(outputTask)
         }

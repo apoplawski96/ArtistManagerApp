@@ -36,13 +36,13 @@ class TasksFragment : BaseFragment(), TaskUpdater{
         val rootView = inflater.inflate(R.layout.fragment_tasks, container, false)
 
         // Views
-        var taskListRecyclerView = rootView.findViewById(R.id.task_list_recyclerview) as RecyclerView
+        /*var taskListRecyclerView = rootView.findViewById(R.id.task_list_recyclerview) as RecyclerView
 
         // Parse tasks
         TaskHelper.parseTasks(perfectArtistPagePath.collection("tasks"), this)
         taskListRecyclerView.layoutManager = LinearLayoutManager(MainActivity(), OrientationHelper.VERTICAL, false)
-        adapter = TaskListAdapter(tasksList) { taskItem : Task -> taskItemClicked(taskItem)}
-        taskListRecyclerView.adapter = adapter
+        adapter = TaskListAdapter(context, tasksList) { taskItem : Task -> taskItemClicked(taskItem)}
+        taskListRecyclerView.adapter = adapter*/
 
         return rootView
     }
