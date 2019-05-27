@@ -116,5 +116,4 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
     }
 
     // ************************************ FUNCTIONS SECTION ENDS ************************************
-
 }

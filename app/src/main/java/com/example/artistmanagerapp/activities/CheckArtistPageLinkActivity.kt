@@ -2,6 +2,7 @@ package com.example.artistmanagerapp.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.artistmanagerapp.R
 
@@ -25,15 +26,15 @@ class CheckArtistPageLinkActivity : BaseActivity() {
     }
 
     fun checkIfUserIsHasArtistPageLink() {
-        artistsCollectionPath.document("perfect_artist_page_id").get().addOnCompleteListener{ docSnapshot ->
-            /*if (!docSnapshot.getResult().exists()){
+        artistsCollectionPath.document("perfect_artist_page_id").get().addOnSuccessListener { docSnapshot ->
+            if (docSnapshot.exists()){
                 Toast.makeText(this, "Hujnicniema", Toast.LENGTH_SHORT).show()
                 goToCreateOrJoinActivity()
             } else {
                 // Getting and checking the "profileCompletionStatus" value
                 Toast.makeText(this, "Cosjest", Toast.LENGTH_SHORT).show()
                 goToSelectArtistPageActivity()
-            }*/
+            }
         }.addOnFailureListener{
 
         }

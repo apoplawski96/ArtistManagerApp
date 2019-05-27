@@ -72,7 +72,6 @@ class TaskListAdapter (val context : Context?, var taskList : ArrayList<Task>, p
             }
         }
 
-
     }
 
 }

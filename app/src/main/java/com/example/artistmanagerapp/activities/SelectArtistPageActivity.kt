@@ -10,14 +10,18 @@ import android.util.Log
 import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.adapters.SelectArtistPageAdapter
+import com.example.artistmanagerapp.adapters.TaskListAdapter
+import com.example.artistmanagerapp.firebase.FirebaseDataReader
+import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.models.Artist
 import com.example.artistmanagerapp.models.ArtistPage
+import com.example.artistmanagerapp.models.Task
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.horizontal_select_artist_recycler_view.*
 
-class SelectArtistPageActivity : BaseActivity() {
+class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter {
 
     // Collections
     private var artistPageArrayList : ArrayList <ArtistPage> = ArrayList()
@@ -25,21 +29,29 @@ class SelectArtistPageActivity : BaseActivity() {
     // Views
     var selectArtistRecyclerView : RecyclerView? = null
 
+    // Adapters
+    private var adapter: SelectArtistPageAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_artist_page)
         Log.d(ACTIVITY_WELCOME_TAG, "Welcome to SelectArtistPageActivity")
 
+        // Objects
+        val dataReader : FirebaseDataReader = FirebaseDataReader()
+
         // Views
         selectArtistRecyclerView = findViewById(R.id.select_artist_recycler_view)
 
-        checkIfUserIsHasArtistPageLink()
+        dataReader.checkIfUserIsHasArtistPageLink()
+        dataReader.getArtistPages(this)
 
         populateListWithFakeStuff()
         loadArtistPages()
 
         selectArtistRecyclerView?.layoutManager = LinearLayoutManager(this, OrientationHelper.HORIZONTAL, false)
-        selectArtistRecyclerView?.adapter = SelectArtistPageAdapter(artistPageArrayList)
+        adapter = SelectArtistPageAdapter(artistPageArrayList)
+        selectArtistRecyclerView?.adapter = adapter
 
         //Here I have to somehow upload the RecyclerView - I got the data, but the recycler view remains as it was
 
@@ -64,19 +76,8 @@ class SelectArtistPageActivity : BaseActivity() {
             }
     }
 
-    fun checkIfUserIsHasArtistPageLink() {
-        artistsCollectionPath.document("perfect_artist_page_id").get().addOnCompleteListener{ docSnapshot ->
-            /*if (!docSnapshot.getResult().exists()){
-                Toast.makeText(this, "Hujnicniema", Toast.LENGTH_SHORT).show()
-                goToCreateOrJoinActivity()
-            } else {
-                // Getting and checking the "profileCompletionStatus" value
-                Toast.makeText(this, "Cosjest", Toast.LENGTH_SHORT).show()
-                goToSelectArtistPageActivity()
-            }*/
-        }.addOnFailureListener{
-
-        }
+    override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {
+        adapter?.update(artistPagesList)
     }
 
     fun goToCreateOrJoinActivity(){

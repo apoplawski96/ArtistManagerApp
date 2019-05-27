@@ -28,4 +28,9 @@ class SelectArtistPageAdapter (var artistPageArrayList : ArrayList<ArtistPage>) 
         val artistName : TextView = itemView.findViewById(R.id.artist_name_selector) as TextView
     }
 
+    fun update(newItems: ArrayList<ArtistPage>){
+        artistPageArrayList = newItems
+        notifyDataSetChanged()
+    }
+
 }
