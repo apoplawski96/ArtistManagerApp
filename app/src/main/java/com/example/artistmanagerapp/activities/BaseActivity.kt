@@ -17,6 +17,8 @@ abstract class BaseActivity : AppCompatActivity() {
     val FIREBASE_ERROR : String = "FIREBASE_ERROR"
     val ACTIVITY_WELCOME_TAG : String = "ACTIVITY_START"
 
+    // Numeric values
+    val USER_PROFILE_INPUTS_COUNTER : Int = 2
 
     // Firebase basic stuff
     val auth = FirebaseAuth.getInstance()
@@ -24,11 +26,10 @@ abstract class BaseActivity : AppCompatActivity() {
     val user = auth.currentUser
     val storageRef = FirebaseStorage.getInstance().reference
 
-
     // Firebase paths
     val usersPath = db.collection("users")
     val userPath = db.collection("users").document(user?.uid.toString())
-    val artistsCollectionPath = userPath.collection(R.string.firestore_artistpages_collection.toString())
+    val artistsCollectionPath = userPath.collection("artist_pages")
     val avatarPath = storageRef.child("avatars/perfectUser/avatar.jpg")
 
     // Perfect stuff

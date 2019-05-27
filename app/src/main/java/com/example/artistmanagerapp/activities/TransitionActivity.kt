@@ -45,7 +45,7 @@ class TransitionActivity : BaseActivity() {
 
         // Getting a DocSnaphot from a path reference
         docRef.get().addOnSuccessListener { docSnapshot ->
-            Log.d(FIREBASE_ERROR, "Success")
+            Log.d(FIREBASE_TAG, "Success")
             // If docSnahshot doesn't exist - database record is not yet created, so we pass a "false" value and create it in the next activity
             if (!docSnapshot.exists()){
                 Log.d(FIREBASE_TAG, "Db record not created - go to CreateUserProfileActivity and initialize record")
@@ -54,13 +54,15 @@ class TransitionActivity : BaseActivity() {
                 }
                 startActivity(intent)
             } else {
+                Log.d(FIREBASE_TAG, "Doc reference found")
                 // Getting and checking the "profileCompletionStatus" value
                 var completionStatus = docSnapshot.getString("profile_completion_status")
+                Log.d(FIREBASE_TAG, "$completionStatus")
 
                 // If completionStatus is completed - we search for artist page link
                 if (completionStatus.equals("completed")){
                     Log.d(FIREBASE_TAG, "User profile completed - go to CheckArtistPageLinkActivity")
-                    val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, SelectArtistPageActivity::class.java)
                     startActivity(intent)
                 } else if (completionStatus.equals("started")){
                     Log.d(FIREBASE_TAG, "Db record initialized - go to CreateUserProfileActivity and complete missing profile info")

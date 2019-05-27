@@ -9,13 +9,16 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.firebase.FirebaseDataWriter
+import com.example.artistmanagerapp.interfaces.UserDataPresenter
+import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
+import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 import kotlin.collections.HashMap
 
-class CreateUserProfileActivity : BaseActivity() {
+class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
 
     // Views
     var submitButton : Button? = null
@@ -27,6 +30,9 @@ class CreateUserProfileActivity : BaseActivity() {
     var userProfileData : HashMap <String, Any> = HashMap()
     var artistPages : HashMap <String, Any> = HashMap()
 
+    // Others
+    var ifInputsCorrect : Boolean? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_user_profile)
@@ -36,10 +42,6 @@ class CreateUserProfileActivity : BaseActivity() {
         firstNameInput = findViewById(R.id.first_name)
         lastNameInput = findViewById(R.id.last_name)
         submitButton = findViewById(R.id.submit_button)
-        submitButton?.setOnClickListener {
-            mapDataFromTextInputs(firstNameInput, lastNameInput)
-            FirebaseDataWriter().addUserDataToDb(usersPath, userProfileData, user?.uid.toString())
-        }
 
         // Getting data from previous activity
         var intent : Intent = intent
@@ -49,6 +51,20 @@ class CreateUserProfileActivity : BaseActivity() {
 
         if (isDbRecordCreated == "false"){
             initUserDatabaseRecord(user)
+        }
+
+        submitButton?.setOnClickListener {
+            // We check if all the inputs have correct format
+            ifInputsCorrect = validateInputs(firstNameInput, lastNameInput)
+
+            if (ifInputsCorrect == true){
+                mapDataFromTextInputs(firstNameInput, lastNameInput)
+                // We mark completion status as completed
+                userProfileData.put("profile_completion_status", "completed")
+                FirebaseDataWriter().addUserDataToDbAndUpdateUi(usersPath, userProfileData, user?.uid.toString(), this)
+            } else {
+
+            }
         }
     }
 
@@ -83,6 +99,20 @@ class CreateUserProfileActivity : BaseActivity() {
     fun mapDataFromTextInputs(firstName : EditText?, lastName : EditText?){
         userProfileData.put("first_name", firstName?.text.toString())
         userProfileData.put("last_name", lastName?.text.toString())
+    }
+
+    fun validateInputs(firstName : EditText?, lastName : EditText?) : Boolean{
+        Utils.validateFirstName(firstName?.text.toString())
+        Utils.validateLastName(lastName?.text.toString())
+        return true
+    }
+
+    override fun updateUI(){
+        Toast.makeText(this, "Henlo", Toast.LENGTH_SHORT).show()
+        val intent = Intent(applicationContext, SelectArtistPageActivity::class.java).apply{
+            //putExtra("isDbRecordCreated", "true")
+        }
+        startActivity(intent)
     }
 
     // ************************************ FUNCTIONS SECTION ENDS ************************************
