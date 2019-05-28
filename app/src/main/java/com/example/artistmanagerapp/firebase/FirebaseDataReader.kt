@@ -8,6 +8,7 @@ import com.example.artistmanagerapp.interfaces.UserDataPresenter
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Person
 import com.example.artistmanagerapp.models.Task
+import com.google.firebase.storage.StorageReference
 
 class FirebaseDataReader : BaseActivity () {
 
@@ -38,8 +39,11 @@ class FirebaseDataReader : BaseActivity () {
         artistsCollectionPath.get().addOnSuccessListener { documents ->
             if (!documents.isEmpty){
                 for (document in documents){
-                    // Need to change isCompleted later
-                    artistPagesOutput!!.add(ArtistPage(document.get("artist_page_name").toString()))
+                    var artistPageName : String? = document.get("artist_page_name").toString()
+                    var artistPageId : String? = document.get("id").toString()
+
+
+                    artistPagesOutput!!.add(ArtistPage(artistPageName, artistPageId))
                 }
                 presenter.showArtistPages(artistPagesOutput)
 

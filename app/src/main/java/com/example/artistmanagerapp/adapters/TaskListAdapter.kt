@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.activities.TaskListActivity
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.utils.TaskHelper

@@ -16,6 +16,7 @@ abstract class BaseActivity : AppCompatActivity() {
     val FIREBASE_TAG : String = "FIREBASE"
     val FIREBASE_ERROR : String = "FIREBASE_ERROR"
     val ACTIVITY_WELCOME_TAG : String = "ACTIVITY_START"
+    val FIREBASE_STORAGE_TAG : String = "FIREBASE_STORAGE"
 
     // Numeric values
     val USER_PROFILE_INPUTS_COUNTER : Int = 2

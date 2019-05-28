@@ -46,8 +46,9 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter {
         dataReader.checkIfUserIsHasArtistPageLink()
         dataReader.getArtistPages(this)
 
-        populateListWithFakeStuff()
+        //populateListWithFakeStuff()
         loadArtistPages()
+        addBlankArtistPage()
 
         selectArtistRecyclerView?.layoutManager = LinearLayoutManager(this, OrientationHelper.HORIZONTAL, false)
         adapter = SelectArtistPageAdapter(artistPageArrayList)
@@ -58,8 +59,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter {
     }
 
     fun populateListWithFakeStuff(){
-        artistPageArrayList.add(ArtistPage("hui"))
-        artistPageArrayList.add(ArtistPage("hui2"))
+        artistPageArrayList.add(ArtistPage("hui", "1"))
+        artistPageArrayList.add(ArtistPage("hui2", "2"))
     }
 
     fun loadArtistPages(){
@@ -68,7 +69,10 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter {
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
                     for (document in documents){
-                        artistPageArrayList.add(ArtistPage(document.get("artist_name").toString()))
+                        var artistPageName = document.get("artist_name").toString()
+                        var artistPageId = document.get("artist_page_id").toString()
+
+                        artistPageArrayList.add(ArtistPage(artistPageName, artistPageId))
                     }
                 } else {
 
@@ -78,6 +82,10 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter {
 
     override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {
         adapter?.update(artistPagesList)
+    }
+
+    fun addBlankArtistPage(){
+
     }
 
     fun goToCreateOrJoinActivity(){
