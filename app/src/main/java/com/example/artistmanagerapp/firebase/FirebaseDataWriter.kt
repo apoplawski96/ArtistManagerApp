@@ -6,16 +6,19 @@ import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.RedeemCode
 import com.example.artistmanagerapp.models.User
+import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
 
 class FirebaseDataWriter : BaseActivity(){
 
+    private val const = Constants
+
     fun addUserDataToDbAndUpdateUi(collectionPath : CollectionReference, dataMap : HashMap<String, Any>, userId : String, uiUpdater: UserInterfaceUpdater){
         collectionPath.document(userId).set(dataMap, SetOptions.merge()).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "Data successfully added: $dataMap")
-            uiUpdater.updateUI()
+            uiUpdater.updateUI(const.USER_ADDED_TO_DB)
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
@@ -29,7 +32,7 @@ class FirebaseDataWriter : BaseActivity(){
         // Adding record to artist_pages collection
         artistPagesCollectionPath.document(pageId).set(artistPage, SetOptions.merge()).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "Artist page successfully created: $artistPage")
-            uiUpdater.updateUI()
+            uiUpdater.updateUI(const.ARTIST_PAGE_CREATED)
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }

@@ -21,17 +21,10 @@ import com.example.artistmanagerapp.firebase.FirebaseDataWriter
 import com.example.artistmanagerapp.interfaces.RedeemCodeDataReceiver
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.RedeemCode
+import com.example.artistmanagerapp.utils.Constants
 import org.w3c.dom.Text
 
 class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInterfaceUpdater, RedeemCodeDataReceiver {
-
-    override fun receiveCodeData(redeemCode: RedeemCode) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun receiveCodesList(codesList: ArrayList<RedeemCode>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     // Collections
     private var artistPageArrayList : ArrayList <ArtistPage> = ArrayList()
@@ -64,6 +57,9 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     var isFABOpen : Boolean? = null
     var isCreatePageDialogOpen : Boolean? = null
     var isRedeemCodeDialogOpen : Boolean? = null
+
+    // Objects
+    val const = Constants
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,8 +130,15 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         noPagesText?.visibility = View.VISIBLE
     }
 
-    override fun updateUI() {
-        Toast.makeText(this, "Henlo", Toast.LENGTH_SHORT).show()
+    override fun updateUI(option : String) {
+        when (option){
+            const.ARTIST_PAGE_CREATED -> {
+                
+            }
+            const.CODE_SUCCESSFULLY_REDEEMED -> {
+
+            }
+        }
     }
 
     // RecyclerView onClick
@@ -210,6 +213,17 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     private fun closeRedeemCodeDialog(){
         isRedeemCodeDialogOpen = false
+        redeemCodeDialog?.hide()
     }
+
+    override fun receiveCodeData(redeemCode: RedeemCode?) {
+        if (redeemCode != null){
+            dataWriter?.markCodeAsInactive(redeemCode.codeString, userId)
+        } else {
+            Toast.makeText(this, "The code is not valid, please try again", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun receiveCodesList(codesList: ArrayList<RedeemCode>) { }
 
 }

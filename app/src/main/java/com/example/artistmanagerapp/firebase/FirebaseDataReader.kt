@@ -92,8 +92,11 @@ class FirebaseDataReader : BaseActivity () {
                 var generatedById : String = document.get("generatedById").toString()
                 var redeemedById : String = document.get("redeemedById").toString()
 
-                val redeemCodeObject = RedeemCode(codeString, wasUsed, artistPageId, generatedById, redeemedById)
+                val redeemCodeObject : RedeemCode? = RedeemCode(codeString, wasUsed, artistPageId, generatedById, redeemedById)
                 redeemCodeDataReceiver.receiveCodeData(redeemCodeObject)
+            } else {
+                // If document doesn't exist (so basically the code that user gave is incorrect) we send null as an argument
+                redeemCodeDataReceiver.receiveCodeData(null)
             }
         }
     }

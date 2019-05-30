@@ -1,5 +1,5 @@
 package com.example.artistmanagerapp.interfaces
 
 interface UserInterfaceUpdater {
-    fun updateUI()
+    fun updateUI(option : String)
 }
