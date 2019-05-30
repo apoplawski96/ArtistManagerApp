@@ -31,9 +31,9 @@ abstract class BaseActivity : AppCompatActivity() {
     // Firebase paths
     val usersCollectionPath = db.collection("users")
     val artistPagesCollectionPath = db.collection("artist_pages")
+    val redeemCodesCollectionPath = db.collection("redeemCodes")
     val userPath = usersCollectionPath.document(userId)
     val userArtistPagesCollectionPath = userPath.collection("artist_pages")
-
 
     // Perfect stuff
     val perfectUserID = "perfectUser"

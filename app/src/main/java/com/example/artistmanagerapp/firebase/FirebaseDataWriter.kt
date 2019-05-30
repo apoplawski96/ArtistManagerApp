@@ -1,11 +1,12 @@
 package com.example.artistmanagerapp.firebase
 
 import android.util.Log
-import android.widget.Toast
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.ArtistPage
+import com.example.artistmanagerapp.models.RedeemCode
 import com.example.artistmanagerapp.models.User
+import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
 
@@ -35,7 +36,7 @@ class FirebaseDataWriter : BaseActivity(){
 
         // Adding user record and admin info to artist page record
         artistPagesCollectionPath.document(pageId).collection("page_members").document(userId).set(userInfo, SetOptions.merge()).addOnSuccessListener {
-            Log.d(FIREBASE_TAG, "Artist page successfully created: $artistPage")
+            Log.d(FIREBASE_TAG, "User info successfully added to page_members collection: $userInfo")
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
@@ -48,6 +49,25 @@ class FirebaseDataWriter : BaseActivity(){
             Log.d(FIREBASE_TAG, "Artist page info successfully added to user record: $artistPageInfo")
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
+        }
+    }
+
+    fun generateRedeemCode(redeemCodeString : String, userId : String, artistPageId : String){
+        val redeemCodeObject = RedeemCode (redeemCodeString, false, artistPageId, userId, null)
+
+        redeemCodesCollectionPath.document(redeemCodeString).set(redeemCodeObject, SetOptions.merge()).addOnSuccessListener {
+            Log.d(FIREBASE_TAG, "Code successfully added to db: $redeemCodeObject")
+        }
+    }
+
+    fun markCodeAsInactive(redeemCodeString : String, redeemedById : String){
+        var updateData = HashMap <String, Any>()
+
+        updateData.put("wasUsed", true)
+        updateData.put("redeemedById", redeemedById)
+
+        redeemCodesCollectionPath.document(redeemCodeString).update(updateData).addOnSuccessListener {
+            Log.d(FIREBASE_TAG, "Data successfully updated: $updateData")
         }
     }
 }

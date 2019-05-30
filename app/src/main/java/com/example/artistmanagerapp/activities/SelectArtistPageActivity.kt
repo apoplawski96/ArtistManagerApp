@@ -13,13 +13,25 @@ import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.models.ArtistPage
 import android.app.Dialog
 import android.support.design.widget.FloatingActionButton
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.example.artistmanagerapp.firebase.FirebaseDataWriter
+import com.example.artistmanagerapp.interfaces.RedeemCodeDataReceiver
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
+import com.example.artistmanagerapp.models.RedeemCode
+import org.w3c.dom.Text
 
-class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInterfaceUpdater {
+class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInterfaceUpdater, RedeemCodeDataReceiver {
+
+    override fun receiveCodeData(redeemCode: RedeemCode) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun receiveCodesList(codesList: ArrayList<RedeemCode>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     // Collections
     private var artistPageArrayList : ArrayList <ArtistPage> = ArrayList()
@@ -35,6 +47,11 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     var dialogAddImageButton : FloatingActionButton? = null
     var dialogCreatePageButton : Button? = null
     var dialogClose : TextView? = null
+    var noPagesText : TextView? = null
+    var redeemCodeDialog : Dialog? = null
+    var redeemCodeInput : EditText? = null
+    var redeemCodeSubmitButton : Button? = null
+    var dialogClose2 : TextView? = null
 
     // Adapters
     private var adapter: SelectArtistPageAdapter? = null
@@ -45,7 +62,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     // Others
     var isFABOpen : Boolean? = null
-    var isDialogOpen : Boolean? = null
+    var isCreatePageDialogOpen : Boolean? = null
+    var isRedeemCodeDialogOpen : Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +72,10 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
         // Booleans initialization
         isFABOpen = false
-        isDialogOpen = false
+        isCreatePageDialogOpen = false
+        isRedeemCodeDialogOpen = false
 
-        // Firebase utils objecst
+        // Firebase utils objects
         dataReader = FirebaseDataReader()
         dataWriter = FirebaseDataWriter()
 
@@ -65,13 +84,16 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         fab = findViewById(R.id.fab_main)
         fabMin1 = findViewById(R.id.fab_mini_1)
         fabMin2 = findViewById(R.id.fab_mini_2)
+        noPagesText = findViewById(R.id.no_pages_text)
 
         // Dialog stuff
         createPageDialog = Dialog(this)
-        createPageDialog?.setContentView(R.layout.create_page_popup)
+        createPageDialog?.setContentView(R.layout.dialog_create_page)
+        redeemCodeDialog = Dialog(this)
+        redeemCodeDialog?.setContentView(R.layout.dialog_redeem_code)
 
         // Getting artist pages from database
-        dataReader?.checkIfUserIsHasArtistPageLink()
+        dataReader?.checkIfUserIsHasArtistPageLink(this)
         dataReader?.getArtistPages(this)
 
         // Adapter stuff
@@ -89,25 +111,27 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         }
 
         // Setting up "Create Page" Floating Action Button
-        fabMin1?.setOnClickListener {
-            if (isFABOpen == true){
-                showDialog()
-            }
-        }
+        fabMin1?.setOnClickListener { if (isFABOpen == true){ showCreatePageDialog() } }
+        fabMin2?.setOnClickListener { if (isFABOpen == true){ showRedeemCodeDialog() } }
     }
 
     // Setting up custom behaviour when dialog is shown
     override fun onBackPressed() {
-        if (isDialogOpen == true){
-            closeDialog()
-        } else{
-            super.onBackPressed()
+        when {
+            isCreatePageDialogOpen == true -> closeCreatePageDialog()
+            isRedeemCodeDialogOpen == true -> closeRedeemCodeDialog()
+            else -> super.onBackPressed()
         }
     }
 
     // RecyclerView presenter method
     override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {
         adapter?.update(artistPagesList)
+    }
+
+    override fun showNoPagesText() {
+        Toast.makeText(this, "Nimo", Toast.LENGTH_SHORT).show()
+        noPagesText?.visibility = View.VISIBLE
     }
 
     override fun updateUI() {
@@ -135,8 +159,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         fabMin3?.animate()?.translationY(0.toFloat())
     }
 
-    private fun showDialog(){
-        isDialogOpen = true
+    private fun showCreatePageDialog(){
+        isCreatePageDialogOpen = true
 
         // Views
         dialogNameInput = createPageDialog?.findViewById(R.id.dialog_artistname_input)
@@ -144,13 +168,10 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         dialogClose = createPageDialog?.findViewById(R.id.dialog_close_x)
         dialogCreatePageButton = createPageDialog?.findViewById(R.id.dialog_submit_button)
 
-        // Actions
         createPageDialog?.show()
 
         // OnClicks handling
-        dialogClose?.setOnClickListener {
-            createPageDialog?.hide()
-        }
+        dialogClose?.setOnClickListener { createPageDialog?.hide() }
 
         dialogCreatePageButton?.setOnClickListener {
             var pageNameInputText = dialogNameInput?.text.toString()
@@ -160,8 +181,35 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         }
     }
 
-    private fun closeDialog(){
-        isDialogOpen = false
+    private fun showRedeemCodeDialog(){
+        isRedeemCodeDialogOpen = true
+
+        // Views
+        redeemCodeInput = redeemCodeDialog?.findViewById(R.id.redeem_code_input)
+        redeemCodeSubmitButton = redeemCodeDialog?.findViewById(R.id.redeem_code_button)
+        dialogClose2 = redeemCodeDialog?.findViewById(R.id.dialog_close_x)
+
+        redeemCodeDialog?.show()
+
+        // Events handling
+        dialogClose2?.setOnClickListener { redeemCodeDialog?.hide() }
+
+        redeemCodeSubmitButton?.setOnClickListener {
+            var redeemCodeStringInput = redeemCodeInput.toString()
+
+            dataReader?.getRedeemCodeData(redeemCodeStringInput, this)
+
+
+        }
+    }
+
+    private fun closeCreatePageDialog(){
+        isCreatePageDialogOpen = false
         createPageDialog?.hide()
     }
+
+    private fun closeRedeemCodeDialog(){
+        isRedeemCodeDialogOpen = false
+    }
+
 }

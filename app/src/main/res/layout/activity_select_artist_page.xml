@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         tools:context=".activities.SelectArtistPageActivity">
 
-    <include layout="@layout/horizontal_select_artist_recycler_view"></include>
+    <include layout="@layout/horizontal_select_artist_recycler_view" android:id="@+id/include"></include>
 
     <android.support.design.widget.FloatingActionButton
             android:layout_width="45dp"
@@ -41,5 +41,15 @@
             android:id="@+id/fab_main" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="16dp" android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+            android:text="Don't have Artist Page yet? Create or join one!"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/no_pages_text"
+            app:layout_constraintTop_toTopOf="@+id/include" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/include" android:layout_marginTop="8dp"
+            android:textSize="30sp" android:textAlignment="center" android:visibility="gone"/>
 
 </android.support.constraint.ConstraintLayout>
