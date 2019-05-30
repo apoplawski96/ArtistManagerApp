@@ -1,7 +1,7 @@
 package com.example.artistmanagerapp.interfaces
 
-import com.example.artistmanagerapp.models.Person
+import com.example.artistmanagerapp.models.User
 
 interface UserDataPresenter {
-    fun showUserData(userData : Person)
+    fun showUserData(userData : User)
 }

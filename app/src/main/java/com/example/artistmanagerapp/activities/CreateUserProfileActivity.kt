@@ -61,7 +61,7 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
                 mapDataFromTextInputs(firstNameInput, lastNameInput)
                 // We mark completion status as completed
                 userProfileData.put("profile_completion_status", "completed")
-                FirebaseDataWriter().addUserDataToDbAndUpdateUi(usersPath, userProfileData, user?.uid.toString(), this)
+                FirebaseDataWriter().addUserDataToDbAndUpdateUi(usersCollectionPath, userProfileData, user?.uid.toString(), this)
             } else {
 
             }

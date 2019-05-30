@@ -29,10 +29,11 @@ abstract class BaseActivity : AppCompatActivity() {
     val userId = user?.uid.toString()
 
     // Firebase paths
-    val usersPath = db.collection("users")
-    val userPath = db.collection("users").document(user?.uid.toString())
-    val artistsCollectionPath = userPath.collection("artist_pages")
-    val avatarPath = storageRef.child("avatars/perfectUser/avatar.jpg")
+    val usersCollectionPath = db.collection("users")
+    val artistPagesCollectionPath = db.collection("artist_pages")
+    val userPath = usersCollectionPath.document(userId)
+    val userArtistPagesCollectionPath = userPath.collection("artist_pages")
+
 
     // Perfect stuff
     val perfectUserID = "perfectUser"

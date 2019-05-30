@@ -25,8 +25,8 @@ import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UserDataPresenter
-import com.example.artistmanagerapp.models.Person
 import com.example.artistmanagerapp.models.Task
+import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.TaskHelper
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
@@ -85,9 +85,9 @@ class HomeFragment : BaseFragment(), TaskUpdater, UserDataPresenter {
         adapter?.updateItems(tasksOutput)
     }
 
-    override fun showUserData(userData: Person) {
-        displayName?.setText(userData.firstName + " " + userData.lastName)
-        artistRole?.setText(userData.artistRole)
+    override fun showUserData(userData: User) {
+        //displayName?.setText(userData.firstName + " " + userData.lastName)
+        //artistRole?.setText(userData.artistRole)
     }
 
     fun taskItemClicked (taskItem : Task){

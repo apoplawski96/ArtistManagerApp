@@ -6,15 +6,15 @@ import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.interfaces.UserDataPresenter
 import com.example.artistmanagerapp.models.ArtistPage
-import com.example.artistmanagerapp.models.Person
 import com.example.artistmanagerapp.models.Task
+import com.example.artistmanagerapp.models.User
 import com.google.firebase.storage.StorageReference
 
 class FirebaseDataReader : BaseActivity () {
 
     /// Getting user data
     fun getUserData(userID : String, userDataPresenter: UserDataPresenter){
-        lateinit var person : Person
+        lateinit var person : User
         Log.d("chuj", "tujeste")
         db.collection("users").document("perfectUser").get()
             .addOnSuccessListener { documentSnapshot ->
@@ -23,7 +23,7 @@ class FirebaseDataReader : BaseActivity () {
                     var lastName = documentSnapshot.getString("last_name").toString()
                     var artistRole = documentSnapshot.getString("artist_role").toString()
                     var pageRole = documentSnapshot.getString("page_role").toString()
-                    person = Person(firstName, lastName, artistRole, pageRole)
+                    person = User(firstName, lastName, artistRole, pageRole)
                 }
                 Log.d("chuj", documentSnapshot.data.toString())
                 userDataPresenter.showUserData(person)
@@ -36,14 +36,12 @@ class FirebaseDataReader : BaseActivity () {
     fun getArtistPages(presenter: ArtistPagesPresenter) {
         var artistPagesOutput : ArrayList<ArtistPage> = ArrayList()
 
-        artistsCollectionPath.get().addOnSuccessListener { documents ->
+        artistPagesCollectionPath.get().addOnSuccessListener { documents ->
             if (!documents.isEmpty){
                 for (document in documents){
                     var artistPageName : String? = document.get("artist_page_name").toString()
-                    var artistPageId : String? = document.get("id").toString()
 
-
-                    artistPagesOutput!!.add(ArtistPage(artistPageName, artistPageId))
+                    artistPagesOutput!!.add(ArtistPage(artistPageName))
                 }
                 presenter.showArtistPages(artistPagesOutput)
 
@@ -56,7 +54,7 @@ class FirebaseDataReader : BaseActivity () {
     }
 
     fun checkIfUserIsHasArtistPageLink(){
-        artistsCollectionPath.get().addOnSuccessListener { documents ->
+        artistPagesCollectionPath.get().addOnSuccessListener { documents ->
             if (!documents.isEmpty){
                 //Toast.makeText(this, "Cosjest", Toast.LENGTH_SHORT).show()
                 //goToCreateOrJoinActivity()
