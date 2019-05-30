@@ -23,4 +23,8 @@
     <dimen name="edit_text_login_width">256dp</dimen>
     <dimen name="edit_text_login_height">44dp</dimen>
 
+    <dimen name="standard_55">-55dp</dimen>
+    <dimen name="standard_105">-105dp</dimen>
+    <dimen name="standard_155">-155dp</dimen>
+
 </resources>

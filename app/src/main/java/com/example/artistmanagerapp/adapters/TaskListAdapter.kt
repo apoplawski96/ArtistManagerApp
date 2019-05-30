@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.item_task.view.*
 
 class TaskListAdapter (val context : Context?, var taskList : ArrayList<Task>, pathToTasksCollection : CollectionReference, val clickListener: (Task) -> Unit) : RecyclerView.Adapter<TaskListAdapter.ViewHolder>(){
 
-    private var taskArrayList : ArrayList<Task> = this.taskList
     var path : CollectionReference = pathToTasksCollection
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

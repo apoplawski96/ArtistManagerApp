@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.models.ArtistPage
+import com.example.artistmanagerapp.models.Task
+import kotlinx.android.synthetic.main.artist_page_item.view.*
 
-class SelectArtistPageAdapter (var artistPageArrayList : ArrayList<ArtistPage>) : RecyclerView.Adapter<SelectArtistPageAdapter.ViewHolder> () {
+class SelectArtistPageAdapter (var artistPageArrayList : ArrayList<ArtistPage>, val clickListener : (ArtistPage) -> Unit) : RecyclerView.Adapter<SelectArtistPageAdapter.ViewHolder> () {
 
     override fun onCreateViewHolder(parent : ViewGroup, viewType: Int): ViewHolder {
         val view : View = LayoutInflater.from(parent.context).inflate(R.layout.artist_page_item, parent, false)
@@ -21,11 +23,15 @@ class SelectArtistPageAdapter (var artistPageArrayList : ArrayList<ArtistPage>) 
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.artistName.text = artistPageArrayList[position].artistName
+        holder.bind(artistPageArrayList[position], clickListener)
     }
 
     class ViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView){
-        val artistName : TextView = itemView.findViewById(R.id.artist_name_selector) as TextView
+
+        fun bind (artistPage : ArtistPage, clickListener: (ArtistPage) -> Unit){
+            itemView.setOnClickListener { clickListener(artistPage) }
+            itemView.artist_name_selector.text = artistPage.artistName
+        }
     }
 
     fun update(newItems: ArrayList<ArtistPage>){

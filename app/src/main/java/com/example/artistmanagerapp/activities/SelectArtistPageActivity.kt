@@ -20,6 +20,10 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.horizontal_select_artist_recycler_view.*
+import android.support.v4.view.ViewCompat.animate
+import android.R.attr.translationY
+import android.support.design.widget.FloatingActionButton
+
 
 class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter {
 
@@ -28,9 +32,16 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter {
 
     // Views
     var selectArtistRecyclerView : RecyclerView? = null
+    var fab : FloatingActionButton? = null
+    var fabMin1 : FloatingActionButton? = null
+    var fabMin2 : FloatingActionButton? = null
+    var fabMin3 : FloatingActionButton? = null
 
     // Adapters
     private var adapter: SelectArtistPageAdapter? = null
+
+    // Others
+    var isFABOpen : Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,39 +49,46 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter {
         Log.d(ACTIVITY_WELCOME_TAG, "Welcome to SelectArtistPageActivity")
 
         // Objects
-        val dataReader : FirebaseDataReader = FirebaseDataReader()
+        val dataReader = FirebaseDataReader()
 
         // Views
         selectArtistRecyclerView = findViewById(R.id.select_artist_recycler_view)
+        fab = findViewById(R.id.fab_main)
+        fabMin1 = findViewById(R.id.fab_mini_1)
+        fabMin2 = findViewById(R.id.fab_mini_2)
+        fabMin3 = findViewById(R.id.fab_mini_3)
 
+        // Setting up artist pages
         dataReader.checkIfUserIsHasArtistPageLink()
         dataReader.getArtistPages(this)
-
-        //populateListWithFakeStuff()
         loadArtistPages()
-        addBlankArtistPage()
 
-        selectArtistRecyclerView?.layoutManager = LinearLayoutManager(this, OrientationHelper.HORIZONTAL, false)
-        adapter = SelectArtistPageAdapter(artistPageArrayList)
+        // Setting up Floating Action Button
+        isFABOpen = false
+        fab?.setOnClickListener {
+            if (isFABOpen == false){
+                showFABMenu()
+            } else {
+                closeFABMenu()
+            }
+        }
+
+        selectArtistRecyclerView?.layoutManager = LinearLayoutManager(this, OrientationHelper.VERTICAL, false)
+        adapter = SelectArtistPageAdapter(artistPageArrayList) { item : ArtistPage -> artistPageClicked(item)}
         selectArtistRecyclerView?.adapter = adapter
 
         //Here I have to somehow upload the RecyclerView - I got the data, but the recycler view remains as it was
 
     }
 
-    fun populateListWithFakeStuff(){
-        artistPageArrayList.add(ArtistPage("hui", "1"))
-        artistPageArrayList.add(ArtistPage("hui2", "2"))
-    }
-
     fun loadArtistPages(){
-        perfectUserPath.collection("artist_pages")
+        db.collection("users").document("$userId").collection("artist_pages")
             .get()
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
                     for (document in documents){
                         var artistPageName = document.get("artist_name").toString()
-                        var artistPageId = document.get("artist_page_id").toString()
+                        var artistPageId = document.id
 
                         artistPageArrayList.add(ArtistPage(artistPageName, artistPageId))
                     }
@@ -84,8 +102,24 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter {
         adapter?.update(artistPagesList)
     }
 
-    fun addBlankArtistPage(){
+    fun artistPageClicked(artistPage: ArtistPage){
+        Toast.makeText(this, artistPage.toString(), Toast.LENGTH_SHORT).show()
+    }
 
+    private fun showFABMenu() {
+        isFABOpen = true
+        Toast.makeText(this, "show", Toast.LENGTH_SHORT).show()
+        fabMin1?.animate()?.translationY(resources.getDimension(R.dimen.standard_55))
+        fabMin2?.animate()?.translationY(resources.getDimension(R.dimen.standard_105))
+        fabMin3?.animate()?.translationY(resources.getDimension(R.dimen.standard_155))
+    }
+
+    private fun closeFABMenu() {
+        isFABOpen = false
+        Toast.makeText(this, "hide", Toast.LENGTH_SHORT).show()
+        fabMin1?.animate()?.translationY(0.toFloat())
+        fabMin2?.animate()?.translationY(0.toFloat())
+        fabMin3?.animate()?.translationY(0.toFloat())
     }
 
     fun goToCreateOrJoinActivity(){

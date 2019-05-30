@@ -13,11 +13,6 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".activities.CreateArtistPageActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".activities.ArtistEpkKindOfActivity">
         </activity>
@@ -30,6 +25,11 @@
         <activity android:name=".activities.CreateOrJoinActivity">
         </activity>
         <activity android:name=".activities.SelectArtistPageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity android:name=".activities.CheckArtistPageLinkActivity">
         </activity>
@@ -38,11 +38,6 @@
         <activity android:name=".activities.TestActivity">
         </activity>
         <activity android:name=".activities.SplashScreenActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".activities.CreateUserProfileActivity">
         </activity>

@@ -58,11 +58,11 @@ class FirebaseDataReader : BaseActivity () {
     fun checkIfUserIsHasArtistPageLink(){
         artistsCollectionPath.get().addOnSuccessListener { documents ->
             if (!documents.isEmpty){
-                Toast.makeText(this, "Cosjest", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Cosjest", Toast.LENGTH_SHORT).show()
                 //goToCreateOrJoinActivity()
             } else {
                 // Getting and checking the "profileCompletionStatus" value
-                Toast.makeText(this, "Nic nie ma", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Nic nie ma", Toast.LENGTH_SHORT).show()
                 //goToSelectArtistPageActivity()
             }
         }.addOnFailureListener{

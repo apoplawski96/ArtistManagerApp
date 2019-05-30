@@ -38,6 +38,8 @@ class CreateArtistPageActivity : BaseActivity() {
         // Firebase stuff
         artistPageId = "123"
 
+        Toast.makeText(this, user?.uid.toString(), Toast.LENGTH_SHORT).show()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
