@@ -4,6 +4,9 @@ object Constants {
 
     // Numeric
     val REDEEM_CODE_LENGTH : Int = 7
+    val GALLERY = 1
+    val OPTION_ARTIST_AVATAR = 0
+    val OPTION_USER_AVATAR = 1
 
     // Strings
     val ALPHABET : String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"

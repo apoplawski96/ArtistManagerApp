@@ -107,7 +107,7 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
         return true
     }
 
-    override fun updateUI(){
+    override fun updateUI(option : String){
         Toast.makeText(this, "Henlo", Toast.LENGTH_SHORT).show()
         val intent = Intent(applicationContext, SelectArtistPageActivity::class.java).apply{
             //putExtra("isDbRecordCreated", "true")

@@ -1,6 +1,7 @@
 package com.example.artistmanagerapp.utils
 
 import android.content.Intent
+import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.activities.CreateOrJoinActivity
@@ -34,6 +35,11 @@ object Utils : BaseActivity (){
             }
         }
         return ifExists
+    }
+
+    fun selectImageFromDevice(){
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(galleryIntent, const.GALLERY)
     }
 
     fun validateFirstName(textInput : String) : Boolean{

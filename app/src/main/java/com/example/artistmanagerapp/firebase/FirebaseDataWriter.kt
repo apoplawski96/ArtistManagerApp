@@ -73,4 +73,10 @@ class FirebaseDataWriter : BaseActivity(){
             Log.d(FIREBASE_TAG, "Data successfully updated: $updateData")
         }
     }
+
+
+    fun addMemberToArtistPage(){
+        
+    }
+
 }

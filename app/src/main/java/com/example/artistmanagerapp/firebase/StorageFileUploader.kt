@@ -17,15 +17,6 @@ import java.util.*
 
 class StorageFileUploader : BaseActivity() {
 
-    private val GALLERY = 1
-    private val OPTION_ARTIST_AVATAR = 0
-    private val OPTION_USER_AVATAR = 1
-
-    fun selectImageFromDevice(){
-        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(galleryIntent, GALLERY)
-    }
-
     fun saveImage(myBitmap : Bitmap, storagePath : StorageReference) {
         val bytes = ByteArrayOutputStream()
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)

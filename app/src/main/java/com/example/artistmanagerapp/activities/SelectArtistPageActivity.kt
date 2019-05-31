@@ -5,24 +5,26 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.adapters.SelectArtistPageAdapter
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.models.ArtistPage
 import android.app.Dialog
+import android.content.Intent
+import android.provider.MediaStore
 import android.support.design.widget.FloatingActionButton
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import com.example.artistmanagerapp.firebase.FirebaseDataWriter
+import com.example.artistmanagerapp.firebase.StorageFileUploader
 import com.example.artistmanagerapp.interfaces.RedeemCodeDataReceiver
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.RedeemCode
 import com.example.artistmanagerapp.utils.Constants
+import com.example.artistmanagerapp.utils.Utils
 import org.w3c.dom.Text
+import java.io.IOException
 
 class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInterfaceUpdater, RedeemCodeDataReceiver {
 
@@ -45,6 +47,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     var redeemCodeInput : EditText? = null
     var redeemCodeSubmitButton : Button? = null
     var dialogClose2 : TextView? = null
+    var dialogBackgroundImage : ImageView? = null
 
     // Adapters
     private var adapter: SelectArtistPageAdapter? = null
@@ -60,6 +63,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     // Objects
     val const = Constants
+    val utils = Utils
+    val fileUploader = StorageFileUploader()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,6 +125,27 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        //Toast.makeText(this, "kuraw wrucilem", Toast.LENGTH_SHORT).show()
+
+        if (requestCode == 1) {
+            if (data != null) {
+                val contentURI = data!!.data
+                try {
+                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
+                    dialogBackgroundImage?.setImageBitmap(bitmap)
+                    Toast.makeText(this, "kuraw wrucilem", Toast.LENGTH_SHORT).show()
+                }
+                catch (e: IOException) {
+                    e.printStackTrace()
+                    //Toast.makeText(this@MainActivity, "Failed!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
     // RecyclerView presenter method
     override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {
         adapter?.update(artistPagesList)
@@ -133,7 +159,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     override fun updateUI(option : String) {
         when (option){
             const.ARTIST_PAGE_CREATED -> {
-                
+
             }
             const.CODE_SUCCESSFULLY_REDEEMED -> {
 
@@ -170,6 +196,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         dialogAddImageButton = createPageDialog?.findViewById(R.id.dialog_add_image_button)
         dialogClose = createPageDialog?.findViewById(R.id.dialog_close_x)
         dialogCreatePageButton = createPageDialog?.findViewById(R.id.dialog_submit_button)
+        dialogBackgroundImage = createPageDialog?.findViewById(R.id.dialog_background_image)
 
         createPageDialog?.show()
 
@@ -182,6 +209,12 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
             dataWriter?.createArtistPage(artistPage, this, userId)
         }
+
+        dialogAddImageButton?.setOnClickListener {
+            val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(galleryIntent, const.GALLERY)
+        }
+
     }
 
     private fun showRedeemCodeDialog(){
@@ -219,6 +252,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     override fun receiveCodeData(redeemCode: RedeemCode?) {
         if (redeemCode != null){
             dataWriter?.markCodeAsInactive(redeemCode.codeString, userId)
+
         } else {
             Toast.makeText(this, "The code is not valid, please try again", Toast.LENGTH_SHORT).show()
         }
