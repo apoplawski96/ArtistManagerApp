@@ -44,7 +44,7 @@ class FirebaseDataWriter : BaseActivity(){
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
 
-        artistPageInfo.put("artistPageName", artistPage.artistName.toString())
+        //artistPageInfo.put("artistPageName", artistPage.artistName.toString())
         artistPageInfo.put("pageRole", "admin")
 
         // Adding artist page link to user data
@@ -58,14 +58,13 @@ class FirebaseDataWriter : BaseActivity(){
     fun generateRedeemCode(redeemCodeString : String, userId : String, artistPageId : String){
         val redeemCodeObject = RedeemCode (redeemCodeString, false, artistPageId, userId, null)
 
-        redeemCodesCollectionPath.document(redeemCodeString).set(redeemCodeObject, SetOptions.merge()).addOnSuccessListener {
+        redeemCodesCollectionPath.document(redeemCodeString).set(redeemCodeObject).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "Code successfully added to db: $redeemCodeObject")
         }
     }
 
-    fun markCodeAsInactive(redeemCodeString : String, redeemedById : String){
+    fun markCodeAsRedeemed(redeemCodeString : String, redeemedById : String){
         var updateData = HashMap <String, Any>()
-
         updateData.put("wasUsed", true)
         updateData.put("redeemedById", redeemedById)
 
@@ -74,9 +73,30 @@ class FirebaseDataWriter : BaseActivity(){
         }
     }
 
+    fun addArtistReferenceToUserRecord(userId : String, artistPageId : String?){
+        val initData : HashMap<String, Any?> = HashMap()
+        initData.put("pageRole", null)
 
-    fun addMemberToArtistPage(){
-        
+        usersCollectionPath.document(userId).collection("artistPages").document(artistPageId.toString()).set(initData).addOnSuccessListener {
+            Log.d(FIREBASE_TAG, "Artist page info successfully added to user record: $initData")
+        }.addOnFailureListener {
+            Log.d(FIREBASE_ERROR, "Failure: $it")
+        }
+    }
+
+    fun addMemberToArtistPage(userId : String, pageId : String){
+        val userData : HashMap<String, Any?>  = HashMap()
+        userData.put("pageRole", null)
+
+        artistPagesCollectionPath.document(pageId).collection("pageMembers").document(userId).set(userData).addOnSuccessListener {
+            Log.d(FIREBASE_TAG, "User info successfully added to page_members collection: $userData")
+        }.addOnFailureListener {
+            Log.d(FIREBASE_ERROR, "Failure: $it")
+        }
+    }
+
+    fun updatePageRole(userId: String, pageId : String, pageRole : String?){
+        usersCollectionPath.document(userId).collection("artistPages").document(pageId).update(mapOf("pageRole" to pageRole))
     }
 
 }

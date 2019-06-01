@@ -2,6 +2,10 @@ package com.example.artistmanagerapp.utils
 
 object Constants {
 
+    // Roles
+    val PAGE_ADMIN : String = "admin"
+    val MEMBER : String = "member"
+
     // Numeric
     val REDEEM_CODE_LENGTH : Int = 7
     val GALLERY = 1

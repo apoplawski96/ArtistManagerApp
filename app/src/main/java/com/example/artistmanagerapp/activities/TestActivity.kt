@@ -9,6 +9,8 @@ import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.google.firebase.FirebaseApp
 import android.support.design.widget.Snackbar
+import android.util.Log
+import com.example.artistmanagerapp.models.ArtistPage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,8 +33,6 @@ class TestActivity : AppCompatActivity() {
         val dbButton = findViewById(R.id.write_to_db_button) as Button
         val logoutButton = findViewById(R.id.logout_button) as Button
 
-        Toast.makeText(this, user?.uid.toString(), Toast.LENGTH_SHORT).show()
-
         dbButton.setOnClickListener {
             writeToDb(user)
         }
@@ -41,6 +41,11 @@ class TestActivity : AppCompatActivity() {
             logout(auth)
         }
 
+        val both = ArtistPage("name", "id")
+        val onlyName = ArtistPage ("name")
+
+        //Log.d("hui", "${both.mArtistName}, ${both.mId}")
+        //Log.d("hui", both.toString())
     }
 
     fun writeToDb(user : FirebaseUser?){

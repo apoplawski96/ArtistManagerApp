@@ -114,6 +114,10 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         // Setting up "Create Page" Floating Action Button
         fabMin1?.setOnClickListener { if (isFABOpen == true){ showCreatePageDialog() } }
         fabMin2?.setOnClickListener { if (isFABOpen == true){ showRedeemCodeDialog() } }
+
+        // TO DELETE LATER
+        dataWriter?.generateRedeemCode("20202020", userId, "20202020")
+
     }
 
     // Setting up custom behaviour when dialog is shown
@@ -231,11 +235,9 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         dialogClose2?.setOnClickListener { redeemCodeDialog?.hide() }
 
         redeemCodeSubmitButton?.setOnClickListener {
-            var redeemCodeStringInput = redeemCodeInput.toString()
+            var redeemCodeStringInput = redeemCodeInput?.text.toString()
 
             dataReader?.getRedeemCodeData(redeemCodeStringInput, this)
-
-
         }
     }
 
@@ -249,15 +251,30 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         redeemCodeDialog?.hide()
     }
 
-    override fun receiveCodeData(redeemCode: RedeemCode?) {
+    // Redeem code function
+    override fun redeemCode(redeemCode: RedeemCode?) {
         if (redeemCode != null){
-            dataWriter?.markCodeAsInactive(redeemCode.codeString, userId)
+            // Setting all the stuff up in database
+            dataWriter?.markCodeAsRedeemed(redeemCode.codeString.toString(), userId)
+            dataWriter?.addArtistReferenceToUserRecord(userId, redeemCode.artistPageId)
+            dataWriter?.addMemberToArtistPage(userId, redeemCode.artistPageId.toString())
 
+            // UI update
+            codeRedeemedUiUpdater()
+
+            // Pass the data and go to MainActivity
+            val intent = Intent(applicationContext, MainActivity::class.java).apply{ putExtra("artistPageId", redeemCode.artistPageId) }
+            startActivity(intent)
         } else {
             Toast.makeText(this, "The code is not valid, please try again", Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun receiveCodesList(codesList: ArrayList<RedeemCode>) { }
+
+
+    fun codeRedeemedUiUpdater(){
+
+    }
 
 }

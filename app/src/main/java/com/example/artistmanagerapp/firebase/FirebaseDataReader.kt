@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
+import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.RedeemCodeDataReceiver
 import com.example.artistmanagerapp.interfaces.UserDataPresenter
 import com.example.artistmanagerapp.models.ArtistPage
@@ -93,13 +94,27 @@ class FirebaseDataReader : BaseActivity () {
                 var redeemedById : String = document.get("redeemedById").toString()
 
                 val redeemCodeObject : RedeemCode? = RedeemCode(codeString, wasUsed, artistPageId, generatedById, redeemedById)
-                redeemCodeDataReceiver.receiveCodeData(redeemCodeObject)
+                redeemCodeDataReceiver.redeemCode(redeemCodeObject)
             } else {
                 // If document doesn't exist (so basically the code that user gave is incorrect) we send null as an argument
-                redeemCodeDataReceiver.receiveCodeData(null)
+                redeemCodeDataReceiver.redeemCode(null)
             }
         }
     }
 
+    fun getArtistPageData(artistPageId : String?, presenter : ArtistPagesPresenter){
+
+    }
+
+    fun getPageRole (userID : String, pageId : String, dataReceiver: DataReceiver){
+        usersCollectionPath.document(userId).collection("artistPages").document(pageId).get().addOnSuccessListener { document ->
+            if (document.exists()){
+                val pageRole : String? = document.get("pageRole").toString()
+                dataReceiver.receiveData(pageRole)
+            } else {
+                Log.d(FIREBASE_ERROR, "Artist page with provided pageId doesn't exist in user data")
+            }
+        }
+    }
 
 }
