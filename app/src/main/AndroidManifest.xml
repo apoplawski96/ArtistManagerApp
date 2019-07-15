@@ -25,11 +25,7 @@
         <activity android:name=".activities.CreateOrJoinActivity">
         </activity>
         <activity android:name=".activities.SelectArtistPageActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".activities.CheckArtistPageLinkActivity">
         </activity>
@@ -48,6 +44,11 @@
         <activity android:name=".activities.LoginActivity">
         </activity>
         <activity android:name=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 

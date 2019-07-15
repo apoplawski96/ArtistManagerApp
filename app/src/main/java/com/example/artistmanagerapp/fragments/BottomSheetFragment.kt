@@ -7,7 +7,7 @@ import com.example.artistmanagerapp.R
 
 class BottomSheetFragment : BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?{
-        val rootView = inflater.inflate(R.layout.fragment_task_details_bottomsheet, container, false)
+        val rootView = inflater.inflate(R.layout.layout_bottom_sheet, container, false)
 
         return rootView
     }

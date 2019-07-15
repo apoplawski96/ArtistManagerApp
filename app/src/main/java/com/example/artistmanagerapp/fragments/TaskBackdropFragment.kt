@@ -35,7 +35,12 @@ class TaskBackdropFragment : Fragment(){
         val rootView = inflater.inflate(R.layout.fragment_task_backdrop, container, false)
 
         // Views
-        taskTitleDisplay = rootView.findViewById(R.id.task_title)
+        taskTitleDisplay = rootView.findViewById(R.id.bottomsheet_task_title)
+
+        // Getting the arguments
+        val taskTitle : String? = arguments?.getString("TASK_TITLE")
+
+        taskTitleDisplay?.text = taskTitle
 
         return rootView
     }
@@ -48,13 +53,17 @@ class TaskBackdropFragment : Fragment(){
 
     companion object {
         @JvmStatic
-        fun newInstance(taskTitle: String, taskId: String) =
-            AddTaskBackdropFagment().apply {
-                arguments = Bundle().apply {
-                    putString("task_title", taskTitle)
-                    putString("task_id", taskId)
-                }
+        fun newInstance(taskTitle: String) : TaskBackdropFragment {
+            val fragment = TaskBackdropFragment()
+
+            val bundle = Bundle().apply{
+                putString ("TASK_TITLE", taskTitle)
             }
+
+            fragment.arguments = bundle
+
+            return fragment
+        }
     }
 
 }

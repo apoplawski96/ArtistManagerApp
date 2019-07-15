@@ -3,6 +3,8 @@ package com.example.artistmanagerapp.activities
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TextView
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
@@ -39,6 +41,10 @@ abstract class BaseActivity : AppCompatActivity() {
     val perfectUserID = "perfectUser"
     val perfectUserPath = db.collection("users").document("perfectUser")
     val perfectArtistPagePath = db.collection("artist_pages").document("perfect_artistpage_id")
+
+    // Views
+    var toolbarActivityDescription : TextView? = null
+    var toolbarBackButton : ImageView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

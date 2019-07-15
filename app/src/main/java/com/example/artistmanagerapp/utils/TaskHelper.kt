@@ -5,19 +5,23 @@ import com.example.artistmanagerapp.interfaces.TaskDetailPresenter
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Task
+import com.example.artistmanagerapp.models.User
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import java.util.*
+import kotlin.collections.ArrayList
 
 object TaskHelper {
 
+    // Adding Task object to a specified collection path
     fun addTask (task : Task, pathToTasksCollection : CollectionReference){
         pathToTasksCollection.document().set(task)
     }
 
-    fun changeTaskCompletionStatus (taskId: String, completionStatus : Boolean, pathToTasksCollection: CollectionReference){
-        val taskPath = pathToTasksCollection.document(taskId)
-
+    // Changing "isCompleted" field of a Task in database with a specified value
+    fun changeTaskCompletionStatus (taskId: String?, completionStatus : Boolean?, pathToTasksCollection: CollectionReference){
+        val taskPath = pathToTasksCollection.document(taskId.toString())
         taskPath.update("isCompleted", completionStatus)
     }
 
@@ -25,6 +29,7 @@ object TaskHelper {
         return pathToTasksCollection.whereEqualTo(key, value)
     }
 
+    // Getting list of all tasks and returning it via interface
     fun parseTasks (pathToTasksCollection : CollectionReference, taskUpdater : TaskUpdater){
         var tasksOutput : ArrayList<Task> = ArrayList()
 
@@ -32,11 +37,15 @@ object TaskHelper {
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
                     for (document in documents){
-                        // Need to change isCompleted later
+                        // Need to work on assignees list later
                         tasksOutput!!.add(Task(
                             document.get("title").toString(),
                             document.id,
-                            document.get("isCompleted").toString().toBoolean()))
+                            document.get("isCompleted").toString().toBoolean(),
+                            document.get("createdById").toString(),
+                            null,
+                            document.get("urgency").toString(),
+                            null))
                     }
                     taskUpdater.updateTasks(tasksOutput)
                 } else {
@@ -45,6 +54,7 @@ object TaskHelper {
             }
     }
 
+    //
     fun getTaskData (pathToTasksCollection: CollectionReference, taskId : String, taskDetailPresenter: TaskDetailPresenter){
         lateinit var outputTask : Task
 
@@ -58,7 +68,6 @@ object TaskHelper {
                 }
                 taskDetailPresenter.showTask(outputTask)
         }
-
 
     }
 

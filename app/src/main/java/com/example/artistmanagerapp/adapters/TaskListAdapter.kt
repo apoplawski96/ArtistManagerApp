@@ -66,9 +66,9 @@ class TaskListAdapter (val context : Context?, var taskList : ArrayList<Task>, p
 
         fun setupCheckBoxStatus(){
             if (itemView.check_box.isChecked){
-                itemView.task_title.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                //itemView.task_title.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             } else if (!itemView.check_box.isChecked){
-                itemView.task_title.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                //itemView.task_title.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
         }
 

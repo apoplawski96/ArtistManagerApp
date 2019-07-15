@@ -13,13 +13,15 @@ import android.widget.CheckBox
 import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.adapters.TaskListAdapter
-import com.example.artistmanagerapp.fragments.TaskBackdropFragment
-import com.example.artistmanagerapp.interfaces.TaskDetailPresenter
+import com.example.artistmanagerapp.fragments.ModalBottomSheetFragment
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.utils.TaskHelper
 
 class TaskListActivity : BaseActivity(), TaskUpdater{
+
+    // Constants
+    val ACTIVITY_DESCRIPTION = "Tasks"
 
     // Views
     var checkBox : CheckBox? = null
@@ -38,6 +40,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
 
+        // Others
         val context : Context = this
 
         // Views
@@ -50,9 +53,13 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
         // BottomSheet Fragment
         //bottomSheetFragment = TaskBackdropFragment()
         //bottomSheetFragment?.fragmentManager?.findFragmentById(R.id.filter_fragment)
-        bottomSheetFragment = supportFragmentManager.findFragmentById(R.id.filter_fragment)
+        //bottomSheetFragment = supportFragmentManager.findFragmentById(R.id.filter_fragment)
 
-        configureBackdrop()
+        // Setting up toolbar
+        toolbarActivityDescription = findViewById(R.id.toolbar_activity_description)
+        toolbarActivityDescription?.text = ACTIVITY_DESCRIPTION
+
+        //configureBackdrop()
 
         // Parsing tasks and setting up the task list
         TaskHelper.parseTasks(perfectArtistPagePath.collection("tasks"), this)
@@ -66,11 +73,13 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
 
     // Setting up system back button custom behaviour
     override fun onBackPressed() {
-        if (mBottomSheetBehavior?.state == (BottomSheetBehavior.STATE_EXPANDED)){
+        /*if (mBottomSheetBehavior?.state == (BottomSheetBehavior.STATE_EXPANDED)){
             mBottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
         } else {
             super.onBackPressed()
-        }
+        }*/
+
+        super.onBackPressed()
     }
 
 
@@ -79,20 +88,17 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
     }
 
     fun taskItemClicked (taskItem : Task){
-        // Populate fragment with task info, non Kotlin way sadly
-        /*var mArgs = Bundle()
-        mArgs.putString("task_title", taskItem.title)
-        bottomSheetFragment?.setArguments(mArgs)*/
-        mBottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
+        var bottomSheet : ModalBottomSheetFragment = ModalBottomSheetFragment.newInstance(taskItem.title)
+        bottomSheet.show(supportFragmentManager, "bottomSheet")
     }
 
-    fun configureBackdrop(){
+    /*fun configureBackdrop(){
         bottomSheetFragment?.let {
             BottomSheetBehavior.from(it.view)?.let { bsb ->
                 bsb.state = BottomSheetBehavior.STATE_HIDDEN
                 mBottomSheetBehavior = bsb
             }
         }
-    }
+    }*/
 
 }
