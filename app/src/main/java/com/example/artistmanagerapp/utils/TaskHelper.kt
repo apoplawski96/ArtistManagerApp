@@ -14,22 +14,28 @@ import kotlin.collections.ArrayList
 
 object TaskHelper {
 
-    // Adding Task object to a specified collection path
+    val c = Constants
+
+    // ********** Adding Task object to a specified collection path **********
     fun addTask (task : Task, pathToTasksCollection : CollectionReference){
         pathToTasksCollection.document().set(task)
     }
 
-    // Changing "isCompleted" field of a Task in database with a specified value
-    fun changeTaskCompletionStatus (taskId: String?, completionStatus : Boolean?, pathToTasksCollection: CollectionReference){
+    // ********** Changing "isCompleted" field of a Task in database with a specified value **********
+    fun changeTaskCompletionStatus (taskUpdater: TaskUpdater, taskId: String?, completionStatus : Boolean?, pathToTasksCollection: CollectionReference){
         val taskPath = pathToTasksCollection.document(taskId.toString())
-        taskPath.update("isCompleted", completionStatus)
+        taskPath.update(c.FB_TASK_ISCOMPLETED, completionStatus).addOnSuccessListener {
+            taskUpdater.triggerUpdate()
+        }.addOnFailureListener {
+
+        }
     }
 
     fun returnTasksWhereEqualTo (pathToTasksCollection: CollectionReference, key : String, value : String) : Query {
         return pathToTasksCollection.whereEqualTo(key, value)
     }
 
-    // Getting list of all tasks and returning it via interface
+    // **********  Getting list of all tasks and returning it via interface **********
     fun parseTasks (pathToTasksCollection : CollectionReference, taskUpdater : TaskUpdater){
         var tasksOutput : ArrayList<Task> = ArrayList()
 
@@ -41,7 +47,7 @@ object TaskHelper {
                         tasksOutput!!.add(Task(
                             document.get("title").toString(),
                             document.id,
-                            document.get("isCompleted").toString().toBoolean(),
+                            document.get("completed").toString().toBoolean(),
                             document.get("createdById").toString(),
                             null,
                             document.get("urgency").toString(),
@@ -54,7 +60,7 @@ object TaskHelper {
             }
     }
 
-    //
+    // ********** Getting all data of a task specified with its ID **********
     fun getTaskData (pathToTasksCollection: CollectionReference, taskId : String, taskDetailPresenter: TaskDetailPresenter){
         lateinit var outputTask : Task
 
@@ -69,6 +75,18 @@ object TaskHelper {
                 taskDetailPresenter.showTask(outputTask)
         }
 
+    }
+
+    fun sortTasks (isCompleted: Boolean, inputList : ArrayList<Task>) : ArrayList<Task>{
+        var outputList : ArrayList<Task> = ArrayList()
+
+        for (item in inputList){
+            if (item.isCompleted == isCompleted){
+                outputList?.add(item)
+            }
+        }
+
+        return outputList
     }
 
 }

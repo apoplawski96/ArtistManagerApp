@@ -56,4 +56,9 @@ object Utils : BaseActivity (){
         val intent = Intent(this, CreateOrJoinActivity::class.java)
         startActivity(intent)
     }
+
+    fun compareLists(listA : ArrayList<Any>, listB : ArrayList<Any>) : Boolean {
+        return listA == listB
+    }
+
 }

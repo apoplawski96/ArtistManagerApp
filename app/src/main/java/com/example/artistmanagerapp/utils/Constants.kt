@@ -20,4 +20,7 @@ object Constants {
     val CODE_SUCCESSFULLY_REDEEMED : String = "CODE_SUCCESSFULLY_REDEEMED"
     val USER_ADDED_TO_DB : String = "USER_ADDED_TO_DB"
 
+    // FIREBASE - TASK OBJECT FIELDS NAMES
+    val FB_TASK_ISCOMPLETED : String = "completed"
+
 }

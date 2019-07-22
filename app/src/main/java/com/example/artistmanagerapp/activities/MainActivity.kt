@@ -1,18 +1,12 @@
 package com.example.artistmanagerapp.activities
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
-import android.widget.TextView
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.fragments.GridMenuFragment
 import com.example.artistmanagerapp.fragments.HomeFragment
-import com.example.artistmanagerapp.fragments.TasksFragment
-import com.example.artistmanagerapp.models.Artist
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 

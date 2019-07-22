@@ -11,18 +11,20 @@ import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.activities.TaskListActivity
+import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.utils.TaskHelper
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.android.synthetic.main.item_task.view.*
 
-class TaskListAdapter (val context : Context?, var taskList : ArrayList<Task>, pathToTasksCollection : CollectionReference, val clickListener: (Task) -> Unit) : RecyclerView.Adapter<TaskListAdapter.ViewHolder>(){
+class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var taskList : ArrayList<Task>, pathToTasksCollection : CollectionReference, val clickListener: (Task) -> Unit) : RecyclerView.Adapter<TaskListAdapter.ViewHolder>(){
 
     var path : CollectionReference = pathToTasksCollection
+    val taskUpdater : TaskUpdater = taskUpdater
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view : View = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
-        return ViewHolder(view, context, path)
+        return ViewHolder(taskUpdater, view, context, path)
     }
 
     override fun getItemCount(): Int {
@@ -30,7 +32,7 @@ class TaskListAdapter (val context : Context?, var taskList : ArrayList<Task>, p
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(taskList[position], clickListener)
+        holder.bind(taskUpdater, taskList[position], clickListener)
     }
 
 
@@ -40,13 +42,14 @@ class TaskListAdapter (val context : Context?, var taskList : ArrayList<Task>, p
     }
 
 
-    class ViewHolder (itemView : View, context: Context?, pathToTasksCollection : CollectionReference) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder (taskUpdater: TaskUpdater, itemView : View, context: Context?, pathToTasksCollection : CollectionReference) : RecyclerView.ViewHolder(itemView) {
         var path : CollectionReference = pathToTasksCollection
+        val mTaskUpdater : TaskUpdater = taskUpdater
 
-
-        fun bind (task : Task, clickListener: (Task) -> Unit){
+        fun bind (taskUpdater : TaskUpdater, task : Task, clickListener: (Task) -> Unit){
             itemView.setOnClickListener {clickListener(task)}
             itemView.task_title.text = task.title
+            val taskUpdater = mTaskUpdater
 
             // Checkbox setup
             itemView.check_box.isChecked = task.isCompleted
@@ -54,12 +57,13 @@ class TaskListAdapter (val context : Context?, var taskList : ArrayList<Task>, p
 
             // Checbox onclick setup
             itemView.check_box.setOnClickListener {
-                Toast.makeText(it.context, "Checkbox" + task.title + "clicked!", Toast.LENGTH_SHORT).show()
-
+                val taskListActivity : TaskListActivity = TaskListActivity()
+                taskListActivity.showProgressBar()
+                Toast.makeText(taskListActivity, "tu progres bar kurwa", Toast.LENGTH_SHORT).show()
                 // Setting "isCompleted" value in database
-                TaskHelper.changeTaskCompletionStatus(task.taskId, itemView.check_box.isChecked, path)
+                TaskHelper.changeTaskCompletionStatus(taskUpdater, task.taskId, itemView.check_box.isChecked, path)
 
-                setupCheckBoxStatus()
+                //setupCheckBoxStatus()
             }
 
         }

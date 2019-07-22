@@ -67,7 +67,7 @@ class HomeFragment : BaseFragment(), TaskUpdater, UserDataPresenter {
         // Parse and show task list
         TaskHelper.parseTasks(perfectArtistPagePath.collection("tasks"), this)
         taskListRecyclerView?.layoutManager = LinearLayoutManager(MainActivity(), OrientationHelper.VERTICAL, false)
-        adapter = TaskListAdapter(context, tasksList, pathToTasksCollection) { taskItem : Task -> taskItemClicked(taskItem)}
+        adapter = TaskListAdapter(this, context, tasksList, pathToTasksCollection) { taskItem : Task -> taskItemClicked(taskItem)}
         taskListRecyclerView?.adapter = adapter
 
         // Show user data
@@ -83,6 +83,10 @@ class HomeFragment : BaseFragment(), TaskUpdater, UserDataPresenter {
 
     override fun updateTasks(tasksOutput: ArrayList<Task>) {
         adapter?.updateItems(tasksOutput)
+    }
+
+    override fun triggerUpdate() {
+
     }
 
     override fun showUserData(userData: User) {
