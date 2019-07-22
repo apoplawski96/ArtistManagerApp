@@ -57,9 +57,7 @@ class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var ta
 
             // Checbox onclick setup
             itemView.check_box.setOnClickListener {
-                val taskListActivity : TaskListActivity = TaskListActivity()
-                taskListActivity.showProgressBar()
-                Toast.makeText(taskListActivity, "tu progres bar kurwa", Toast.LENGTH_SHORT).show()
+                taskUpdater.showProgressBar()
                 // Setting "isCompleted" value in database
                 TaskHelper.changeTaskCompletionStatus(taskUpdater, task.taskId, itemView.check_box.isChecked, path)
 

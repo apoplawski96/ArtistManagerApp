@@ -26,6 +26,7 @@ object TaskHelper {
         val taskPath = pathToTasksCollection.document(taskId.toString())
         taskPath.update(c.FB_TASK_ISCOMPLETED, completionStatus).addOnSuccessListener {
             taskUpdater.triggerUpdate()
+            //taskUpdater.hideProgressBar()
         }.addOnFailureListener {
 
         }

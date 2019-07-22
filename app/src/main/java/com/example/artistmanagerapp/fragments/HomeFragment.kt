@@ -31,7 +31,7 @@ import com.example.artistmanagerapp.utils.TaskHelper
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
 
-class HomeFragment : BaseFragment(), TaskUpdater, UserDataPresenter {
+class HomeFragment : BaseFragment(), UserDataPresenter {
 
     // Collections
     private var tasksList : ArrayList <Task> = ArrayList()
@@ -65,10 +65,10 @@ class HomeFragment : BaseFragment(), TaskUpdater, UserDataPresenter {
         Glide.with(this).load(R.mipmap.band_photo_avatar).apply(options).into(bandAvatar)
 
         // Parse and show task list
-        TaskHelper.parseTasks(perfectArtistPagePath.collection("tasks"), this)
+        /*TaskHelper.parseTasks(perfectArtistPagePath.collection("tasks"), this)
         taskListRecyclerView?.layoutManager = LinearLayoutManager(MainActivity(), OrientationHelper.VERTICAL, false)
         adapter = TaskListAdapter(this, context, tasksList, pathToTasksCollection) { taskItem : Task -> taskItemClicked(taskItem)}
-        taskListRecyclerView?.adapter = adapter
+        taskListRecyclerView?.adapter = adapter*/
 
         // Show user data
         FirebaseDataReader().getUserData("perfectUser", this)
@@ -81,13 +81,13 @@ class HomeFragment : BaseFragment(), TaskUpdater, UserDataPresenter {
         return rootView
     }
 
-    override fun updateTasks(tasksOutput: ArrayList<Task>) {
+    /*override fun updateTasks(tasksOutput: ArrayList<Task>) {
         adapter?.updateItems(tasksOutput)
     }
 
     override fun triggerUpdate() {
 
-    }
+    }*/
 
     override fun showUserData(userData: User) {
         //displayName?.setText(userData.firstName + " " + userData.lastName)

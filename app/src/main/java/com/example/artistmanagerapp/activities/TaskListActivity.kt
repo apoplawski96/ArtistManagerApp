@@ -21,7 +21,7 @@ import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.utils.TaskHelper
 
-class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
+class TaskListActivity : BaseActivity(), TaskUpdater{
 
     // Constants
     val ACTIVITY_DESCRIPTION = "Tasks"
@@ -124,6 +124,9 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
         adapter?.updateItems(tasksOpen)
         adapterCompleted?.updateItems(tasksCompleted)
 
+        hideProgressBar()
+
+        // To chyba mozna lepiej zrobic ale chuj tam na razie
         if (tasksOpen.isEmpty()){
             noTasksTextView?.visibility = View.VISIBLE
         } else {
@@ -135,20 +138,18 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
         } else {
             noCompletedTasksTextView?.visibility = View.GONE
         }
-
-
     }
 
     override fun triggerUpdate() {
         TaskHelper.parseTasks(perfectArtistPagePath.collection("tasks"), this)
     }
 
-    override fun updateUI(option: String) {
-        
+    override fun showProgressBar() {
+        toolbarProgressBar?.visibility = View.VISIBLE
     }
 
-    override fun showProgressBar() {
-
+    override fun hideProgressBar() {
+        toolbarProgressBar?.visibility = View.GONE
     }
 
     // **********  TaskUpdater interface implementation **********
@@ -161,6 +162,8 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
     fun initializeUI() {
         completedTaskListRecyclerView?.visibility = View.GONE
         toolbarProgressBar?.visibility = View.GONE
+        noTasksTextView?.visibility = View.GONE
+        noCompletedTasksTextView?.visibility = View.GONE
     }
 
 }
