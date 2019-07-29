@@ -1,27 +1,24 @@
 package com.example.artistmanagerapp.activities
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v4.app.Fragment
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
-import android.widget.CheckBox
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.adapters.TaskListAdapter
-import com.example.artistmanagerapp.fragments.ModalBottomSheetFragment
+import com.example.artistmanagerapp.fragments.TaskDetailsDialogFragment
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.utils.TaskHelper
+import com.google.firebase.firestore.CollectionReference
 
-class TaskListActivity : BaseActivity(), TaskUpdater{
+class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
 
     // Constants
     val ACTIVITY_DESCRIPTION = "Tasks"
@@ -34,6 +31,11 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
     var noTasksTextView : TextView? = null
     var noCompletedTasksTextView : TextView? = null
     var toolbarProgressBar : ProgressBar? = null
+    var fabTasksActivity : FloatingActionButton? = null
+    var addNewTaskDialog : Dialog? = null
+    var taskNameInput : EditText? = null
+    var tasksDialogClose : TextView? = null
+    var addTaskSubmitButton : Button? = null
 
     // Collections
     private var tasksList : ArrayList <Task> = ArrayList()
@@ -45,6 +47,11 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
 
     // Others
     var isCompletedTasksListVisible : Boolean? = false
+    var isAddNewTaskDialogOpen : Boolean? = false
+    var isBottomSheetExpanded : Boolean? = false
+
+    // Firebase
+    lateinit var pathToTasksCollection : CollectionReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,9 +69,14 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
         noTasksTextView = findViewById(R.id.no_open_tasks_tv)
         noCompletedTasksTextView = findViewById(R.id.no_completed_tasks_tv)
         toolbarProgressBar = findViewById(R.id.toolbar_progress_bar)
+        fabTasksActivity = findViewById(R.id.fab_tasks_list)
+
+        // AddNewTaskDialog stuff
+        addNewTaskDialog = Dialog(this)
+        addNewTaskDialog?.setContentView(R.layout.dialog_add_new_task)
 
         // Generate path to tasks list in Firestore
-        val pathToTasksCollection = perfectArtistPagePath.collection("tasks")
+        pathToTasksCollection = perfectArtistPagePath.collection("tasks")
 
         // Setting up toolbar
         toolbarActivityDescription = findViewById(R.id.toolbar_activity_description)
@@ -83,8 +95,12 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
         adapterCompleted = TaskListAdapter(this, context, completedTasksList, pathToTasksCollection) { taskItem : Task -> taskItemClicked(taskItem) }
         completedTaskListRecyclerView?.adapter = adapterCompleted
 
+        initializeUI()
+
         // Setting boolean value for completed tasks list
         isCompletedTasksListVisible = false
+
+        // ************************** ONCLICKS SETUP **************************
 
         // ShowCompletedTasks onClick setup
         showCompletedTasks?.setOnClickListener {
@@ -93,9 +109,16 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
                 isCompletedTasksListVisible = true
             } else {
                 completedTaskListRecyclerView?.visibility = View.GONE
+                noCompletedTasksTextView?.visibility = View.GONE
                 isCompletedTasksListVisible = false
             }
         }
+
+        fabTasksActivity?.setOnClickListener {
+            showAddNewTaskDialog()
+        }
+
+        // ************************** ONCLICKS SETUP **************************
 
         /*TaskHelper.addTask(Task("task1", "low", true), pathToTasksCollection)
         TaskHelper.addTask(Task("task2", "low", true), pathToTasksCollection)
@@ -106,13 +129,13 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
 
     // Setting up system back button custom behaviour
     override fun onBackPressed() {
-        /*if (mBottomSheetBehavior?.state == (BottomSheetBehavior.STATE_EXPANDED)){
-            mBottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
-        } else {
-            super.onBackPressed()
-        }*/
+        if (isAddNewTaskDialogOpen == true){
+            hideAddNewTaskDialog()
+        } else if (isBottomSheetExpanded == true){
 
-        super.onBackPressed()
+        } else{
+            super.onBackPressed()
+        }
     }
 
     // **********  TaskUpdater interface implementation **********
@@ -126,7 +149,6 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
 
         hideProgressBar()
 
-        // To chyba mozna lepiej zrobic ale chuj tam na razie
         if (tasksOpen.isEmpty()){
             noTasksTextView?.visibility = View.VISIBLE
         } else {
@@ -155,15 +177,51 @@ class TaskListActivity : BaseActivity(), TaskUpdater{
     // **********  TaskUpdater interface implementation **********
 
     fun taskItemClicked (taskItem : Task) {
-        var bottomSheet : ModalBottomSheetFragment = ModalBottomSheetFragment.newInstance(taskItem.title)
+        var bottomSheet : TaskDetailsDialogFragment = TaskDetailsDialogFragment.newInstance(taskItem.title)
         bottomSheet.show(supportFragmentManager, "bottomSheet")
     }
 
-    fun initializeUI() {
+    override fun initializeUI() {
         completedTaskListRecyclerView?.visibility = View.GONE
         toolbarProgressBar?.visibility = View.GONE
         noTasksTextView?.visibility = View.GONE
         noCompletedTasksTextView?.visibility = View.GONE
+    }
+
+    override fun updateUI(option: String) {
+
+    }
+
+    override fun hideAddTaskDialog() {
+        onBackPressed()
+    }
+
+    private fun showAddNewTaskDialog(){
+        isAddNewTaskDialogOpen = true
+
+        // Views
+        taskNameInput = addNewTaskDialog?.findViewById(R.id.task_name_input)
+        addTaskSubmitButton = addNewTaskDialog?.findViewById(R.id.add_task_submit_button)
+        tasksDialogClose = addNewTaskDialog?.findViewById(R.id.tasks_dialog_close_x)
+
+        addNewTaskDialog?.show()
+
+        addTaskSubmitButton?.setOnClickListener {
+            val taskTitle : String = taskNameInput?.text.toString()
+
+            TaskHelper.addTask(Task(taskTitle, false), pathToTasksCollection, this)
+            hideAddNewTaskDialog()
+            showProgressBar()
+        }
+
+        tasksDialogClose?.setOnClickListener {
+            hideAddNewTaskDialog()
+        }
+    }
+
+    private fun hideAddNewTaskDialog(){
+        isAddNewTaskDialogOpen = false
+        addNewTaskDialog?.hide()
     }
 
 }

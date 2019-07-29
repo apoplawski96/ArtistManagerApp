@@ -277,4 +277,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     }
 
+    override fun initializeUI() {
+
+    }
+
 }

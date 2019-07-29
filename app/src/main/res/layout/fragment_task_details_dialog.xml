@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              style="android.R.style.Theme_Material_Light_NoActionBar_Fullscreen"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@android:color/holo_blue_light">
+
+    <include layout="@layout/toolbar_task_details"></include>
+
+    <EditText
+            android:text="Just an example task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/task_details_title"
+            android:textSize="@dimen/font_larger"
+            android:paddingStart="12dp"
+            android:paddingTop="12dp"
+            android:layout_marginHorizontal="12dp"/>
+    <TextView
+            android:text="Added on 7/12/19 by Artur Popławski"
+            android:paddingStart="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:id="@+id/task_details_added_by"
+            android:textSize="12sp"/>
+
+    <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="@dimen/font_normal" android:hint="Describe your task to your team member" android:layout_marginHorizontal="16dp"/>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="64dp" android:orientation="horizontal" android:id="@+id/add_members_wrapper">
+
+        <ImageView android:layout_width="50dp" android:layout_height="50dp" android:src="@drawable/ic_person_outline" android:layout_gravity="center" android:layout_marginStart="12dp"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Assign members to this task" android:layout_gravity="center" android:layout_margin="12dp"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:id="@+id/users_list_recycler_view" android:paddingHorizontal="16dp"
+                                            android:visibility="gone"></android.support.v7.widget.RecyclerView>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="64dp" android:orientation="horizontal" android:id="@+id/set_due_date_wrapper">
+
+        <ImageView android:layout_width="50dp" android:layout_height="50dp" android:src="@drawable/ic_calendar" android:layout_gravity="center" android:layout_marginStart="12dp"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Set the due date" android:layout_gravity="center" android:layout_margin="12dp"/>
+
+    </LinearLayout>
+
+    <CalendarView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/calendar_view" android:visibility="visible"/>
+
+</LinearLayout>

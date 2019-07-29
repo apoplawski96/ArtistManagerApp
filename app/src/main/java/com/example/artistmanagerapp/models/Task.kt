@@ -1,15 +1,12 @@
 package com.example.artistmanagerapp.models
 
-import com.google.firebase.firestore.PropertyName
 import java.util.*
 import kotlin.collections.ArrayList
 
 class Task {
 
-    @PropertyName("title")
     var title : String? = null
     var taskId : String? = null
-    @PropertyName("isCompleted")
     var isCompleted : Boolean = false
     var createdById : String? = null
     var assigneesList : ArrayList<User>? = null

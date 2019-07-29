@@ -28,4 +28,10 @@
         <item name="android:height">@dimen/edit_text_login_height</item>
     </style>
 
+    <style name="FullScreenDialogTheme" parent="Theme.AppCompat.DayNight.DialogWhenLarge">
+        <item name="android:statusBarColor">#000000</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/Animation.AppCompat.Dialog</item>
+    </style>
+
 </resources>

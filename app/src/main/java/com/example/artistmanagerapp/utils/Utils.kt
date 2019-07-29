@@ -1,8 +1,10 @@
 package com.example.artistmanagerapp.utils
 
 import android.content.Intent
+import android.graphics.Color
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
+import android.widget.EditText
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.activities.CreateOrJoinActivity
 import com.example.artistmanagerapp.activities.LoginActivity
@@ -59,6 +61,18 @@ object Utils : BaseActivity (){
 
     fun compareLists(listA : ArrayList<Any>, listB : ArrayList<Any>) : Boolean {
         return listA == listB
+    }
+
+    fun disableEditText(editText: EditText?){
+        editText?.isFocusable = false
+        editText?.isEnabled = false
+        editText?.isCursorVisible = false
+        editText?.keyListener = null
+        editText?.setBackgroundColor(Color.TRANSPARENT)
+    }
+
+    fun createNameAcronym(firstName : String, lastName : String) : String{
+        return "${firstName[0]}${lastName[0]}"
     }
 
 }

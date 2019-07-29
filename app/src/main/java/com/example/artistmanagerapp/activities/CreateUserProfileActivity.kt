@@ -115,5 +115,9 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
         startActivity(intent)
     }
 
+    override fun initializeUI() {
+
+    }
+
     // ************************************ FUNCTIONS SECTION ENDS ************************************
 }

@@ -7,4 +7,5 @@ interface TaskUpdater {
     fun triggerUpdate()
     fun showProgressBar()
     fun hideProgressBar()
+    fun hideAddTaskDialog()
 }

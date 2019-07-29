@@ -14,11 +14,16 @@ import kotlin.collections.ArrayList
 
 object TaskHelper {
 
+    // Objects
     val c = Constants
 
     // ********** Adding Task object to a specified collection path **********
-    fun addTask (task : Task, pathToTasksCollection : CollectionReference){
-        pathToTasksCollection.document().set(task)
+    fun addTask (task : Task, pathToTasksCollection : CollectionReference, taskUpdater: TaskUpdater){
+        pathToTasksCollection.document().set(task).addOnSuccessListener {
+            taskUpdater.triggerUpdate()
+        }.addOnFailureListener {
+            taskUpdater.hideProgressBar()
+        }
     }
 
     // ********** Changing "isCompleted" field of a Task in database with a specified value **********
@@ -26,7 +31,6 @@ object TaskHelper {
         val taskPath = pathToTasksCollection.document(taskId.toString())
         taskPath.update(c.FB_TASK_ISCOMPLETED, completionStatus).addOnSuccessListener {
             taskUpdater.triggerUpdate()
-            //taskUpdater.hideProgressBar()
         }.addOnFailureListener {
 
         }
