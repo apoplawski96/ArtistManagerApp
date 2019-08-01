@@ -1,12 +1,15 @@
 package com.example.artistmanagerapp.utils
 
+import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UsersListListener
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
 import com.google.firebase.firestore.CollectionReference
 
-class UsersHelper {
+class UsersHelper : BaseActivity() {
+
+    val c = FirebaseConstants
 
     fun parseUsers (pathToUsersCollection : CollectionReference?, listener : UsersListListener){
         var usersOutput : ArrayList<User> = ArrayList()
@@ -18,9 +21,9 @@ class UsersHelper {
                         // Need to work on assignees list later
                         usersOutput!!.add(
                             User(
-                                document.get("id").toString(),
-                                document.get("firstName").toString(),
-                                document.get("lastName").toString()
+                                document.get(c.ID).toString(),
+                                document.get(c.FIRST_NAME).toString(),
+                                document.get(c.LAST_NAME).toString()
                             )
                         )
                     }
@@ -29,6 +32,10 @@ class UsersHelper {
 
                 }
             }
+    }
+
+    fun updateCurrentArtistPage(userId: String, pageId : String){
+        usersCollectionPath.document(userId).update(mapOf("currentArtistPageId" to pageId))
     }
 
 }

@@ -6,8 +6,6 @@ import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.widget.EditText
 import com.example.artistmanagerapp.activities.BaseActivity
-import com.example.artistmanagerapp.activities.CreateOrJoinActivity
-import com.example.artistmanagerapp.activities.LoginActivity
 import com.example.artistmanagerapp.models.RedeemCode
 import java.util.*
 import kotlin.collections.ArrayList
@@ -55,7 +53,7 @@ object Utils : BaseActivity (){
     }
 
     fun switchActivity(activity : AppCompatActivity){
-        val intent = Intent(this, CreateOrJoinActivity::class.java)
+        //val intent = Intent(this, CreateOrJoinActivity::class.java)
         startActivity(intent)
     }
 
@@ -71,8 +69,16 @@ object Utils : BaseActivity (){
         editText?.setBackgroundColor(Color.TRANSPARENT)
     }
 
+    fun enableEditText(editText: EditText?){
+        editText?.isFocusable = true
+        editText?.isEnabled = true
+        editText?.isCursorVisible = true
+        editText?.keyListener = null
+        editText?.setBackgroundColor(Color.TRANSPARENT)
+    }
+
     fun createNameAcronym(firstName : String, lastName : String) : String{
-        return "${firstName[0]}${lastName[0]}"
+        return "${firstName[0]}${lastName[0]}".toUpperCase()
     }
 
 }

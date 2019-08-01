@@ -174,10 +174,22 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
         toolbarProgressBar?.visibility = View.GONE
     }
 
+    override fun hideProgress() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showProgress() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onError(errorLog : String?) {
+
+    }
+
     // **********  TaskUpdater interface implementation **********
 
     fun taskItemClicked (taskItem : Task) {
-        var bottomSheet : TaskDetailsDialogFragment = TaskDetailsDialogFragment.newInstance(taskItem.title)
+        var bottomSheet : TaskDetailsDialogFragment = TaskDetailsDialogFragment.newInstance(taskItem.title, taskItem.taskId)
         bottomSheet.show(supportFragmentManager, "bottomSheet")
     }
 
@@ -190,6 +202,10 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
 
     override fun updateUI(option: String) {
 
+    }
+
+    override fun onTaskDetailChanged() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun hideAddTaskDialog() {

@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    // Main colors
+    <color name="colorPrimary">#333644</color>
+    <color name="colorPrimaryDark">#1F2232</color>
+    <color name="colorAccent">#66947C</color>
+    <color name="appBlack">#0d0c0c</color>
 
-    <color name="lightGreyText">#dedfe0</color>
+    <color name="appWhite">#FDFEFD</color>
+    <color name="bestGray">#DBDBDB</color>
+    <color name="appLightGray">#dedfe0</color>
+    <color name="appRegularGray">#979C97</color>
+
+
+    // Gradient colors
+    <color name="steelGrayRealEntryColor">#1f1c2c</color>
+    <color name="steelGrayEntryColor">#2e2c36</color>
+    <color name="steelGrayEndColor">#928dab</color>
 
 </resources>

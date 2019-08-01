@@ -12,7 +12,7 @@
     <style name="ExpandedText" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/lightGreyText</item>
+        <item name="android:textColor">@color/appLightGray</item>
         <item name="android:typeface">sans</item>
     </style>
 
@@ -30,6 +30,7 @@
 
     <style name="FullScreenDialogTheme" parent="Theme.AppCompat.DayNight.DialogWhenLarge">
         <item name="android:statusBarColor">#000000</item>
+        <item name="toolbarStyle">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.AppCompat.Dialog</item>
     </style>

@@ -11,22 +11,26 @@ import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.RedeemCode
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
+import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.google.firebase.storage.StorageReference
 
 class FirebaseDataReader : BaseActivity () {
+
+    val c = FirebaseConstants
 
     /// Getting user data
     fun getUserData(userID : String, userDataPresenter: UserDataPresenter){
         lateinit var person : User
         Log.d("chuj", "tujeste")
-        db.collection("users").document("perfectUser").get()
+        db.collection(c.USERS_COLLECTION_NAME).document(userID).get()
             .addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot.exists()){
-                    var firstName = documentSnapshot.getString("first_name").toString()
-                    var lastName = documentSnapshot.getString("last_name").toString()
-                    var artistRole = documentSnapshot.getString("artist_role").toString()
-                    var pageRole = documentSnapshot.getString("page_role").toString()
-                    person = User(firstName, lastName, artistRole, pageRole)
+                    var firstName = documentSnapshot.getString(c.FIRST_NAME).toString()
+                    var lastName = documentSnapshot.getString(c.LAST_NAME).toString()
+                    var artistRole = documentSnapshot.getString(c.ARTIST_ROLE).toString()
+                    var pageRole = documentSnapshot.getString(c.PAGE_ROLE).toString()
+                    var currentArtistPageId = documentSnapshot.getString(c.CURRENT_ARTIST_PAGE).toString()
+                    person = User(firstName, lastName, artistRole, pageRole, currentArtistPageId)
                 }
                 Log.d("chuj", documentSnapshot.data.toString())
                 userDataPresenter.showUserData(person)

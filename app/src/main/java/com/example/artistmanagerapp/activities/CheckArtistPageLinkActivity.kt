@@ -16,7 +16,7 @@ class CheckArtistPageLinkActivity : BaseActivity() {
     }
 
     fun goToCreateOrJoinActivity(){
-        val intent = Intent(this, CreateOrJoinActivity::class.java)
+        //val intent = Intent(this, CreateOrJoinActivity::class.java)
         startActivity(intent)
     }
 

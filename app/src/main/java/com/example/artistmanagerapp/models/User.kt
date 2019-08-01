@@ -8,6 +8,7 @@ class User {
     var pageRole : String? = null
     var artistRole : String? = null
     var artistPages : ArrayList<ArtistPage>? = null
+    var currentArtistPageId : String? = null
 
 
 
@@ -29,5 +30,12 @@ class User {
         this.artistRole = artistRole
     }
 
+    constructor(firstName: String?, lastName: String?, artistRole: String?, pageRole: String?, currentArtistPageId: String?) {
+        this.firstName = firstName
+        this.lastName = lastName
+        this.pageRole = pageRole
+        this.artistRole = artistRole
+        this.currentArtistPageId = currentArtistPageId
+    }
 
 }

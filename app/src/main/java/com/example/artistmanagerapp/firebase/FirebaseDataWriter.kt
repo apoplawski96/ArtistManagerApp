@@ -29,7 +29,7 @@ class FirebaseDataWriter : BaseActivity(){
         val userInfo = User(userId, "admin") // PAGE ROLE SOMEHOW DOESN'T ADD TO DATABASE
         var artistPageInfo = HashMap<String, Any>()
 
-        // Adding record to artist_pages collection
+        // Adding page record to artist_pages collection
         artistPagesCollectionPath.document(pageId).set(artistPage, SetOptions.merge()).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "Artist page successfully created: $artistPage")
             uiUpdater.updateUI(const.ARTIST_PAGE_CREATED)
@@ -38,17 +38,14 @@ class FirebaseDataWriter : BaseActivity(){
         }
 
         // Adding user record and admin info to artist page record
-        artistPagesCollectionPath.document(pageId).collection("page_members").document(userId).set(userInfo, SetOptions.merge()).addOnSuccessListener {
+        artistPagesCollectionPath.document(pageId).collection("pageMembers").document(userId).set(userInfo, SetOptions.merge()).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "User info successfully added to page_members collection: $userInfo")
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
 
-        //artistPageInfo.put("artistPageName", artistPage.artistName.toString())
-        artistPageInfo.put("pageRole", "admin")
-
         // Adding artist page link to user data
-        userPath.collection("artist_pages").document(pageId).set(artistPageInfo, SetOptions.merge()).addOnSuccessListener {
+        userPath.collection("artistPages").document(pageId).set(artistPageInfo, SetOptions.merge()).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "Artist page info successfully added to user record: $artistPageInfo")
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")

@@ -60,7 +60,7 @@ class GridMenuFragment : Fragment() {
     fun populateMenuItemsList(){
         menuItemsList.add(MenuItem("Task manager", R.mipmap.cover2))
         menuItemsList.add(MenuItem("chuj2", R.mipmap.cover2))
-        menuItemsList.add(MenuItem("chuj3", R.mipmap.cover2))
+        menuItemsList.add(MenuItem("Change or create new ArtistPage!", R.mipmap.cover2))
     }
 
 }

@@ -48,6 +48,10 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     var redeemCodeSubmitButton : Button? = null
     var dialogClose2 : TextView? = null
     var dialogBackgroundImage : ImageView? = null
+    var createArtistPageTV : TextView? = null
+    var joinArtistPageTV : TextView? = null
+    var createDialogProgressBar : ProgressBar? = null
+    var redeemDialogProgressBar : ProgressBar? = null
 
     // Adapters
     private var adapter: SelectArtistPageAdapter? = null
@@ -64,7 +68,6 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     // Objects
     val const = Constants
     val utils = Utils
-    val fileUploader = StorageFileUploader()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +89,11 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         fabMin1 = findViewById(R.id.fab_mini_1)
         fabMin2 = findViewById(R.id.fab_mini_2)
         noPagesText = findViewById(R.id.no_pages_text)
+        createArtistPageTV = findViewById(R.id.create_artist_page)
+        joinArtistPageTV = findViewById(R.id.join_artist_page)
+        createDialogProgressBar = findViewById(R.id.create_dialog_progress_bar)
+        redeemDialogProgressBar = findViewById(R.id.redeem_dialog_progress_bar)
+        redeemDialogProgressBar?.visibility = View.GONE
 
         // Dialog stuff
         createPageDialog = Dialog(this)
@@ -105,18 +113,18 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         // Setting up Floating Action Button
         fab?.setOnClickListener {
             if (isFABOpen == false){
-                showFABMenu()
+                //showFABMenu()
             } else {
-                closeFABMenu()
+                //closeFABMenu()
             }
         }
+
+        createArtistPageTV?.setOnClickListener {showCreatePageDialog()}
+        joinArtistPageTV?.setOnClickListener { showRedeemCodeDialog() }
 
         // Setting up "Create Page" Floating Action Button
         fabMin1?.setOnClickListener { if (isFABOpen == true){ showCreatePageDialog() } }
         fabMin2?.setOnClickListener { if (isFABOpen == true){ showRedeemCodeDialog() } }
-
-        // TO DELETE LATER
-        dataWriter?.generateRedeemCode("20202020", userId, "20202020")
 
     }
 
@@ -163,7 +171,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     override fun updateUI(option : String) {
         when (option){
             const.ARTIST_PAGE_CREATED -> {
-
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
             const.CODE_SUCCESSFULLY_REDEEMED -> {
 
@@ -176,7 +185,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         Toast.makeText(this, artistPage.toString(), Toast.LENGTH_SHORT).show()
     }
 
-    private fun showFABMenu() {
+    /*private fun showFABMenu() {
         isFABOpen = true
         Toast.makeText(this, "show", Toast.LENGTH_SHORT).show()
         fabMin1?.animate()?.translationY(resources.getDimension(R.dimen.standard_55))
@@ -190,7 +199,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         fabMin1?.animate()?.translationY(0.toFloat())
         fabMin2?.animate()?.translationY(0.toFloat())
         fabMin3?.animate()?.translationY(0.toFloat())
-    }
+    }*/
 
     private fun showCreatePageDialog(){
         isCreatePageDialogOpen = true
@@ -209,8 +218,9 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
         dialogCreatePageButton?.setOnClickListener {
             var pageNameInputText = dialogNameInput?.text.toString()
-            var artistPage = ArtistPage(pageNameInputText)
+            var artistPage = ArtistPage(pageNameInputText, userId)
 
+            showProgress()
             dataWriter?.createArtistPage(artistPage, this, userId)
         }
 
@@ -272,8 +282,18 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     override fun receiveCodesList(codesList: ArrayList<RedeemCode>) { }
 
+    override fun showProgress() {
+        dialogNameInput?.visibility = View.GONE
+        dialogClose?.visibility = View.GONE
+        dialogCreatePageButton?.visibility = View.GONE
+        createDialogProgressBar?.visibility = View.VISIBLE
+    }
 
-    fun codeRedeemedUiUpdater(){
+    override fun hideProgress() {
+        createDialogProgressBar?.visibility = View.GONE
+    }
+
+    fun codeRedeemedUiUpdater() {
 
     }
 

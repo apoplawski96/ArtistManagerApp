@@ -8,4 +8,6 @@ interface TaskUpdater {
     fun showProgressBar()
     fun hideProgressBar()
     fun hideAddTaskDialog()
+    fun onTaskDetailChanged()
+    fun onError(errorLog : String?)
 }

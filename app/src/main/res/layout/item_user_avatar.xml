@@ -4,7 +4,18 @@
                                                  android:layout_height="35dp">
 
     <com.makeramen.roundedimageview.RoundedImageView android:layout_width="match_parent"
-                                                     android:layout_height="match_parent" android:id="@+id/user_avatar_list"/>
+                                                     android:layout_height="match_parent" android:id="@+id/avatar_stroke" android:visibility="gone"/>
+
+    <com.makeramen.roundedimageview.RoundedImageView android:layout_width="33dp" android:layout_height="33dp"
+                                                     android:id="@+id/avatar"
+                                                     app:riv_corner_radius="35dp"
+                                                     app:layout_constraintStart_toStartOf="parent"
+                                                     app:layout_constraintEnd_toStartOf="@+id/avatar_stroke"
+                                                     app:layout_constraintTop_toTopOf="parent"
+                                                     app:layout_constraintBottom_toTopOf="@+id/avatar_stroke"
+                                                     android:background="@color/colorAccent"
+                                                     app:layout_constraintHorizontal_bias="0.0"
+                                                     app:layout_constraintVertical_bias="0.0"/>
 
     <TextView android:layout_width="match_parent" android:layout_height="match_parent"
               android:id="@+id/username_acronym" android:text="AP" android:textSize="@dimen/font_larger"

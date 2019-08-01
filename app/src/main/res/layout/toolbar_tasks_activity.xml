@@ -22,7 +22,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
-                    android:textColor="@color/lightGreyText"
+                    android:textColor="@color/appLightGray"
                     android:id="@+id/toolbar_activity_description" app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"

@@ -52,11 +52,7 @@ class SplashScreenActivity : BaseActivity() {
     }
 
     fun checkIfUserLoggedIn(user : FirebaseUser?) : Boolean{
-        if (user != null){
-            return true
-        } else {
-            return false
-        }
+        return user != null
     }
 
 }

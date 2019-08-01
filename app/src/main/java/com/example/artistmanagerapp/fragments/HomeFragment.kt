@@ -41,6 +41,8 @@ class HomeFragment : BaseFragment(), UserDataPresenter {
     var displayName : TextView? = null
     var artistRole : TextView? = null
     var taskListRecyclerView : RecyclerView? = null
+    var helloUser : TextView? = null
+    var thisIsBandName : TextView? = null
     //var userAvatar : CircleImageView? = null
     //var bandAvatar : CircleImageView? = null
 
@@ -54,6 +56,8 @@ class HomeFragment : BaseFragment(), UserDataPresenter {
         taskListRecyclerView = rootView.findViewById(R.id.task_list_home_recyclerview) as RecyclerView
         displayName = rootView.findViewById(R.id.user_display_name)
         artistRole = rootView.findViewById(R.id.role_display_name)
+        helloUser = rootView.findViewById(R.id.hello_user)
+        thisIsBandName = rootView.findViewById(R.id.this_is_band_name)
         val userAvatar = rootView.findViewById(R.id.user_avatar_home) as CircleImageView
         val bandAvatar = rootView.findViewById(R.id.background_band) as ImageView
 
@@ -71,7 +75,7 @@ class HomeFragment : BaseFragment(), UserDataPresenter {
         taskListRecyclerView?.adapter = adapter*/
 
         // Show user data
-        FirebaseDataReader().getUserData("perfectUser", this)
+        FirebaseDataReader().getUserData(user?.uid.toString(), this)
 
         // Load avatar
         val storageRef = FirebaseStorage.getInstance().reference
@@ -90,8 +94,8 @@ class HomeFragment : BaseFragment(), UserDataPresenter {
     }*/
 
     override fun showUserData(userData: User) {
-        //displayName?.setText(userData.firstName + " " + userData.lastName)
-        //artistRole?.setText(userData.artistRole)
+        helloUser?.text = "Hello ${userData.firstName}"
+        thisIsBandName?.text = "This is currentArtistPageId ${userData.currentArtistPageId.toString()}"
     }
 
     fun taskItemClicked (taskItem : Task){

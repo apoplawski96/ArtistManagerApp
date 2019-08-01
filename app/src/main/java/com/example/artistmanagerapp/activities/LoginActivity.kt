@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity() {
 
@@ -31,6 +32,11 @@ class LoginActivity : BaseActivity() {
         loginButton.setOnClickListener {
             var loadAuthFieldsResult = loadAuthFields(loginEmailEditText, loginPasswordEditText)
             signIn(loadAuthFieldsResult.email, loadAuthFieldsResult.password, auth)
+        }
+
+        go_to_signup_activity.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
 
     }

@@ -11,6 +11,7 @@ import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.firebase.FirebaseDataWriter
 import com.example.artistmanagerapp.interfaces.UserDataPresenter
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
+import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -32,6 +33,7 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
 
     // Others
     var ifInputsCorrect : Boolean? = null
+    val c = FirebaseConstants
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +62,7 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
             if (ifInputsCorrect == true){
                 mapDataFromTextInputs(firstNameInput, lastNameInput)
                 // We mark completion status as completed
-                userProfileData.put("profile_completion_status", "completed")
+                userProfileData.put(c.PROFILE_COMPLETION_STATUS, c.V_PROFILE_STATUS_COMPLETED)
                 FirebaseDataWriter().addUserDataToDbAndUpdateUi(usersCollectionPath, userProfileData, user?.uid.toString(), this)
             } else {
 
@@ -74,15 +76,9 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
         var userId = user?.uid.toString()
         var userEmail = user?.email.toString()
 
-        // Paths
-        var userPath = db.collection(R.string.firestore_users_collection.toString()).document(userId)
-        var userPathId = db.collection(R.string.firestore_users_collection.toString()).document(userId).id
-        var artistsPath = db.collection(R.string.firestore_users_collection.toString()).document(userId).collection(R.string.firestore_artistpages_collection.toString()).document()
-        var hartistsPath = db.collection(R.string.firestore_users_collection.toString()).document(userId).collection("asdasdasd").document().id
-
         // Setting up init user data to collection
-        userInitData.put("email_address", userEmail)
-        userInitData.put("profile_completion_status", "started")
+        userInitData.put(c.EMAIL, userEmail)
+        userInitData.put(c.PROFILE_COMPLETION_STATUS, c.V_PROFILE_STATUS_STARTED)
 
         // Writing init user data to database
         db.collection("users").document(userId).set(userInitData).addOnSuccessListener {
@@ -97,8 +93,8 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
     }
 
     fun mapDataFromTextInputs(firstName : EditText?, lastName : EditText?){
-        userProfileData.put("first_name", firstName?.text.toString())
-        userProfileData.put("last_name", lastName?.text.toString())
+        userProfileData.put(c.FIRST_NAME, firstName?.text.toString())
+        userProfileData.put(c.LAST_NAME, lastName?.text.toString())
     }
 
     fun validateInputs(firstName : EditText?, lastName : EditText?) : Boolean{
@@ -117,6 +113,14 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
 
     override fun initializeUI() {
 
+    }
+
+    override fun hideProgress() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showProgress() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     // ************************************ FUNCTIONS SECTION ENDS ************************************

@@ -4,20 +4,20 @@ class ArtistPage {
 
     var artistName : String? = null
     var id : String? = null
-    var artistPageAdmin : User? = null
+    var artistPageAdminId : String? = null
 
     constructor(mArtistName: String?){
         this.artistName = mArtistName
     }
 
-    constructor(mArtistName: String?, mId : String?){
+    constructor(mArtistName: String?, mArtistPageAdminId : String?){
         this.artistName = mArtistName
-        this.id = mId
+        this.artistPageAdminId = mArtistPageAdminId
     }
 
-    constructor(mArtistName: String?, mId: String?, mArtistPageAdmin : User?) {
+    constructor(mArtistName: String?, mId: String?, mArtistPageAdminId : String?) {
         this.artistName = mArtistName
         this.id = mId
-        this.artistPageAdmin = mArtistPageAdmin
+        this.artistPageAdminId = mArtistPageAdminId
     }
 }
