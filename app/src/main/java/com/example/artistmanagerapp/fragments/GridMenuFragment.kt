@@ -15,9 +15,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 
 import com.example.artistmanagerapp.R
-import com.example.artistmanagerapp.activities.MainActivity
-import com.example.artistmanagerapp.activities.TaskDetailsActivity
-import com.example.artistmanagerapp.activities.TaskListActivity
+import com.example.artistmanagerapp.activities.*
 import com.example.artistmanagerapp.adapters.MenuAdapter
 import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.models.MenuItem
@@ -47,20 +45,28 @@ class GridMenuFragment : Fragment() {
     }
 
     fun menuItemClicked (menuItem: MenuItem){
-        Toast.makeText(activity, "Clicked: ${menuItem.itemName}", Toast.LENGTH_SHORT).show()
         var intent : Intent? = null
+        var option = menuItem.itemName
 
-        if (menuItem.itemName.equals("Task manager")){
-            intent = Intent(activity, TaskListActivity::class.java)
+        when (option){
+            "Task manager" ->  intent = Intent(activity, TaskListActivity::class.java)
+            "Events calendar" -> intent = Intent(activity, EventsManagerActivity::class.java)
+            "Switch/create artist page" -> intent = Intent(activity, SelectArtistPageActivity::class.java)
         }
 
-        startActivity(intent)
+
+        /*if (menuItem.itemName.equals("Task manager")){
+            intent = Intent(activity, TaskListActivity::class.java)
+        }*/
+
+        if (intent != null){ startActivity(intent) }
     }
 
     fun populateMenuItemsList(){
-        menuItemsList.add(MenuItem("Task manager", R.mipmap.cover2))
-        menuItemsList.add(MenuItem("chuj2", R.mipmap.cover2))
-        menuItemsList.add(MenuItem("Change or create new ArtistPage!", R.mipmap.cover2))
+        menuItemsList.add(MenuItem("Task manager", R.mipmap.cover1))
+        menuItemsList.add(MenuItem("Events manager", R.mipmap.cover3))
+        menuItemsList.add(MenuItem("Electronic Press Kit", R.mipmap.cover_photo_4))
+        menuItemsList.add(MenuItem("Switch/create artist page", R.mipmap.cover2))
     }
 
 }

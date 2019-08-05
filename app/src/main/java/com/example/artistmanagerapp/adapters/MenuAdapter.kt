@@ -34,6 +34,7 @@ class MenuAdapter (var menuItemsList : ArrayList<MenuItem>, val clickListener: (
         fun bind (menuItem : MenuItem, clickListener: (MenuItem) -> Unit){
             itemView.setOnClickListener {clickListener(menuItem)}
             itemView.menu_item_name.text = menuItem.itemName
+            itemView.menu_item_image.setImageResource(menuItem.itemImage)
         }
     }
 }

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
-                                             android:layout_height="144dp">
+                                             android:layout_height="137dp" android:layout_marginHorizontal="8dp" android:layout_marginTop="8dp">
 
     <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="centerCrop" android:id="@+id/menu_item_image"/>
 
+    <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/appBlack" android:alpha="0.5"></View>
+
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/menu_item_name"
-              app:layout_constraintBottom_toBottomOf="@+id/menu_item_image"
-              app:layout_constraintStart_toStartOf="parent"/>
+              app:layout_constraintBottom_toBottomOf="@+id/menu_item_image" android:textColor="@color/appWhite"
+              app:layout_constraintStart_toStartOf="parent" android:text="Costamcostam" android:textSize="@dimen/font_larger" android:fontFamily="@font/medium" android:layout_margin="4dp"/>
 
 </android.support.constraint.ConstraintLayout>
