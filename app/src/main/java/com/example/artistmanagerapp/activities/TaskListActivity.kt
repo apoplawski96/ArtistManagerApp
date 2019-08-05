@@ -105,9 +105,11 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
         // ShowCompletedTasks onClick setup
         showCompletedTasks?.setOnClickListener {
             if (isCompletedTasksListVisible == false){
+                showCompletedTasks?.text = "Hide completed tasks"
                 completedTaskListRecyclerView?.visibility = View.VISIBLE
                 isCompletedTasksListVisible = true
             } else {
+                showCompletedTasks?.text = "Show completed tasks"
                 completedTaskListRecyclerView?.visibility = View.GONE
                 noCompletedTasksTextView?.visibility = View.GONE
                 isCompletedTasksListVisible = false

@@ -142,6 +142,8 @@
 
     <CalendarView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/calendar_view" android:visibility="visible"/>
+            android:layout_height="wrap_content" android:id="@+id/calendar_view" android:visibility="visible"
+            android:unfocusedMonthDateColor="@color/appWhite" android:weekNumberColor="@color/appLightGray"
+            android:selectedWeekBackgroundColor="@color/appWhite"/>
 
 </LinearLayout>

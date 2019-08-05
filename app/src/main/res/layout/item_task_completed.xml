@@ -5,19 +5,22 @@
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+        <android.support.constraint.ConstraintLayout android:layout_width="match_parent" android:background="@color/colorPrimaryDark"
                                                      android:layout_height="64dp">
             <TextView
                     android:text="Send payment to HoldTight PR"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/montserrat"
                     android:id="@+id/task_title" app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="8dp"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.18" android:outlineProvider="none"
-                    style="@style/Widget.AppCompat.TextView.SpinnerItem"/>
+                    android:outlineProvider="none"
+                    style="@style/Widget.AppCompat.TextView.SpinnerItem"
+                    app:layout_constraintStart_toEndOf="@+id/check_box"
+                    app:layout_constraintHorizontal_bias="0.11"/>
             <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -34,6 +37,7 @@
                     android:text="07/08/2020"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/light"
                     android:id="@+id/due_date" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
                     android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent" android:textSize="12sp"/>

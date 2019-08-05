@@ -1,6 +1,7 @@
 package com.example.artistmanagerapp.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Paint
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -68,7 +69,8 @@ class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var ta
 
         fun setupCheckBoxStatus(){
             if (itemView.check_box.isChecked){
-                //itemView.task_title.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                itemView.task_title.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                itemView.task_title.setTextColor(Color.parseColor("#979C97"))
             } else if (!itemView.check_box.isChecked){
                 //itemView.task_title.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
