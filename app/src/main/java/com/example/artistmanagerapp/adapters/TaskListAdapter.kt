@@ -18,7 +18,8 @@ import com.example.artistmanagerapp.utils.TaskHelper
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.android.synthetic.main.item_task.view.*
 
-class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var taskList : ArrayList<Task>, pathToTasksCollection : CollectionReference, val clickListener: (Task) -> Unit) : RecyclerView.Adapter<TaskListAdapter.ViewHolder>(){
+class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var taskList : ArrayList<Task>, pathToTasksCollection : CollectionReference, val clickListener: (Task) -> Unit)
+    : RecyclerView.Adapter<TaskListAdapter.ViewHolder>(){
 
     var path : CollectionReference = pathToTasksCollection
     val taskUpdater : TaskUpdater = taskUpdater
@@ -34,6 +35,7 @@ class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var ta
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(taskUpdater, taskList[position], clickListener)
+
     }
 
 
@@ -48,7 +50,14 @@ class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var ta
         val mTaskUpdater : TaskUpdater = taskUpdater
 
         fun bind (taskUpdater : TaskUpdater, task : Task, clickListener: (Task) -> Unit){
-            itemView.setOnClickListener {clickListener(task)}
+
+            itemView.setOnClickListener { clickListener(task) }
+
+            itemView.setOnLongClickListener {
+                taskUpdater.onTaskLongClicked(itemView)
+                true
+            }
+
             itemView.task_title.text = task.title
             val taskUpdater = mTaskUpdater
 

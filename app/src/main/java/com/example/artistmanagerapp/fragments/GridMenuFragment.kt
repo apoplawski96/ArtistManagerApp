@@ -29,8 +29,20 @@ class GridMenuFragment : Fragment() {
     // Adapters
     private var adapter: MenuAdapter? = null
 
+    companion object {
+        @JvmStatic
+        fun newInstance(pageId : String) : GridMenuFragment {
+            val fragment = GridMenuFragment()
+            val bundle = Bundle().apply{ putString ("PAGE_ID", pageId) }
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_grid_menu, container, false)
+
+        val pageId = arguments?.getString("PAGE_ID").toString()
 
         // Views
         var menuRecyclerView = rootView.findViewById(R.id.menu_recycler_view) as RecyclerView

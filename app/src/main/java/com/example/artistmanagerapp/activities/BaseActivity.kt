@@ -45,8 +45,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     // Views
     var toolbarActivityDescription : TextView? = null
-    var toolbarBackButton : ImageView? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

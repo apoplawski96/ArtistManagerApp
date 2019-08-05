@@ -19,6 +19,8 @@ object TaskHelper : BaseActivity() {
     // Objects
     val c = Constants
 
+    // ************************************************ \WRITE FUNCTIONS ************************************************
+
     // Adding Task object to a specified collection path
     fun addTask (task : Task, pathToTasksCollection : CollectionReference, taskUpdater: TaskUpdater){
         pathToTasksCollection.document().set(task).addOnSuccessListener {
@@ -37,6 +39,28 @@ object TaskHelper : BaseActivity() {
 
         }
     }
+
+    // Setting tasks due date
+    fun setTaskDueDate(taskId: String?, dueDate: String?, currentArtistPageId: String?, tasksUpdater: TaskUpdater){
+        var updateData = HashMap <String, Any>()
+        updateData.put("dueDate", dueDate.toString())
+
+        artistPagesCollectionPath.document(currentArtistPageId.toString()).collection("tasks").document(taskId.toString()).set(updateData).addOnSuccessListener {
+            tasksUpdater.onTaskDetailChanged()
+        }.addOnFailureListener {
+            Log.d("FirebaseError", it.toString())
+            tasksUpdater.onError(it.toString())
+        }
+    }
+
+    fun deleteTask(taskId : String?, currentArtistPageId: String?, tasksUpdater: TaskUpdater){
+
+    }
+
+
+    // ************************************************ WRITE FUNCTIONS/ ***********************************************
+
+    // ************************************************ \READ FUNCTIONS ************************************************
 
     fun returnTasksWhereEqualTo (pathToTasksCollection: CollectionReference, key : String, value : String) : Query {
         return pathToTasksCollection.whereEqualTo(key, value)
@@ -96,17 +120,6 @@ object TaskHelper : BaseActivity() {
         return outputList
     }
 
-    // Setting tasks due date
-    fun setTaskDueDate(taskId: String?, dueDate: String?, currentArtistPageId: String?, tasksUpdater: TaskUpdater){
-        var updateData = HashMap <String, Any>()
-        updateData.put("dueDate", dueDate.toString())
-
-        artistPagesCollectionPath.document(currentArtistPageId.toString()).collection("tasks").document(taskId.toString()).set(updateData).addOnSuccessListener {
-            tasksUpdater.onTaskDetailChanged()
-        }.addOnFailureListener {
-            Log.d("FirebaseError", it.toString())
-            tasksUpdater.onError(it.toString())
-        }
-    }
+    // ************************************************ READ FUNCTIONS/ ************************************************
 
 }

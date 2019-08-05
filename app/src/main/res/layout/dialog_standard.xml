@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="300dp"
+              android:layout_height="wrap_content" android:padding="8dp">
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/dialog_header"
+              android:layout_marginHorizontal="8dp"
+              android:layout_marginTop="8dp"
+              android:fontFamily="@font/montserrat"
+              android:textSize="@dimen/font_larger"
+              android:textColor="@color/appWhite" android:text="@string/dummy_header"/>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/dialog_message"
+              android:layout_marginHorizontal="8dp"
+              android:layout_marginTop="8dp"
+              android:fontFamily="@font/light"
+              android:textSize="@dimen/font_normal"
+              android:textColor="@color/appLightGray" android:text="@string/dummy_body"/>
+    
+    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+                                                 android:layout_height="wrap_content" android:layout_marginBottom="8dp">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/dialog_accept_button"
+                  android:fontFamily="@font/montserrat"
+                  android:layout_marginHorizontal="8dp"
+                  android:textSize="@dimen/font_large"
+                  android:text="Accept"
+                  android:textColor="@color/appWhite" app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/dialog_cancel_button"
+                  android:fontFamily="@font/montserrat"
+                  android:textSize="@dimen/font_large"
+                  android:text="Cancel"
+                  android:textColor="@color/appWhite" android:layout_marginEnd="24dp"
+                  app:layout_constraintEnd_toStartOf="@+id/dialog_accept_button"
+                  app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

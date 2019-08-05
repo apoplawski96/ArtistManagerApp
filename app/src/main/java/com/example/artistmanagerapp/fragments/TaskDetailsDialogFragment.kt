@@ -22,6 +22,7 @@ import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.interfaces.UsersListListener
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
+import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.TaskHelper
 import com.example.artistmanagerapp.utils.UsersHelper
 import com.example.artistmanagerapp.utils.Utils
@@ -141,7 +142,7 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         calendarView?.setOnDateChangeListener { calendarView, year, month, day ->
             date = "$day/${month+1}/$year"
             Log.d("CALENDAR", date)
-            activateActionToolbar()
+            activateActionToolbar(Constants.CALENDAR_ON_DATE_CHANGED)
         }
 
         return rootView
@@ -209,6 +210,10 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
 
     }
 
+    override fun onTaskLongClicked(itemView: View) {
+
+    }
+
     fun populateUsersListWithFakeData(usersList : ArrayList<User>){
         usersList.add(User ("123", "hui", "hui2"))
         usersList.add(User ("124", "hui", "mui2"))
@@ -217,12 +222,26 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
     }
 
     // Whole ActionToolbar setup here!
-    fun activateActionToolbar(){
+    override fun activateActionToolbar(option : String){
+        val c = Constants
+
+        // Standard set of UI changes
         isToolbarActivated = true
         toolbarBackButton?.visibility = View.GONE
         toolbarConfirmButton?.visibility = View.VISIBLE
         toolbarDismissButton?.visibility = View.VISIBLE
-        toolbarMidText?.text = "Active"
+
+
+        when (option){
+            c.CALENDAR_ON_DATE_CHANGED -> {
+                toolbarMidText?.text = "Active"
+            }
+            c.TASKS_ON_LONG_CLICKED -> {
+                toolbarMidText?.text = "Active"
+            }
+        }
+
+
 
         // Confirm button onclick here!
         toolbarConfirmButton?.setOnClickListener {

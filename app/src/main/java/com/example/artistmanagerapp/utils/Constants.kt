@@ -21,6 +21,10 @@ object Constants {
     val USER_ADDED_TO_DB : String = "USER_ADDED_TO_DB"
     val ARTIST_PAGE_SELECTED : String = "ARTIST_PAGE_SELECTED"
 
+    // Options - TaskManager ActionToolbar activation
+    val TASKS_ON_LONG_CLICKED : String = "TASKS_ON_LONG_CLICKED"
+    val CALENDAR_ON_DATE_CHANGED : String = "CALENDAR_ON_DATE_CHANGED"
+
     // FIREBASE - TASK OBJECT FIELDS NAMES
     val FB_TASK_ISCOMPLETED : String = "completed"
 

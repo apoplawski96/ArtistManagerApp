@@ -2,8 +2,10 @@ package com.example.artistmanagerapp.activities
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v7.view.menu.ActionMenuItemView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
 import android.support.v7.widget.RecyclerView
@@ -15,10 +17,14 @@ import com.example.artistmanagerapp.fragments.TaskDetailsDialogFragment
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.Task
+import com.example.artistmanagerapp.ui.DialogCreator
+import com.example.artistmanagerapp.utils.ConstMessages
+import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.TaskHelper
 import com.google.firebase.firestore.CollectionReference
+import kotlinx.android.synthetic.main.item_task.view.*
 
-class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
+class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, DialogCreator.DialogControllerCallback{
 
     // Constants
     val ACTIVITY_DESCRIPTION = "Tasks"
@@ -30,12 +36,19 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
     var completedTaskListRecyclerView : RecyclerView? = null
     var noTasksTextView : TextView? = null
     var noCompletedTasksTextView : TextView? = null
-    var toolbarProgressBar : ProgressBar? = null
+
     var fabTasksActivity : FloatingActionButton? = null
     var addNewTaskDialog : Dialog? = null
     var taskNameInput : EditText? = null
     var tasksDialogClose : TextView? = null
     var addTaskSubmitButton : Button? = null
+
+    // Views - Toolbar
+    var toolbarMidText : TextView? = null
+    var toolbarBackButton : ImageView? = null
+    var toolbarProgressBar : ProgressBar? = null
+    var toolbarDismissButton : ImageView? = null
+    var toolbarDeleteButton : ImageView? = null
 
     // Collections
     private var tasksList : ArrayList <Task> = ArrayList()
@@ -49,6 +62,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
     var isCompletedTasksListVisible : Boolean? = false
     var isAddNewTaskDialogOpen : Boolean? = false
     var isBottomSheetExpanded : Boolean? = false
+    var isToolbarActivated : Boolean? = false
 
     // Firebase
     lateinit var pathToTasksCollection : CollectionReference
@@ -68,8 +82,14 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
         showCompletedTasks = findViewById(R.id.show_completed_tasks)
         noTasksTextView = findViewById(R.id.no_open_tasks_tv)
         noCompletedTasksTextView = findViewById(R.id.no_completed_tasks_tv)
-        toolbarProgressBar = findViewById(R.id.toolbar_progress_bar)
         fabTasksActivity = findViewById(R.id.fab_tasks_list)
+
+        // Views - Toolbar
+        toolbarMidText = findViewById(R.id.toolbar_task_details_text)
+        toolbarBackButton = findViewById(R.id.toolbar_back_button)
+        toolbarDismissButton = findViewById(R.id.toolbar_dismiss_button)
+        toolbarDeleteButton = findViewById(R.id.toolbar_delete)
+        toolbarProgressBar = findViewById(R.id.toolbar_progress_bar)
 
         // AddNewTaskDialog stuff
         addNewTaskDialog = Dialog(this)
@@ -214,6 +234,13 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
         onBackPressed()
     }
 
+    override fun onTaskLongClicked(itemView : View) {
+        Toast.makeText(this, "chuuuui", Toast.LENGTH_SHORT).show()
+        //itemView.task_title.setTextColor(Color.parseColor("#b02a2a"))
+        setTaskColorWarning(itemView)
+        activateActionToolbar(Constants.TASKS_ON_LONG_CLICKED)
+    }
+
     private fun showAddNewTaskDialog(){
         isAddNewTaskDialogOpen = true
 
@@ -240,6 +267,46 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater{
     private fun hideAddNewTaskDialog(){
         isAddNewTaskDialogOpen = false
         addNewTaskDialog?.hide()
+    }
+
+    override fun activateActionToolbar(option: String) {
+        val c = Constants
+
+        // Standard set of UI changes
+        isToolbarActivated = true
+
+        when (option){
+            c.TASKS_ON_LONG_CLICKED -> {
+                toolbarMidText?.text = "Delete task"
+                toolbarBackButton?.visibility = View.GONE
+                toolbarDeleteButton?.visibility = View.VISIBLE
+                toolbarDismissButton?.visibility = View.VISIBLE
+            }
+        }
+
+        // Confirm button onclick here!
+        toolbarDeleteButton?.setOnClickListener {
+            DialogCreator.showDialog(DialogCreator.DialogType.TASK_DELETE_WARNING, this, this)
+        }
+
+    }
+
+    override fun onAccept() {
+        Toast.makeText(this, "Usuniete w chuj", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDismiss() {}
+
+    override fun onShown() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun setTaskColorWarning(itemView: View){
+        itemView.task_item_background.setBackgroundColor(Color.parseColor("#94191f"))
+    }
+
+    fun setTaskColorDefault(itemView: View){
+        itemView.task_item_background.setBackgroundColor(Color.parseColor("#2e2c36"))
     }
 
 }

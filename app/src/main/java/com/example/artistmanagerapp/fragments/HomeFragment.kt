@@ -38,14 +38,24 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver {
     var helloUser : TextView? = null
     var thisIsBandName : TextView? = null
 
+    companion object {
+        @JvmStatic
+        fun newInstance(pageId : String) : HomeFragment {
+            val fragment = HomeFragment()
+            val bundle = Bundle().apply{ putString ("PAGE_ID", pageId) }
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
     override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val pageId = arguments?.getString("PAGE_ID").toString()
 
         // Views
         helloUser = rootView.findViewById(R.id.hello_user)
         thisIsBandName = rootView.findViewById(R.id.this_is_band_name)
-
-        val pathToTasksCollection = perfectArtistPagePath.collection("tasks")
 
         // Load band photo
         //val options = RequestOptions()

@@ -1,5 +1,6 @@
 package com.example.artistmanagerapp.interfaces
 
+import android.view.View
 import com.example.artistmanagerapp.models.Task
 
 interface TaskUpdater {
@@ -9,5 +10,7 @@ interface TaskUpdater {
     fun hideProgressBar()
     fun hideAddTaskDialog()
     fun onTaskDetailChanged()
+    fun onTaskLongClicked(itemView : View)
+    fun activateActionToolbar(option : String)
     fun onError(errorLog : String?)
 }
