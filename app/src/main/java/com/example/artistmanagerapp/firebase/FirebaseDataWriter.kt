@@ -7,6 +7,7 @@ import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.RedeemCode
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
+import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
@@ -14,6 +15,7 @@ import com.google.firebase.firestore.SetOptions
 class FirebaseDataWriter : BaseActivity(){
 
     private val const = Constants
+    private val c = FirebaseConstants
 
     fun addUserDataToDbAndUpdateUi(collectionPath : CollectionReference, dataMap : HashMap<String, Any>, userId : String, uiUpdater: UserInterfaceUpdater){
         collectionPath.document(userId).set(dataMap, SetOptions.merge()).addOnSuccessListener {
@@ -25,11 +27,18 @@ class FirebaseDataWriter : BaseActivity(){
     }
 
     fun createArtistPage(artistPage : ArtistPage, uiUpdater: UserInterfaceUpdater, userId: String){
+        // Setting up data
         val pageId = artistPagesCollectionPath.document().id
         val userInfo = User(userId, "admin") // PAGE ROLE SOMEHOW DOESN'T ADD TO DATABASE
         var artistPageInfo = HashMap<String, Any>()
+        artistPage.artistPageId = pageId
+        artistPage.artistPageAdminId = userId
+        artistPageInfo.put(c.ARTIST_NAME, artistPage.artistName.toString())
+        artistPageInfo.put(c.ARTIST_PAGE_ID, pageId)
+        artistPageInfo.put(c.ARTIST_PAGE_ADMIN_ID, userId)
 
-        // Adding page record to artist_pages collection
+
+        // Adding page record to artistPages collection
         artistPagesCollectionPath.document(pageId).set(artistPage, SetOptions.merge()).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "Artist page successfully created: $artistPage")
             uiUpdater.updateUI(const.ARTIST_PAGE_CREATED)
@@ -45,11 +54,15 @@ class FirebaseDataWriter : BaseActivity(){
         }
 
         // Adding artist page link to user data
-        userPath.collection("artistPages").document(pageId).set(artistPageInfo, SetOptions.merge()).addOnSuccessListener {
+        userPath.collection(c.ARTIST_PAGES_COLLECTION_NAME).document(pageId).set(artistPageInfo, SetOptions.merge()).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "Artist page info successfully added to user record: $artistPageInfo")
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
+
+        // Setting up currentArtistPage
+        userPath.set(mapOf(c.CURRENT_ARTIST_PAGE to pageId), SetOptions.merge()).addOnSuccessListener {  }.addOnFailureListener {  }
+
     }
 
     fun generateRedeemCode(redeemCodeString : String, userId : String, artistPageId : String){

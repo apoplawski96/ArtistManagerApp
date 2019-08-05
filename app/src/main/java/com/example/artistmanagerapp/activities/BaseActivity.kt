@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,8 +32,8 @@ abstract class BaseActivity : AppCompatActivity() {
     val userId = user?.uid.toString()
 
     // Firebase paths
-    val usersCollectionPath = db.collection("users")
-    val artistPagesCollectionPath = db.collection("artistPages")
+    val usersCollectionPath = db.collection(FirebaseConstants.USERS_COLLECTION_NAME)
+    val artistPagesCollectionPath = db.collection(FirebaseConstants.ARTIST_PAGES_COLLECTION_NAME)
     val redeemCodesCollectionPath = db.collection("redeemCodes")
     val userPath = usersCollectionPath.document(userId)
     val userArtistPagesCollectionPath = userPath.collection("artistPages")

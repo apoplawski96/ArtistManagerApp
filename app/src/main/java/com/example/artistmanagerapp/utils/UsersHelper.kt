@@ -1,15 +1,19 @@
 package com.example.artistmanagerapp.utils
 
+import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
-import com.example.artistmanagerapp.interfaces.TaskUpdater
-import com.example.artistmanagerapp.interfaces.UsersListListener
+import com.example.artistmanagerapp.interfaces.*
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.SetOptions
 
-class UsersHelper : BaseActivity() {
+object UsersHelper : BaseActivity() {
 
     val c = FirebaseConstants
+    val const = Constants
+
+    // ************************************************ \READ FUNCTIONS ************************************************
 
     fun parseUsers (pathToUsersCollection : CollectionReference?, listener : UsersListListener){
         var usersOutput : ArrayList<User> = ArrayList()
@@ -34,8 +38,27 @@ class UsersHelper : BaseActivity() {
             }
     }
 
-    fun updateCurrentArtistPage(userId: String, pageId : String){
-        usersCollectionPath.document(userId).update(mapOf("currentArtistPageId" to pageId))
+    fun getCurrentArtistPage (userID : String, dataReceiver: DataReceiver){
+        usersCollectionPath.document(userId).get().addOnSuccessListener { document ->
+            if (document.exists()){
+                val currentArtistPageId : String? = document.get(c.CURRENT_ARTIST_PAGE).toString()
+                dataReceiver.receiveData(currentArtistPageId.toString())
+            } else {
+                Log.d(FIREBASE_ERROR, "Artist page with provided pageId doesn't exist in user data")
+            }
+        }
     }
+
+    // ************************************************ READ FUNCTIONS/ ************************************************
+
+    // ************************************************ \WRITE FUNCTIONS ************************************************
+
+    fun setCurrentArtistPage(userId: String, pageId : String, presenter : UserInterfaceUpdater){
+        usersCollectionPath.document(userId).set(mapOf("currentArtistPageId" to pageId), SetOptions.merge()).addOnSuccessListener {
+            presenter.updateUI(const.ARTIST_PAGE_SELECTED)
+        }.addOnFailureListener {  }
+    }
+
+    // ************************************************ WRITE FUNCTIONS/ ************************************************
 
 }

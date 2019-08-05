@@ -18,15 +18,17 @@ import android.view.View
 import android.widget.*
 import com.example.artistmanagerapp.firebase.FirebaseDataWriter
 import com.example.artistmanagerapp.firebase.StorageFileUploader
+import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.RedeemCodeDataReceiver
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.RedeemCode
 import com.example.artistmanagerapp.utils.Constants
+import com.example.artistmanagerapp.utils.UsersHelper
 import com.example.artistmanagerapp.utils.Utils
 import org.w3c.dom.Text
 import java.io.IOException
 
-class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInterfaceUpdater, RedeemCodeDataReceiver {
+class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInterfaceUpdater, RedeemCodeDataReceiver, DataReceiver {
 
     // Collections
     private var artistPageArrayList : ArrayList <ArtistPage> = ArrayList()
@@ -74,6 +76,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         setContentView(R.layout.activity_select_artist_page)
         Log.d(ACTIVITY_WELCOME_TAG, "Welcome to SelectArtistPageActivity")
 
+        UsersHelper.getCurrentArtistPage(userId, this)
+
         // Booleans initialization
         isFABOpen = false
         isCreatePageDialogOpen = false
@@ -84,7 +88,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         dataWriter = FirebaseDataWriter()
 
         // Views
-        selectArtistRecyclerView = findViewById(R.id.select_artist_recycler_view)
+        selectArtistRecyclerView = findViewById(R.id.artist_page_selector_recycler_view)
         fab = findViewById(R.id.fab_main)
         fabMin1 = findViewById(R.id.fab_mini_1)
         fabMin2 = findViewById(R.id.fab_mini_2)
@@ -160,6 +164,9 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     // RecyclerView presenter method
     override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {
+        noPagesText?.visibility = View.GONE
+        createArtistPageTV?.visibility = View.GONE
+        joinArtistPageTV?.visibility = View.GONE
         adapter?.update(artistPagesList)
     }
 
@@ -177,12 +184,17 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
             const.CODE_SUCCESSFULLY_REDEEMED -> {
 
             }
+            const.ARTIST_PAGE_SELECTED -> {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
-    // RecyclerView onClick
+    // ArtisPage selector RecyclerView onClick
     fun artistPageClicked(artistPage: ArtistPage){
         Toast.makeText(this, artistPage.toString(), Toast.LENGTH_SHORT).show()
+        UsersHelper.setCurrentArtistPage(userId, artistPage.artistPageId.toString(), this)
     }
 
     /*private fun showFABMenu() {
@@ -299,6 +311,12 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     override fun initializeUI() {
 
+    }
+
+    override fun receiveData(data: Any?) {
+        if (data != null){
+            updateUI(const.ARTIST_PAGE_SELECTED)
+        }
     }
 
 }

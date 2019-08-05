@@ -76,7 +76,7 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         val rootView = inflater.inflate(R.layout.fragment_task_details_dialog, container, false)
 
         // Utils objects
-        usersHelper = UsersHelper()
+        usersHelper = UsersHelper
 
         // Collections
         var usersList : ArrayList<User> = ArrayList()

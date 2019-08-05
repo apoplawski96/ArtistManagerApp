@@ -20,9 +20,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.activities.MainActivity
+import com.example.artistmanagerapp.activities.SelectArtistPageActivity
 import com.example.artistmanagerapp.activities.TaskDetailsActivity
 import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
+import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UserDataPresenter
 import com.example.artistmanagerapp.models.Task
@@ -31,7 +33,7 @@ import com.example.artistmanagerapp.utils.TaskHelper
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
 
-class HomeFragment : BaseFragment(), UserDataPresenter {
+class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver {
 
     // Collections
     private var tasksList : ArrayList <Task> = ArrayList()
@@ -110,5 +112,11 @@ class HomeFragment : BaseFragment(), UserDataPresenter {
 
     }
 
+    override fun receiveData(data: Any?) {
+        if (data == null){
+            val intent = Intent(activity, SelectArtistPageActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
 }

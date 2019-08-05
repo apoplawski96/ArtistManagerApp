@@ -21,7 +21,6 @@ class FirebaseDataReader : BaseActivity () {
     /// Getting user data
     fun getUserData(userID : String, userDataPresenter: UserDataPresenter){
         lateinit var person : User
-        Log.d("chuj", "tujeste")
         db.collection(c.USERS_COLLECTION_NAME).document(userID).get()
             .addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot.exists()){
@@ -46,8 +45,9 @@ class FirebaseDataReader : BaseActivity () {
         userArtistPagesCollectionPath.get().addOnSuccessListener { documents ->
             if (!documents.isEmpty){
                 for (document in documents){
-                    var artistPageName : String? = document.get("artistName").toString()
-                    artistPagesOutput!!.add(ArtistPage(artistPageName))
+                    var artistPageName : String? = document.get(c.ARTIST_NAME).toString()
+                    var artistPageId : String? = document.get(c.ARTIST_PAGE_ID).toString()
+                    artistPagesOutput!!.add(ArtistPage(artistPageName, artistPageId))
                 }
                 presenter.showArtistPages(artistPagesOutput)
             } else {

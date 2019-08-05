@@ -17,4 +17,10 @@ object FirebaseConstants {
     val V_PROFILE_STATUS_STARTED = "started"
     val V_PROFILE_STATUS_COMPLETED = "completed"
 
+    // FIELD NAMES - ARTIST PAGES
+    val ARTIST_PAGES_COLLECTION_NAME = "artistPages"
+    val ARTIST_NAME = "artistName"
+    val ARTIST_PAGE_ID = "artistPageId"
+    val ARTIST_PAGE_ADMIN_ID = "artistPageAdminId"
+
 }

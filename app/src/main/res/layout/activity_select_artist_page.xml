@@ -8,8 +8,23 @@
         android:layout_height="match_parent"
         tools:context=".activities.SelectArtistPageActivity">
 
-    <include layout="@layout/horizontal_select_artist_recycler_view" android:id="@+id/include"
-             tools:layout_editor_absoluteY="0dp" tools:layout_editor_absoluteX="0dp"></include>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="vertical" app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:id="@+id/artist_page_selector_recycler_view"
+                                                app:layout_constraintTop_toTopOf="parent"
+                                                app:layout_constraintStart_toStartOf="parent"
+                                                app:layout_constraintEnd_toEndOf="parent"></android.support.v7.widget.RecyclerView>
+
+        <include layout="@layout/item_add_or_join_artist_page"></include>
+
+
+    </LinearLayout>
+
+
 
     <android.support.design.widget.FloatingActionButton
             android:layout_width="45dp"
@@ -47,10 +62,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/no_pages_text"
-            app:layout_constraintTop_toTopOf="@+id/include" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/include" android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
             android:textSize="30sp" android:textAlignment="center" android:visibility="visible"/>
     <TextView
             android:text="CREATE"

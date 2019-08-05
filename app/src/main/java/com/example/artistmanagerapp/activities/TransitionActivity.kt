@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,6 +17,7 @@ import kotlin.concurrent.schedule
 class TransitionActivity : BaseActivity() {
 
     val context : Context = this
+    val c = FirebaseConstants
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +33,7 @@ class TransitionActivity : BaseActivity() {
 
     fun checkIfUserIsNewAndGuide(db : FirebaseFirestore, user : FirebaseUser?) {
         // Creating a reference to the "users -> userId" path
-        val docRef = db.collection("users").document(user?.uid.toString())
+        val docRef = db.collection(c.USERS_COLLECTION_NAME).document(user?.uid.toString())
         Log.d(FIREBASE_TAG, "Method entered")
 
         // ** NOTE **
@@ -56,15 +58,15 @@ class TransitionActivity : BaseActivity() {
             } else {
                 Log.d(FIREBASE_TAG, "Doc reference found")
                 // Getting and checking the "profileCompletionStatus" value
-                var completionStatus = docSnapshot.getString("profile_completion_status")
+                var completionStatus = docSnapshot.getString(c.PROFILE_COMPLETION_STATUS)
                 Log.d(FIREBASE_TAG, "$completionStatus")
 
                 // If completionStatus is completed - we search for artist page link
-                if (completionStatus.equals("completed")){
+                if (completionStatus.equals(c.V_PROFILE_STATUS_COMPLETED)){
                     Log.d(FIREBASE_TAG, "User profile completed - go to CheckArtistPageLinkActivity")
                     val intent = Intent(this, SelectArtistPageActivity::class.java)
                     startActivity(intent)
-                } else if (completionStatus.equals("started")){
+                } else if (completionStatus.equals(c.V_PROFILE_STATUS_STARTED)){
                     Log.d(FIREBASE_TAG, "Db record initialized - go to CreateUserProfileActivity and complete missing profile info")
                     val intent = Intent(applicationContext, CreateUserProfileActivity::class.java).apply{
                         putExtra("isDbRecordCreated", "true")
