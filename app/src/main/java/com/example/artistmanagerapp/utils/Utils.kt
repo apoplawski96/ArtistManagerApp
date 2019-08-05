@@ -63,7 +63,7 @@ object Utils : BaseActivity (){
 
     fun disableEditText(editText: EditText?){
         editText?.isFocusable = false
-        editText?.isEnabled = false
+        //editText?.isEnabled = false
         editText?.isCursorVisible = false
         editText?.keyListener = null
         editText?.setBackgroundColor(Color.TRANSPARENT)

@@ -17,4 +17,10 @@
     <color name="steelGrayEntryColor">#2e2c36</color>
     <color name="steelGrayEndColor">#928dab</color>
 
+    // Text colors
+    <color name="textSecondary">#DBDBDB</color>
+    <color name="textPrimary">#dedfe0</color>
+    <color name="textGray">#979C97</color>
+
+
 </resources>
