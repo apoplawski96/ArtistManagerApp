@@ -24,19 +24,26 @@ import com.example.artistmanagerapp.activities.SelectArtistPageActivity
 import com.example.artistmanagerapp.activities.TaskDetailsActivity
 import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
+import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UserDataPresenter
+import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.TaskHelper
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
 
-class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver {
+class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPagesPresenter {
 
+    // Views
     var helloUser : TextView? = null
     var thisIsBandName : TextView? = null
+    var bandAvatar : ImageView? = null
+    var tasksCounter : TextView? = null
+    var eventsCounter : TextView? = null
+    var assignmentsCounter : TextView? = null
 
     companion object {
         @JvmStatic
@@ -62,12 +69,6 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver {
         //options.centerCrop()
         //Glide.with(this).load(R.mipmap.band_photo_avatar).apply(options).into(bandAvatar)
 
-        // Parse and show task list
-        /*TaskHelper.parseTasks(perfectArtistPagePath.collection("tasks"), this)
-        taskListRecyclerView?.layoutManager = LinearLayoutManager(MainActivity(), OrientationHelper.VERTICAL, false)
-        adapter = TaskListAdapter(this, context, tasksList, pathToTasksCollection) { taskItem : Task -> taskItemClicked(taskItem)}
-        taskListRecyclerView?.adapter = adapter*/
-
         // Show user data
         FirebaseDataReader().getUserData(user?.uid.toString(), this)
 
@@ -79,17 +80,7 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver {
         return rootView
     }
 
-    /*override fun updateTasks(tasksOutput: ArrayList<Task>) {
-        adapter?.updateItems(tasksOutput)
-    }
-
-    override fun triggerUpdate() {
-
-    }*/
-
     override fun showUserData(userData: User) {
-        helloUser?.text = "Hello ${userData.firstName}"
-        thisIsBandName?.text = "This is currentArtistPageId ${userData.currentArtistPageId.toString()}"
     }
 
     fun initUI(){
@@ -101,6 +92,18 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver {
             val intent = Intent(activity, SelectArtistPageActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun showArtistPageData(artistPage: ArtistPage) {
+        thisIsBandName?.text = artistPage.artistName
+    }
+
+    override fun showNoPagesText() {
+
+    }
+
+    override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {
+
     }
 
 }

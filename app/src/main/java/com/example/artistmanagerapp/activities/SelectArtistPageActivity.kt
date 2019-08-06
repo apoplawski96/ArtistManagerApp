@@ -319,4 +319,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         }
     }
 
+    override fun showArtistPageData(artistPage: ArtistPage) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

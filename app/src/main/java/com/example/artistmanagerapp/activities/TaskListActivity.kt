@@ -21,6 +21,7 @@ import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.ui.DialogCreator
 import com.example.artistmanagerapp.utils.*
 import com.google.firebase.firestore.CollectionReference
+import kotlinx.android.synthetic.main.activity_task_details.*
 import kotlinx.android.synthetic.main.item_task.view.*
 
 class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, DialogCreator.DialogControllerCallback{
@@ -265,7 +266,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
 
         addTaskSubmitButton?.setOnClickListener {
             val taskTitle : String = taskNameInput?.text.toString()
-
+            taskNameInput?.text = null
             TaskHelper.addTask(Task(taskTitle, false), pathToTasksCollection, this)
             hideAddNewTaskDialog()
             showProgressBar()
@@ -299,6 +300,11 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         // Confirm button onclick here!
         toolbarDeleteButton?.setOnClickListener {
             DialogCreator.showDialog(DialogCreator.DialogType.TASK_DELETE_WARNING, this, this)
+        }
+
+        toolbarDismissButton?.setOnClickListener {
+            disableActionToolbar()
+            setTaskColorDefault(selectedTaskItemView)
         }
 
     }

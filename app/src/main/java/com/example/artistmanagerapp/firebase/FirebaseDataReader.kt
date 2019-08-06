@@ -107,7 +107,15 @@ class FirebaseDataReader : BaseActivity () {
     }
 
     fun getArtistPageData(artistPageId : String?, presenter : ArtistPagesPresenter){
+        artistPagesCollectionPath.document(artistPageId.toString()).get().addOnSuccessListener {documentSnapshot ->
+            if (documentSnapshot.exists()){
+                val artistName = documentSnapshot.get(c.ARTIST_NAME).toString()
+                val artistPage = ArtistPage(artistName)
+                presenter.showArtistPageData(artistPage)
+            }
+        }.addOnFailureListener {
 
+        }
     }
 
     fun getPageRole (userID : String, pageId : String, dataReceiver: DataReceiver){
