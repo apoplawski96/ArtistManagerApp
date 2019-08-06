@@ -38,6 +38,7 @@ class DialogCreator {
             }
 
             acceptButton.setOnClickListener {
+                dialog.hide()
                 dialogControllerCallback.onAccept()
             }
 

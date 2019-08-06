@@ -10,7 +10,9 @@ interface TaskUpdater {
     fun hideProgressBar()
     fun hideAddTaskDialog()
     fun onTaskDetailChanged()
-    fun onTaskLongClicked(itemView : View)
+    fun onTaskLongClicked(itemView : View, task : Task)
     fun activateActionToolbar(option : String)
+    fun onTaskDeleted()
     fun onError(errorLog : String?)
+    fun onTasksListEmpty()
 }

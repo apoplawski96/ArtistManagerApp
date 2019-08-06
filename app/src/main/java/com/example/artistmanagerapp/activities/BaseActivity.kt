@@ -38,6 +38,9 @@ abstract class BaseActivity : AppCompatActivity() {
     val userPath = usersCollectionPath.document(userId)
     val userArtistPagesCollectionPath = userPath.collection("artistPages")
 
+    // Current Artist Page ID
+    //var pageId : String? = null
+
     // Perfect stuff
     val perfectUserID = "perfectUser"
     val perfectUserPath = db.collection("users").document("perfectUser")

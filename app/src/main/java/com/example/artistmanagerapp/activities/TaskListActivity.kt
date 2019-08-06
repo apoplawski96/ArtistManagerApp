@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.view.menu.ActionMenuItemView
+import android.support.v7.view.menu.MenuView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
 import android.support.v7.widget.RecyclerView
@@ -18,9 +19,7 @@ import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.ui.DialogCreator
-import com.example.artistmanagerapp.utils.ConstMessages
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.TaskHelper
+import com.example.artistmanagerapp.utils.*
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.android.synthetic.main.item_task.view.*
 
@@ -29,6 +28,11 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
     // Constants
     val ACTIVITY_DESCRIPTION = "Tasks"
 
+    // Variables
+    var pageId : String? = null
+    var selectedTaskId : String? = null
+    var selectedTaskItemView : View? = null
+
     // Views
     var checkBox : CheckBox? = null
     var showCompletedTasks : TextView? = null
@@ -36,12 +40,12 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
     var completedTaskListRecyclerView : RecyclerView? = null
     var noTasksTextView : TextView? = null
     var noCompletedTasksTextView : TextView? = null
-
     var fabTasksActivity : FloatingActionButton? = null
     var addNewTaskDialog : Dialog? = null
     var taskNameInput : EditText? = null
     var tasksDialogClose : TextView? = null
     var addTaskSubmitButton : Button? = null
+    var tasksListEmptyTv : TextView? = null
 
     // Views - Toolbar
     var toolbarMidText : TextView? = null
@@ -74,6 +78,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
 
         // Others
         val context : Context = this
+        pageId = intent.getStringExtra(Constants.PAGE_ID_BUNDLE)
 
         // Views
         taskListRecyclerView = findViewById(R.id.task_list_recyclerview) as RecyclerView
@@ -83,9 +88,10 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         noTasksTextView = findViewById(R.id.no_open_tasks_tv)
         noCompletedTasksTextView = findViewById(R.id.no_completed_tasks_tv)
         fabTasksActivity = findViewById(R.id.fab_tasks_list)
+        tasksListEmptyTv = findViewById(R.id.tasks_list_empty_tv)
 
         // Views - Toolbar
-        toolbarMidText = findViewById(R.id.toolbar_task_details_text)
+        toolbarMidText = findViewById(R.id.toolbar_tasks_list_textview)
         toolbarBackButton = findViewById(R.id.toolbar_back_button)
         toolbarDismissButton = findViewById(R.id.toolbar_dismiss_button)
         toolbarDeleteButton = findViewById(R.id.toolbar_delete)
@@ -96,14 +102,14 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         addNewTaskDialog?.setContentView(R.layout.dialog_add_new_task)
 
         // Generate path to tasks list in Firestore
-        pathToTasksCollection = perfectArtistPagePath.collection("tasks")
+        pathToTasksCollection = artistPagesCollectionPath.document(pageId.toString()).collection(FirebaseConstants.ARTIST_TASKS)
 
         // Setting up toolbar
         toolbarActivityDescription = findViewById(R.id.toolbar_activity_description)
         toolbarActivityDescription?.text = ACTIVITY_DESCRIPTION
 
         // Tasks parsing
-        TaskHelper.parseTasks(perfectArtistPagePath.collection("tasks"), this)
+        TaskHelper.parseTasks(pathToTasksCollection, this)
 
         // TaskListRecyclerView setup
         taskListRecyclerView?.layoutManager = LinearLayoutManager(MainActivity(), OrientationHelper.VERTICAL, false)
@@ -140,6 +146,10 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
             showAddNewTaskDialog()
         }
 
+        toolbarBackButton?.setOnClickListener {
+            onBackPressed()
+        }
+
         // ************************** ONCLICKS SETUP **************************
 
         /*TaskHelper.addTask(Task("task1", "low", true), pathToTasksCollection)
@@ -167,6 +177,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         var tasksCompleted : ArrayList<Task> = TaskHelper.sortTasks(true, tasksOutput)
 
         adapter?.updateItems(tasksOpen)
+        onTasksListNotEmpty()
         adapterCompleted?.updateItems(tasksCompleted)
 
         hideProgressBar()
@@ -185,7 +196,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
     }
 
     override fun triggerUpdate() {
-        TaskHelper.parseTasks(perfectArtistPagePath.collection("tasks"), this)
+        TaskHelper.parseTasks(pathToTasksCollection, this)
     }
 
     override fun showProgressBar() {
@@ -220,6 +231,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         toolbarProgressBar?.visibility = View.GONE
         noTasksTextView?.visibility = View.GONE
         noCompletedTasksTextView?.visibility = View.GONE
+        toolbarMidText?.text = "Tasks Manager"
     }
 
     override fun updateUI(option: String) {
@@ -234,10 +246,10 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         onBackPressed()
     }
 
-    override fun onTaskLongClicked(itemView : View) {
-        Toast.makeText(this, "chuuuui", Toast.LENGTH_SHORT).show()
-        //itemView.task_title.setTextColor(Color.parseColor("#b02a2a"))
+    override fun onTaskLongClicked(itemView : View, task : Task) {
         setTaskColorWarning(itemView)
+        selectedTaskId = task.taskId
+        selectedTaskItemView = itemView
         activateActionToolbar(Constants.TASKS_ON_LONG_CLICKED)
     }
 
@@ -277,7 +289,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
 
         when (option){
             c.TASKS_ON_LONG_CLICKED -> {
-                toolbarMidText?.text = "Delete task"
+                toolbarMidText?.text = "Delete Task?"
                 toolbarBackButton?.visibility = View.GONE
                 toolbarDeleteButton?.visibility = View.VISIBLE
                 toolbarDismissButton?.visibility = View.VISIBLE
@@ -292,21 +304,53 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
     }
 
     override fun onAccept() {
-        Toast.makeText(this, "Usuniete w chuj", Toast.LENGTH_SHORT).show()
+        TaskHelper.deleteTask(selectedTaskId, pathToTasksCollection, this)
+        showProgressBar()
+        disableActionToolbar()
     }
 
-    override fun onDismiss() {}
+    override fun onDismiss() { disableActionToolbar() }
 
     override fun onShown() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    fun setTaskColorWarning(itemView: View){
-        itemView.task_item_background.setBackgroundColor(Color.parseColor("#94191f"))
+    fun setTaskColorWarning(itemView: View?){
+        itemView?.task_item_background?.setBackgroundColor(Color.parseColor("#94191f"))
     }
 
-    fun setTaskColorDefault(itemView: View){
-        itemView.task_item_background.setBackgroundColor(Color.parseColor("#2e2c36"))
+    fun setTaskColorDefault(itemView: View?){
+        itemView?.task_item_background?.setBackgroundColor(Color.parseColor("#2e2c36"))
+    }
+
+    override fun onTaskDeleted() {
+        triggerUpdate()
+        hideProgressBar()
+        setTaskColorDefault(selectedTaskItemView)
+        Toast.makeText(this, "Task successfully deleted", Toast.LENGTH_SHORT).show()
+    }
+
+    fun disableActionToolbar(){
+        isToolbarActivated = false
+        toolbarBackButton?.visibility = View.VISIBLE
+        toolbarDeleteButton?.visibility = View.GONE
+        toolbarDismissButton?.visibility = View.GONE
+        toolbarMidText?.text = "Tasks Manager"
+    }
+
+    override fun onTasksListEmpty() {
+        taskListRecyclerView?.visibility = View.GONE
+        completedTaskListRecyclerView?.visibility = View.GONE
+        showCompletedTasks?.visibility = View.GONE
+        noTasksTextView?.visibility = View.GONE
+        tasksListEmptyTv?.visibility = View.VISIBLE
+    }
+
+    fun onTasksListNotEmpty(){
+        taskListRecyclerView?.visibility = View.VISIBLE
+        completedTaskListRecyclerView?.visibility = View.VISIBLE
+        showCompletedTasks?.visibility = View.VISIBLE
+        tasksListEmptyTv?.visibility = View.GONE
     }
 
 }

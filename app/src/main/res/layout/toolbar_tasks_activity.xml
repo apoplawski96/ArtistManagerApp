@@ -24,7 +24,7 @@
                     android:textSize="16dp"
                     android:fontFamily="@font/montserrat"
                     android:textColor="@color/appLightGray"
-                    android:id="@+id/toolbar_activity_description" app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/toolbar_tasks_list_textview" app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"

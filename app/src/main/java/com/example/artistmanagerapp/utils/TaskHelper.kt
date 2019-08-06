@@ -53,8 +53,10 @@ object TaskHelper : BaseActivity() {
         }
     }
 
-    fun deleteTask(taskId : String?, currentArtistPageId: String?, tasksUpdater: TaskUpdater){
-
+    fun deleteTask(taskId : String?, pathToTasksCollection: CollectionReference, tasksUpdater: TaskUpdater){
+        pathToTasksCollection.document(taskId.toString()).delete().addOnSuccessListener {
+            tasksUpdater.onTaskDeleted()
+        }.addOnFailureListener {  }
     }
 
 
@@ -86,7 +88,7 @@ object TaskHelper : BaseActivity() {
                     }
                     taskUpdater.updateTasks(tasksOutput)
                 } else {
-
+                    taskUpdater.onTasksListEmpty()
                 }
             }
     }

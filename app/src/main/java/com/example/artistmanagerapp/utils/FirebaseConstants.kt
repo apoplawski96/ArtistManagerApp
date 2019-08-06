@@ -20,7 +20,10 @@ object FirebaseConstants {
     // FIELD NAMES - ARTIST PAGES
     val ARTIST_PAGES_COLLECTION_NAME = "artistPages"
     val ARTIST_NAME = "artistName"
+    val ARTIST_TASKS = "tasks"
     val ARTIST_PAGE_ID = "artistPageId"
     val ARTIST_PAGE_ADMIN_ID = "artistPageAdminId"
+
+    // FIELDS NAMES - T
 
 }

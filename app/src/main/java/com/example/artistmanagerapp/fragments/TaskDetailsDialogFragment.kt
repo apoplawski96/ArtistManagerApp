@@ -210,7 +210,7 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
 
     }
 
-    override fun onTaskLongClicked(itemView: View) {
+    override fun onTaskLongClicked(itemView: View, task : Task) {
 
     }
 
@@ -295,6 +295,14 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
     }
 
     override fun hideAddTaskDialog() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onTaskDeleted() {
+
+    }
+
+    override fun onTasksListEmpty() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

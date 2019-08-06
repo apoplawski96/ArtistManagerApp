@@ -20,6 +20,7 @@ import com.example.artistmanagerapp.adapters.MenuAdapter
 import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.models.MenuItem
 import com.example.artistmanagerapp.models.Task
+import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.TaskHelper
 
 class GridMenuFragment : Fragment() {
@@ -28,6 +29,8 @@ class GridMenuFragment : Fragment() {
     private var menuItemsList : ArrayList <MenuItem> = ArrayList()
     // Adapters
     private var adapter: MenuAdapter? = null
+    // Page Id variable
+    var pageId : String? = null
 
     companion object {
         @JvmStatic
@@ -42,7 +45,7 @@ class GridMenuFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_grid_menu, container, false)
 
-        val pageId = arguments?.getString("PAGE_ID").toString()
+        pageId = arguments?.getString("PAGE_ID").toString()
 
         // Views
         var menuRecyclerView = rootView.findViewById(R.id.menu_recycler_view) as RecyclerView
@@ -61,9 +64,15 @@ class GridMenuFragment : Fragment() {
         var option = menuItem.itemName
 
         when (option){
-            "Task manager" ->  intent = Intent(activity, TaskListActivity::class.java)
-            "Events calendar" -> intent = Intent(activity, EventsManagerActivity::class.java)
-            "Switch/create artist page" -> intent = Intent(activity, SelectArtistPageActivity::class.java)
+            "Task manager" ->  {
+                intent = Intent(activity, TaskListActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
+            }
+            "Events calendar" -> {
+                intent = Intent(activity, EventsManagerActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
+            }
+            "Switch/create artist page" -> {
+                intent = Intent(activity, SelectArtistPageActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
+            }
         }
 
 

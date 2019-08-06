@@ -54,7 +54,7 @@ class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var ta
             itemView.setOnClickListener { clickListener(task) }
 
             itemView.setOnLongClickListener {
-                taskUpdater.onTaskLongClicked(itemView)
+                taskUpdater.onTaskLongClicked(itemView, task)
                 true
             }
 

@@ -28,4 +28,7 @@ object Constants {
     // FIREBASE - TASK OBJECT FIELDS NAMES
     val FB_TASK_ISCOMPLETED : String = "completed"
 
+    // PageId bundle field name
+    val PAGE_ID_BUNDLE : String = "PAGE_ID"
+
 }
