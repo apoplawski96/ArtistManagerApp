@@ -14,6 +14,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.provider.MediaStore
 import android.support.design.widget.FloatingActionButton
+import android.support.v7.widget.CardView
 import android.view.View
 import android.widget.*
 import com.example.artistmanagerapp.firebase.FirebaseDataWriter
@@ -50,8 +51,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     var redeemCodeSubmitButton : Button? = null
     var dialogClose2 : TextView? = null
     var dialogBackgroundImage : ImageView? = null
-    var createArtistPageTV : TextView? = null
-    var joinArtistPageTV : TextView? = null
+    var createArtistPageItem : CardView? = null
+    var joinArtistPageItem : CardView? = null
     var createDialogProgressBar : ProgressBar? = null
     var redeemDialogProgressBar : ProgressBar? = null
 
@@ -92,12 +93,11 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         fab = findViewById(R.id.fab_main)
         fabMin1 = findViewById(R.id.fab_mini_1)
         fabMin2 = findViewById(R.id.fab_mini_2)
-        noPagesText = findViewById(R.id.no_pages_text)
-        createArtistPageTV = findViewById(R.id.create_artist_page)
-        joinArtistPageTV = findViewById(R.id.join_artist_page)
         createDialogProgressBar = findViewById(R.id.create_dialog_progress_bar)
         redeemDialogProgressBar = findViewById(R.id.redeem_dialog_progress_bar)
         redeemDialogProgressBar?.visibility = View.GONE
+        createArtistPageItem = findViewById(R.id.create_artist_page_cardview)
+        joinArtistPageItem = findViewById(R.id.join_artist_page_cardview)
 
         // Dialog stuff
         createPageDialog = Dialog(this)
@@ -123,8 +123,9 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
             }
         }
 
-        createArtistPageTV?.setOnClickListener {showCreatePageDialog()}
-        joinArtistPageTV?.setOnClickListener { showRedeemCodeDialog() }
+
+        createArtistPageItem?.setOnClickListener { showCreatePageDialog() }
+        joinArtistPageItem?.setOnClickListener { showRedeemCodeDialog() }
 
         // Setting up "Create Page" Floating Action Button
         fabMin1?.setOnClickListener { if (isFABOpen == true){ showCreatePageDialog() } }
@@ -165,8 +166,6 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     // RecyclerView presenter method
     override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {
         noPagesText?.visibility = View.GONE
-        createArtistPageTV?.visibility = View.GONE
-        joinArtistPageTV?.visibility = View.GONE
         adapter?.update(artistPagesList)
     }
 
@@ -314,7 +313,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     }
 
     override fun receiveData(data: Any?) {
-        if (data != null){
+        if (data != "null"){
             updateUI(const.ARTIST_PAGE_SELECTED)
         }
     }

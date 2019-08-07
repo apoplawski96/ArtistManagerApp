@@ -59,6 +59,12 @@ object UsersHelper : BaseActivity() {
         }.addOnFailureListener {  }
     }
 
+    fun removeCurrentArtistPage(userId : String, presenter : UserInterfaceUpdater){
+        usersCollectionPath.document(userId).set(mapOf("currentArtistPageId" to null), SetOptions.merge()).addOnSuccessListener {
+            presenter.updateUI(const.CURRENT_ARTIST_PAGE_REMOVED)
+        }.addOnFailureListener {  }
+    }
+
     // ************************************************ WRITE FUNCTIONS/ ************************************************
 
 }

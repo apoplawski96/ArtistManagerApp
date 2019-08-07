@@ -20,6 +20,7 @@ object Constants {
     val CODE_SUCCESSFULLY_REDEEMED : String = "CODE_SUCCESSFULLY_REDEEMED"
     val USER_ADDED_TO_DB : String = "USER_ADDED_TO_DB"
     val ARTIST_PAGE_SELECTED : String = "ARTIST_PAGE_SELECTED"
+    val CURRENT_ARTIST_PAGE_REMOVED : String = "CURRENT_ARTIST_PAGE_REMOVED"
 
     // Options - TaskManager ActionToolbar activation
     val TASKS_ON_LONG_CLICKED : String = "TASKS_ON_LONG_CLICKED"

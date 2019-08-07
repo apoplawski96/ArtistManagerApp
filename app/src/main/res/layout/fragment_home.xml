@@ -45,7 +45,7 @@
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp" app:layout_constraintTop_toTopOf="parent" android:visibility="gone"/>
         <TextView
-                android:text="NORTHLANE"
+                android:text="COOL BAND"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"

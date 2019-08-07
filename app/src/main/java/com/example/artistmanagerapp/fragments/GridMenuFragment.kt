@@ -18,12 +18,14 @@ import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.*
 import com.example.artistmanagerapp.adapters.MenuAdapter
 import com.example.artistmanagerapp.adapters.TaskListAdapter
+import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.MenuItem
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.TaskHelper
+import com.example.artistmanagerapp.utils.UsersHelper
 
-class GridMenuFragment : Fragment() {
+class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
 
     // Collections
     private var menuItemsList : ArrayList <MenuItem> = ArrayList()
@@ -71,7 +73,7 @@ class GridMenuFragment : Fragment() {
                 intent = Intent(activity, EventsManagerActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
             }
             "Switch/create artist page" -> {
-                intent = Intent(activity, SelectArtistPageActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
+                UsersHelper.removeCurrentArtistPage(user?.uid.toString(), this)
             }
         }
 
@@ -88,6 +90,25 @@ class GridMenuFragment : Fragment() {
         menuItemsList.add(MenuItem("Events manager", R.mipmap.cover3))
         menuItemsList.add(MenuItem("Electronic Press Kit", R.mipmap.cover_photo_4))
         menuItemsList.add(MenuItem("Switch/create artist page", R.mipmap.cover2))
+    }
+
+    override fun hideProgress() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun initializeUI() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showProgress() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun updateUI(option: String) {
+        if (option == Constants.CURRENT_ARTIST_PAGE_REMOVED){
+            var intent = Intent(activity, SelectArtistPageActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
+            startActivity(intent)
+        }
     }
 
 }
