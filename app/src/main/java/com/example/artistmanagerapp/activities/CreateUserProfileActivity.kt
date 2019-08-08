@@ -1,7 +1,6 @@
 package com.example.artistmanagerapp.activities
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -9,14 +8,10 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.firebase.FirebaseDataWriter
-import com.example.artistmanagerapp.interfaces.UserDataPresenter
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.example.artistmanagerapp.utils.Utils
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
-import java.util.*
 import kotlin.collections.HashMap
 
 class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
@@ -41,9 +36,9 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
         Log.d(ACTIVITY_WELCOME_TAG, "Welcome to CreateUserProfileActivity")
 
         // Views
-        firstNameInput = findViewById(R.id.first_name)
-        lastNameInput = findViewById(R.id.last_name)
-        submitButton = findViewById(R.id.submit_button)
+        firstNameInput = findViewById(R.id.artist_name_epk)
+        lastNameInput = findViewById(R.id.artist_genre_epk)
+        submitButton = findViewById(R.id.generate_button)
 
         // Getting data from previous activity
         var intent : Intent = intent

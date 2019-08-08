@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.fragments.GridMenuFragment
 import com.example.artistmanagerapp.fragments.HomeFragment
+import com.example.artistmanagerapp.fragments.UserProfileFragment
 import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.utils.UsersHelper
 import com.google.firebase.auth.FirebaseAuth
@@ -37,6 +38,7 @@ class MainActivity : BaseActivity(), DataReceiver {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag3 -> {
+                replaceFragment(UserProfileFragment.newInstance(pageId.toString()))
                 return@OnNavigationItemSelectedListener true
             }
         }

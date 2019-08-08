@@ -93,9 +93,6 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         fab = findViewById(R.id.fab_main)
         fabMin1 = findViewById(R.id.fab_mini_1)
         fabMin2 = findViewById(R.id.fab_mini_2)
-        createDialogProgressBar = findViewById(R.id.create_dialog_progress_bar)
-        redeemDialogProgressBar = findViewById(R.id.redeem_dialog_progress_bar)
-        redeemDialogProgressBar?.visibility = View.GONE
         createArtistPageItem = findViewById(R.id.create_artist_page_cardview)
         joinArtistPageItem = findViewById(R.id.join_artist_page_cardview)
 
@@ -221,6 +218,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         dialogClose = createPageDialog?.findViewById(R.id.dialog_close_x)
         dialogCreatePageButton = createPageDialog?.findViewById(R.id.dialog_submit_button)
         dialogBackgroundImage = createPageDialog?.findViewById(R.id.dialog_background_image)
+        createDialogProgressBar = findViewById(R.id.create_dialog_progress_bar)
 
         createPageDialog?.show()
 
@@ -232,6 +230,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
             var artistPage = ArtistPage(pageNameInputText, userId)
 
             showProgress()
+            createDialogProgressBar?.visibility = View.VISIBLE
             dataWriter?.createArtistPage(artistPage, this, userId)
         }
 
@@ -249,6 +248,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         redeemCodeInput = redeemCodeDialog?.findViewById(R.id.redeem_code_input)
         redeemCodeSubmitButton = redeemCodeDialog?.findViewById(R.id.redeem_code_button)
         dialogClose2 = redeemCodeDialog?.findViewById(R.id.dialog_close_x)
+        redeemDialogProgressBar = findViewById(R.id.redeem_dialog_progress_bar)
 
         redeemCodeDialog?.show()
 

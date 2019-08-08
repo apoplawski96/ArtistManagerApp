@@ -72,6 +72,9 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
             "Events calendar" -> {
                 intent = Intent(activity, EventsManagerActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
             }
+            "Electronic Press Kit" -> {
+                intent = Intent(activity, EpkSelectorActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
+            }
             "Switch/create artist page" -> {
                 UsersHelper.removeCurrentArtistPage(user?.uid.toString(), this)
             }
