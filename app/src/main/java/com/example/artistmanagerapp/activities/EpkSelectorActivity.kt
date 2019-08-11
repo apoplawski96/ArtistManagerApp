@@ -4,15 +4,19 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
+import com.example.artistmanagerapp.ui.DialogCreator
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.FirebaseConstants
 
-class EpkSelectorActivity : AppCompatActivity(), UserInterfaceUpdater {
+class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.DialogControllerCallback {
 
-    // Current ArtistPage
+    // Current ArtistPage data
     var pageId : String? = null
+    var pageName : String? = null
+    var epkShareCode : String? = null
 
     // Views
     var editEpkInfoButton : Button? = null
@@ -24,7 +28,12 @@ class EpkSelectorActivity : AppCompatActivity(), UserInterfaceUpdater {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_epk_selector)
 
+        // Getting bundled ArtistPageData
         pageId = intent.getStringExtra(Constants.PAGE_ID_BUNDLE)
+        pageName = intent.getStringExtra(Constants.ARTIST_NAME_BUNDLE)
+        epkShareCode = intent.getStringExtra(Constants.EPK_SHARE_CODE_BUNDLE)
+
+        Toast.makeText(this, "$pageName+$pageId+$epkShareCode+asd", Toast.LENGTH_SHORT).show()
 
         // Views
         editEpkInfoButton = findViewById(R.id.edit_info_bt)
@@ -35,17 +44,48 @@ class EpkSelectorActivity : AppCompatActivity(), UserInterfaceUpdater {
         editEpkInfoButton?.setOnClickListener {
             val intent = Intent(applicationContext, EpkEditInfoActivity::class.java).apply{
                 putExtra(Constants.PAGE_ID_BUNDLE, pageId)
+                putExtra(Constants.ARTIST_NAME_BUNDLE, pageName)
+                putExtra(Constants.EPK_SHARE_CODE_BUNDLE, epkShareCode)
             }
             startActivity(intent)
         }
+
         generateEpkButton?.setOnClickListener {
             val intent = Intent(applicationContext, ArtistEpkKindOfActivity::class.java).apply{
-                //putExtra(FirebaseConstants.CURRENT_ARTIST_PAGE, "true")
+                putExtra(Constants.PAGE_ID_BUNDLE, pageId)
+                putExtra(Constants.ARTIST_NAME_BUNDLE, pageName)
+                putExtra(Constants.EPK_SHARE_CODE_BUNDLE, epkShareCode)
             }
             startActivity(intent)
         }
-        shareEpkButton?.setOnClickListener {  }
-        redeeemEpkButton?.setOnClickListener {  }
+
+        shareEpkButton?.setOnClickListener {
+            if ((epkShareCode == null) or (epkShareCode == "null")){
+                DialogCreator.showDialog(DialogCreator.DialogType.EPK_NOT_GENERATED, this, this)
+            } else {
+                DialogCreator.showCodeDialog(DialogCreator.DialogType.SHARE_EPK_DIALOG, this, this, epkShareCode.toString())
+            }
+        }
+
+        redeeemEpkButton?.setOnClickListener {
+            DialogCreator.showCodeDialog(DialogCreator.DialogType.REDEEM_EPK_DIALOG, this, this, null)
+        }
+
+    }
+
+    override fun onAccept(option: DialogCreator.DialogControllerCallback.CallbackOption?) {
+
+    }
+
+    override fun onDismiss() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onShown() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onCallInvalid() {
 
     }
 

@@ -1,7 +1,7 @@
 package com.example.artistmanagerapp.interfaces
 
-interface ArtistPageDataReceiver {
-    fun receiveData(){
+import com.example.artistmanagerapp.models.ArtistPage
 
-    }
+interface ArtistPageDataReceiver {
+    fun callback(artistPage : ArtistPage)
 }

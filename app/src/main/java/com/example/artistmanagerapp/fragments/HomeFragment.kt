@@ -1,6 +1,8 @@
 package com.example.artistmanagerapp.fragments
 
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -24,18 +26,27 @@ import com.example.artistmanagerapp.activities.SelectArtistPageActivity
 import com.example.artistmanagerapp.activities.TaskDetailsActivity
 import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
-import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
-import com.example.artistmanagerapp.interfaces.DataReceiver
-import com.example.artistmanagerapp.interfaces.TaskUpdater
-import com.example.artistmanagerapp.interfaces.UserDataPresenter
+import com.example.artistmanagerapp.interfaces.*
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
+import com.example.artistmanagerapp.utils.Communicator
+import com.example.artistmanagerapp.utils.Constants
+import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.example.artistmanagerapp.utils.TaskHelper
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
 
 class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPagesPresenter {
+
+    // FragmentsMessenger
+    var model : Communicator? = null
+
+    // ArtistPage info
+    var pageInfoMapBundle : HashMap <String?, String?> = HashMap()
+    var pageId : String? = null
+    var pageName : String? = null
+    var shareEpkCode : String? = null
 
     // Views
     var helloUser : TextView? = null
@@ -47,9 +58,15 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
 
     companion object {
         @JvmStatic
-        fun newInstance(pageId : String) : HomeFragment {
+        val c = Constants
+
+        fun newInstance(pageId : String, artistPage: ArtistPage) : HomeFragment {
             val fragment = HomeFragment()
-            val bundle = Bundle().apply{ putString ("PAGE_ID", pageId) }
+            val bundle = Bundle().apply{
+                putString (c.PAGE_ID_BUNDLE, artistPage.artistPageId)
+                putString (c.ARTIST_NAME_BUNDLE, artistPage.artistName)
+                putString (c.EPK_SHARE_CODE_BUNDLE, artistPage.epkShareCode)
+            }
             fragment.arguments = bundle
             return fragment
         }
@@ -58,11 +75,23 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
     override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
 
-        val pageId = arguments?.getString("PAGE_ID").toString()
+        // Getting bundle data
+        pageId = arguments?.getString(c.PAGE_ID_BUNDLE).toString()
+        pageName = arguments?.getString(c.ARTIST_NAME_BUNDLE).toString()
+        shareEpkCode = arguments?.get(c.EPK_SHARE_CODE_BUNDLE).toString()
+        pageInfoMapBundle.put(c.PAGE_ID_BUNDLE, pageId)
+        pageInfoMapBundle.put(c.ARTIST_NAME_BUNDLE, pageName)
+        pageInfoMapBundle.put(c.EPK_SHARE_CODE_BUNDLE, shareEpkCode)
+
+        Toast.makeText(activity, "$pageName+asdasd$pageId+asdasd$shareEpkCode", Toast.LENGTH_SHORT).show()
 
         // Views
         helloUser = rootView.findViewById(R.id.hello_user)
         thisIsBandName = rootView.findViewById(R.id.this_is_band_name)
+        thisIsBandName?.text = pageName
+
+        model = ViewModelProviders.of(activity!!).get(Communicator::class.java)
+        model!!.setMsgCommunicator(pageName.toString())
 
         // Load band photo
         //val options = RequestOptions()
@@ -79,6 +108,21 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
 
         return rootView
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        /*val model = ViewModelProviders.of(activity!!).get(Communicator::class.java)
+        model.message.observe(this, object : Observer<Any> {
+            override fun onChanged(t: Any?) {
+                var ap : HashMap<String?, String?> = t as HashMap<String?, String?>
+                pageName = ap.get(GridMenuFragment.c.ARTIST_NAME_BUNDLE)
+                pageId = ap.get(GridMenuFragment.c.PAGE_ID_BUNDLE)
+                shareEpkCode = ap.get(GridMenuFragment.c.EPK_SHARE_CODE_BUNDLE)
+            }
+        })*/
+    }
+
 
     override fun showUserData(userData: User) {
     }

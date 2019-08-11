@@ -27,6 +27,8 @@ object FirebaseConstants {
     val ARTIST_GENRE = "genre"
     val ARTIST_FB = "facebookLink"
     val ARTIST_IG = "instagramLink"
+    val ARTIST_CONTACT = "contact"
+    val ARTIST_SHARE_CODE = "epkShareCode"
 
     // FIELDS NAMES - T
 

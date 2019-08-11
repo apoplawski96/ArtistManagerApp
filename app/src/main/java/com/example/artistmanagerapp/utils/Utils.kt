@@ -14,8 +14,8 @@ object Utils : BaseActivity (){
 
     private val const = Constants
 
-    fun generateRedeemCodeString() : String{
-        val sb = StringBuilder(const.REDEEM_CODE_LENGTH)
+    fun generateCodeString(lenght : Int) : String{
+        val sb = StringBuilder(lenght)
         val rand = Random()
 
         for (i in 0 until sb.capacity()){

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.models.ArtistPage
+import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
@@ -14,6 +16,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
 abstract class BaseActivity : AppCompatActivity() {
+
+    //
+    var baseArtistPage : ArtistPage? = null
 
     // Tags
     val FIREBASE_TAG : String = "FIREBASE"
@@ -35,6 +40,7 @@ abstract class BaseActivity : AppCompatActivity() {
     val usersCollectionPath = db.collection(FirebaseConstants.USERS_COLLECTION_NAME)
     val artistPagesCollectionPath = db.collection(FirebaseConstants.ARTIST_PAGES_COLLECTION_NAME)
     val redeemCodesCollectionPath = db.collection("redeemCodes")
+    val epkShareCodesCollectionPath = db.collection("shareCodes")
     val userPath = usersCollectionPath.document(userId)
     val userArtistPagesCollectionPath = userPath.collection("artistPages")
 
@@ -69,5 +75,11 @@ abstract class BaseActivity : AppCompatActivity() {
             this.finish()
         }*/
     }
+
+//    fun putArtistPageDataToBundle(){
+//        putExtra(Constants.PAGE_ID_BUNDLE, pageId)
+//        putExtra(Constants.ARTIST_NAME_BUNDLE, pageName)
+//        putExtra(Constants.EPK_SHARE_CODE_BUNDLE, pageEpkShareCode)
+//    }
 
 }

@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -35,6 +37,7 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:palette-v7:28.0.0'
+    implementation "android.arch.lifecycle:extensions:1.1.1"
 
     // Firebase
     implementation 'com.google.firebase:firebase-auth:16.2.0'
@@ -45,9 +48,9 @@ dependencies {
     // Others
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
+    kapt 'com.github.bumptech.glide:annotations:4.9.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.makeramen:roundedimageview:2.3.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.github.clans:fab:1.6.2'
 
     // Widgets

@@ -3,10 +3,7 @@ package com.example.artistmanagerapp.firebase
 import android.util.Log
 import android.widget.Toast
 import com.example.artistmanagerapp.activities.BaseActivity
-import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
-import com.example.artistmanagerapp.interfaces.DataReceiver
-import com.example.artistmanagerapp.interfaces.RedeemCodeDataReceiver
-import com.example.artistmanagerapp.interfaces.UserDataPresenter
+import com.example.artistmanagerapp.interfaces.*
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.RedeemCode
 import com.example.artistmanagerapp.models.Task
@@ -106,12 +103,22 @@ class FirebaseDataReader : BaseActivity () {
         }
     }
 
-    fun getArtistPageData(artistPageId : String?, presenter : ArtistPagesPresenter){
+    fun getArtistPageData(artistPageId : String?, presenter : ArtistPagesPresenter?, receiver: ArtistPageDataReceiver?){
         artistPagesCollectionPath.document(artistPageId.toString()).get().addOnSuccessListener {documentSnapshot ->
             if (documentSnapshot.exists()){
                 val artistName = documentSnapshot.get(c.ARTIST_NAME).toString()
-                val artistPage = ArtistPage(artistName)
-                presenter.showArtistPageData(artistPage)
+                val genre = documentSnapshot.get(c.ARTIST_GENRE).toString()
+                val bio = documentSnapshot.get(c.ARTIST_BIO).toString()
+                val fbLink = documentSnapshot.get(c.ARTIST_FB).toString()
+                val instaLink = documentSnapshot.get(c.ARTIST_IG).toString()
+                val contact = documentSnapshot.get(c.ARTIST_CONTACT).toString()
+                val id = documentSnapshot.get(c.ARTIST_PAGE_ID).toString()
+                val shareCode = documentSnapshot.get(c.ARTIST_SHARE_CODE).toString()
+                val adminId = documentSnapshot.get(c.ARTIST_PAGE_ADMIN_ID).toString()
+
+                val artistPage = ArtistPage(artistName, adminId, id, bio, instaLink, fbLink, genre, contact, shareCode)
+                presenter?.showArtistPageData(artistPage)
+                receiver?.callback(artistPage)
             }
         }.addOnFailureListener {
 

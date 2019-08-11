@@ -1,5 +1,7 @@
 package com.example.artistmanagerapp.fragments
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -19,8 +21,10 @@ import com.example.artistmanagerapp.activities.*
 import com.example.artistmanagerapp.adapters.MenuAdapter
 import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
+import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.MenuItem
 import com.example.artistmanagerapp.models.Task
+import com.example.artistmanagerapp.utils.Communicator
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.TaskHelper
 import com.example.artistmanagerapp.utils.UsersHelper
@@ -31,14 +35,21 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
     private var menuItemsList : ArrayList <MenuItem> = ArrayList()
     // Adapters
     private var adapter: MenuAdapter? = null
-    // Page Id variable
+    // ArtistPage info
     var pageId : String? = null
+    var pageName : String? = null
+    var epkShareCode : String? = null
 
     companion object {
         @JvmStatic
-        fun newInstance(pageId : String) : GridMenuFragment {
+        val c = Constants
+        fun newInstance(pageId : String, artistPage: ArtistPage) : GridMenuFragment {
             val fragment = GridMenuFragment()
-            val bundle = Bundle().apply{ putString ("PAGE_ID", pageId) }
+            val bundle = Bundle().apply{
+                putString (c.PAGE_ID_BUNDLE, artistPage.artistPageId)
+                putString (c.ARTIST_NAME_BUNDLE, artistPage.artistName)
+                putString (c.EPK_SHARE_CODE_BUNDLE, artistPage.epkShareCode)
+            }
             fragment.arguments = bundle
             return fragment
         }
@@ -47,10 +58,14 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_grid_menu, container, false)
 
-        pageId = arguments?.getString("PAGE_ID").toString()
+        pageId = arguments?.getString(c.PAGE_ID_BUNDLE).toString()
+        pageName = arguments?.getString(c.ARTIST_NAME_BUNDLE).toString()
+        epkShareCode = arguments?.getString(c.EPK_SHARE_CODE_BUNDLE).toString()
 
         // Views
         var menuRecyclerView = rootView.findViewById(R.id.menu_recycler_view) as RecyclerView
+
+        Toast.makeText(activity, "$pageName+$pageId+$epkShareCode+asd", Toast.LENGTH_SHORT).show()
 
         // Parse tasks
         populateMenuItemsList()
@@ -61,30 +76,40 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
         return rootView
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //Toast.makeText(activity, "$pageName+$pageId+$epkShareCode+asd", Toast.LENGTH_SHORT).show()
+    }
+
+    fun putDataToBundle(intent : Intent?){
+        intent?.putExtra (Constants.PAGE_ID_BUNDLE, pageId)
+        intent?.putExtra (Constants.ARTIST_NAME_BUNDLE, pageName)
+        intent?.putExtra (Constants.EPK_SHARE_CODE_BUNDLE, epkShareCode)
+    }
+
     fun menuItemClicked (menuItem: MenuItem){
         var intent : Intent? = null
         var option = menuItem.itemName
 
+        Toast.makeText(activity, "$pageName+$pageId+$epkShareCode", Toast.LENGTH_SHORT).show()
+
         when (option){
             "Task manager" ->  {
-                intent = Intent(activity, TaskListActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
+                intent = Intent(activity, TaskListActivity::class.java)
             }
             "Events calendar" -> {
-                intent = Intent(activity, EventsManagerActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
+                intent = Intent(activity, EventsManagerActivity::class.java)
             }
             "Electronic Press Kit" -> {
-                intent = Intent(activity, EpkSelectorActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
+                intent = Intent(activity, EpkSelectorActivity::class.java)
             }
             "Switch/create artist page" -> {
                 UsersHelper.removeCurrentArtistPage(user?.uid.toString(), this)
             }
         }
 
-
-        /*if (menuItem.itemName.equals("Task manager")){
-            intent = Intent(activity, TaskListActivity::class.java)
-        }*/
-
+        putDataToBundle(intent)
         if (intent != null){ startActivity(intent) }
     }
 

@@ -309,7 +309,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
 
     }
 
-    override fun onAccept() {
+    override fun onAccept(option : DialogCreator.DialogControllerCallback.CallbackOption?) {
         TaskHelper.deleteTask(selectedTaskId, pathToTasksCollection, this)
         showProgressBar()
         disableActionToolbar()
@@ -318,6 +318,10 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
     override fun onDismiss() { disableActionToolbar() }
 
     override fun onShown() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onCallInvalid() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

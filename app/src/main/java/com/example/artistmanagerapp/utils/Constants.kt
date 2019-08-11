@@ -8,6 +8,7 @@ object Constants {
 
     // Numeric
     val REDEEM_CODE_LENGTH : Int = 7
+    val EPK_SHARE_CODE_LENGHT : Int = 5
     val GALLERY = 1
     val OPTION_ARTIST_AVATAR = 0
     val OPTION_USER_AVATAR = 1
@@ -21,6 +22,7 @@ object Constants {
     val USER_ADDED_TO_DB : String = "USER_ADDED_TO_DB"
     val ARTIST_PAGE_SELECTED : String = "ARTIST_PAGE_SELECTED"
     val CURRENT_ARTIST_PAGE_REMOVED : String = "CURRENT_ARTIST_PAGE_REMOVED"
+    val IMAGE_SUCCESSFULLY_UPLOADED : String = "IMAGE_SUCCESSFULLY_UPLOADED"
 
     // Options - TaskManager ActionToolbar activation
     val TASKS_ON_LONG_CLICKED : String = "TASKS_ON_LONG_CLICKED"
@@ -29,7 +31,9 @@ object Constants {
     // FIREBASE - TASK OBJECT FIELDS NAMES
     val FB_TASK_ISCOMPLETED : String = "completed"
 
-    // PageId bundle field name
+    // ARTIST PAGE BUNDLE
     val PAGE_ID_BUNDLE : String = "PAGE_ID"
+    val ARTIST_NAME_BUNDLE : String = "ARTIST_NAME"
+    val EPK_SHARE_CODE_BUNDLE : String = "EPK_SHARE_CODE"
 
 }

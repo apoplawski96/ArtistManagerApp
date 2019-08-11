@@ -9,8 +9,7 @@ class User {
     var artistRole : String? = null
     var artistPages : ArrayList<ArtistPage>? = null
     var currentArtistPageId : String? = null
-
-
+    var email : String? = null
 
     constructor(id: String?, firstName: String?, lastName: String?) {
         this.id = id

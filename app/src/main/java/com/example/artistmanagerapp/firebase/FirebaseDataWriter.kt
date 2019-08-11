@@ -46,6 +46,14 @@ class FirebaseDataWriter : BaseActivity(){
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
 
+//        // Adding ArtistPage record to artistPages collection
+//        artistPagesCollectionPath.document(pageId).set(artistPage, SetOptions.merge()).addOnSuccessListener {
+//            Log.d(FIREBASE_TAG, "Artist page successfully created: $artistPage")
+//            uiUpdater.updateUI(const.ARTIST_PAGE_CREATED)
+//        }.addOnFailureListener {
+//            Log.d(FIREBASE_ERROR, "Failure: $it")
+//        }
+
         // Adding user record and admin info to artist page record
         artistPagesCollectionPath.document(pageId).collection("pageMembers").document(userId).set(userInfo, SetOptions.merge()).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "User info successfully added to page_members collection: $userInfo")
