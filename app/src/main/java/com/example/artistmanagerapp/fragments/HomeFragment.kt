@@ -131,7 +131,7 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
 
     }
 
-    override fun receiveData(data: Any?) {
+    override fun receiveData(data: Any?, mInterface: Any?) {
         if (data == null){
             val intent = Intent(activity, SelectArtistPageActivity::class.java)
             startActivity(intent)

@@ -42,7 +42,7 @@ object UsersHelper : BaseActivity() {
         usersCollectionPath.document(userId).get().addOnSuccessListener { document ->
             if (document.exists()){
                 val currentArtistPageId : String? = document.get(c.CURRENT_ARTIST_PAGE).toString()
-                dataReceiver.receiveData(currentArtistPageId.toString())
+                dataReceiver.receiveData(currentArtistPageId.toString(), null)
             } else {
                 Log.d(FIREBASE_ERROR, "Artist page with provided pageId doesn't exist in user data")
             }

@@ -363,4 +363,8 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         tasksListEmptyTv?.visibility = View.GONE
     }
 
+    override fun onCodeRedeemed(pageId: String?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

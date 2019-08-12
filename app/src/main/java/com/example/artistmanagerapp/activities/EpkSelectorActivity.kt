@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.ui.DialogCreator
 import com.example.artistmanagerapp.utils.Constants
+import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
 import com.example.artistmanagerapp.utils.FirebaseConstants
 
-class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.DialogControllerCallback {
+class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.DialogControllerCallback, DataReceiver {
 
     // Current ArtistPage data
     var pageId : String? = null
@@ -73,8 +75,24 @@ class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.
 
     }
 
-    override fun onAccept(option: DialogCreator.DialogControllerCallback.CallbackOption?) {
+    override fun receiveData(data: Any?, mInterface: Any?) {
 
+    }
+
+    override fun onCodeRedeemed(redeemedPageId: String?) {
+        val intent = Intent(applicationContext, SharedEpkActivity::class.java).apply{
+            putExtra(Constants.EPK_SHARED_PAGE_ID, redeemedPageId)
+            putExtra("wasCodeRedeemed", true)
+        }
+        startActivity(intent)
+    }
+
+    override fun onAccept(option: DialogCreator.DialogControllerCallback.CallbackOption?) {
+        when (option){
+            DialogCreator.DialogControllerCallback.CallbackOption.CODE_REDEEMED -> {
+
+            }
+        }
     }
 
     override fun onDismiss() {

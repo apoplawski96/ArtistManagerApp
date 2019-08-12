@@ -7,13 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.utils.ConstMessages
+import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
 import com.example.artistmanagerapp.utils.Utils
 import kotlinx.android.synthetic.main.dialog_standard.view.*
 
-class DialogCreator {
+class DialogCreator{
 
     enum class DialogType {
         CONNECTION_ERROR,
@@ -24,10 +27,11 @@ class DialogCreator {
         EPK_NOT_GENERATED
     }
 
-    companion object {
+    companion object : DataReceiver {
         val msg = ConstMessages
         var callbackOption : DialogControllerCallback.CallbackOption? = null
 
+        // Standard Dialog setup
         fun showDialog (type : DialogType, context: Context, dialogControllerCallback: DialogControllerCallback){
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val view = inflater.inflate(R.layout.dialog_standard ,null)
@@ -71,6 +75,7 @@ class DialogCreator {
             dialog.show()
         }
 
+        // Code Dialog setup
         fun showCodeDialog (type : DialogType, context: Context, dialogControllerCallback: DialogControllerCallback, textContent : String?){
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val view = inflater.inflate(R.layout.dialog_mod_dynamic ,null)
@@ -80,6 +85,7 @@ class DialogCreator {
             val dialogText : EditText = view.findViewById(R.id.dialog_mod_text)
             val dialogButton : Button = view.findViewById(R.id.dialog_mod_btn)
             val dialogCloseX : TextView = view.findViewById(R.id.dialog_mod_close_x)
+            val dialogProgressBar : ProgressBar = view.findViewById(R.id.dialog_mod_progress_bar)
 
             when (type) {
                 DialogType.SHARE_EPK_DIALOG -> {
@@ -94,7 +100,12 @@ class DialogCreator {
             }
 
             dialogButton.setOnClickListener {
-                dialog.hide()
+                if (callbackOption == DialogControllerCallback.CallbackOption.CODE_REDEEMED){
+                    dialogProgressBar.visibility = View.VISIBLE
+                    ElectronicPressKitHelper.redeemShareCode(dialogText.text.toString(), this, dialogControllerCallback) //tutaj receiver dostaje dane o pomyslnym lub niepomyslnym zreedemowaniu kodu
+                } else{
+                    dialog.hide()
+                }
                 dialogControllerCallback.onAccept(callbackOption)
             }
 
@@ -104,6 +115,17 @@ class DialogCreator {
             }
 
             dialog.show()
+        }
+
+        // DataReceiver inteface implementation
+        override fun receiveData(data: Any?, mInterface: Any?) {
+            if (data == null){
+                //hideProgressBar()
+                //showInvalidCodeMessage()
+            } else{
+                mInterface as DialogControllerCallback
+                mInterface.onCodeRedeemed(data.toString())
+            }
         }
 
     }
@@ -118,6 +140,7 @@ class DialogCreator {
         fun onDismiss()
         fun onShown()
         fun onCallInvalid()
+        fun onCodeRedeemed(pageId : String?)
     }
 
 }

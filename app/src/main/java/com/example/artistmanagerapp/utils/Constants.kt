@@ -35,5 +35,6 @@ object Constants {
     val PAGE_ID_BUNDLE : String = "PAGE_ID"
     val ARTIST_NAME_BUNDLE : String = "ARTIST_NAME"
     val EPK_SHARE_CODE_BUNDLE : String = "EPK_SHARE_CODE"
+    val EPK_SHARED_PAGE_ID : String = "EPK_SHARED_PAGE_ID"
 
 }

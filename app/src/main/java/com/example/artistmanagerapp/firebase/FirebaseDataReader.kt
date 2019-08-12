@@ -129,7 +129,7 @@ class FirebaseDataReader : BaseActivity () {
         usersCollectionPath.document(userId).collection("artistPages").document(pageId).get().addOnSuccessListener { document ->
             if (document.exists()){
                 val pageRole : String? = document.get("pageRole").toString()
-                dataReceiver.receiveData(pageRole)
+                dataReceiver.receiveData(pageRole, null)
             } else {
                 Log.d(FIREBASE_ERROR, "Artist page with provided pageId doesn't exist in user data")
             }

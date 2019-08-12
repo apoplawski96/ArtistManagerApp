@@ -4,10 +4,12 @@ import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.interfaces.BundleUpdater
+import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.RedeemCode
 import com.example.artistmanagerapp.models.ShareEpkCode
+import com.example.artistmanagerapp.ui.DialogCreator
 import com.google.firebase.firestore.SetOptions
 
 object ElectronicPressKitHelper : BaseActivity() {
@@ -55,10 +57,12 @@ object ElectronicPressKitHelper : BaseActivity() {
 
     }
 
-    fun redeemShareCode (shareCode : String, presenter : ArtistPagesPresenter ) {
+    fun redeemShareCode (shareCode : String, receiver : DataReceiver, dialogControllerCallback: DialogCreator.DialogControllerCallback) {
         epkShareCodesCollectionPath.document(shareCode).get().addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot.exists()){
-                //presenter.showArtistPageData(documentSnapshot.get("connectedPageId"))
+                receiver.receiveData(documentSnapshot.get("connectedPageId").toString(), dialogControllerCallback)
+            } else {
+                receiver.receiveData(null, dialogControllerCallback)
             }
         }
     }

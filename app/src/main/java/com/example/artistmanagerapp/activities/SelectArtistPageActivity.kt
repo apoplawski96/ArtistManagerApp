@@ -312,7 +312,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     }
 
-    override fun receiveData(data: Any?) {
+    override fun receiveData(data: Any?, mInterface: Any?) {
         if (data != "null"){
             updateUI(const.ARTIST_PAGE_SELECTED)
         }

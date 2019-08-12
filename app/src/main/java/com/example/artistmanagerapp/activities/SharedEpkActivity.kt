@@ -28,7 +28,7 @@ import com.example.artistmanagerapp.utils.MyAppGlideModule
 
 
 
-class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCreator.DialogControllerCallback, BundleUpdater {
+class SharedEpkActivity : BaseActivity(), ArtistPagesPresenter {
 
     // ArtistPage data
     var pageId : String? = null
@@ -51,13 +51,9 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_artist_epk_kind_of)
 
-        // ArtistPage data
-        pageId = intent.getStringExtra(Constants.PAGE_ID_BUNDLE)
-        epkShareCode = intent.getStringExtra(Constants.EPK_SHARE_CODE_BUNDLE)
+        // ArtistPage bundled data
         wasCodeRedeemed = intent.getBooleanExtra("wasCodeRedeemed", false)
         sharedPageId = intent.getStringExtra(Constants.EPK_SHARED_PAGE_ID)
-
-        Toast.makeText(this, epkShareCode, Toast.LENGTH_SHORT).show()
 
         // Views
         genre = findViewById(R.id.epk_genre)
@@ -68,10 +64,6 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
         returnButton = findViewById(R.id.epk_return_button)
         progressOverlay = findViewById(R.id.progress_overlay)
         progressBar = findViewById(R.id.epk_progress_bar)
-
-        initUI()
-
-        FirebaseDataReader().getArtistPageData(pageId, this, null)
 
         // Collapsing Toolbar Setup (jakby ktos nie zauwazyl xD)
         val typeface : Typeface? = ResourcesCompat.getFont(this, R.font.montserrat)
@@ -84,6 +76,10 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
         collapsingToolbarLayout!!.setCollapsedTitleTypeface(typeface)
         collapsingToolbarLayout!!.setExpandedTitleTypeface(typeface)
 
+        initUI()
+
+        FirebaseDataReader().getArtistPageData(sharedPageId, this, null)
+
         returnButton?.setOnClickListener {
             onBackPressed()
         }
@@ -92,14 +88,6 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
 
     override fun onBackPressed() {
         super.onBackPressed()
-    }
-
-    private fun dynamicColor() {
-        val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.avatar)
-        Palette.from(bitmap).generate { palette ->
-            collapsingToolbarLayout!!.setContentScrimColor(palette!!.getMutedColor(resources.getColor(R.color.colorPrimary)))
-            collapsingToolbarLayout!!.setStatusBarScrimColor(palette!!.getMutedColor(resources.getColor(R.color.colorAccent)))
-        }
     }
 
     fun initUI(){
@@ -114,7 +102,6 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
 
     override fun showArtistPageData(artistPage: ArtistPage) {
         var artistPageData : HashMap <String, String> = HashMap()
-        var isEpkDataMissing = false
 
         collapsingToolbarLayout!!.title = artistPage.artistName.toString()
         genre?.text = artistPage.genre.toString()
@@ -130,13 +117,6 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
         artistPageData.put("Contact", contact?.text.toString())
         artistPageData.put("Name", artistPage.artistName.toString())
 
-        for ((key, value) in artistPageData){
-            if (value == "null"){
-                isEpkDataMissing = true
-            }
-        }
-
-
         // Cover photo retrieving and loading into a view
         val imageRef = storageRef.child("electronicPressKitPhotos/MvFdswTbaR9YdnWr967C/cover.jpg")
         var artistImage : ImageView = findViewById(R.id.artist_cover_photo_epk)
@@ -144,47 +124,11 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
             val bitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData?.size!!.toInt())
             artistImage.setImageBitmap(bitmap)
 
-            if (isEpkDataMissing){
-                DialogCreator.showDialog(DialogCreator.DialogType.MISSING_EPK_DATA, this, this)
-                progressOverlay?.visibility = View.VISIBLE
-                progressBar?.visibility = View.GONE
-            } else{
-                if ((epkShareCode == null) or (epkShareCode == "null")){
-                    ElectronicPressKitHelper.generateShareCode(pageId, this)
-                }
-                updateUI()
-            }
-
+            updateUI()
         }
 
     }
 
-    override fun onAccept(option : DialogCreator.DialogControllerCallback.CallbackOption?) {
-        this.finish()
-    }
-
-    override fun onCodeRedeemed(pageId: String?) {
-
-    }
-
-    override fun onDismiss() {
-
-    }
-
-    override fun onShown() {
-
-    }
-
-    override fun onCallInvalid() {
-
-    }
-
-    override fun updateBundleData(newData: Any?) {
-        epkShareCode = newData.toString()
-        Toast.makeText(this, "Data updated with: $epkShareCode", Toast.LENGTH_SHORT).show()
-    }
-
     override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {}
     override fun showNoPagesText() {}
-
 }

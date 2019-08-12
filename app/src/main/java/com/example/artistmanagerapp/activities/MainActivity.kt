@@ -63,7 +63,7 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
         fragmentTransaction.commit()
     }
 
-    override fun receiveData(data: Any?) {
+    override fun receiveData(data: Any?, mInterface: Any?) {
         if (data == null){
             val intent = Intent(applicationContext, SelectArtistPageActivity::class.java)
             startActivity(intent)
