@@ -12,6 +12,7 @@ import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.models.ArtistPage
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.provider.MediaStore
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.CardView
@@ -36,10 +37,6 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     // Views
     var selectArtistRecyclerView : RecyclerView? = null
-    var fab : FloatingActionButton? = null
-    var fabMin1 : FloatingActionButton? = null
-    var fabMin2 : FloatingActionButton? = null
-    var fabMin3 : FloatingActionButton? = null
     var createPageDialog : Dialog? = null
     var dialogNameInput : EditText? = null
     var dialogAddImageButton : FloatingActionButton? = null
@@ -63,14 +60,17 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     var dataReader : FirebaseDataReader? = null
     var dataWriter : FirebaseDataWriter? = null
 
-    // Others
+    // Boolean controllers
     var isFABOpen : Boolean? = null
     var isCreatePageDialogOpen : Boolean? = null
     var isRedeemCodeDialogOpen : Boolean? = null
+    var isPhotoUploaded = false
+    var isPageNameValid = false
 
     // Objects
     val const = Constants
     val utils = Utils
+    var bitmap : Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,9 +90,6 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
         // Views
         selectArtistRecyclerView = findViewById(R.id.artist_page_selector_recycler_view)
-        fab = findViewById(R.id.fab_main)
-        fabMin1 = findViewById(R.id.fab_mini_1)
-        fabMin2 = findViewById(R.id.fab_mini_2)
         createArtistPageItem = findViewById(R.id.create_artist_page_cardview)
         joinArtistPageItem = findViewById(R.id.join_artist_page_cardview)
 
@@ -111,26 +108,11 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         adapter = SelectArtistPageAdapter(artistPageArrayList) { item : ArtistPage -> artistPageClicked(item)}
         selectArtistRecyclerView?.adapter = adapter
 
-        // Setting up Floating Action Button
-        fab?.setOnClickListener {
-            if (isFABOpen == false){
-                //showFABMenu()
-            } else {
-                //closeFABMenu()
-            }
-        }
-
-
         createArtistPageItem?.setOnClickListener { showCreatePageDialog() }
         joinArtistPageItem?.setOnClickListener { showRedeemCodeDialog() }
-
-        // Setting up "Create Page" Floating Action Button
-        fabMin1?.setOnClickListener { if (isFABOpen == true){ showCreatePageDialog() } }
-        fabMin2?.setOnClickListener { if (isFABOpen == true){ showRedeemCodeDialog() } }
-
     }
 
-    // Setting up custom behaviour when dialog is shown
+    // Setting up custom behaviour when dialogs are shown
     override fun onBackPressed() {
         when {
             isCreatePageDialogOpen == true -> closeCreatePageDialog()
@@ -139,22 +121,20 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         }
     }
 
+    // Getting photo from storage and getting it ready to upload
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        //Toast.makeText(this, "kuraw wrucilem", Toast.LENGTH_SHORT).show()
 
         if (requestCode == 1) {
             if (data != null) {
                 val contentURI = data!!.data
                 try {
-                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
+                    bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
                     dialogBackgroundImage?.setImageBitmap(bitmap)
-                    Toast.makeText(this, "kuraw wrucilem", Toast.LENGTH_SHORT).show()
+                    isPhotoUploaded = true
                 }
                 catch (e: IOException) {
                     e.printStackTrace()
-                    //Toast.makeText(this@MainActivity, "Failed!", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -165,6 +145,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         noPagesText?.visibility = View.GONE
         adapter?.update(artistPagesList)
     }
+
 
     override fun showNoPagesText() {
         Toast.makeText(this, "Nimo", Toast.LENGTH_SHORT).show()
@@ -227,11 +208,16 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
         dialogCreatePageButton?.setOnClickListener {
             var pageNameInputText = dialogNameInput?.text.toString()
-            var artistPage = ArtistPage(pageNameInputText, userId)
+            isPageNameValid = Utils.validatePageName(pageNameInputText)
 
-            showProgress()
-            createDialogProgressBar?.visibility = View.VISIBLE
-            dataWriter?.createArtistPage(artistPage, this, userId)
+            if (isPageNameValid && isPhotoUploaded){
+                var artistPage = ArtistPage(pageNameInputText, userId)
+                showProgress()
+                createDialogProgressBar?.visibility = View.VISIBLE
+                dataWriter?.createArtistPage(artistPage, this, userId, bitmap)
+            } else {
+                Toast.makeText(this, "Page name must be at least 3 characters long and photo needs to be uploaded", Toast.LENGTH_LONG).show()
+            }
         }
 
         dialogAddImageButton?.setOnClickListener {

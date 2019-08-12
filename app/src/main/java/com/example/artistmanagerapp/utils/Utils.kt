@@ -42,14 +42,18 @@ object Utils : BaseActivity (){
         startActivityForResult(galleryIntent, const.GALLERY)
     }
 
-    fun validateFirstName(textInput : String) : Boolean{
+    fun validateFirstName(textInput : String?) : Boolean{
 
         return true
     }
 
-    fun validateLastName(textInput : String) : Boolean{
+    fun validateLastName(textInput : String?) : Boolean{
 
         return true
+    }
+
+    fun validatePageName (textInput : String?) : Boolean{
+        return (textInput != null) && (textInput.length>2)
     }
 
     fun switchActivity(activity : AppCompatActivity){

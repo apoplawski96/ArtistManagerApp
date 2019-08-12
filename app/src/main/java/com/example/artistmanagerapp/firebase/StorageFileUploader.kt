@@ -21,15 +21,15 @@ class StorageFileUploader : BaseActivity() {
 
     val c = Constants
 
-    fun saveImage(myBitmap : Bitmap?, storagePath : StorageReference, presenter : UserInterfaceUpdater) {
+    fun saveImage(myBitmap : Bitmap?, storagePath : StorageReference, presenter : UserInterfaceUpdater?) {
         val bytes = ByteArrayOutputStream()
         myBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         val data = bytes.toByteArray()
 
         var uploadTask = storagePath.putBytes(data)
         uploadTask.addOnSuccessListener {
-            presenter.updateUI(c.IMAGE_SUCCESSFULLY_UPLOADED)
-            presenter.hideProgress()
+            presenter?.updateUI(c.IMAGE_SUCCESSFULLY_UPLOADED)
+            presenter?.hideProgress()
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }

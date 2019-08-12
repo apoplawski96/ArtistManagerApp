@@ -1,5 +1,6 @@
 package com.example.artistmanagerapp.firebase
 
+import android.graphics.Bitmap
 import android.util.Log
 import android.widget.Toast
 import com.example.artistmanagerapp.activities.BaseActivity
@@ -133,6 +134,14 @@ class FirebaseDataReader : BaseActivity () {
             } else {
                 Log.d(FIREBASE_ERROR, "Artist page with provided pageId doesn't exist in user data")
             }
+        }
+    }
+
+    fun getStorageAvatars (idList : ArrayList<String?>, dataReceiver: DataReceiver, option : String){
+        var idBitmapHashMap : HashMap <String?, Bitmap?> = HashMap()
+
+        for (id in idList){
+
         }
     }
 

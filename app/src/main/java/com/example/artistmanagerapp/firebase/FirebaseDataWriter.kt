@@ -1,5 +1,6 @@
 package com.example.artistmanagerapp.firebase
 
+import android.graphics.Bitmap
 import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
@@ -11,6 +12,7 @@ import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
+import java.io.ByteArrayOutputStream
 
 class FirebaseDataWriter : BaseActivity(){
 
@@ -26,7 +28,7 @@ class FirebaseDataWriter : BaseActivity(){
         }
     }
 
-    fun createArtistPage(artistPage : ArtistPage, uiUpdater: UserInterfaceUpdater, userId: String){
+    fun createArtistPage(artistPage : ArtistPage, uiUpdater: UserInterfaceUpdater, userId: String, photoBitmap: Bitmap?){
         // Setting up data
         val pageId = artistPagesCollectionPath.document().id
         val userInfo = User(userId, "admin") // PAGE ROLE SOMEHOW DOESN'T ADD TO DATABASE
@@ -37,22 +39,17 @@ class FirebaseDataWriter : BaseActivity(){
         artistPageInfo.put(c.ARTIST_PAGE_ID, pageId)
         artistPageInfo.put(c.ARTIST_PAGE_ADMIN_ID, userId)
 
+        // Setting up photo
+        val bytes = ByteArrayOutputStream()
+        photoBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val data = bytes.toByteArray()
 
         // Adding page record to artistPages collection
         artistPagesCollectionPath.document(pageId).set(artistPage, SetOptions.merge()).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "Artist page successfully created: $artistPage")
-            uiUpdater.updateUI(const.ARTIST_PAGE_CREATED)
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
-
-//        // Adding ArtistPage record to artistPages collection
-//        artistPagesCollectionPath.document(pageId).set(artistPage, SetOptions.merge()).addOnSuccessListener {
-//            Log.d(FIREBASE_TAG, "Artist page successfully created: $artistPage")
-//            uiUpdater.updateUI(const.ARTIST_PAGE_CREATED)
-//        }.addOnFailureListener {
-//            Log.d(FIREBASE_ERROR, "Failure: $it")
-//        }
 
         // Adding user record and admin info to artist page record
         artistPagesCollectionPath.document(pageId).collection("pageMembers").document(userId).set(userInfo, SetOptions.merge()).addOnSuccessListener {
@@ -70,6 +67,14 @@ class FirebaseDataWriter : BaseActivity(){
 
         // Setting up currentArtistPage
         userPath.set(mapOf(c.CURRENT_ARTIST_PAGE to pageId), SetOptions.merge()).addOnSuccessListener {  }.addOnFailureListener {  }
+
+        // Uploading page avatar
+        var uploadTask = storageRef.child("pageAvatars/$pageId/avatar.jpg").putBytes(data)
+        uploadTask.addOnSuccessListener {
+            uiUpdater.updateUI(const.ARTIST_PAGE_CREATED)
+        }.addOnFailureListener {
+            Log.d(FIREBASE_ERROR, "Failure: $it")
+        }
 
     }
 

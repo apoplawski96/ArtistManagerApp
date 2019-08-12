@@ -41,10 +41,11 @@
     <android.support.design.widget.FloatingActionButton
             android:layout_width="35dp"
             android:layout_height="35dp"
+            app:fabCustomSize="35dp"
             android:clickable="true" app:srcCompat="@android:drawable/ic_menu_camera"
             android:id="@+id/dialog_add_image_button" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent" tools:visibility="gone"/>
+            app:layout_constraintBottom_toBottomOf="parent" tools:visibility="visible"/>
     <Button
             android:text="CREATE"
             android:layout_width="wrap_content"

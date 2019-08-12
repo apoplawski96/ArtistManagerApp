@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -26,6 +27,7 @@ import com.example.artistmanagerapp.activities.SelectArtistPageActivity
 import com.example.artistmanagerapp.activities.TaskDetailsActivity
 import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
+import com.example.artistmanagerapp.firebase.StorageDataRetriever
 import com.example.artistmanagerapp.interfaces.*
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Task
@@ -37,7 +39,7 @@ import com.example.artistmanagerapp.utils.TaskHelper
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
 
-class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPagesPresenter {
+class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPagesPresenter, MediaLoader {
 
     // FragmentsMessenger
     var model : Communicator? = null
@@ -55,6 +57,7 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
     var tasksCounter : TextView? = null
     var eventsCounter : TextView? = null
     var assignmentsCounter : TextView? = null
+    var pageAvatar : CircleImageView? = null
 
     companion object {
         @JvmStatic
@@ -88,25 +91,24 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         // Views
         helloUser = rootView.findViewById(R.id.hello_user)
         thisIsBandName = rootView.findViewById(R.id.this_is_band_name)
+        pageAvatar = rootView.findViewById(R.id.circle_page_avatar)
         thisIsBandName?.text = pageName
 
         model = ViewModelProviders.of(activity!!).get(Communicator::class.java)
         model!!.setMsgCommunicator(pageName.toString())
 
-        // Load band photo
-        //val options = RequestOptions()
-        //options.centerCrop()
-        //Glide.with(this).load(R.mipmap.band_photo_avatar).apply(options).into(bandAvatar)
+        // Load page avatar
+        StorageDataRetriever().downloadImageViaId(pageId, StorageDataRetriever.DownloadOption.PAGE_AVATAR, this)
 
         // Show user data
         FirebaseDataReader().getUserData(user?.uid.toString(), this)
 
-        // Load avatar
-        val storageRef = FirebaseStorage.getInstance().reference
-        val avatarPath = storageRef.child("avatars/perfectUser/avatar.jpg")
-        //Glide.with(this).load(R.mipmap.avatar).into(userAvatar)
-
         return rootView
+    }
+
+    override fun loadImage(bitmap: Bitmap?, option: MediaLoader.MediaLoaderOptions?) {
+        pageAvatar?.setImageBitmap(bitmap)
+        Toast.makeText(activity, "hui", Toast.LENGTH_SHORT).show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
