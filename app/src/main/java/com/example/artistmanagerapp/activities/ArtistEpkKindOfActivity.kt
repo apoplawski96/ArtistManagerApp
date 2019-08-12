@@ -1,6 +1,7 @@
 package com.example.artistmanagerapp.activities
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
@@ -32,6 +33,7 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
 
     // ArtistPage data
     var pageId : String? = null
+    var pageName : String? = null
     var epkShareCode : String? = null
     var wasCodeRedeemed = false
     var sharedPageId : String? = null
@@ -53,6 +55,7 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
 
         // ArtistPage data
         pageId = intent.getStringExtra(Constants.PAGE_ID_BUNDLE)
+        pageName = intent.getStringExtra(Constants.ARTIST_NAME_BUNDLE)
         epkShareCode = intent.getStringExtra(Constants.EPK_SHARE_CODE_BUNDLE)
         wasCodeRedeemed = intent.getBooleanExtra("wasCodeRedeemed", false)
         sharedPageId = intent.getStringExtra(Constants.EPK_SHARED_PAGE_ID)
@@ -92,6 +95,14 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
 
     override fun onBackPressed() {
         super.onBackPressed()
+
+        // Making sure that updated data is sent back to EpkSelectorActivity
+        val intent = Intent(applicationContext, EpkSelectorActivity::class.java).apply{
+            putExtra(Constants.PAGE_ID_BUNDLE, pageId)
+            putExtra(Constants.ARTIST_NAME_BUNDLE, pageName)
+            putExtra(Constants.EPK_SHARE_CODE_BUNDLE, epkShareCode)
+        }
+        startActivity(intent)
     }
 
     private fun dynamicColor() {

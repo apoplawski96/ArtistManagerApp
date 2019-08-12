@@ -51,7 +51,7 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater {
         pageId = intent.getStringExtra(Constants.PAGE_ID_BUNDLE)
         pageName = intent.getStringExtra(Constants.ARTIST_NAME_BUNDLE)
 
-        Toast.makeText(this, pageId.toString(), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, pageName.toString(), Toast.LENGTH_SHORT).show()
 
         // Views
         artistNameInput = findViewById(R.id.artist_name_epk)

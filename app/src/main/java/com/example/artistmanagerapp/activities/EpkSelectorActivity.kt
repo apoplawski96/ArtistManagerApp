@@ -35,7 +35,7 @@ class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.
         pageName = intent.getStringExtra(Constants.ARTIST_NAME_BUNDLE)
         epkShareCode = intent.getStringExtra(Constants.EPK_SHARE_CODE_BUNDLE)
 
-        Toast.makeText(this, "$pageName+$pageId+$epkShareCode+asd", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Name:$pageName+ ID:$pageId+ ShareCode:$epkShareCode", Toast.LENGTH_SHORT).show()
 
         // Views
         editEpkInfoButton = findViewById(R.id.edit_info_bt)
