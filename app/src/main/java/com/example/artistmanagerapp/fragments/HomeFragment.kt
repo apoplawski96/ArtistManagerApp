@@ -21,10 +21,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
 import com.example.artistmanagerapp.R
-import com.example.artistmanagerapp.activities.BaseActivity
-import com.example.artistmanagerapp.activities.MainActivity
-import com.example.artistmanagerapp.activities.SelectArtistPageActivity
-import com.example.artistmanagerapp.activities.TaskDetailsActivity
+import com.example.artistmanagerapp.activities.*
 import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
 import com.example.artistmanagerapp.firebase.StorageDataRetriever
@@ -37,6 +34,7 @@ import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.example.artistmanagerapp.utils.TaskHelper
 import com.google.firebase.storage.FirebaseStorage
+import com.makeramen.roundedimageview.RoundedImageView
 import de.hdodenhof.circleimageview.CircleImageView
 
 class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPagesPresenter, MediaLoader {
@@ -48,7 +46,7 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
     var pageInfoMapBundle : HashMap <String?, String?> = HashMap()
     var pageId : String? = null
     var pageName : String? = null
-    var shareEpkCode : String? = null
+    var epkShareCode : String? = null
 
     // Views
     var helloUser : TextView? = null
@@ -58,6 +56,7 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
     var eventsCounter : TextView? = null
     var assignmentsCounter : TextView? = null
     var pageAvatar : CircleImageView? = null
+    var manageTeamButton : RoundedImageView? = null
 
     companion object {
         @JvmStatic
@@ -81,17 +80,18 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         // Getting bundle data
         pageId = arguments?.getString(c.PAGE_ID_BUNDLE).toString()
         pageName = arguments?.getString(c.ARTIST_NAME_BUNDLE).toString()
-        shareEpkCode = arguments?.get(c.EPK_SHARE_CODE_BUNDLE).toString()
+        epkShareCode = arguments?.get(c.EPK_SHARE_CODE_BUNDLE).toString()
         pageInfoMapBundle.put(c.PAGE_ID_BUNDLE, pageId)
         pageInfoMapBundle.put(c.ARTIST_NAME_BUNDLE, pageName)
-        pageInfoMapBundle.put(c.EPK_SHARE_CODE_BUNDLE, shareEpkCode)
+        pageInfoMapBundle.put(c.EPK_SHARE_CODE_BUNDLE, epkShareCode)
 
-        Toast.makeText(activity, "$pageName+asdasd$pageId+asdasd$shareEpkCode", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "$pageName+asdasd$pageId+asdasd$epkShareCode", Toast.LENGTH_SHORT).show()
 
         // Views
         helloUser = rootView.findViewById(R.id.hello_user)
         thisIsBandName = rootView.findViewById(R.id.this_is_band_name)
         pageAvatar = rootView.findViewById(R.id.circle_page_avatar)
+        manageTeamButton = rootView.findViewById(R.id.manage_team_button)
         thisIsBandName?.text = pageName
 
         model = ViewModelProviders.of(activity!!).get(Communicator::class.java)
@@ -103,12 +103,25 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         // Show user data
         FirebaseDataReader().getUserData(user?.uid.toString(), this)
 
+        // OnClicks managed
+        manageTeamButton?.setOnClickListener {
+            var intent = Intent(activity, ManageTeamActivity::class.java)
+            putDataToBundle(intent)
+            startActivity(intent)
+        }
+
         return rootView
     }
 
     override fun loadImage(bitmap: Bitmap?, option: MediaLoader.MediaLoaderOptions?) {
         pageAvatar?.setImageBitmap(bitmap)
         Toast.makeText(activity, "hui", Toast.LENGTH_SHORT).show()
+    }
+
+    fun putDataToBundle(intent : Intent?){
+        intent?.putExtra (Constants.PAGE_ID_BUNDLE, pageId)
+        intent?.putExtra (Constants.ARTIST_NAME_BUNDLE, pageName)
+        intent?.putExtra (Constants.EPK_SHARE_CODE_BUNDLE, epkShareCode)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

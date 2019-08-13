@@ -49,6 +49,26 @@ object UsersHelper : BaseActivity() {
         }
     }
 
+    fun getUserData (userId : String, dataReceiver: DataReceiver){
+        usersCollectionPath.document(UsersHelper.userId).get().addOnSuccessListener { document ->
+            if (document.exists()){
+                var user : User? = null
+                val firstName : String? = document.get(c.FIRST_NAME).toString()
+                val lastName : String? = document.get(c.LAST_NAME).toString()
+                val pageRole : String? = document.get(c.PAGE_ROLE).toString()
+                val artistRole : String? = document.get(c.ARTIST_ROLE).toString()
+                val email : String? = document.get(c.EMAIL).toString()
+                val currentArtistPageId : String? = document.get(c.CURRENT_ARTIST_PAGE).toString()
+
+                // Sending user data
+                user = User(userId, firstName, lastName, pageRole, artistRole, null, currentArtistPageId, email)
+                dataReceiver.receiveData(user, null)
+            } else {
+                Log.d(FIREBASE_ERROR, "Artist page with provided pageId doesn't exist in user data")
+            }
+        }
+    }
+
     // ************************************************ READ FUNCTIONS/ ************************************************
 
     // ************************************************ \WRITE FUNCTIONS ************************************************

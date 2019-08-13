@@ -152,7 +152,8 @@
                                                          android:src="@mipmap/cover_photo_4"
                                                          app:riv_corner_radius="25dp"
                                                          android:layout_marginStart="20dp"
-                                                         android:scaleType="centerCrop"/>
+                                                         android:scaleType="centerCrop"
+                                                         android:id="@+id/manage_team_button"/>
         <com.makeramen.roundedimageview.RoundedImageView android:layout_width="180dp" android:layout_height="136dp"
                                                          android:layout_marginBottom="120dp"
                                                          app:layout_constraintBottom_toBottomOf="parent"

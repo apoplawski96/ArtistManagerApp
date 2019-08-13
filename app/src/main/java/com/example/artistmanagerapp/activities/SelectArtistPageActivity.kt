@@ -19,7 +19,6 @@ import android.support.v7.widget.CardView
 import android.view.View
 import android.widget.*
 import com.example.artistmanagerapp.firebase.FirebaseDataWriter
-import com.example.artistmanagerapp.firebase.StorageFileUploader
 import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.RedeemCodeDataReceiver
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
@@ -27,7 +26,6 @@ import com.example.artistmanagerapp.models.RedeemCode
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.UsersHelper
 import com.example.artistmanagerapp.utils.Utils
-import org.w3c.dom.Text
 import java.io.IOException
 
 class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInterfaceUpdater, RedeemCodeDataReceiver, DataReceiver {
@@ -194,10 +192,10 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         isCreatePageDialogOpen = true
 
         // Views
-        dialogNameInput = createPageDialog?.findViewById(R.id.dialog_artistname_input)
+        dialogNameInput = createPageDialog?.findViewById(R.id.dialog_redeem_code_text)
         dialogAddImageButton = createPageDialog?.findViewById(R.id.dialog_add_image_button)
         dialogClose = createPageDialog?.findViewById(R.id.dialog_close_x)
-        dialogCreatePageButton = createPageDialog?.findViewById(R.id.dialog_submit_button)
+        dialogCreatePageButton = createPageDialog?.findViewById(R.id.dialog_copy_button)
         dialogBackgroundImage = createPageDialog?.findViewById(R.id.dialog_background_image)
         createDialogProgressBar = findViewById(R.id.create_dialog_progress_bar)
 

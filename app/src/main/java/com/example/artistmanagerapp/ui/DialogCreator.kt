@@ -24,7 +24,8 @@ class DialogCreator{
         MISSING_EPK_DATA,
         SHARE_EPK_DIALOG,
         REDEEM_EPK_DIALOG,
-        EPK_NOT_GENERATED
+        EPK_NOT_GENERATED,
+        INVITE_CODE_GENERATED
     }
 
     companion object : DataReceiver {
@@ -96,6 +97,11 @@ class DialogCreator{
                 DialogType.REDEEM_EPK_DIALOG -> {
                     dialogButton.text = "REDEEM EPK CODE"
                     callbackOption = DialogControllerCallback.CallbackOption.CODE_REDEEMED
+                }
+                DialogType.INVITE_CODE_GENERATED -> {
+                    dialogButton.text = msg.COPY_TEXT
+                    Utils.disableEditText(dialogText)
+                    dialogText.setText(textContent.toString())
                 }
             }
 

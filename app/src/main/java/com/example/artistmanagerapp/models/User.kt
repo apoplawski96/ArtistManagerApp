@@ -37,4 +37,16 @@ class User {
         this.currentArtistPageId = currentArtistPageId
     }
 
+    constructor(id: String?, firstName: String?, lastName: String?, pageRole: String?, artistRole: String?, artistPages: ArrayList<ArtistPage>?, currentArtistPageId: String?, email: String?) {
+        this.id = id
+        this.firstName = firstName
+        this.lastName = lastName
+        this.pageRole = pageRole
+        this.artistRole = artistRole
+        this.artistPages = artistPages
+        this.currentArtistPageId = currentArtistPageId
+        this.email = email
+    }
+
+
 }
