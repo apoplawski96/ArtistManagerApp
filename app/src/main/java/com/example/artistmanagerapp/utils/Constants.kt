@@ -31,10 +31,17 @@ object Constants {
     // FIREBASE - TASK OBJECT FIELDS NAMES
     val FB_TASK_ISCOMPLETED : String = "completed"
 
-    // ARTIST PAGE BUNDLE
+    // ARTIST PAGE BUNDLE FIELD NAMES
     val PAGE_ID_BUNDLE : String = "PAGE_ID"
     val ARTIST_NAME_BUNDLE : String = "ARTIST_NAME"
     val EPK_SHARE_CODE_BUNDLE : String = "EPK_SHARE_CODE"
     val EPK_SHARED_PAGE_ID : String = "EPK_SHARED_PAGE_ID"
+
+    // USER BUNDLE FIELD NAMES
+    val USER_ID_BUNDLE : String = "USER_ID"
+    val FIRST_NAME_BUNDLE : String = "FIRST_NAME"
+    val LAST_NAME_BUNDLE : String = "LAST_NAME"
+    val PAGE_ROLE_BUNDLE : String = "PAGE_ROLE"
+    val CURRENT_PAGE_BUNDLE : String = "CURRENT_PAGE"
 
 }

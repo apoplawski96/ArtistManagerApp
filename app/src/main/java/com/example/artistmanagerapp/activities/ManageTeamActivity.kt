@@ -22,6 +22,12 @@ import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.UsersHelper
 import com.example.artistmanagerapp.utils.Utils
 import org.w3c.dom.Text
+import android.R.attr.label
+import android.content.ClipData
+import android.content.Context.CLIPBOARD_SERVICE
+import android.content.ClipboardManager
+import android.content.Context
+
 
 class ManageTeamActivity : BaseActivity(), UsersListListener{
 
@@ -89,7 +95,13 @@ class ManageTeamActivity : BaseActivity(), UsersListListener{
         dialogText?.setText(codeString.toString())
         Utils.disableEditText(dialogText)
 
-        dialogCopyButton?.setOnClickListener { Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show() }
+        dialogCopyButton?.setOnClickListener {
+            // Setting up copying
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Copied redeem code", codeString.toString())
+            clipboard.primaryClip = clip
+            Toast.makeText(this, "Code copied!", Toast.LENGTH_SHORT).show()
+        }
 
         dialogCloseButton?.setOnClickListener { inviteDialog?.hide() }
 

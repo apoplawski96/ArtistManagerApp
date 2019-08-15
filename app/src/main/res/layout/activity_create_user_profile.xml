@@ -36,7 +36,7 @@
                                                       app:layout_constraintBottom_toBottomOf="parent"
                                                       android:layout_marginBottom="1dp"
                                                       android:src="@mipmap/steel_grey_darker"
-                                                      android:alpha="0.5"/>
+                                                      android:alpha="0.5" android:id="@+id/add_avatar_image_view"/>
         <android.support.design.widget.FloatingActionButton
                 android:layout_width="30dp"
                 android:layout_height="30dp"

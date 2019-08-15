@@ -9,14 +9,14 @@ import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.interfaces.UsersListListener
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Utils
-import kotlinx.android.synthetic.main.item_user_avatar.view.*
+import kotlinx.android.synthetic.main.item_team_member.view.*
 
 class PageTeamAdapter (usersListListener: UsersListListener, val context : Context?, var usersList : ArrayList<User>, val clickListener : (User) -> Unit) : RecyclerView.Adapter<PageTeamAdapter.ViewHolder>() {
 
     val usersListListener : UsersListListener = usersListListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view : View = LayoutInflater.from(parent.context).inflate(R.layout.item_user_avatar, parent, false)
+        val view : View = LayoutInflater.from(parent.context).inflate(R.layout.item_team_member, parent, false)
         return ViewHolder(usersListListener , view, context)
     }
 
@@ -37,7 +37,8 @@ class PageTeamAdapter (usersListListener: UsersListListener, val context : Conte
 
         fun bind(usersListListener: UsersListListener, user : User, clickListener: (User) -> Unit){
             itemView.setOnClickListener {clickListener(user)}
-            itemView.username_acronym.text = Utils.createNameAcronym(user.firstName.toString(), user.lastName.toString())
+            itemView.name_acronym.text = Utils.createNameAcronym(user.firstName.toString(), user.lastName.toString())
+            itemView.full_name.text = "${user.firstName} ${user.lastName}"
         }
 
     }

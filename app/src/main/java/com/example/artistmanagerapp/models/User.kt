@@ -11,6 +11,8 @@ class User {
     var currentArtistPageId : String? = null
     var email : String? = null
 
+    constructor()
+
     constructor(id: String?, firstName: String?, lastName: String?) {
         this.id = id
         this.firstName = firstName

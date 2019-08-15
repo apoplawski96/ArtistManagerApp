@@ -21,19 +21,38 @@ class FirebaseDataWriter : BaseActivity(){
     private val const = Constants
     private val c = FirebaseConstants
 
-    fun addUserDataToDbAndUpdateUi(collectionPath : CollectionReference, dataMap : HashMap<String, Any>, userId : String, uiUpdater: UserInterfaceUpdater){
+    fun addUserDataToDbAndUpdateUi(collectionPath : CollectionReference, dataMap : HashMap<String, Any>, userId : String, uiUpdater: UserInterfaceUpdater, avatarBitmap: Bitmap?){
+
+        // Initializing user record in database
         collectionPath.document(userId).set(dataMap, SetOptions.merge()).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "Data successfully added: $dataMap")
+        }.addOnFailureListener {
+            Log.d(FIREBASE_ERROR, "Failure: $it")
+        }
+
+        // Uploading user avatar and triggering UI update in the corresponding activity
+        val bytes = ByteArrayOutputStream()
+        avatarBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val data = bytes.toByteArray()
+
+        var uploadTask = storageRef.child("avatars/$userId/avatar.jpg").putBytes(data)
+        uploadTask.addOnSuccessListener {
             uiUpdater.updateUI(const.USER_ADDED_TO_DB)
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
+
     }
 
-    fun createArtistPage(artistPage : ArtistPage, uiUpdater: UserInterfaceUpdater, userId: String, photoBitmap: Bitmap?){
-        // Setting up data
+    fun createArtistPage(artistPage : ArtistPage, uiUpdater: UserInterfaceUpdater, user: User?, photoBitmap: Bitmap?){
+        // Creating and capturing new Page id
         val pageId = artistPagesCollectionPath.document().id
-        val userInfo = User(userId, "admin") // PAGE ROLE SOMEHOW DOESN'T ADD TO DATABASE
+
+        // Setting up User data
+        //val userInfo = User(userId, "admin")
+        val mUser = user as User
+
+        // Settin up Page data
         var artistPageInfo = HashMap<String, Any>()
         artistPage.artistPageId = pageId
         artistPage.artistPageAdminId = userId
@@ -54,8 +73,8 @@ class FirebaseDataWriter : BaseActivity(){
         }
 
         // Adding user record and admin info to artist page record
-        artistPagesCollectionPath.document(pageId).collection("pageMembers").document(userId).set(userInfo, SetOptions.merge()).addOnSuccessListener {
-            Log.d(FIREBASE_TAG, "User info successfully added to page_members collection: $userInfo")
+        artistPagesCollectionPath.document(pageId).collection("pageMembers").document(userId).set(mUser, SetOptions.merge()).addOnSuccessListener {
+            Log.d(FIREBASE_TAG, "User info successfully added to page_members collection: $mUser")
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
@@ -102,22 +121,25 @@ class FirebaseDataWriter : BaseActivity(){
         val initData : HashMap<String, Any?> = HashMap()
         initData.put("pageRole", null)
 
-        usersCollectionPath.document(userId).collection("artistPages").document(artistPageId.toString()).set(initData).addOnSuccessListener {
+        usersCollectionPath.document(userId).collection("artistPages").document(artistPageId.toString()).set(initData, SetOptions.merge()).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "Artist page info successfully added to user record: $initData")
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
+
     }
 
-    fun addMemberToArtistPage(userId : String, pageId : String){
-        val userData : HashMap<String, Any?>  = HashMap()
-        userData.put("pageRole", null)
+    // TO FIX
+    fun addMemberToArtistPage(userId : String, pageId : String, user : User){
+        val mUser = user
 
-        artistPagesCollectionPath.document(pageId).collection("pageMembers").document(userId).set(userData).addOnSuccessListener {
-            Log.d(FIREBASE_TAG, "User info successfully added to page_members collection: $userData")
+        // Adding user record and admin info to artist page record
+        artistPagesCollectionPath.document(pageId).collection("pageMembers").document(userId).set(mUser, SetOptions.merge()).addOnSuccessListener {
+            Log.d(FIREBASE_TAG, "User info successfully added to page_members collection: $mUser")
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
+
     }
 
     fun updatePageRole(userId: String, pageId : String, pageRole : String?){

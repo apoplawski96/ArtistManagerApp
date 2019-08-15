@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.utils.Constants
@@ -58,6 +59,8 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_base)
+
+        Toast.makeText(this, "Current user ID: $userId", Toast.LENGTH_LONG).show()
 
         exitIfUserNotLogged()
     }

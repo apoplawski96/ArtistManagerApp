@@ -23,6 +23,7 @@ import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.RedeemCodeDataReceiver
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.RedeemCode
+import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.UsersHelper
 import com.example.artistmanagerapp.utils.Utils
@@ -32,6 +33,15 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     // Collections
     private var artistPageArrayList : ArrayList <ArtistPage> = ArrayList()
+
+    // Variables set - User
+    var userObject : User? = null
+    var mFirstName : String? = null
+    var mLastName : String? = null
+    var pageRole : String? = null
+    var artistRole : String? = null
+    var currentPage : String? = null
+    var email : String? = null
 
     // Views
     var selectArtistRecyclerView : RecyclerView? = null
@@ -75,7 +85,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         setContentView(R.layout.activity_select_artist_page)
         Log.d(ACTIVITY_WELCOME_TAG, "Welcome to SelectArtistPageActivity")
 
-        UsersHelper.getCurrentArtistPage(userId, this)
+        UsersHelper.getUserData(user?.uid.toString(), this)
 
         // Booleans initialization
         isFABOpen = false
@@ -146,21 +156,28 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
 
     override fun showNoPagesText() {
-        Toast.makeText(this, "Nimo", Toast.LENGTH_SHORT).show()
         noPagesText?.visibility = View.VISIBLE
     }
 
     override fun updateUI(option : String) {
         when (option){
             const.ARTIST_PAGE_CREATED -> {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra(Constants.FIRST_NAME_BUNDLE, mFirstName)
+                    putExtra(Constants.LAST_NAME_BUNDLE, mLastName)
+                    putExtra(Constants.PAGE_ROLE_BUNDLE, pageRole)
+                }
                 startActivity(intent)
             }
             const.CODE_SUCCESSFULLY_REDEEMED -> {
 
             }
             const.ARTIST_PAGE_SELECTED -> {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra(Constants.FIRST_NAME_BUNDLE, mFirstName)
+                    putExtra(Constants.LAST_NAME_BUNDLE, mLastName)
+                    putExtra(Constants.PAGE_ROLE_BUNDLE, pageRole)
+                }
                 startActivity(intent)
             }
         }
@@ -212,7 +229,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
                 var artistPage = ArtistPage(pageNameInputText, userId)
                 showProgress()
                 createDialogProgressBar?.visibility = View.VISIBLE
-                dataWriter?.createArtistPage(artistPage, this, userId, bitmap)
+                dataWriter?.createArtistPage(artistPage, this, userObject, bitmap)
             } else {
                 Toast.makeText(this, "Page name must be at least 3 characters long and photo needs to be uploaded", Toast.LENGTH_LONG).show()
             }
@@ -246,23 +263,13 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         }
     }
 
-    private fun closeCreatePageDialog(){
-        isCreatePageDialogOpen = false
-        createPageDialog?.hide()
-    }
-
-    private fun closeRedeemCodeDialog(){
-        isRedeemCodeDialogOpen = false
-        redeemCodeDialog?.hide()
-    }
-
     // Redeem code function
     override fun redeemCode(redeemCode: RedeemCode?) {
         if (redeemCode != null){
             // Setting all the stuff up in database
             dataWriter?.markCodeAsRedeemed(redeemCode.codeString.toString(), userId)
             dataWriter?.addArtistReferenceToUserRecord(userId, redeemCode.artistPageId)
-            dataWriter?.addMemberToArtistPage(userId, redeemCode.artistPageId.toString())
+            dataWriter?.addMemberToArtistPage(userId, redeemCode.artistPageId.toString(), userObject as User)
 
             // UI update
             codeRedeemedUiUpdater()
@@ -297,13 +304,32 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     }
 
     override fun receiveData(data: Any?, mInterface: Any?) {
-        if (data != "null"){
+        val userInfo = data as User
+        userObject = data
+        currentPage = userInfo.currentArtistPageId.toString()
+        mFirstName = userInfo.firstName.toString()
+        mLastName = userInfo.lastName.toString()
+        email = userInfo.email.toString()
+        pageRole = userInfo.pageRole.toString()
+        artistRole = userInfo.artistRole.toString()
+
+        if (currentPage != "null"){
             updateUI(const.ARTIST_PAGE_SELECTED)
         }
     }
 
     override fun showArtistPageData(artistPage: ArtistPage) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun closeCreatePageDialog(){
+        isCreatePageDialogOpen = false
+        createPageDialog?.hide()
+    }
+
+    private fun closeRedeemCodeDialog(){
+        isRedeemCodeDialogOpen = false
+        redeemCodeDialog?.hide()
     }
 
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:background="@color/appLightGray" android:layout_marginTop="4dp" android:layout_marginStart="4dp" android:layout_marginEnd="4dp"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="170dp"
+                                             android:layout_height="170dp">
+
+    <View android:layout_width="match_parent" android:layout_height="30dp" app:layout_constraintTop_toTopOf="parent"
+          android:background="@color/warningRed" android:id="@+id/view5"></View>
+
+    <TextView
+            android:text="JUNE 2019"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:textAlignment="center"
+            android:id="@+id/event_month_year" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginTop="4dp"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+            android:text="19"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/bold"
+            android:textSize="44sp"
+            android:textAlignment="center"
+            android:textColor="@color/warningRed"
+            android:layout_height="wrap_content"
+            android:id="@+id/event_day" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/view5"/>
+    <TextView
+            android:text="Rehearsal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/appBlack"
+            android:textAlignment="center"
+            android:textSize="@dimen/font_large"
+            android:fontFamily="@font/montserrat"
+            android:id="@+id/event_title" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/event_day"/>
+    <TextView
+            android:text="Ul. Kosciuszki 4/19, Katowice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/appBlack"
+            android:textSize="12sp"
+            android:fontFamily="@font/light"
+            android:id="@+id/event_location" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="10dp"
+            android:layout_marginTop="2dp"
+            app:layout_constraintTop_toBottomOf="@+id/event_title"/>
+
+
+</android.support.constraint.ConstraintLayout>

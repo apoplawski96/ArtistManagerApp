@@ -21,18 +21,35 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.R.id.message
 import android.widget.Toast
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
+import com.example.artistmanagerapp.utils.Constants
 
 
 class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
 
-    // ArtistPage info
+    // Bundle data variables - ArtistPage
     var artistPageInstance : ArtistPage = ArtistPage()
     var pageId : String? = null
     var pageName : String? = null
 
+    // Variables set - User
+    var userObject : User? = null
+    var mFirstName : String? = null
+    var mLastName : String? = null
+    var pageRole : String? = null
+    var artistRole : String? = null
+    var currentPage : String? = null
+    var email : String? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Getting bundled User data
+        mFirstName = intent.getStringExtra(Constants.FIRST_NAME_BUNDLE)
+        mLastName = intent.getStringExtra(Constants.LAST_NAME_BUNDLE)
+        pageRole = intent.getStringExtra(Constants.PAGE_ROLE_BUNDLE)
+        userObject = User(null, mFirstName, mLastName)
 
         UsersHelper.getCurrentArtistPage(userId, this)
         bottom_nav_bar.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
@@ -50,7 +67,7 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag3 -> {
-                replaceFragment(UserProfileFragment.newInstance(pageId.toString()))
+                replaceFragment(UserProfileFragment.newInstance(pageId.toString(), userObject))
                 return@OnNavigationItemSelectedListener true
             }
         }

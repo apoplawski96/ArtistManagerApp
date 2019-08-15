@@ -98,7 +98,7 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
             "Task manager" ->  {
                 intent = Intent(activity, TaskListActivity::class.java)
             }
-            "Events calendar" -> {
+            "Events manager" -> {
                 intent = Intent(activity, EventsManagerActivity::class.java)
             }
             "Electronic Press Kit" -> {

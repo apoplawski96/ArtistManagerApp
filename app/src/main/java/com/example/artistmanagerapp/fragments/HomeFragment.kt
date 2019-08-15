@@ -115,7 +115,7 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
 
     override fun loadImage(bitmap: Bitmap?, option: MediaLoader.MediaLoaderOptions?) {
         pageAvatar?.setImageBitmap(bitmap)
-        Toast.makeText(activity, "hui", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity, "hui", Toast.LENGTH_SHORT).show()
     }
 
     fun putDataToBundle(intent : Intent?){
