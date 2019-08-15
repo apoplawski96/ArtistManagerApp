@@ -1,31 +1,21 @@
 package com.example.artistmanagerapp.activities
 
-import android.app.Activity
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.graphics.Palette
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import com.example.artistmanagerapp.R
-import com.example.artistmanagerapp.firebase.ArtistPagesHelper
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
-import com.example.artistmanagerapp.interfaces.BundleUpdater
 import com.example.artistmanagerapp.models.ArtistPage
-import com.example.artistmanagerapp.ui.DialogCreator
 import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
-import com.example.artistmanagerapp.utils.MyAppGlideModule
-
 
 
 class SharedEpkActivity : BaseActivity(), ArtistPagesPresenter {
@@ -63,7 +53,7 @@ class SharedEpkActivity : BaseActivity(), ArtistPagesPresenter {
         bio = findViewById(R.id.epk_bio)
         returnButton = findViewById(R.id.epk_return_button)
         progressOverlay = findViewById(R.id.progress_overlay)
-        progressBar = findViewById(R.id.epk_progress_bar)
+        progressBar = findViewById(R.id.progress_bar_epk_edit)
 
         // Collapsing Toolbar Setup (jakby ktos nie zauwazyl xD)
         val typeface : Typeface? = ResourcesCompat.getFont(this, R.font.montserrat)

@@ -1,11 +1,9 @@
 package com.example.artistmanagerapp.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.CollapsingToolbarLayout
@@ -17,7 +15,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.example.artistmanagerapp.R
-import com.example.artistmanagerapp.firebase.ArtistPagesHelper
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.interfaces.BundleUpdater
@@ -25,8 +22,6 @@ import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.ui.DialogCreator
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
-import com.example.artistmanagerapp.utils.MyAppGlideModule
-
 
 
 class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCreator.DialogControllerCallback, BundleUpdater {
@@ -70,7 +65,7 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
         bio = findViewById(R.id.epk_bio)
         returnButton = findViewById(R.id.epk_return_button)
         progressOverlay = findViewById(R.id.progress_overlay)
-        progressBar = findViewById(R.id.epk_progress_bar)
+        progressBar = findViewById(R.id.progress_bar_epk_edit)
 
         initUI()
 
@@ -141,6 +136,7 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
         artistPageData.put("Contact", contact?.text.toString())
         artistPageData.put("Name", artistPage.artistName.toString())
 
+        // Checking if there's all the necessary data
         for ((key, value) in artistPageData){
             if (value == "null"){
                 isEpkDataMissing = true

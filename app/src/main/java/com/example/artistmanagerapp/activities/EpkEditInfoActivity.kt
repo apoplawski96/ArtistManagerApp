@@ -9,15 +9,18 @@ import android.text.Editable
 import android.view.View
 import android.widget.*
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.firebase.FirebaseDataReader
 import com.example.artistmanagerapp.firebase.StorageFileUploader
+import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
+import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
 import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.example.artistmanagerapp.utils.Utils
 import java.io.IOException
 
-class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater {
+class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater, View.OnClickListener, View.OnFocusChangeListener, ArtistPagesPresenter {
 
     // Others
     val c = FirebaseConstants
@@ -39,9 +42,15 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater {
     var saveDataButton : Button? = null
     var progressBar : ProgressBar? = null
     var uploadProgressBar : ProgressBar? = null
+    var backButton : ImageView? = null
+    var saveDataUpperButton : ImageView? = null
+    var dismissButton : ImageView? = null
 
     // Image upload stuff
     var bitmap : Bitmap? = null
+
+    // Boolean UI controllers
+    var hasEditingStarted : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +59,6 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater {
         // Getting bundled data
         pageId = intent.getStringExtra(Constants.PAGE_ID_BUNDLE)
         pageName = intent.getStringExtra(Constants.ARTIST_NAME_BUNDLE)
-
-        Toast.makeText(this, pageName.toString(), Toast.LENGTH_SHORT).show()
 
         // Views
         artistNameInput = findViewById(R.id.artist_name_epk)
@@ -65,37 +72,107 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater {
         addImageButton = findViewById(R.id.add_image_button)
         progressBar = findViewById(R.id.progress_bar_epk_edit)
         uploadProgressBar = findViewById(R.id.upload_progress_bar)
+        backButton = findViewById(R.id.epk_edit_activity_back_button)
+        saveDataUpperButton = findViewById(R.id.epk_edit_activity_upper_save_button)
+        dismissButton = findViewById(R.id.epk_edit_activity_cancel_button)
+
+        // Setting Views OnClicks and OnFocusChange's
+        artistNameInput?.setOnFocusChangeListener(this)
+        genreInput?.setOnFocusChangeListener(this)
+        bioInput?.setOnFocusChangeListener(this)
+        instagramInput?.setOnFocusChangeListener(this)
+        facebookInput?.setOnFocusChangeListener(this)
+        contactInput?.setOnFocusChangeListener(this)
+        saveDataButton?.setOnClickListener(this)
+        addImageButton?.setOnClickListener(this)
+        backButton?.setOnClickListener(this)
+        saveDataUpperButton?.setOnClickListener(this)
+        dismissButton?.setOnClickListener(this)
+
+        // Getting current EPK data - if there's any
+        loadCurrentEpkData() // !!!!!!! it's possible to get it later from previous activities via bundle
 
         artistNameInput?.setText(pageName.toString())
         Utils.disableEditText(artistNameInput)
 
-        // OnClicks
-        addImageButton?.setOnClickListener {
-            val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(galleryIntent, 1)
+    }
+
+    fun loadCurrentEpkData(){
+        FirebaseDataReader().getArtistPageData(pageId, this, null)
+    }
+
+    override fun showArtistPageData(artistPage: ArtistPage) {
+        if (artistPage.biography != null) bioInput?.setText(artistPage.biography)
+        if (artistPage.genre != null) genreInput?.setText(artistPage.genre)
+        if (artistPage.instagramLink != null) instagramInput?.setText(artistPage.instagramLink)
+        if (artistPage.contact != null) contactInput?.setText(artistPage.contact)
+        if (artistPage.facebookLink != null) facebookInput?.setText(artistPage.facebookLink)
+    }
+
+    override fun onFocusChange(view: View?, hasFocus: Boolean) {
+        if (hasFocus){
+            activateToolbar()
+        } else {
+            disableToolbar()
         }
+    }
 
-        saveDataButton?.setOnClickListener {
-            var dataMap : HashMap <String, Any> = HashMap()
-            var artistName = artistNameInput?.text.toString()
-            var genre = genreInput?.text.toString()
-            var instaLink = instagramInput?.text.toString()
-            var fbLink = facebookInput?.text.toString()
-            var bio = bioInput?.text.toString()
-            var contact = contactInput?.text.toString()
+    override fun onClick(view: View?) {
+        when (view){
+            genreInput, bioInput, facebookInput, instagramInput, contactInput -> {
+                activateToolbar()
+            }
+            addImageButton -> {
+                val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(galleryIntent, 1)
+            }
+            saveDataButton -> {
+                var dataMap : HashMap <String, Any> = HashMap()
+                var artistName = artistNameInput?.text.toString()
+                var genre = genreInput?.text.toString()
+                var instaLink = instagramInput?.text.toString()
+                var fbLink = facebookInput?.text.toString()
+                var bio = bioInput?.text.toString()
+                var contact = contactInput?.text.toString()
 
-            showProgress()
+                showProgress()
 
-            dataMap.put(c.ARTIST_NAME, artistName)
-            dataMap.put(c.ARTIST_GENRE, genre)
-            dataMap.put(c.ARTIST_IG, instaLink)
-            dataMap.put(c.ARTIST_FB, fbLink)
-            dataMap.put(c.ARTIST_BIO, bio)
-            dataMap.put(c.ARTIST_CONTACT, contact)
+                dataMap.put(c.ARTIST_NAME, artistName)
+                dataMap.put(c.ARTIST_GENRE, genre)
+                dataMap.put(c.ARTIST_IG, instaLink)
+                dataMap.put(c.ARTIST_FB, fbLink)
+                dataMap.put(c.ARTIST_BIO, bio)
+                dataMap.put(c.ARTIST_CONTACT, contact)
 
-            ElectronicPressKitHelper.saveEpkData(dataMap, pageId, this)
+                ElectronicPressKitHelper.saveEpkData(dataMap, pageId, this)
+            }
+            saveDataUpperButton -> {
+                var dataMap : HashMap <String, Any> = HashMap()
+                var artistName = artistNameInput?.text.toString()
+                var genre = genreInput?.text.toString()
+                var instaLink = instagramInput?.text.toString()
+                var fbLink = facebookInput?.text.toString()
+                var bio = bioInput?.text.toString()
+                var contact = contactInput?.text.toString()
+
+                showProgress()
+
+                dataMap.put(c.ARTIST_NAME, artistName)
+                dataMap.put(c.ARTIST_GENRE, genre)
+                dataMap.put(c.ARTIST_IG, instaLink)
+                dataMap.put(c.ARTIST_FB, fbLink)
+                dataMap.put(c.ARTIST_BIO, bio)
+                dataMap.put(c.ARTIST_CONTACT, contact)
+
+                ElectronicPressKitHelper.saveEpkData(dataMap, pageId, this)
+            }
+            backButton -> {
+                onBackPressed()
+            }
+            dismissButton -> {
+                disableToolbar()
+            }
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -123,6 +200,20 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater {
         }
     }
 
+    fun activateToolbar(){
+        hasEditingStarted = true
+        backButton?.visibility = View.GONE
+        dismissButton?.visibility = View.VISIBLE
+        saveDataUpperButton?.visibility = View.VISIBLE
+    }
+
+    fun disableToolbar(){
+        hasEditingStarted = false
+        backButton?.visibility = View.VISIBLE
+        dismissButton?.visibility = View.GONE
+        saveDataUpperButton?.visibility = View.GONE
+    }
+
     override fun hideProgress() {
         progressBar?.visibility = View.GONE
     }
@@ -143,6 +234,10 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater {
             }
 
         }
-
     }
+
+    override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) { }
+
+    override fun showNoPagesText() { }
+
 }
