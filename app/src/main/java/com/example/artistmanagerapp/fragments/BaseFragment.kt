@@ -16,6 +16,7 @@ abstract class BaseFragment : Fragment() {
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
     var user = auth.currentUser
+    val userIdGlobal = auth.currentUser?.uid.toString()
 
     // Firebase Firestore paths
     val perfectUserPath = db.collection("users").document("perfectUser")

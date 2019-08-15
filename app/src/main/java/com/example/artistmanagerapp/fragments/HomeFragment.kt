@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,7 +86,10 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         pageInfoMapBundle.put(c.ARTIST_NAME_BUNDLE, pageName)
         pageInfoMapBundle.put(c.EPK_SHARE_CODE_BUNDLE, epkShareCode)
 
-        Toast.makeText(activity, "$pageName+asdasd$pageId+asdasd$epkShareCode", Toast.LENGTH_SHORT).show()
+        Log.d("Welcome to HomeFragment - onCreateView()", "Fragment Entered")
+        Log.d("HomeFragment", "PageName: $pageName, pageId: $pageId, epkShareCode: $epkShareCode")
+
+        //Toast.makeText(activity, "$pageName+asdasd$pageId+asdasd$epkShareCode", Toast.LENGTH_SHORT).show()
 
         // Views
         helloUser = rootView.findViewById(R.id.hello_user)
@@ -94,14 +98,14 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         manageTeamButton = rootView.findViewById(R.id.manage_team_button)
         thisIsBandName?.text = pageName
 
-        model = ViewModelProviders.of(activity!!).get(Communicator::class.java)
-        model!!.setMsgCommunicator(pageName.toString())
+        //model = ViewModelProviders.of(activity!!).get(Communicator::class.java)
+        //model!!.setMsgCommunicator(pageName.toString())
 
         // Load page avatar
         StorageDataRetriever().downloadImageViaId(pageId, StorageDataRetriever.DownloadOption.PAGE_AVATAR, this)
 
         // Show user data
-        FirebaseDataReader().getUserData(user?.uid.toString(), this)
+        FirebaseDataReader().getUserData(userIdGlobal, this)
 
         // OnClicks managed
         manageTeamButton?.setOnClickListener {

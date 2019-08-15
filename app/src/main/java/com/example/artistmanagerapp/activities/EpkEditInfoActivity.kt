@@ -133,7 +133,7 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater {
         progressBar?.visibility = View.VISIBLE
     }
 
-    override fun updateUI(option: String) {
+    override fun updateUI(option: String, data : Any?) {
         when (option){
             const.IMAGE_SUCCESSFULLY_UPLOADED -> {
                 artistImage?.setImageBitmap(bitmap)

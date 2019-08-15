@@ -119,7 +119,7 @@ class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun updateUI(option: String) {
+    override fun updateUI(option: String, data : Any?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

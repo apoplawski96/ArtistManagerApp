@@ -31,6 +31,9 @@ import java.io.IOException
 
 class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInterfaceUpdater, RedeemCodeDataReceiver, DataReceiver {
 
+    // Tags
+    val ACT_TAG = "SelectArtistPageActivity"
+
     // Collections
     private var artistPageArrayList : ArrayList <ArtistPage> = ArrayList()
 
@@ -83,9 +86,12 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_artist_page)
-        Log.d(ACTIVITY_WELCOME_TAG, "Welcome to SelectArtistPageActivity")
+        Log.d(ACT_TAG, "Welcome to SelectArtistPageActivity! - onCreate()")
 
-        UsersHelper.getUserData(user?.uid.toString(), this)
+        // Getting User data
+        var uId = auth.currentUser?.uid.toString()
+        UsersHelper.getUserData(uId, this)
+        Log.d(ACT_TAG, "getUserData() called")
 
         // Booleans initialization
         isFABOpen = false
@@ -109,7 +115,9 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
         // Getting artist pages from database
         dataReader?.checkIfUserIsHasArtistPageLink(this)
+        Log.d(ACT_TAG, "checkIfUserHasArtistPageLink() called")
         dataReader?.getArtistPages(this)
+        Log.d(ACT_TAG, "getArtistPages() called")
 
         // Adapter stuff
         selectArtistRecyclerView?.layoutManager = LinearLayoutManager(this, OrientationHelper.VERTICAL, false)
@@ -159,25 +167,50 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         noPagesText?.visibility = View.VISIBLE
     }
 
-    override fun updateUI(option : String) {
+    override fun updateUI(option : String, data : Any?) {
         when (option){
-            const.ARTIST_PAGE_CREATED -> {
+            const.CURRENT_PAGE_NOT_NULL ->{
+                val currentPageId : String = data as String
                 val intent = Intent(this, MainActivity::class.java).apply {
                     putExtra(Constants.FIRST_NAME_BUNDLE, mFirstName)
                     putExtra(Constants.LAST_NAME_BUNDLE, mLastName)
                     putExtra(Constants.PAGE_ROLE_BUNDLE, pageRole)
+                    putExtra("CURRENT_PAGE_BUNDLE", currentPageId)
                 }
+                Log.d("CURRENT PAGE NOT NULL -> MainActivity", "Bundle data sent: ${currentPageId}")
+                startActivity(intent)
+            }
+            const.ARTIST_PAGE_CREATED -> {
+                val pageInstance : ArtistPage? = data as ArtistPage
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra(Constants.FIRST_NAME_BUNDLE, mFirstName)
+                    putExtra(Constants.LAST_NAME_BUNDLE, mLastName)
+                    putExtra(Constants.PAGE_ROLE_BUNDLE, pageRole)
+                    putExtra("PAGE_INSTANCE", pageInstance)
+                }
+                Log.d("SelectArtistPageActivity -> MainActivity", "Bundle data sent: ${pageInstance?.artistName},ID: ${pageInstance?.artistPageId}")
                 startActivity(intent)
             }
             const.CODE_SUCCESSFULLY_REDEEMED -> {
-
+                val currentPageId : String = data as String
+                val intent = Intent(applicationContext, MainActivity::class.java).apply{
+                    putExtra(Constants.FIRST_NAME_BUNDLE, mFirstName)
+                    putExtra(Constants.LAST_NAME_BUNDLE, mLastName)
+                    putExtra(Constants.PAGE_ROLE_BUNDLE, pageRole)
+                    putExtra("CURRENT_PAGE_BUNDLE", currentPageId)
+                }
+                startActivity(intent)
             }
             const.ARTIST_PAGE_SELECTED -> {
+                val pageInstance : ArtistPage? = data as ArtistPage
+                Log.d("updateUI() fun inside of SelectArtistPageActivity", "Option: ${const.ARTIST_PAGE_SELECTED}")
                 val intent = Intent(this, MainActivity::class.java).apply {
                     putExtra(Constants.FIRST_NAME_BUNDLE, mFirstName)
                     putExtra(Constants.LAST_NAME_BUNDLE, mLastName)
                     putExtra(Constants.PAGE_ROLE_BUNDLE, pageRole)
+                    putExtra("PAGE_INSTANCE", pageInstance)
                 }
+                Log.d("SelectArtistPageActivity -> MainActivity", "Bundle data sent: ${pageInstance?.artistName},ID: ${pageInstance?.artistPageId}")
                 startActivity(intent)
             }
         }
@@ -185,8 +218,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     // ArtisPage selector RecyclerView onClick
     fun artistPageClicked(artistPage: ArtistPage){
-        Toast.makeText(this, artistPage.toString(), Toast.LENGTH_SHORT).show()
-        UsersHelper.setCurrentArtistPage(userId, artistPage.artistPageId.toString(), this)
+        Log.d(ACT_TAG, "pageItemClicked() - ${artistPage.artistName}, ${artistPage.artistPageId}")
+        UsersHelper.setCurrentArtistPage(userId, artistPage, this)
     }
 
     /*private fun showFABMenu() {
@@ -269,14 +302,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
             // Setting all the stuff up in database
             dataWriter?.markCodeAsRedeemed(redeemCode.codeString.toString(), userId)
             dataWriter?.addArtistReferenceToUserRecord(userId, redeemCode.artistPageId)
-            dataWriter?.addMemberToArtistPage(userId, redeemCode.artistPageId.toString(), userObject as User)
+            dataWriter?.addMemberToArtistPage(userId, redeemCode.artistPageId.toString(), userObject as User, this)
 
-            // UI update
-            codeRedeemedUiUpdater()
-
-            // Pass the data and go to MainActivity
-            val intent = Intent(applicationContext, MainActivity::class.java).apply{ putExtra("artistPageId", redeemCode.artistPageId) }
-            startActivity(intent)
         } else {
             Toast.makeText(this, "The code is not valid, please try again", Toast.LENGTH_SHORT).show()
         }
@@ -303,6 +330,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     }
 
+    // We're receiving CurrentPage data to decide if we stay here or go to CurrentPage
     override fun receiveData(data: Any?, mInterface: Any?) {
         val userInfo = data as User
         userObject = data
@@ -314,7 +342,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         artistRole = userInfo.artistRole.toString()
 
         if (currentPage != "null"){
-            updateUI(const.ARTIST_PAGE_SELECTED)
+            Log.d("SelectArtistPage, receiveData()", currentPage)
+            updateUI(const.CURRENT_PAGE_NOT_NULL, currentPage)
         }
     }
 

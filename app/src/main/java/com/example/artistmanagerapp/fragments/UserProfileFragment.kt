@@ -4,6 +4,7 @@ package com.example.artistmanagerapp.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +15,13 @@ import com.example.artistmanagerapp.activities.CreateUserProfileActivity
 import com.example.artistmanagerapp.activities.LoginActivity
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
+import com.example.artistmanagerapp.utils.Utils
 import de.hdodenhof.circleimageview.CircleImageView
 
 class UserProfileFragment : BaseFragment() {
+
+    //
+    val CTX_TAG = "UserProfileFragment"
 
     // Objects
     val c = Constants
@@ -54,6 +59,7 @@ class UserProfileFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_user_profile, container, false)
+        Log.d(CTX_TAG, "Welcome to UserProfileFragment!")
 
         // Getting User bundled data
         pageId = arguments?.getString("PAGE_ID")
@@ -69,9 +75,12 @@ class UserProfileFragment : BaseFragment() {
         displayName?.text = "${mFirstName} ${mLastName}, userId: ${user?.uid}"
 
         logoutButton?.setOnClickListener {
+            Log.d(CTX_TAG, "signOut() called - we're logging out...")
             auth.signOut()
+            val dir = context?.cacheDir
+            Utils.deleteDir(dir)
             val intent = Intent(activity, LoginActivity::class.java)
-            intent?.putExtra(c.CURRENT_PAGE_BUNDLE, "null")
+            intent?.putExtra(c.CURRENT_PAGE_BUNDLE, "Asda")
             startActivity(intent)
         }
 

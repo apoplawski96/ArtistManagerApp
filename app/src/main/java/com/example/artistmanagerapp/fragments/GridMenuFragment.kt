@@ -105,7 +105,7 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
                 intent = Intent(activity, EpkSelectorActivity::class.java)
             }
             "Switch/create artist page" -> {
-                UsersHelper.removeCurrentArtistPage(user?.uid.toString(), this)
+                UsersHelper.removeCurrentArtistPage(userIdGlobal, this)
             }
         }
 
@@ -132,7 +132,7 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun updateUI(option: String) {
+    override fun updateUI(option: String, data : Any?) {
         if (option == Constants.CURRENT_ARTIST_PAGE_REMOVED){
             var intent = Intent(activity, SelectArtistPageActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
             startActivity(intent)

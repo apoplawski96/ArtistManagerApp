@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.FirebaseConstants
+import com.example.artistmanagerapp.utils.UsersHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,6 +20,7 @@ class TransitionActivity : BaseActivity() {
 
     val context : Context = this
     val c = FirebaseConstants
+    val tag = "TransitionActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +36,7 @@ class TransitionActivity : BaseActivity() {
 
     fun checkIfUserIsNewAndGuide(db : FirebaseFirestore, user : FirebaseUser?) {
         // Creating a reference to the "users -> userId" path
-        val docRef = db.collection(c.USERS_COLLECTION_NAME).document(user?.uid.toString())
-        Log.d(FIREBASE_TAG, "Method entered")
+        val docRef = db.collection(c.USERS_COLLECTION_NAME).document(userIdGlobal)
 
         // ** NOTE **
         // We have 3 cases here
@@ -47,6 +49,16 @@ class TransitionActivity : BaseActivity() {
 
         // Getting a DocSnaphot from a path reference
         docRef.get().addOnSuccessListener { docSnapshot ->
+            var user : User? = null
+            val firstName : String? = docSnapshot.get(UsersHelper.c.FIRST_NAME).toString()
+            val lastName : String? = docSnapshot.get(UsersHelper.c.LAST_NAME).toString()
+            val pageRole : String? = docSnapshot.get(UsersHelper.c.PAGE_ROLE).toString()
+            val artistRole : String? = docSnapshot.get(UsersHelper.c.ARTIST_ROLE).toString()
+            val email : String? = docSnapshot.get(UsersHelper.c.EMAIL).toString()
+            val currentArtistPageId : String? = docSnapshot.get(UsersHelper.c.CURRENT_ARTIST_PAGE).toString()
+
+            Log.d(FIREBASE_TAG, "Gettin user data in TransitionActivity: $firstName, $lastName, $email")
+
             Log.d(FIREBASE_TAG, "Success")
             // If docSnahshot doesn't exist - database record is not yet created, so we pass a "false" value and create it in the next activity
             if (!docSnapshot.exists()){
@@ -63,7 +75,7 @@ class TransitionActivity : BaseActivity() {
 
                 // If completionStatus is completed - we search for artist page link
                 if (completionStatus.equals(c.V_PROFILE_STATUS_COMPLETED)){
-                    Log.d(FIREBASE_TAG, "User profile completed - go to CheckArtistPageLinkActivity")
+                    Log.d(tag, "User profile completed - go to SelectArtistPageActivity")
                     val intent = Intent(this, SelectArtistPageActivity::class.java)
                     startActivity(intent)
                 } else if (completionStatus.equals(c.V_PROFILE_STATUS_STARTED)){

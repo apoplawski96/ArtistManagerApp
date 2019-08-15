@@ -235,7 +235,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         toolbarMidText?.text = "Tasks Manager"
     }
 
-    override fun updateUI(option: String) {
+    override fun updateUI(option: String, data : Any?) {
 
     }
 

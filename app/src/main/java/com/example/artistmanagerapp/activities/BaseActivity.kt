@@ -36,6 +36,7 @@ abstract class BaseActivity : AppCompatActivity() {
     val user = auth.currentUser
     val storageRef = FirebaseStorage.getInstance().reference
     val userId = user?.uid.toString()
+    val userIdGlobal = user?.uid.toString()
 
     // Firebase paths
     val usersCollectionPath = db.collection(FirebaseConstants.USERS_COLLECTION_NAME)

@@ -47,6 +47,7 @@ class FirebaseDataReader : BaseActivity () {
                     var artistPageId : String? = document.get(c.ARTIST_PAGE_ID).toString()
                     artistPagesOutput!!.add(ArtistPage(artistPageName, artistPageId))
                 }
+                Log.d("getArtistPages()", "Pages parsed: ${artistPagesOutput.toString()}")
                 presenter.showArtistPages(artistPagesOutput)
             } else {
                 Log.d(FIREBASE_TAG, "Doc snapshot doesn't exist")

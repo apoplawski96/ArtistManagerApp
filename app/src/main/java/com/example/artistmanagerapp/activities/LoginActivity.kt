@@ -13,9 +13,13 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity() {
 
+    val CTX_TAG = "LoginActivity"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        Log.d(CTX_TAG, "Welcome to LoginActivity")
 
         // View components
         val loginButton : Button = findViewById(R.id.login_button) as Button

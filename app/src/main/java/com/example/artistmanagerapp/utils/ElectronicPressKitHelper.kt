@@ -18,9 +18,9 @@ object ElectronicPressKitHelper : BaseActivity() {
 
     fun saveEpkData (epkData : HashMap<String, Any>, pageId : String?, presenter : UserInterfaceUpdater){
        artistPagesCollectionPath.document(pageId.toString()).set(epkData, SetOptions.merge()).addOnSuccessListener {
-           presenter.updateUI("EPK_DATA_SUCCESSFULLY_SAVED")
+           presenter.updateUI("EPK_DATA_SUCCESSFULLY_SAVED", null)
        }.addOnFailureListener {
-           presenter.updateUI("ERROR_SAVING_EPK_DATA")
+           presenter.updateUI("ERROR_SAVING_EPK_DATA", null)
        }
     }
 

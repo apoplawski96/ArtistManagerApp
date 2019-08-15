@@ -37,7 +37,7 @@ class FirebaseDataWriter : BaseActivity(){
 
         var uploadTask = storageRef.child("avatars/$userId/avatar.jpg").putBytes(data)
         uploadTask.addOnSuccessListener {
-            uiUpdater.updateUI(const.USER_ADDED_TO_DB)
+            uiUpdater.updateUI(const.USER_ADDED_TO_DB, null)
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
@@ -92,7 +92,7 @@ class FirebaseDataWriter : BaseActivity(){
         // Uploading page avatar
         var uploadTask = storageRef.child("pageAvatars/$pageId/avatar.jpg").putBytes(data)
         uploadTask.addOnSuccessListener {
-            uiUpdater.updateUI(const.ARTIST_PAGE_CREATED)
+            uiUpdater.updateUI(const.ARTIST_PAGE_CREATED, null)
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
@@ -130,12 +130,13 @@ class FirebaseDataWriter : BaseActivity(){
     }
 
     // TO FIX
-    fun addMemberToArtistPage(userId : String, pageId : String, user : User){
+    fun addMemberToArtistPage(userId : String, pageId : String, user : User, uiUpdater: UserInterfaceUpdater){
         val mUser = user
 
         // Adding user record and admin info to artist page record
         artistPagesCollectionPath.document(pageId).collection("pageMembers").document(userId).set(mUser, SetOptions.merge()).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "User info successfully added to page_members collection: $mUser")
+            uiUpdater.updateUI(Constants.CODE_SUCCESSFULLY_REDEEMED, pageId)
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }

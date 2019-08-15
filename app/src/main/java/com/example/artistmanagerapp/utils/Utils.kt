@@ -9,6 +9,9 @@ import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.models.RedeemCode
 import java.util.*
 import kotlin.collections.ArrayList
+import com.google.common.io.Files.isFile
+import java.io.File
+
 
 object Utils : BaseActivity (){
 
@@ -24,6 +27,23 @@ object Utils : BaseActivity (){
         }
 
         return sb.toString()
+    }
+
+    fun deleteDir(dir: File?): Boolean {
+        if (dir != null && dir!!.isDirectory()) {
+            val children = dir!!.list()
+            for (i in children.indices) {
+                val success = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+            return dir!!.delete()
+        } else return if (dir != null && dir!!.isFile()) {
+            dir!!.delete()
+        } else {
+            false
+        }
     }
 
     fun checkIfCodeAlreadyExists(redeemCodeString : String, codesList : ArrayList<RedeemCode>) : Boolean{

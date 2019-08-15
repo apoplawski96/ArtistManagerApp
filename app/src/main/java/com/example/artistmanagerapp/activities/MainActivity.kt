@@ -19,6 +19,7 @@ import com.example.artistmanagerapp.utils.UsersHelper
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import android.R.id.message
+import android.util.Log
 import android.widget.Toast
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.utils.Constants
@@ -26,10 +27,15 @@ import com.example.artistmanagerapp.utils.Constants
 
 class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
 
+    // Others
+    val ACT_TAG = "MainActivity"
+
     // Bundle data variables - ArtistPage
     var artistPageInstance : ArtistPage = ArtistPage()
     var pageId : String? = null
     var pageName : String? = null
+    var pageBundleInstance : ArtistPage? = null
+    var currentPageIdBundle : String? = null
 
     // Variables set - User
     var userObject : User? = null
@@ -49,9 +55,21 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
         mFirstName = intent.getStringExtra(Constants.FIRST_NAME_BUNDLE)
         mLastName = intent.getStringExtra(Constants.LAST_NAME_BUNDLE)
         pageRole = intent.getStringExtra(Constants.PAGE_ROLE_BUNDLE)
-        userObject = User(null, mFirstName, mLastName)
+        currentPageIdBundle = intent.getStringExtra("CURRENT_PAGE_BUNDLE") // TUTAJ DOSTAJEMY CURRENT PAGE
+        pageBundleInstance = intent.extras.getSerializable("PAGE_INSTANCE") as ArtistPage?
+        userObject = User(userIdGlobal, mFirstName, mLastName)
 
-        UsersHelper.getCurrentArtistPage(userId, this)
+        Log.d(ACT_TAG, "MainActivity entered")
+        Log.d(ACT_TAG, "User data from bundle: $mFirstName, $mLastName, $email")
+        Log.d(ACT_TAG, "Page instance from bundle: ${pageBundleInstance?.artistPageId}, ${pageBundleInstance?.artistName}")
+        Log.d(ACT_TAG, "Current page from bundle: ${currentPageIdBundle}")
+
+        // TO CHANGE LATER
+        //val mUserId = auth.currentUser?.uid
+        //UsersHelper.getCurrentArtistPage(userIdGlobal, this)
+
+        FirebaseDataReader().getArtistPageData(currentPageIdBundle, null, this)
+
         bottom_nav_bar.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
@@ -92,8 +110,9 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
     }
 
     override fun callback(artistPage : ArtistPage) {
+        Log.d("MainActivity - getPageInfo() -> receiver", "${artistPage.artistPageId} : ${artistPage.artistName}")
         artistPageInstance = artistPage
-        Toast.makeText(this, artistPage.artistPageId, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, artistPage.artistPageId, Toast.LENGTH_SHORT).show()
         replaceFragment(HomeFragment.newInstance(pageId.toString(), artistPageInstance))
     }
 

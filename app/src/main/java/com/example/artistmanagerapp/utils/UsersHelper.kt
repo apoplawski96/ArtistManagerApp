@@ -3,6 +3,7 @@ package com.example.artistmanagerapp.utils
 import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.interfaces.*
+import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
 import com.google.firebase.firestore.CollectionReference
@@ -10,6 +11,7 @@ import com.google.firebase.firestore.SetOptions
 
 object UsersHelper : BaseActivity() {
 
+    val TAG = "Firebase - UsersHelper"
     val c = FirebaseConstants
     val const = Constants
 
@@ -50,8 +52,9 @@ object UsersHelper : BaseActivity() {
     }
 
     fun getUserData (userId : String, dataReceiver: DataReceiver){
-        usersCollectionPath.document(UsersHelper.userId).get().addOnSuccessListener { document ->
+        usersCollectionPath.document(userId).get().addOnSuccessListener { document ->
             if (document.exists()){
+                // asdasd
                 var user : User? = null
                 val firstName : String? = document.get(c.FIRST_NAME).toString()
                 val lastName : String? = document.get(c.LAST_NAME).toString()
@@ -59,6 +62,10 @@ object UsersHelper : BaseActivity() {
                 val artistRole : String? = document.get(c.ARTIST_ROLE).toString()
                 val email : String? = document.get(c.EMAIL).toString()
                 val currentArtistPageId : String? = document.get(c.CURRENT_ARTIST_PAGE).toString()
+                // asdasd
+
+                Log.d(FIREBASE_TAG, "User data received")
+                Log.d(FIREBASE_TAG, "UserData: $firstName, $lastName, $email")
 
                 // Sending user data
                 user = User(userId, firstName, lastName, pageRole, artistRole, null, currentArtistPageId, email)
@@ -73,15 +80,16 @@ object UsersHelper : BaseActivity() {
 
     // ************************************************ \WRITE FUNCTIONS ************************************************
 
-    fun setCurrentArtistPage(userId: String, pageId : String, presenter : UserInterfaceUpdater){
-        usersCollectionPath.document(userId).set(mapOf("currentArtistPageId" to pageId), SetOptions.merge()).addOnSuccessListener {
-            presenter.updateUI(const.ARTIST_PAGE_SELECTED)
+    fun setCurrentArtistPage(userId: String, artistPage : ArtistPage, presenter : UserInterfaceUpdater){
+        usersCollectionPath.document(userId).set(mapOf("currentArtistPageId" to artistPage.artistPageId.toString()), SetOptions.merge()).addOnSuccessListener {
+            Log.d("setCurrentArtistPage()", "Current ArtistPage set to ${artistPage.artistName} id: ${artistPage.artistPageId}")
+            presenter.updateUI(const.ARTIST_PAGE_SELECTED, artistPage)
         }.addOnFailureListener {  }
     }
 
     fun removeCurrentArtistPage(userId : String, presenter : UserInterfaceUpdater){
         usersCollectionPath.document(userId).set(mapOf("currentArtistPageId" to null), SetOptions.merge()).addOnSuccessListener {
-            presenter.updateUI(const.CURRENT_ARTIST_PAGE_REMOVED)
+            presenter.updateUI(const.CURRENT_ARTIST_PAGE_REMOVED, null)
         }.addOnFailureListener {  }
     }
 

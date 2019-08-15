@@ -28,7 +28,7 @@ class StorageFileUploader : BaseActivity() {
 
         var uploadTask = storagePath.putBytes(data)
         uploadTask.addOnSuccessListener {
-            presenter?.updateUI(c.IMAGE_SUCCESSFULLY_UPLOADED)
+            presenter?.updateUI(c.IMAGE_SUCCESSFULLY_UPLOADED, null)
             presenter?.hideProgress()
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
