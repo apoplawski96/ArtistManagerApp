@@ -3,6 +3,7 @@ package com.example.artistmanagerapp.activities
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.widget.Button
 import android.widget.GridView
 import android.widget.Toast
@@ -24,7 +25,7 @@ class EventsManagerActivity : BaseActivity(), FirebaseEventsHelper.EventsPresent
 
     // Views
     var gridView : GridView? = null
-    var addEventButton : Button? = null
+    var addEventButton : FloatingActionButton? = null
 
     // Others
     var adapter : EventsGridViewAdapter? = null

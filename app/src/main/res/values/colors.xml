@@ -12,6 +12,9 @@
     <color name="appLightGray">#dedfe0</color>
     <color name="appRegularGray">#979C97</color>
 
+    // Button colors
+    <color name="colorButton">#74BB74</color>
+    <color name="colorFacebook">#2196F3</color>
 
     // Gradient colors
     <color name="steelGrayRealEntryColor">#1f1c2c</color>

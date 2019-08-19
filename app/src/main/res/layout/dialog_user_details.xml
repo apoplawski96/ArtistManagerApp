@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="350dp"
+                                             android:layout_height="190dp" android:background="@mipmap/steel_grey_darker">
+
+    <TextView
+            android:text="X"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@color/appWhite"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/font_large"
+            android:textAlignment="center"
+            android:layout_height="wrap_content" android:id="@+id/user_details_x_button"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" android:layout_marginEnd="8dp"/>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp"
+                  android:orientation="vertical" android:id="@+id/linearLayout"
+                  app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView android:layout_width="64dp" android:layout_height="64dp"
+                                                      android:src="@mipmap/avatar"
+                                                      android:layout_gravity="center"
+                                                      app:layout_constraintTop_toTopOf="parent"
+                                                      app:layout_constraintStart_toStartOf="parent"
+                                                      app:layout_constraintEnd_toEndOf="parent"
+                                                      android:id="@+id/user_details_avatar"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textSize="@dimen/font_normal"
+                  android:layout_gravity="center" android:fontFamily="@font/montserrat" android:textAlignment="center"
+                  android:textColor="@color/appWhite"
+                  android:text="Display name" android:id="@+id/user_details_name"/>
+
+        <TextView android:layout_width="wrap_content" android:text="Page role"
+                  android:layout_height="wrap_content" android:layout_gravity="center"
+                  android:fontFamily="@font/montserrat" android:textAlignment="center"
+                  android:id="@+id/user_details_role"/>
+
+    </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+                                                 android:layout_height="55dp"
+                                                 app:layout_constraintBottom_toBottomOf="parent"
+                                                 app:layout_constraintStart_toStartOf="parent"
+                                                 app:layout_constraintEnd_toEndOf="parent"
+                                                 app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                                                 app:layout_constraintVertical_bias="0.0">
+        <TextView
+                android:text="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/counter_2"
+                android:textAlignment="center"
+                android:fontFamily="@font/bold"
+                android:textColor="@color/appWhite"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"/>
+        <TextView
+                android:text="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/counter_1"
+                android:textAlignment="center"
+                android:fontFamily="@font/bold"
+                android:textColor="@color/appWhite"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.23"
+                android:layout_marginTop="4dp"/>
+        <TextView
+                android:text="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/counter_3"
+                android:textAlignment="center"
+                android:fontFamily="@font/bold"
+                android:textColor="@color/appWhite"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.77"
+                android:layout_marginTop="4dp"/>
+        <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:fontFamily="@font/light"
+                android:textColor="@color/appWhite"
+                android:id="@+id/counter_1_desc" app:layout_constraintEnd_toEndOf="@+id/counter_1"
+                app:layout_constraintStart_toStartOf="@+id/counter_1"
+                app:layout_constraintTop_toBottomOf="@+id/counter_1" android:layout_marginTop="1dp"/>
+        <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/counter_2_desc"
+                android:textAlignment="center"
+                android:fontFamily="@font/light"
+                android:textColor="@color/appWhite"
+                app:layout_constraintStart_toStartOf="@+id/counter_2"
+                app:layout_constraintEnd_toEndOf="@+id/counter_2" android:layout_marginTop="1dp"
+                app:layout_constraintTop_toBottomOf="@+id/counter_2"/>
+        <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:fontFamily="@font/light"
+                android:textColor="@color/appWhite"
+                android:id="@+id/counter_3_desc" app:layout_constraintStart_toStartOf="@+id/counter_3"
+                app:layout_constraintEnd_toEndOf="@+id/counter_3"
+                app:layout_constraintTop_toBottomOf="@+id/counter_3" android:layout_marginTop="1dp"/>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

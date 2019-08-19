@@ -1,5 +1,6 @@
 package com.example.artistmanagerapp.fragments
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.BottomSheetBehavior
@@ -16,10 +17,12 @@ import android.view.ViewGroup
 import android.widget.*
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.TaskListActivity
+import com.example.artistmanagerapp.adapters.CommentsListAdapter
 import com.example.artistmanagerapp.adapters.UsersListAdapter
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.interfaces.UsersListListener
+import com.example.artistmanagerapp.models.Comment
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
@@ -31,20 +34,25 @@ import kotlinx.android.synthetic.main.fragment_task_details_dialog.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdater {
+class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdater, DatePickerDialog.OnDateSetListener {
 
     // Utils objects
     var usersHelper : UsersHelper? = null
 
     // Adapters
     var adapter : UsersListAdapter? = null
+    var commentsListAdapter : CommentsListAdapter? = null
+
+    // Collections
+    var usersList : ArrayList<User> = ArrayList()
+    var commentsList : ArrayList<Comment> = ArrayList()
 
     // Views
     var taskTitleEditText : EditText? = null
     var usersListRecyclerView : RecyclerView? = null
+    var commentsListRecyclerView : RecyclerView? = null
     var addMembersWrapper : LinearLayout? = null
     var setDueDateWrapper : LinearLayout? = null
-    var calendarView : CalendarView? = null
     var toolbar : AppBarLayout? = null
 
     // Views - Toolbar
@@ -53,9 +61,6 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
     var toolbarDismissButton : ImageView? = null
     var toolbarConfirmButton : ImageView? = null
     var toolbarProgressBar : ProgressBar? = null
-
-    // HARDCODED
-    var currentArtistPage : CollectionReference? = null
 
     // Boolean UI controllers
     var isCalendarVisible : Boolean = false
@@ -79,18 +84,12 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         // Utils objects
         usersHelper = UsersHelper
 
-        // Collections
-        var usersList : ArrayList<User> = ArrayList()
-
-        // HARDCODED
-        currentArtistPageId = "perfect_artistpage_id"
-
         // Views
         taskTitleEditText = rootView.findViewById(R.id.task_details_title)
         usersListRecyclerView = rootView.findViewById(R.id.users_list_recycler_view)
+        commentsListRecyclerView = rootView.findViewById(R.id.comments_recycler_view)
         addMembersWrapper = rootView.findViewById(R.id.add_members_wrapper)
         setDueDateWrapper = rootView.findViewById(R.id.set_due_date_wrapper)
-        calendarView = rootView.findViewById(R.id.calendar_view)
 
         // Views - Toolbar
         toolbarMidText = rootView.findViewById(R.id.toolbar_task_details_text)
@@ -109,6 +108,12 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         usersListRecyclerView?.layoutManager = LinearLayoutManager(TaskListActivity(), OrientationHelper.HORIZONTAL, false)
         adapter = UsersListAdapter(this, context, usersList) {user: User ->  userItemClicked (user)}
         usersListRecyclerView?.adapter = adapter
+
+        // Comments list setup
+        populateCommentsListWithFakeData(commentsList)
+        commentsListRecyclerView?.layoutManager = LinearLayoutManager(TaskListActivity(), OrientationHelper.VERTICAL, false)
+        commentsListAdapter = CommentsListAdapter(commentsList)
+        commentsListRecyclerView?.adapter = commentsListAdapter
 
         // Setting up data to corresponding views
         taskTitleEditText?.setText(taskTitle)
@@ -130,19 +135,12 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         setDueDateWrapper?.setOnClickListener {
             when (isCalendarVisible){
                 true -> {
-                    hideCalendar()
+
                     disableActionToolbar()
                 }
                 false -> {
-                    showCalendar()
                 }
             }
-        }
-        
-        calendarView?.setOnDateChangeListener { calendarView, year, month, day ->
-            date = "$day/${month+1}/$year"
-            Log.d("CALENDAR", date)
-            activateActionToolbar(Constants.CALENDAR_ON_DATE_CHANGED)
         }
 
         return rootView
@@ -166,6 +164,22 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         }
     }
 
+    fun showDatePickerDialog(){
+        var datePickerDialog = DatePickerDialog(
+            activity,
+            this,
+            Calendar.getInstance().get(Calendar.YEAR),
+            Calendar.getInstance().get(Calendar.MONTH),
+            Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+        datePickerDialog.show()
+    }
+
+    override fun onDateSet(p0: DatePicker?, day: Int, month: Int, year: Int) {
+        date = "$day/${month+1}/$year"
+        Log.d("CALENDAR", date)
+        activateActionToolbar(Constants.CALENDAR_ON_DATE_CHANGED)
+    }
+
     fun initializeUI() {
         // Setting up boolean controllers
         isCalendarVisible = false
@@ -175,7 +189,6 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         // Setting up views
         Utils.disableEditText(taskTitleEditText)
         usersListRecyclerView?.visibility = View.GONE
-        calendarView?.visibility = View.GONE
     }
 
     // ************ Show&Hide stuff ************
@@ -190,15 +203,6 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         usersListRecyclerView?.visibility = View.GONE
     }
 
-    fun showCalendar(){
-        isCalendarVisible = true
-        calendarView?.visibility = View.VISIBLE
-    }
-
-    fun hideCalendar(){
-        isCalendarVisible = false
-        calendarView?.visibility = View.GONE
-    }
 
     // ************ Show&Hide stuff ************
 
@@ -219,6 +223,11 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         usersList.add(User ("124", "hui", "mui2"))
         usersList.add(User ("125", "hui", "dui2"))
         usersList.add(User ("126", "hui", "wui2"))
+    }
+
+    fun populateCommentsListWithFakeData(commentsList : ArrayList<Comment>){
+        commentsList.add(Comment("Content1 ", "Arczi Poplawko", "Aug 7, 2019"))
+        commentsList.add(Comment("Content2 asdasdasd ", "Arcziasdasd Poplaasdasdwko", "Aug 9, 2013"))
     }
 
     // Whole ActionToolbar setup here!
@@ -262,8 +271,7 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         toolbarDismissButton?.setOnClickListener {
             Toast.makeText(activity, "Dismissed", Toast.LENGTH_SHORT).show()
 
-            if (isCalendarVisible) hideCalendar()
-            else if (isMembersListVisible) hideMembersList()
+            if (isMembersListVisible) hideMembersList()
 
             disableActionToolbar()
         }
@@ -278,49 +286,20 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         toolbarMidText?.text = "Disabled"
     }
 
-    override fun updateTasks(tasksOutput: ArrayList<Task>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun triggerUpdate() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun showProgressBar() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun hideProgressBar() {
         toolbarProgressBar?.visibility = View.GONE
     }
 
-    override fun hideAddTaskDialog() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onTaskDeleted() {
-
-    }
-
-    override fun onTasksListEmpty() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun onTaskDetailChanged() {
         hideProgressBar()
-        hideCalendar()
         disableActionToolbar()
     }
 
-    override fun onError(errorLog : String?) {
-        Toast.makeText(activity, errorLog.toString(), Toast.LENGTH_LONG).show()
-    }
-
-    interface BottomSheetListener {
-
-        fun sendDataBack(){
-
-        }
-
-    }
+    override fun updateTasks(tasksOutput: ArrayList<Task>) {}
+    override fun triggerUpdate() {}
+    override fun showProgressBar() {}
+    override fun onError(errorLog : String?) {}
+    override fun hideAddTaskDialog() {}
+    override fun onTaskDeleted() {}
+    override fun onTasksListEmpty() {}
 }

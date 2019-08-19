@@ -12,6 +12,7 @@ object FirebaseConstants {
     val CURRENT_ARTIST_PAGE = "currentArtistPageId"
     val ARTIST_ROLE = "artistRole"
     val PAGE_ROLE = "pageRole"
+    val ROLE_CATEGORY = "roleCategory"
 
     // FIELDS VALUES - USER
     val V_PROFILE_STATUS_STARTED = "started"
@@ -30,6 +31,9 @@ object FirebaseConstants {
     val ARTIST_CONTACT = "contact"
     val ARTIST_SHARE_CODE = "epkShareCode"
 
-    // FIELDS NAMES - T
+    // FIELDS NAMES - COMMENTS
+    val COMMENT_CONTENT = "content"
+    val COMMENT_CREATED_BY = "createdBy"
+    val COMMENT_DATE_CREATED = "dateCreated"
 
 }

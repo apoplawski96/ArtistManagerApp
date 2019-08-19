@@ -89,12 +89,11 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater, View.OnClickLi
         saveDataUpperButton?.setOnClickListener(this)
         dismissButton?.setOnClickListener(this)
 
+        // UI initialization
+        this.initializeUI()
+
         // Getting current EPK data - if there's any
         loadCurrentEpkData() // !!!!!!! it's possible to get it later from previous activities via bundle
-
-        artistNameInput?.setText(pageName.toString())
-        Utils.disableEditText(artistNameInput)
-
     }
 
     fun loadCurrentEpkData(){
@@ -216,11 +215,17 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater, View.OnClickLi
 
     override fun hideProgress() {
         progressBar?.visibility = View.GONE
+        dismissButton?.visibility = View.GONE
+        backButton?.visibility = View.VISIBLE
     }
 
-    override fun initializeUI() { }
+    override fun initializeUI() {
+        artistNameInput?.setText(pageName.toString())
+        Utils.disableEditText(artistNameInput)
+    }
 
     override fun showProgress() {
+        saveDataUpperButton?.visibility = View.GONE
         progressBar?.visibility = View.VISIBLE
     }
 
@@ -231,6 +236,10 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater, View.OnClickLi
                 uploadProgressBar?.visibility = View.GONE
                 artistImage?.visibility = View.VISIBLE
                 Toast.makeText(this, "Image uploaded", Toast.LENGTH_SHORT).show()
+            }
+            "EPK_DATA_SUCCESSFULLY_SAVED" -> {
+                hideProgress()
+                Toast.makeText(this, "EPK data successfully saved", Toast.LENGTH_SHORT).show()
             }
 
         }

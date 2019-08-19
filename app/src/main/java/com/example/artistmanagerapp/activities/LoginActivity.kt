@@ -1,7 +1,6 @@
 package com.example.artistmanagerapp.activities
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -22,8 +21,8 @@ class LoginActivity : BaseActivity() {
         Log.d(CTX_TAG, "Welcome to LoginActivity")
 
         // View components
-        val loginButton : Button = findViewById(R.id.login_button) as Button
-        val loginEmailEditText = findViewById(R.id.login_email_edit_text) as EditText
+        val loginButton : Button = findViewById(R.id.register_button) as Button
+        val loginEmailEditText = findViewById(R.id.register_email_edit_text) as EditText
         val loginPasswordEditText = findViewById(R.id.login_password_edit_text) as EditText
 
         var auth = FirebaseAuth.getInstance()
@@ -38,7 +37,7 @@ class LoginActivity : BaseActivity() {
             signIn(loadAuthFieldsResult.email, loadAuthFieldsResult.password, auth)
         }
 
-        go_to_signup_activity.setOnClickListener {
+        already_registered_button.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }

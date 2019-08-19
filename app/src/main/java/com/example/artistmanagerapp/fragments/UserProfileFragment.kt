@@ -39,7 +39,11 @@ class UserProfileFragment : BaseFragment() {
     // Views
     var displayName : TextView? = null
     var userAvatar : CircleImageView? = null
-    var logoutButton : Button? = null
+    var logoutButton : TextView? = null
+    var editProfile : TextView? = null
+    var changePassword : TextView? = null
+    var legalInfo : TextView? = null
+    var appInfo : TextView? = null
 
     companion object {
         @JvmStatic
@@ -71,8 +75,30 @@ class UserProfileFragment : BaseFragment() {
         displayName = rootView.findViewById(R.id.profile_user_fullname)
         userAvatar = rootView.findViewById(R.id.user_avatar)
         logoutButton = rootView.findViewById(R.id.logout_button)
+        editProfile = rootView.findViewById(R.id.edit_profile)
+        changePassword = rootView.findViewById(R.id.change_password)
+        appInfo = rootView.findViewById(R.id.app_info)
+        legalInfo = rootView.findViewById(R.id.legal_info)
 
         displayName?.text = "${mFirstName} ${mLastName}, userId: ${user?.uid}"
+
+        editProfile?.setOnClickListener{
+            val intent = Intent(activity, CreateUserProfileActivity::class.java)
+            intent?.putExtra(Constants.MODE_KEY, Constants.USER_PROFILE_EDIT_MODE)
+            startActivity(intent)
+        }
+
+        changePassword?.setOnClickListener {
+
+        }
+
+        appInfo?.setOnClickListener {
+
+        }
+
+        legalInfo?.setOnClickListener {
+
+        }
 
         logoutButton?.setOnClickListener {
             Log.d(CTX_TAG, "signOut() called - we're logging out...")

@@ -1,15 +1,23 @@
 package com.example.artistmanagerapp.models
 
-class User {
+import java.io.Serializable
+
+class User : Serializable {
 
     var id : String? = null
     var firstName : String? = null
     var lastName : String? = null
     var pageRole : String? = null
     var artistRole : String? = null
+    var roleCategory : String? = null
     var artistPages : ArrayList<ArtistPage>? = null
     var currentArtistPageId : String? = null
     var email : String? = null
+    var profileCompletionStatus : String? = null
+    var tasksCompleted : Int? = 0
+    var eventsAttended : Int? = 0
+    var eventsCreated : Int? = 0
+    var assignmentsPending : Int? = 0
 
     constructor()
 
@@ -45,6 +53,28 @@ class User {
         this.lastName = lastName
         this.pageRole = pageRole
         this.artistRole = artistRole
+        this.artistPages = artistPages
+        this.currentArtistPageId = currentArtistPageId
+        this.email = email
+    }
+
+    constructor(
+        id: String?,
+        firstName: String?,
+        lastName: String?,
+        pageRole: String?,
+        artistRole: String?,
+        roleCategory: String?,
+        artistPages: ArrayList<ArtistPage>?,
+        currentArtistPageId: String?,
+        email: String?
+    ) {
+        this.id = id
+        this.firstName = firstName
+        this.lastName = lastName
+        this.pageRole = pageRole
+        this.artistRole = artistRole
+        this.roleCategory = roleCategory
         this.artistPages = artistPages
         this.currentArtistPageId = currentArtistPageId
         this.email = email

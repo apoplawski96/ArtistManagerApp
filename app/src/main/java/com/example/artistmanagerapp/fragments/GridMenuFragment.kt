@@ -24,6 +24,7 @@ import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.MenuItem
 import com.example.artistmanagerapp.models.Task
+import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Communicator
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.TaskHelper
@@ -43,7 +44,7 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
     companion object {
         @JvmStatic
         val c = Constants
-        fun newInstance(pageId : String, artistPage: ArtistPage) : GridMenuFragment {
+        fun newInstance(pageId : String, artistPage: ArtistPage, user: User) : GridMenuFragment {
             val fragment = GridMenuFragment()
             val bundle = Bundle().apply{
                 putString (c.PAGE_ID_BUNDLE, artistPage.artistPageId)

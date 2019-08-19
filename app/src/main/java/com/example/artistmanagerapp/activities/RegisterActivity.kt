@@ -5,36 +5,33 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-class RegisterActivity : AppCompatActivity() {
-
-    // Firebase stuff
-    private lateinit var auth: FirebaseAuth
+class RegisterActivity : BaseActivity() {
 
     // View components
-    private lateinit var registerEmailEditText : EditText
-    private lateinit var registerPasswordEditText : EditText
-    private lateinit var registerPasswordRepeatEditText : EditText
+    var registerEmailEditText : EditText? = null
+    var registerPasswordEditText : EditText? = null
+    var registerPasswordRepeatEditText : EditText? = null
+    var registerButton : Button? = null
+    var alreadyRegisteredButton : TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        // Firebase stuff
-        FirebaseApp.initializeApp(this)
-        auth = FirebaseAuth.getInstance()
-
-        val registerButton : Button = findViewById(R.id.register_button) as Button
+        registerButton = findViewById(R.id.register_button) as Button
         registerEmailEditText = findViewById(R.id.register_email_edit_text) as EditText
-        registerPasswordEditText = findViewById(R.id.register_password_edit_text) as EditText
-        registerPasswordRepeatEditText = findViewById(R.id.register_passwordrepeat_edittext) as EditText
+        registerPasswordEditText = findViewById(R.id.register_password) as EditText
+        registerPasswordRepeatEditText = findViewById(R.id.register_password_repeat) as EditText
+        alreadyRegisteredButton = findViewById(R.id.already_registered_button) as TextView
 
-        registerButton.setOnClickListener {
+        registerButton?.setOnClickListener {
             var loadAuthFieldsResult = loadAuthFields(registerEmailEditText, registerPasswordEditText, registerPasswordRepeatEditText)
 
             if(loadAuthFieldsResult.password.equals(loadAuthFieldsResult.passwordRepeat)){
@@ -42,10 +39,10 @@ class RegisterActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Password fields do not equal", Toast.LENGTH_SHORT).show()
             }
-
         }
-
     }
+
+
 
     fun signUp(email : String, password : String){
 

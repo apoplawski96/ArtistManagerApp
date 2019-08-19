@@ -37,6 +37,9 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
     var pageBundleInstance : ArtistPage? = null
     var currentPageIdBundle : String? = null
 
+    // Bundle data variables - User
+    var userInstance : User = User()
+
     // Variables set - User
     var userObject : User? = null
     var mFirstName : String? = null
@@ -81,7 +84,7 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag2 -> {
-                replaceFragment(GridMenuFragment.newInstance(pageId.toString(), artistPageInstance))
+                replaceFragment(GridMenuFragment.newInstance(pageId.toString(), artistPageInstance, userInstance))
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag3 -> {

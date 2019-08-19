@@ -42,13 +42,15 @@
 
     <android.support.design.widget.FloatingActionButton android:layout_width="wrap_content"
                                                         android:layout_height="wrap_content"
+                                                        app:fab_size="normal"
                                                         android:src="@drawable/ic_add"
                                                         android:background="@color/colorAccent"
+                                                        android:backgroundTint="@color/colorAccent"
                                                         android:layout_gravity="bottom|end"
-                                                        android:layout_marginBottom="8dp"
+                                                        android:layout_marginBottom="24dp"
                                                         android:id="@+id/fab_tasks_list"
                                                         app:layout_constraintBottom_toBottomOf="parent"
-                                                        android:layout_marginEnd="8dp"
+                                                        android:layout_marginEnd="24dp"
                                                         app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
             android:text="There are no tasks, add some!"

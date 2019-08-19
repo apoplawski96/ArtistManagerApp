@@ -27,6 +27,7 @@ import android.content.ClipData
 import android.content.Context.CLIPBOARD_SERVICE
 import android.content.ClipboardManager
 import android.content.Context
+import de.hdodenhof.circleimageview.CircleImageView
 
 
 class ManageTeamActivity : BaseActivity(), UsersListListener{
@@ -41,11 +42,23 @@ class ManageTeamActivity : BaseActivity(), UsersListListener{
 
     // Views
     var inviteButton : FloatingActionButton? = null
+    var teamMembersRecyclerView : RecyclerView? = null
+
+    // Views - invite dialog
     var inviteDialog : Dialog? = null
     var dialogText : EditText? = null
     var dialogCloseButton : TextView? = null
     var dialogCopyButton : Button? = null
-    var teamMembersRecyclerView : RecyclerView? = null
+
+    // Views - user details dialog
+    var userDetailsDialog : Dialog? = null
+    var userDetailsDialogCloseX : TextView? = null
+    var userDetailsDialogDisplayName : TextView? = null
+    var userDetailsDialogRole : TextView? = null
+    var userAvatar : CircleImageView? = null
+    var statsCounterLeft : TextView? = null
+    var statsCounterCenter : TextView? = null
+    var statsCounterRight : TextView? = null
 
     // Variables
     var codeString : String? = null
@@ -59,12 +72,16 @@ class ManageTeamActivity : BaseActivity(), UsersListListener{
 
         // Views
         inviteButton = findViewById(R.id.invite_member_button)
+        teamMembersRecyclerView = findViewById(R.id.team_members_recycler_view)
+
+        // Views - invite dialog
         inviteDialog = Dialog(this)
         inviteDialog?.setContentView(R.layout.dialog_invite_member)
         dialogText = inviteDialog?.findViewById(R.id.dialog_redeem_code_text)
         dialogCloseButton = inviteDialog?.findViewById(R.id.dialog_close_x)
         dialogCopyButton = inviteDialog?.findViewById(R.id.dialog_copy_button)
-        teamMembersRecyclerView = findViewById(R.id.team_members_recycler_view)
+
+        // Views - user details dialog
 
         // Getting bundled page data
         pageId = intent.getStringExtra(Constants.PAGE_ID_BUNDLE)
@@ -109,6 +126,31 @@ class ManageTeamActivity : BaseActivity(), UsersListListener{
     }
 
     fun userItemClicked(user : User){
+        // Dialog setup
+        setupUserDetailsDialog(user)
+        userDetailsDialog?.show()
+    }
+
+    fun setupUserDetailsDialog(user : User){
+        // Views initialization
+        userDetailsDialog = Dialog(this)
+        userDetailsDialog?.setContentView(R.layout.dialog_user_details)
+        userDetailsDialogCloseX = userDetailsDialog?.findViewById(R.id.user_details_x_button) as TextView?
+        userDetailsDialogDisplayName = userDetailsDialog?.findViewById(R.id.user_details_name)
+        userDetailsDialogRole = userDetailsDialog?.findViewById(R.id.user_details_role) as TextView?
+        userAvatar = userDetailsDialog?.findViewById(R.id.user_details_avatar) as CircleImageView?
+        statsCounterLeft = userDetailsDialog?.findViewById(R.id.counter_1) as TextView?
+        statsCounterCenter = userDetailsDialog?.findViewById(R.id.counter_2) as TextView?
+        statsCounterRight = userDetailsDialog?.findViewById(R.id.counter_3) as TextView?
+
+        // Views setup with data
+        userDetailsDialogDisplayName?.text = "${user.firstName.toString()} ${user.lastName.toString()}"
+        userDetailsDialogRole?.text = user.artistRole.toString()
+
+        // OnClicks
+        userDetailsDialogCloseX?.setOnClickListener {
+            userDetailsDialog?.hide()
+        }
 
     }
 

@@ -45,4 +45,9 @@ object Constants {
     val PAGE_ROLE_BUNDLE : String = "PAGE_ROLE"
     val CURRENT_PAGE_BUNDLE : String = "CURRENT_PAGE"
 
+    // USER PROFILE EDIT/CREATE - MODES
+    val MODE_KEY : String = "ACTIVITY_MODE"
+    val USER_PROFILE_CREATE_MODE : String = "CREATE_MODE"
+    val USER_PROFILE_EDIT_MODE : String = "EDIT_MODE"
+
 }

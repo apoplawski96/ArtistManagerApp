@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.interfaces.DataReceiver
@@ -25,6 +26,7 @@ class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.
     var generateEpkButton : Button? = null
     var shareEpkButton : Button? = null
     var redeeemEpkButton : Button? = null
+    var backButton : ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +37,14 @@ class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.
         pageName = intent.getStringExtra(Constants.ARTIST_NAME_BUNDLE)
         epkShareCode = intent.getStringExtra(Constants.EPK_SHARE_CODE_BUNDLE)
 
-        Toast.makeText(this, "Name:$pageName+ ID:$pageId+ ShareCode:$epkShareCode", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "Name:$pageName+ ID:$pageId+ ShareCode:$epkShareCode", Toast.LENGTH_SHORT).show()
 
         // Views
         editEpkInfoButton = findViewById(R.id.edit_info_bt)
         generateEpkButton = findViewById(R.id.generate_epk_btn)
         shareEpkButton = findViewById(R.id.share_epk_btn)
         redeeemEpkButton = findViewById(R.id.redeem_epk_btn)
+        backButton = findViewById(R.id.epk_selector_back_button)
 
         editEpkInfoButton?.setOnClickListener {
             val intent = Intent(applicationContext, EpkEditInfoActivity::class.java).apply{
@@ -71,6 +74,10 @@ class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.
 
         redeeemEpkButton?.setOnClickListener {
             DialogCreator.showCodeDialog(DialogCreator.DialogType.REDEEM_EPK_DIALOG, this, this, null)
+        }
+
+        backButton?.setOnClickListener {
+            onBackPressed()
         }
 
     }

@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="35dp"
-                                                 android:layout_height="35dp">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="wrap_content"
+                                                 android:layout_height="wrap_content">
 
-    <com.makeramen.roundedimageview.RoundedImageView android:layout_width="match_parent"
-                                                     android:layout_height="match_parent" android:id="@+id/avatar_stroke" android:visibility="gone"/>
-
-    <com.makeramen.roundedimageview.RoundedImageView android:layout_width="33dp" android:layout_height="33dp"
-                                                     android:id="@+id/avatar"
-                                                     app:riv_corner_radius="35dp"
-                                                     app:layout_constraintStart_toStartOf="parent"
-                                                     app:layout_constraintEnd_toStartOf="@+id/avatar_stroke"
-                                                     app:layout_constraintTop_toTopOf="parent"
-                                                     app:layout_constraintBottom_toTopOf="@+id/avatar_stroke"
-                                                     android:background="@color/colorAccent"
-                                                     app:layout_constraintHorizontal_bias="0.0"
-                                                     app:layout_constraintVertical_bias="0.0"/>
-
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-              android:id="@+id/username_acronym" android:text="AP" android:textSize="@dimen/font_larger"
-              android:textAlignment="center"
-              app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
-              app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+    <de.hdodenhof.circleimageview.CircleImageView android:layout_width="50dp" android:layout_height="50dp"
+                                                  app:layout_constraintBottom_toBottomOf="parent"
+                                                  app:layout_constraintTop_toTopOf="parent"
+                                                  android:src="@color/colorAccent"
+                                                  app:layout_constraintStart_toStartOf="parent"
+                                                  android:layout_marginStart="8dp"
+                                                  android:id="@+id/circleImageView"/>
+    <TextView
+            android:text="AP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bold"
+            android:textColor="@color/appWhite"
+            android:textAlignment="center"
+            android:textSize="@dimen/font_large"
+            android:id="@+id/name_acronym" app:layout_constraintStart_toStartOf="@+id/circleImageView"
+            app:layout_constraintBottom_toBottomOf="@id/circleImageView"
+            app:layout_constraintTop_toTopOf="@id/circleImageView"
+            app:layout_constraintEnd_toEndOf="@+id/circleImageView"
+    />
 
 </android.support.constraint.ConstraintLayout>

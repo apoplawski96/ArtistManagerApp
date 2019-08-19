@@ -17,7 +17,9 @@ import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.fragments.TaskDetailsDialogFragment
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
+import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Task
+import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.ui.DialogCreator
 import com.example.artistmanagerapp.utils.*
 import com.google.firebase.firestore.CollectionReference
@@ -33,6 +35,10 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
     var pageId : String? = null
     var selectedTaskId : String? = null
     var selectedTaskItemView : View? = null
+
+    // Bundled data
+    var artistPageBundled : ArtistPage? = null
+    var userBundled : User? = null
 
     // Views
     var checkBox : CheckBox? = null
@@ -80,6 +86,8 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         // Others
         val context : Context = this
         pageId = intent.getStringExtra(Constants.PAGE_ID_BUNDLE)
+
+        // Getting ArtistPage and User bundled data
 
         // Views
         taskListRecyclerView = findViewById(R.id.task_list_recyclerview) as RecyclerView
@@ -150,13 +158,6 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         toolbarBackButton?.setOnClickListener {
             onBackPressed()
         }
-
-        // ************************** ONCLICKS SETUP **************************
-
-        /*TaskHelper.addTask(Task("task1", "low", true), pathToTasksCollection)
-        TaskHelper.addTask(Task("task2", "low", true), pathToTasksCollection)
-        TaskHelper.addTask(Task("task3", "low", false), pathToTasksCollection)
-        TaskHelper.addTask(Task("task4", "low", false), pathToTasksCollection)*/
 
     }
 
@@ -266,10 +267,14 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
 
         addTaskSubmitButton?.setOnClickListener {
             val taskTitle : String = taskNameInput?.text.toString()
-            taskNameInput?.text = null
-            TaskHelper.addTask(Task(taskTitle, false), pathToTasksCollection, this)
-            hideAddNewTaskDialog()
-            showProgressBar()
+            if (taskTitle.isNotBlank()){
+                taskNameInput?.text = null
+                TaskHelper.addTask(Task(taskTitle, false), pathToTasksCollection, this)
+                hideAddNewTaskDialog()
+                showProgressBar()
+            } else {
+                Toast.makeText(this, "Task title can't be empty!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         tasksDialogClose?.setOnClickListener {

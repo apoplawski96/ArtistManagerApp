@@ -39,8 +39,12 @@ class PageTeamAdapter (usersListListener: UsersListListener, val context : Conte
             itemView.setOnClickListener {clickListener(user)}
             itemView.name_acronym.text = Utils.createNameAcronym(user.firstName.toString(), user.lastName.toString())
             itemView.full_name.text = "${user.firstName} ${user.lastName}"
-        }
 
+            itemView.option_dialog_opener.setOnClickListener {
+                clickListener(user)
+            }
+
+        }
     }
 
 }

@@ -35,7 +35,6 @@ class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var ta
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(taskUpdater, taskList[position], clickListener)
-
     }
 
 

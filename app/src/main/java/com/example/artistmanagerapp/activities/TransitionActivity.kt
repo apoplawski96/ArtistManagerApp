@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.models.User
+import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.example.artistmanagerapp.utils.UsersHelper
 import com.google.firebase.auth.FirebaseAuth
@@ -65,6 +66,7 @@ class TransitionActivity : BaseActivity() {
                 Log.d(FIREBASE_TAG, "Db record not created - go to CreateUserProfileActivity and initialize record")
                 val intent = Intent(applicationContext, CreateUserProfileActivity::class.java).apply{
                     putExtra("isDbRecordCreated", "false")
+                    putExtra(Constants.MODE_KEY, Constants.USER_PROFILE_CREATE_MODE)
                 }
                 startActivity(intent)
             } else {
@@ -82,6 +84,7 @@ class TransitionActivity : BaseActivity() {
                     Log.d(FIREBASE_TAG, "Db record initialized - go to CreateUserProfileActivity and complete missing profile info")
                     val intent = Intent(applicationContext, CreateUserProfileActivity::class.java).apply{
                         putExtra("isDbRecordCreated", "true")
+                        putExtra(Constants.MODE_KEY, Constants.USER_PROFILE_CREATE_MODE)
                     }
                     startActivity(intent)
                 }

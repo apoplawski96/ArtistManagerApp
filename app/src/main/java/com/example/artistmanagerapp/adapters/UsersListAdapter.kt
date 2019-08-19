@@ -38,7 +38,7 @@ class UsersListAdapter (usersListListener: UsersListListener, val context : Cont
 
         fun bind(usersListListener: UsersListListener, user : User, clickListener: (User) -> Unit){
             itemView.setOnClickListener {clickListener(user)}
-            itemView.username_acronym.text = Utils.createNameAcronym(user.firstName.toString(), user.lastName.toString())
+            itemView.name_acronym.text = Utils.createNameAcronym(user.firstName.toString(), user.lastName.toString())
         }
 
     }

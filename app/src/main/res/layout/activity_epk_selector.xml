@@ -10,16 +10,22 @@
 
     <Button
             android:text="EDIT INFO"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_standard"
+            android:layout_width="@dimen/button_long_length"
+            android:textColor="@color/appWhite"
+            android:fontFamily="@font/montserrat"
             android:id="@+id/edit_info_bt" android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="161dp" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="162dp" android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.35000002"/>
     <Button
-            android:text="GENERATE EPK"
-            android:layout_width="wrap_content"
+            android:text="GENERATE YOUR PAGE EPK"
+            android:background="@drawable/button_standard"
+            android:layout_width="@dimen/button_long_length"
+            android:textColor="@color/appWhite"
+            android:fontFamily="@font/montserrat"
             android:layout_height="wrap_content"
             android:id="@+id/generate_epk_btn" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/edit_info_bt" app:layout_constraintEnd_toEndOf="parent"
@@ -27,19 +33,43 @@
     />
     <Button
             android:text="SHARE EPK"
-            android:layout_width="wrap_content"
+            android:background="@drawable/button_standard"
+            android:layout_width="@dimen/button_long_length"
+            android:textColor="@color/appWhite"
+            android:fontFamily="@font/montserrat"
             android:layout_height="wrap_content"
             android:id="@+id/share_epk_btn" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/generate_epk_btn" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="162dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="162dp"/>
     <Button
-            android:text="CHECK OTHER BANDS EPKJ"
-            android:layout_width="wrap_content"
+            android:text="CHECK OTHER ARTISTS EPK"
+            android:background="@drawable/button_standard"
+            android:layout_width="@dimen/button_long_length"
+            android:textColor="@color/appWhite"
+            android:fontFamily="@font/montserrat"
             android:layout_height="wrap_content"
             android:id="@+id/redeem_epk_btn" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/share_epk_btn" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="162dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="162dp"/>
+    <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp" app:srcCompat="@drawable/ic_back_button"
+            android:id="@+id/epk_selector_back_button"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"/>
+    <TextView
+            android:text="Electronic Press Kit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@color/appWhite"
+            android:textSize="@dimen/font_large"
+            android:id="@+id/selector_activity_title"
+            app:layout_constraintTop_toTopOf="@+id/epk_selector_back_button" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/epk_selector_back_button"/>
 
 </android.support.constraint.ConstraintLayout>
