@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.FirebaseConstants
@@ -17,11 +18,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 import kotlin.concurrent.schedule
 
-class TransitionActivity : BaseActivity() {
+class TransitionActivity : BaseActivity(), DataReceiver {
 
     val context : Context = this
     val c = FirebaseConstants
     val tag = "TransitionActivity"
+
+    // Bundle data objects
+    var userInstance : User = User()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +34,8 @@ class TransitionActivity : BaseActivity() {
         Log.d("USER_ID", user?.uid.toString())
 
         // Checking if user is logged in and saving the function response in the variable
-        checkIfUserIsNewAndGuide(db, user)
+        UsersHelper.getUserData(userIdGlobal, this)
+        //checkIfUserIsNewAndGuide(db, user)
     }
 
     // ************************************ FUNCTIONS SECTION START ************************************
@@ -94,6 +99,45 @@ class TransitionActivity : BaseActivity() {
         }.addOnFailureListener{
             Log.d(FIREBASE_ERROR, "Failure")
         }
+    }
+
+    override fun receiveData(data: Any?, mInterface: Any?) {
+        if (data == null){
+            checkUserDataAndGuide(null)
+        } else {
+            var user : User = data as User
+            checkUserDataAndGuide(user)
+        }
+
+    }
+
+    fun checkUserDataAndGuide(user : User?){
+        var intent : Intent? = null
+        Log.d(tag, "We're here kurwa, ${user?.profileCompletionStatus.toString()}, ${user?.firstName.toString()}")
+
+        if (user == null){
+            Log.d(FIREBASE_TAG, "Db record not created - go to CreateUserProfileActivity and initialize record")
+            intent = Intent(applicationContext, CreateUserProfileActivity::class.java).apply{
+                putExtra("isDbRecordCreated", "false")
+                putExtra(Constants.MODE_KEY, Constants.USER_PROFILE_CREATE_MODE)
+            }
+        } else {
+            when (user.profileCompletionStatus.toString()){
+                c.V_PROFILE_STATUS_COMPLETED -> {
+                    Log.d(tag, "User profile completed - go to SelectArtistPageActivity")
+                    intent = Intent(this, SelectArtistPageActivity::class.java)
+                }
+                c.V_PROFILE_STATUS_STARTED -> {
+                    Log.d(FIREBASE_TAG, "Db record initialized - go to CreateUserProfileActivity and complete missing profile info")
+                    intent = Intent(applicationContext, CreateUserProfileActivity::class.java).apply{
+                        putExtra("isDbRecordCreated", "true")
+                        putExtra(Constants.MODE_KEY, Constants.USER_PROFILE_CREATE_MODE)
+                    }
+                }
+            }
+        }
+
+        startActivity(intent)
     }
 
     // ************************************ FUNCTIONS SECTION END **************************************

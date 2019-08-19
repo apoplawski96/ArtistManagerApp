@@ -13,6 +13,10 @@ object FirebaseConstants {
     val ARTIST_ROLE = "artistRole"
     val PAGE_ROLE = "pageRole"
     val ROLE_CATEGORY = "roleCategory"
+    val TASKS_COMPLETED = "tasksCompleted"
+    val EVENTS_ATTENDED = "eventsAttended"
+    val EVENTS_CREATED = "eventsCreated"
+    val ASSIGNMENTS_PENDING = "assignmentsPending"
 
     // FIELDS VALUES - USER
     val V_PROFILE_STATUS_STARTED = "started"

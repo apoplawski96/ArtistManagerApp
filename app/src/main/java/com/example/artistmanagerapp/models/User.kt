@@ -80,5 +80,37 @@ class User : Serializable {
         this.email = email
     }
 
+    constructor(
+        id: String?,
+        firstName: String?,
+        lastName: String?,
+        pageRole: String?,
+        artistRole: String?,
+        roleCategory: String?,
+        artistPages: ArrayList<ArtistPage>?,
+        currentArtistPageId: String?,
+        email: String?,
+        profileCompletionStatus: String?,
+        tasksCompleted: Int?,
+        eventsAttended: Int?,
+        eventsCreated: Int?,
+        assignmentsPending: Int?
+    ) {
+        this.id = id
+        this.firstName = firstName
+        this.lastName = lastName
+        this.pageRole = pageRole
+        this.artistRole = artistRole
+        this.roleCategory = roleCategory
+        this.artistPages = artistPages
+        this.currentArtistPageId = currentArtistPageId
+        this.email = email
+        this.profileCompletionStatus = profileCompletionStatus
+        this.tasksCompleted = tasksCompleted
+        this.eventsAttended = eventsAttended
+        this.eventsCreated = eventsCreated
+        this.assignmentsPending = assignmentsPending
+    }
+
 
 }

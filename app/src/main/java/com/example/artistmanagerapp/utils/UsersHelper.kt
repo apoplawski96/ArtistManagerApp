@@ -54,24 +54,28 @@ object UsersHelper : BaseActivity() {
     fun getUserData (userId : String, dataReceiver: DataReceiver){
         usersCollectionPath.document(userId).get().addOnSuccessListener { document ->
             if (document.exists()){
-                // asdasd
-                var user : User? = null
+                var user : User?
                 val firstName : String? = document.get(c.FIRST_NAME).toString()
                 val lastName : String? = document.get(c.LAST_NAME).toString()
                 val pageRole : String? = document.get(c.PAGE_ROLE).toString()
                 val artistRole : String? = document.get(c.ARTIST_ROLE).toString()
+                val roleCategory : String? = document.get(c.ROLE_CATEGORY).toString()
                 val email : String? = document.get(c.EMAIL).toString()
                 val currentArtistPageId : String? = document.get(c.CURRENT_ARTIST_PAGE).toString()
-                // asdasd
+                val profileCompletionStatus : String? = document.get(c.PROFILE_COMPLETION_STATUS).toString()
+                val tasksCompleted : Int? = document.get(c.TASKS_COMPLETED) as Int?
+                val eventsAttended : Int? = document.get(c.EVENTS_ATTENDED) as Int?
+                val eventsCreated : Int? = document.get(c.EVENTS_CREATED) as Int?
+                val assignmentsPending : Int? = document.get(c.ASSIGNMENTS_PENDING) as Int?
 
                 Log.d(FIREBASE_TAG, "User data received")
                 Log.d(FIREBASE_TAG, "UserData: $firstName, $lastName, $email")
 
                 // Sending user data
-                user = User(userId, firstName, lastName, pageRole, artistRole, null, currentArtistPageId, email)
+                user = User(userId, firstName, lastName, pageRole, artistRole, roleCategory, null, currentArtistPageId, email, profileCompletionStatus, tasksCompleted, eventsAttended, eventsCreated, assignmentsPending)
                 dataReceiver.receiveData(user, null)
             } else {
-                Log.d(FIREBASE_ERROR, "Artist page with provided pageId doesn't exist in user data")
+                dataReceiver.receiveData(null, null)
             }
         }
     }
