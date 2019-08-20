@@ -1,5 +1,6 @@
 package com.example.artistmanagerapp.firebase
 
+import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.Comment
@@ -18,9 +19,18 @@ object CommentsHelper : BaseActivity() {
     }
 
     // ************************* \WRITE FUNCTIONS *************************
-    fun addComment (comment : Comment, pathToCommentsCollection : CollectionReference, commentsUpdater: commentsUpdater, option : Option){
-        pathToCommentsCollection.document().set(comment).addOnSuccessListener {
-            commentsUpdater.onCommentAdded(option)
+    fun addComment (userId : String?, createdByDisplayName : String?, commentContent : String?, currentDate : String?, pathToCommentsCollection : CollectionReference, commentsUpdater: CommentsUpdater?, option : Option?){
+        pathToCommentsCollection.document().set(Comment (commentContent, userId, currentDate, createdByDisplayName)).addOnSuccessListener {
+            commentsUpdater?.onCommentAdded(option)
+        }.addOnFailureListener {
+
+        }
+    }
+
+    fun addInitComment (task : Task, userId : String?, createdByDisplayName: String?, currentDate : String?, pathToCommentsCollection : CollectionReference, commentsUpdater: CommentsUpdater?, option : Option?){
+        val commentContent = "Task created by $createdByDisplayName"
+        pathToCommentsCollection.document().set(Comment (commentContent, userId, currentDate, createdByDisplayName)).addOnSuccessListener {
+            commentsUpdater?.onCommentAdded(option)
         }.addOnFailureListener {
 
         }
@@ -30,32 +40,40 @@ object CommentsHelper : BaseActivity() {
 
     // ************************* \READ FUNCTIONS *************************
 
-    fun parseTasks (pathToCommentsCollection: CollectionReference, commentsUpdater: commentsUpdater){
+    fun parseComments (pathToCommentsCollection: CollectionReference?, commentsUpdater: CommentsUpdater){
         var commentsOutput : ArrayList<Comment> = ArrayList()
+        Log.d("PARSE COMMENTS", "METHOD ENTERED")
 
-        pathToCommentsCollection.get()
-            .addOnSuccessListener { documents ->
+        pathToCommentsCollection?.get()
+            ?.addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
+                    Log.d("FIREBASE - COMMENTS", "DOCUMENT EXISTS")
+
                     for (document in documents){
                         // Need to work on assignees list later
                         commentsOutput!!
                             .add(Comment(
                                 document.get(fbC.COMMENT_CONTENT).toString(),
                                 document.get(fbC.COMMENT_CREATED_BY).toString(),
-                                document.get(fbC.COMMENT_DATE_CREATED).toString()))
+                                document.get(fbC.COMMENT_DATE_CREATED).toString(),
+                                document.get(fbC.CREATED_BY_DISPLAY_NAME).toString()))
+                        Log.d("FIREBASE - COMMENTS", document.get(fbC.COMMENT_CONTENT).toString())
                     }
                     commentsUpdater.onCommentsParsed(CommentsHelper.Option.COMMENTS_PARSED, commentsOutput)
                 } else {
+                    Log.d("FIREBASE - COMMENTS", "DOCUMENT IS EMPTY")
                 }
+            }?.addOnFailureListener {
+                Log.d("FIREBASE - COMMENTS", "cos poszlo nie tak")
             }
     }
 
 
     // ************************* READ FUNCTIONS/ *************************
 
-    interface commentsUpdater {
-        fun onCommentAdded(option : Option)
-        fun onCommentsParsed(option : Option, commentsList : ArrayList<Comment>)
+    interface CommentsUpdater {
+        fun onCommentAdded(option : Option?)
+        fun onCommentsParsed(option : Option?, commentsList : ArrayList<Comment>)
     }
 
 }

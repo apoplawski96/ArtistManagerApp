@@ -72,5 +72,8 @@ class ArtistPage : Serializable {
         this.epkShareCode = epkShareCode
     }
 
+    override fun toString(): String {
+        return "*ARTIST_PAGE* id: $artistPageId, name: $artistName, adminId: $artistPageAdminId"
+    }
 
 }

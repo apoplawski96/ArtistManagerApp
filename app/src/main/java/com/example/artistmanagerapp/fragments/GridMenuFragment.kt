@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -32,6 +33,9 @@ import com.example.artistmanagerapp.utils.UsersHelper
 
 class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
 
+    // Others
+    val TAG = "GridMenuFragment"
+
     // Collections
     private var menuItemsList : ArrayList <MenuItem> = ArrayList()
     // Adapters
@@ -40,6 +44,10 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
     var pageId : String? = null
     var pageName : String? = null
     var epkShareCode : String? = null
+
+    // Bundle objects
+    var artistPageInstance : ArtistPage? = null
+    var userInstance : User? = null
 
     companion object {
         @JvmStatic
@@ -50,6 +58,8 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
                 putString (c.PAGE_ID_BUNDLE, artistPage.artistPageId)
                 putString (c.ARTIST_NAME_BUNDLE, artistPage.artistName)
                 putString (c.EPK_SHARE_CODE_BUNDLE, artistPage.epkShareCode)
+                putSerializable(c.BUNDLE_ARTIST_PAGE_INSTANCE, artistPage)
+                putSerializable(c.BUNDLE_USER_INSTANCE, user)
             }
             fragment.arguments = bundle
             return fragment
@@ -58,6 +68,14 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_grid_menu, container, false)
+
+        // Getting bundled objects
+        artistPageInstance = arguments?.getSerializable(c.BUNDLE_ARTIST_PAGE_INSTANCE) as ArtistPage?
+        userInstance = arguments?.getSerializable(c.BUNDLE_USER_INSTANCE) as User?
+
+        Log.d(TAG, "GridMenuFragment entered")
+        Log.d(TAG, artistPageInstance.toString())
+        Log.d(TAG, userInstance.toString())
 
         pageId = arguments?.getString(c.PAGE_ID_BUNDLE).toString()
         pageName = arguments?.getString(c.ARTIST_NAME_BUNDLE).toString()
@@ -87,6 +105,8 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
         intent?.putExtra (Constants.PAGE_ID_BUNDLE, pageId)
         intent?.putExtra (Constants.ARTIST_NAME_BUNDLE, pageName)
         intent?.putExtra (Constants.EPK_SHARE_CODE_BUNDLE, epkShareCode)
+        intent?.putExtra (Constants.BUNDLE_USER_INSTANCE, userInstance)
+        intent?.putExtra (Constants.BUNDLE_ARTIST_PAGE_INSTANCE, artistPageInstance)
     }
 
     fun menuItemClicked (menuItem: MenuItem){

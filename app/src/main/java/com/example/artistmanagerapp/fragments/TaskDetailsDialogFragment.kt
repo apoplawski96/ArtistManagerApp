@@ -19,22 +19,30 @@ import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.TaskListActivity
 import com.example.artistmanagerapp.adapters.CommentsListAdapter
 import com.example.artistmanagerapp.adapters.UsersListAdapter
+import com.example.artistmanagerapp.firebase.CommentsHelper
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.interfaces.UsersListListener
+import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Comment
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.TaskHelper
-import com.example.artistmanagerapp.utils.UsersHelper
-import com.example.artistmanagerapp.utils.Utils
+import com.example.artistmanagerapp.utils.*
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_task_details_dialog.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdater, DatePickerDialog.OnDateSetListener {
+class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdater, DatePickerDialog.OnDateSetListener, CommentsHelper.CommentsUpdater {
+
+    // Others
+    val ACT_TAG = "TaskDetailsFragment"
+
+    // Bundle objects
+    var userInstance : User? = null
+    var artistPageInstance : ArtistPage? = null
+    var taskInstance : Task? = null
 
     // Utils objects
     var usersHelper : UsersHelper? = null
@@ -74,12 +82,28 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
 
     // Firebase
     var currentArtistPageId : String? = null
+    val db = FirebaseFirestore.getInstance()
+    var artistPagesCollectionPath : CollectionReference? = null
+    var pathToCommentsCollection : CollectionReference? = null
 
     // Others
     var date : String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_task_details_dialog, container, false)
+
+        taskInstance = arguments?.getSerializable(Constants.BUNDLE_TASK_INSTANCE) as Task?
+        userInstance = arguments?.getSerializable(Constants.BUNDLE_USER_INSTANCE) as User?
+        artistPageInstance = arguments?.getSerializable(Constants.BUNDLE_ARTIST_PAGE_INSTANCE) as ArtistPage?
+
+        // Paths initialization
+        artistPagesCollectionPath = db.collection(FirebaseConstants.ARTIST_PAGES_COLLECTION_NAME)
+        pathToCommentsCollection = artistPagesCollectionPath?.document(artistPageInstance?.artistPageId.toString())?.collection("tasks")?.document(taskInstance?.taskId.toString())?.collection("comments")
+
+        Log.d(ACT_TAG, "TaskDetailsFragment entered")
+        Log.d(ACT_TAG, artistPageInstance.toString())
+        Log.d(ACT_TAG, userInstance.toString())
+        Log.d(ACT_TAG, taskInstance.toString())
 
         // Utils objects
         usersHelper = UsersHelper
@@ -110,6 +134,8 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         usersListRecyclerView?.adapter = adapter
 
         // Comments list setup
+        CommentsHelper.parseComments(pathToCommentsCollection, this)
+
         populateCommentsListWithFakeData(commentsList)
         commentsListRecyclerView?.layoutManager = LinearLayoutManager(TaskListActivity(), OrientationHelper.VERTICAL, false)
         commentsListAdapter = CommentsListAdapter(commentsList)
@@ -153,11 +179,12 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
 
     companion object {
         @JvmStatic
-        fun newInstance(taskTitle: String?, taskId: String?) : TaskDetailsDialogFragment {
+        fun newInstance(task : Task?, user : User?, artistPage : ArtistPage?) : TaskDetailsDialogFragment {
             val fragment = TaskDetailsDialogFragment()
             val bundle = Bundle().apply{
-                putString ("TASK_TITLE", taskTitle)
-                putString("TASK_ID", taskId)
+                putSerializable(Constants.BUNDLE_ARTIST_PAGE_INSTANCE, artistPage)
+                putSerializable(Constants.BUNDLE_USER_INSTANCE, user)
+                putSerializable(Constants.BUNDLE_TASK_INSTANCE, task)
             }
             fragment.arguments = bundle
             return fragment
@@ -226,8 +253,8 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
     }
 
     fun populateCommentsListWithFakeData(commentsList : ArrayList<Comment>){
-        commentsList.add(Comment("Content1 ", "Arczi Poplawko", "Aug 7, 2019"))
-        commentsList.add(Comment("Content2 asdasdasd ", "Arcziasdasd Poplaasdasdwko", "Aug 9, 2013"))
+        commentsList.add(Comment("Content1 ", "Arczi Poplawko", "Aug 7, 2019", "Arczi Poplawko"))
+        commentsList.add(Comment("Content2 asdasdasd ", "Arcziasdasd Poplaasdasdwko", "Aug 9, 2013", "Nie arczi lecz ktos inny"))
     }
 
     // Whole ActionToolbar setup here!
@@ -293,6 +320,14 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
     override fun onTaskDetailChanged() {
         hideProgressBar()
         disableActionToolbar()
+    }
+
+    override fun onCommentAdded(option: CommentsHelper.Option?) {
+        CommentsHelper.parseComments(pathToCommentsCollection, this)
+    }
+
+    override fun onCommentsParsed(option: CommentsHelper.Option?, commentsList: ArrayList<Comment>) {
+        commentsListAdapter?.updateItems(commentsList)
     }
 
     override fun updateTasks(tasksOutput: ArrayList<Task>) {}

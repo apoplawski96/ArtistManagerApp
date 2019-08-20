@@ -112,5 +112,13 @@ class User : Serializable {
         this.assignmentsPending = assignmentsPending
     }
 
+    override fun toString(): String {
+        return "*USER* id: $id, firstName: $firstName, lastName: $lastName, pageRole: $pageRole, artistRole: $artistRole, roleCategory: $roleCategory, currentPageId: $currentArtistPageId, " +
+                "email: $email, profileCompletionStatus: $profileCompletionStatus, tasksCompleted: $tasksCompleted, eventsAttended: $eventsAttended, eventsCreated: $eventsCreated, $assignmentsPending"
+    }
+
+    fun getDisplayName() : String {
+        return "$firstName $lastName"
+    }
 
 }

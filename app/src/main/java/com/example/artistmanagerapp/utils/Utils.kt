@@ -17,6 +17,10 @@ object Utils : BaseActivity (){
 
     private val const = Constants
 
+    fun getCurrentDate() : String {
+        return ""
+    }
+
     fun generateCodeString(lenght : Int) : String{
         val sb = StringBuilder(lenght)
         val rand = Random()

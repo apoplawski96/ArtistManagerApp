@@ -5,12 +5,14 @@ import java.io.Serializable
 class Comment : Serializable{
 
     var content : String? = null
-    var createdBy : String? = null
+    var createdById : String? = null
     var dateCreated : String? = null
+    var createdByDisplayName : String? = null
 
-    constructor(content: String?, createdBy: String?, dateCreated: String?) {
+    constructor(content: String?, createdById: String?, dateCreated: String?, createdByDisplayName : String?) {
         this.content = content
-        this.createdBy = createdBy
+        this.createdById = createdById
         this.dateCreated = dateCreated
+        this.createdByDisplayName = createdByDisplayName
     }
 }

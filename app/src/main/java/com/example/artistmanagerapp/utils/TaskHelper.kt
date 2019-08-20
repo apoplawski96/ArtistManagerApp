@@ -2,14 +2,17 @@ package com.example.artistmanagerapp.utils
 
 import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
+import com.example.artistmanagerapp.firebase.CommentsHelper
 import com.example.artistmanagerapp.interfaces.TaskDetailPresenter
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.ArtistPage
+import com.example.artistmanagerapp.models.Comment
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.SetOptions
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -22,11 +25,25 @@ object TaskHelper : BaseActivity() {
     // ************************************************ \WRITE FUNCTIONS ************************************************
 
     // Adding Task object to a specified collection path
-    fun addTask (task : Task, pathToTasksCollection : CollectionReference, taskUpdater: TaskUpdater){
-        pathToTasksCollection.document().set(task).addOnSuccessListener {
-            taskUpdater.triggerUpdate()
+    fun addTask (task : Task, artistPage: ArtistPage?, user: User?, taskUpdater: TaskUpdater){
+        // Capturing new task id
+        val pathToTasksCollection = artistPagesCollectionPath.document(artistPage?.artistPageId.toString()).collection("tasks")
+        val taskId = pathToTasksCollection.document().id
+        val pathToCommentsCollection = pathToTasksCollection.document(taskId).collection("comments")
+
+        // Adding task to task collection
+        pathToTasksCollection.document(taskId).set(task).addOnSuccessListener {
+            //taskUpdater.triggerUpdate()
         }.addOnFailureListener {
             taskUpdater.hideProgressBar()
+        }
+
+        // Adding init comment to comments collection
+        val commentContent = "Task created by ${user?.getDisplayName()}"
+        pathToCommentsCollection.document().set(Comment (commentContent, userId, Utils.getCurrentDate(), user?.getDisplayName())).addOnSuccessListener {
+            taskUpdater.triggerUpdate()
+        }.addOnFailureListener {
+
         }
     }
 
@@ -45,7 +62,7 @@ object TaskHelper : BaseActivity() {
         var updateData = HashMap <String, Any>()
         updateData.put("dueDate", dueDate.toString())
 
-        artistPagesCollectionPath.document(currentArtistPageId.toString()).collection("tasks").document(taskId.toString()).set(updateData).addOnSuccessListener {
+        artistPagesCollectionPath.document(currentArtistPageId.toString()).collection("tasks").document(taskId.toString()).set(updateData, SetOptions.merge()).addOnSuccessListener {
             tasksUpdater.onTaskDetailChanged()
         }.addOnFailureListener {
             Log.d("FirebaseError", it.toString())

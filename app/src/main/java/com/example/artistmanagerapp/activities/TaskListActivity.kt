@@ -10,10 +10,13 @@ import android.support.v7.view.menu.MenuView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.widget.*
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.adapters.TaskListAdapter
+import com.example.artistmanagerapp.firebase.CommentsHelper
+import com.example.artistmanagerapp.fragments.GridMenuFragment
 import com.example.artistmanagerapp.fragments.TaskDetailsDialogFragment
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
@@ -30,6 +33,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
 
     // Constants
     val ACTIVITY_DESCRIPTION = "Tasks"
+    val ACT_TAG = "TasksListActivity"
 
     // Variables
     var pageId : String? = null
@@ -37,8 +41,9 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
     var selectedTaskItemView : View? = null
 
     // Bundled data
-    var artistPageBundled : ArtistPage? = null
-    var userBundled : User? = null
+    var artistPageInstance : ArtistPage? = null
+    var userInstance : User? = null
+    var taskInstance : Task? = null
 
     // Views
     var checkBox : CheckBox? = null
@@ -88,6 +93,17 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         pageId = intent.getStringExtra(Constants.PAGE_ID_BUNDLE)
 
         // Getting ArtistPage and User bundled data
+        artistPageInstance = intent.extras.getSerializable(GridMenuFragment.c.BUNDLE_ARTIST_PAGE_INSTANCE) as ArtistPage?
+        userInstance = intent.extras.getSerializable(GridMenuFragment.c.BUNDLE_USER_INSTANCE) as User?
+
+        // Generate path to tasks list in Firestore
+        pathToTasksCollection = artistPagesCollectionPath.document(pageId.toString()).collection(FirebaseConstants.ARTIST_TASKS)
+        // Tasks parsing
+        TaskHelper.parseTasks(pathToTasksCollection, this)
+
+        Log.d(ACT_TAG, "TasksListActivity")
+        Log.d(ACT_TAG, artistPageInstance.toString())
+        Log.d(ACT_TAG, userInstance.toString())
 
         // Views
         taskListRecyclerView = findViewById(R.id.task_list_recyclerview) as RecyclerView
@@ -110,15 +126,9 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         addNewTaskDialog = Dialog(this)
         addNewTaskDialog?.setContentView(R.layout.dialog_add_new_task)
 
-        // Generate path to tasks list in Firestore
-        pathToTasksCollection = artistPagesCollectionPath.document(pageId.toString()).collection(FirebaseConstants.ARTIST_TASKS)
-
         // Setting up toolbar
         toolbarActivityDescription = findViewById(R.id.toolbar_activity_description)
         toolbarActivityDescription?.text = ACTIVITY_DESCRIPTION
-
-        // Tasks parsing
-        TaskHelper.parseTasks(pathToTasksCollection, this)
 
         // TaskListRecyclerView setup
         taskListRecyclerView?.layoutManager = LinearLayoutManager(MainActivity(), OrientationHelper.VERTICAL, false)
@@ -224,7 +234,8 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
     // **********  TaskUpdater interface implementation **********
 
     fun taskItemClicked (taskItem : Task) {
-        var bottomSheet : TaskDetailsDialogFragment = TaskDetailsDialogFragment.newInstance(taskItem.title, taskItem.taskId)
+        taskInstance = taskItem
+        var bottomSheet : TaskDetailsDialogFragment = TaskDetailsDialogFragment.newInstance(taskInstance, userInstance, artistPageInstance)
         bottomSheet.show(supportFragmentManager, "bottomSheet")
     }
 
@@ -269,7 +280,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
             val taskTitle : String = taskNameInput?.text.toString()
             if (taskTitle.isNotBlank()){
                 taskNameInput?.text = null
-                TaskHelper.addTask(Task(taskTitle, false), pathToTasksCollection, this)
+                TaskHelper.addTask(Task(taskTitle, false), artistPageInstance, userInstance, this)
                 hideAddNewTaskDialog()
                 showProgressBar()
             } else {

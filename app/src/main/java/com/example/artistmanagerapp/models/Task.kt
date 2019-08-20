@@ -1,9 +1,10 @@
 package com.example.artistmanagerapp.models
 
+import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Task {
+class Task : Serializable{
 
     var title : String? = null
     var taskId : String? = null
@@ -34,6 +35,10 @@ class Task {
         this.assigneesList = mAssigneesList
         this.dueDate = mDueDate
         this.urgency = mUrgency
+    }
+
+    override fun toString(): String {
+        return "Title: $title, id: $taskId, isCompleted: $isCompleted, createdBy: $createdById, dueDate: $dueDate, urgency: $urgency"
     }
 
 }

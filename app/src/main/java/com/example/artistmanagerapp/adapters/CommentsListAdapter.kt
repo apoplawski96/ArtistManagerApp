@@ -33,7 +33,7 @@ class CommentsListAdapter (var commentsList : ArrayList<Comment>) : RecyclerView
         fun bind(comment : Comment){
             itemView.comment_content.text = comment.content
             itemView.comment_date.text = comment.dateCreated
-            itemView.comment_created_by.text = comment.createdBy
+            itemView.comment_created_by.text = comment.createdByDisplayName
         }
     }
 
