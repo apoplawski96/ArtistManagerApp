@@ -30,48 +30,46 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
     // Others
     val ACT_TAG = "MainActivity"
 
-    // Bundle data variables - ArtistPage
-    var artistPageInstance : ArtistPage = ArtistPage()
-    var pageId : String? = null
-    var pageName : String? = null
-    var pageBundleInstance : ArtistPage? = null
-    var currentPageIdBundle : String? = null
+    // Bundle objects
+    var userBundleInstance : User? = null
+    var artistPageInstance : ArtistPage? = null
 
-    // Bundle data variables - User
-    var userInstance : User = User()
+//    var pageId : String? = null
+//    var pageName : String? = null
+//    var pageBundleInstance : ArtistPage? = null
+//    var currentPageIdBundle : String? = null
+
+//    // Bundle data variables - User
+//    var userInstance : User = User()
 
     // Variables set - User
-    var userObject : User? = null
-    var mFirstName : String? = null
-    var mLastName : String? = null
-    var pageRole : String? = null
-    var artistRole : String? = null
-    var currentPage : String? = null
-    var email : String? = null
+//    var userObject : User? = null
+//    var mFirstName : String? = null
+//    var mLastName : String? = null
+//    var pageRole : String? = null
+//    var artistRole : String? = null
+//    var currentPage : String? = null
+//    var email : String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Getting bundled User data
-        mFirstName = intent.getStringExtra(Constants.FIRST_NAME_BUNDLE)
-        mLastName = intent.getStringExtra(Constants.LAST_NAME_BUNDLE)
-        pageRole = intent.getStringExtra(Constants.PAGE_ROLE_BUNDLE)
-        currentPageIdBundle = intent.getStringExtra("CURRENT_PAGE_BUNDLE") // TUTAJ DOSTAJEMY CURRENT PAGE
-        pageBundleInstance = intent.extras.getSerializable("PAGE_INSTANCE") as ArtistPage?
-        userObject = User(userIdGlobal, mFirstName, mLastName)
+        // Getting bundled data
+        userBundleInstance = intent.extras.getSerializable(Constants.BUNDLE_USER_INSTANCE) as User?
+        artistPageInstance = intent.extras.getSerializable(Constants.BUNDLE_ARTIST_PAGE_INSTANCE) as ArtistPage?
 
         Log.d(ACT_TAG, "MainActivity entered")
-        Log.d(ACT_TAG, "User data from bundle: $mFirstName, $mLastName, $email")
-        Log.d(ACT_TAG, "Page instance from bundle: ${pageBundleInstance?.artistPageId}, ${pageBundleInstance?.artistName}")
-        Log.d(ACT_TAG, "Current page from bundle: ${currentPageIdBundle}")
+        Log.d(ACT_TAG, "User data from bundle: ${userBundleInstance?.firstName}, ${userBundleInstance?.lastName}, ${userBundleInstance?.email}")
+        Log.d(ACT_TAG, "Page instance from bundle: ${artistPageInstance?.artistPageId}, ${artistPageInstance?.artistName}")
+        Log.d(ACT_TAG, "Current page from bundle: ${userBundleInstance?.currentArtistPageId}")
 
         // TO CHANGE LATER
         //val mUserId = auth.currentUser?.uid
         //UsersHelper.getCurrentArtistPage(userIdGlobal, this)
 
-        FirebaseDataReader().getArtistPageData(currentPageIdBundle, null, this)
+        FirebaseDataReader().getArtistPageData(userBundleInstance?.currentArtistPageId, null, this)
 
         bottom_nav_bar.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
@@ -80,15 +78,15 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {item ->
         when (item.itemId){
             R.id.home -> {
-                replaceFragment(HomeFragment.newInstance(pageId.toString(), artistPageInstance))
+                replaceFragment(HomeFragment.newInstance(userBundleInstance?.currentArtistPageId.toString(), artistPageInstance as ArtistPage))
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag2 -> {
-                replaceFragment(GridMenuFragment.newInstance(pageId.toString(), artistPageInstance, userInstance))
+                replaceFragment(GridMenuFragment.newInstance(userBundleInstance?.currentArtistPageId.toString(), artistPageInstance as ArtistPage, userBundleInstance as User))
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag3 -> {
-                replaceFragment(UserProfileFragment.newInstance(pageId.toString(), userObject))
+                replaceFragment(UserProfileFragment.newInstance(userBundleInstance?.currentArtistPageId.toString(), userBundleInstance))
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -107,7 +105,7 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
             startActivity(intent)
         }
         else {
-            pageId = data.toString()
+            var pageId = data.toString()
             FirebaseDataReader().getArtistPageData(pageId, null, this)
         }
     }
@@ -116,7 +114,7 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
         Log.d("MainActivity - getPageInfo() -> receiver", "${artistPage.artistPageId} : ${artistPage.artistName}")
         artistPageInstance = artistPage
         //Toast.makeText(this, artistPage.artistPageId, Toast.LENGTH_SHORT).show()
-        replaceFragment(HomeFragment.newInstance(pageId.toString(), artistPageInstance))
+        replaceFragment(HomeFragment.newInstance(userBundleInstance?.currentArtistPageId.toString(), artistPageInstance as ArtistPage))
     }
 
 }

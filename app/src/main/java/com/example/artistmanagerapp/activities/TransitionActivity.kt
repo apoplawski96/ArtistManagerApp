@@ -113,7 +113,6 @@ class TransitionActivity : BaseActivity(), DataReceiver {
 
     fun checkUserDataAndGuide(user : User?){
         var intent : Intent? = null
-        Log.d(tag, "We're here kurwa, ${user?.profileCompletionStatus.toString()}, ${user?.firstName.toString()}")
 
         if (user == null){
             Log.d(FIREBASE_TAG, "Db record not created - go to CreateUserProfileActivity and initialize record")
@@ -124,14 +123,26 @@ class TransitionActivity : BaseActivity(), DataReceiver {
         } else {
             when (user.profileCompletionStatus.toString()){
                 c.V_PROFILE_STATUS_COMPLETED -> {
-                    Log.d(tag, "User profile completed - go to SelectArtistPageActivity")
-                    intent = Intent(this, SelectArtistPageActivity::class.java)
+                    Log.d(tag, "User profile completed, routing between MainActivity and SelectArtistPageActivity")
+                    if ((user.currentArtistPageId==null) or (user.currentArtistPageId=="null")){
+                        Log.d(tag, "CurrentPageId is a null, we go to SelectArtistPageActivity")
+                        intent = Intent(this, SelectArtistPageActivity::class.java).apply {
+                            putExtra(Constants.BUNDLE_USER_INSTANCE, user)
+                        }
+                    } else {
+                        Log.d(tag, "We have CurrentPageId - go to MainActivity")
+                        intent = Intent(this, MainActivity::class.java).apply {
+                            putExtra(Constants.BUNDLE_USER_INSTANCE, user)
+                        }
+                    }
+
                 }
                 c.V_PROFILE_STATUS_STARTED -> {
                     Log.d(FIREBASE_TAG, "Db record initialized - go to CreateUserProfileActivity and complete missing profile info")
                     intent = Intent(applicationContext, CreateUserProfileActivity::class.java).apply{
                         putExtra("isDbRecordCreated", "true")
                         putExtra(Constants.MODE_KEY, Constants.USER_PROFILE_CREATE_MODE)
+                        putExtra(Constants.BUNDLE_USER_INSTANCE, user)
                     }
                 }
             }
