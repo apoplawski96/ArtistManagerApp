@@ -9,18 +9,19 @@
         android:layout_height="match_parent"
         tools:context=".activities.LoginActivity">
 
-    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
-                                                 android:layout_height="256dp"></android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="228dp"></android.support.constraint.ConstraintLayout>
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Email"
               android:layout_marginLeft="30dp" android:fontFamily="@font/light"/>
 
     <EditText
             android:layout_width="@dimen/button_long_length"
-            android:layout_height="@dimen/edit_text_login_height"
+            android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:alpha="0.5"
+            android:textColor="@color/appWhite"
             android:fontFamily="@font/montserrat"
             android:layout_gravity="center"
             android:id="@+id/register_email_edit_text" android:layout_marginTop="8dp"
@@ -34,10 +35,10 @@
 
     <EditText
             android:layout_width="@dimen/button_long_length"
-            android:layout_height="@dimen/edit_text_login_height"
+            android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:alpha="0.5"
+            android:textColor="@color/appWhite"
             android:fontFamily="@font/montserrat"
             android:layout_gravity="center"
             android:id="@+id/register_password" android:layout_marginTop="8dp"
@@ -51,10 +52,10 @@
 
     <EditText
             android:layout_width="@dimen/button_long_length"
-            android:layout_height="@dimen/edit_text_login_height"
+            android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:alpha="0.5"
+            android:textColor="@color/appWhite"
             android:fontFamily="@font/montserrat"
             android:layout_gravity="center"
             android:id="@+id/register_password_repeat" android:layout_marginTop="8dp"

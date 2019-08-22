@@ -12,6 +12,7 @@ import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.firebase.FirebaseDataWriter
 import com.example.artistmanagerapp.firebase.StorageFileUploader
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
+import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.example.artistmanagerapp.utils.Utils
@@ -21,6 +22,8 @@ import java.io.IOException
 import kotlin.collections.HashMap
 
 class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
+
+    var userInstance : User? = null
 
     // Views
     var submitButton : Button? = null
@@ -73,6 +76,9 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
         // Getting data from previous activity
         isDbRecordCreated = intent.getStringExtra("isDbRecordCreated")
         mode = intent.getStringExtra(Constants.MODE_KEY)
+        if (mode == Constants.USER_PROFILE_EDIT_MODE){
+            userInstance = intent.getSerializableExtra(Constants.BUNDLE_USER_INSTANCE) as User?
+        }
 
         if (isDbRecordCreated == "false"){
             initUserDatabaseRecord(user)
@@ -120,7 +126,13 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
     }
 
     fun loadCurrentData(){
-        // TO IMPLEMENT LATER
+        if (userInstance?.firstName != "null") firstNameInput?.setText(userInstance?.firstName)
+        if (userInstance?.lastName != "null") lastNameInput?.setText(userInstance?.lastName)
+        if (userInstance?.pageRole != "null") pageRoleInput?.setText(userInstance?.pageRole)
+        when (userInstance?.roleCategory){
+            "artist" -> radioButtonArtist?.isChecked = true
+            "manager" -> radioButtonManager?.isChecked = true
+        }
     }
 
     fun onRadioButtonClicked(view: View) {
@@ -207,11 +219,9 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
     }
 
     override fun hideProgress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun showProgress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     // ************************************ FUNCTIONS SECTION ENDS ************************************

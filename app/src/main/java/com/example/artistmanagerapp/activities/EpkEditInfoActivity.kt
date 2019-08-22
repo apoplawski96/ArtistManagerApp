@@ -101,11 +101,11 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater, View.OnClickLi
     }
 
     override fun showArtistPageData(artistPage: ArtistPage) {
-        if (artistPage.biography != null) bioInput?.setText(artistPage.biography)
-        if (artistPage.genre != null) genreInput?.setText(artistPage.genre)
-        if (artistPage.instagramLink != null) instagramInput?.setText(artistPage.instagramLink)
-        if (artistPage.contact != null) contactInput?.setText(artistPage.contact)
-        if (artistPage.facebookLink != null) facebookInput?.setText(artistPage.facebookLink)
+        if (artistPage.biography != "null") bioInput?.setText(artistPage.biography)
+        if (artistPage.genre != "null") genreInput?.setText(artistPage.genre)
+        if (artistPage.instagramLink != "null") instagramInput?.setText(artistPage.instagramLink)
+        if (artistPage.contact != "null") contactInput?.setText(artistPage.contact)
+        if (artistPage.facebookLink != "null") facebookInput?.setText(artistPage.facebookLink)
     }
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {

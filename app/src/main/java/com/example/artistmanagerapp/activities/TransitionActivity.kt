@@ -91,6 +91,7 @@ class TransitionActivity : BaseActivity(), DataReceiver {
                         putExtra("isDbRecordCreated", "true")
                         putExtra(Constants.MODE_KEY, Constants.USER_PROFILE_CREATE_MODE)
                     }
+                    this.finish()
                     startActivity(intent)
                 }
 
@@ -148,6 +149,7 @@ class TransitionActivity : BaseActivity(), DataReceiver {
             }
         }
 
+        this.finish()
         startActivity(intent)
     }
 

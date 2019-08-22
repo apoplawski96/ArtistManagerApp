@@ -11,6 +11,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import com.google.common.io.Files.isFile
 import java.io.File
+import java.text.DateFormat
 
 
 object Utils : BaseActivity (){
@@ -18,7 +19,9 @@ object Utils : BaseActivity (){
     private val const = Constants
 
     fun getCurrentDate() : String {
-        return ""
+        val calendar : Calendar = Calendar.getInstance()
+        val currentDate : String = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.time)
+        return currentDate
     }
 
     fun generateCodeString(lenght : Int) : String{
@@ -91,9 +94,9 @@ object Utils : BaseActivity (){
 
     fun disableEditText(editText: EditText?){
         editText?.isFocusable = false
-        //editText?.isEnabled = false
+        editText?.isEnabled = false
         editText?.isCursorVisible = false
-        editText?.keyListener = null
+        //editText?.keyListener = null
         editText?.setBackgroundColor(Color.TRANSPARENT)
     }
 
@@ -101,7 +104,7 @@ object Utils : BaseActivity (){
         editText?.isFocusable = true
         editText?.isEnabled = true
         editText?.isCursorVisible = true
-        editText?.keyListener = null
+        //editText?.keyListener = null
         editText?.setBackgroundColor(Color.TRANSPARENT)
     }
 

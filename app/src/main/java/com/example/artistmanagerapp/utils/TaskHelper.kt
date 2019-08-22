@@ -9,6 +9,7 @@ import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Comment
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
+import com.google.android.gms.common.api.Batch
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -63,7 +64,7 @@ object TaskHelper : BaseActivity() {
         updateData.put("dueDate", dueDate.toString())
 
         artistPagesCollectionPath.document(currentArtistPageId.toString()).collection("tasks").document(taskId.toString()).set(updateData, SetOptions.merge()).addOnSuccessListener {
-            tasksUpdater.onTaskDetailChanged()
+            tasksUpdater.onTaskDetailChanged(Constants.TASK_DUE_DATE_SET, null)
         }.addOnFailureListener {
             Log.d("FirebaseError", it.toString())
             tasksUpdater.onError(it.toString())
@@ -76,6 +77,33 @@ object TaskHelper : BaseActivity() {
         }.addOnFailureListener {  }
     }
 
+    fun setTaskDescription(taskId : String, pathToTasksCollection: CollectionReference?, descriptionContent : String){
+        var updateData = HashMap <String, Any>()
+        updateData.put("description", descriptionContent)
+
+        pathToTasksCollection?.document(taskId)?.update(updateData)?.addOnSuccessListener {
+            Log.d(FIREBASE_TAG, "Data successfully updated: $updateData")
+        }
+    }
+
+    fun assignMembers(taskId : String?, assigneesList : ArrayList<User?>, currentArtistPageId: String?, tasksUpdater: TaskUpdater){
+        var batch = db.batch()
+        val assigneesCollectionReference = artistPagesCollectionPath.document(currentArtistPageId.toString()).collection("tasks").document(taskId.toString()).collection("assignees")
+
+        // Loading batch
+        for (user in assigneesList){
+            val docRef = assigneesCollectionReference.document(user?.id.toString())
+            batch.set(docRef, user as User, SetOptions.merge())
+        }
+
+        batch.commit().addOnSuccessListener {
+            tasksUpdater.onTaskDetailChanged(Constants.MEMBERS_ASSIGNED, null)
+            Log.d("Batch", "Batch went ok")
+        }.addOnFailureListener{
+            Log.d("BATCH", "Batch failed: $it")
+        }
+    }
+
 
     // ************************************************ WRITE FUNCTIONS/ ***********************************************
 
@@ -86,11 +114,11 @@ object TaskHelper : BaseActivity() {
     }
 
     // Getting list of all tasks and returning it via interface
-    fun parseTasks (pathToTasksCollection : CollectionReference, taskUpdater : TaskUpdater){
+    fun parseTasks (pathToTasksCollection : CollectionReference?, taskUpdater : TaskUpdater){
         var tasksOutput : ArrayList<Task> = ArrayList()
 
-        pathToTasksCollection.get()
-            .addOnSuccessListener { documents ->
+        pathToTasksCollection?.get()
+            ?.addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
                     for (document in documents){
                         // Need to work on assignees list later
@@ -99,7 +127,8 @@ object TaskHelper : BaseActivity() {
                             document.id,
                             document.get("completed").toString().toBoolean(),
                             document.get("createdById").toString(),
-                            null,
+                            document.get("description").toString(),
+                            document.get("dueDate").toString(),
                             document.get("urgency").toString(),
                             null))
                     }

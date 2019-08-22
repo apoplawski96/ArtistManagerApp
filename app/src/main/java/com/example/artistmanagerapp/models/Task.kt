@@ -10,8 +10,9 @@ class Task : Serializable{
     var taskId : String? = null
     var isCompleted : Boolean = false
     var createdById : String? = null
+    var description : String? = null
     var assigneesList : ArrayList<User>? = null
-    var dueDate : Date? = null
+    var dueDate : String? = null
     var urgency : String? = null
 
     // RedeemCode (redeemCodeString, false, artistPageId, userId, null)
@@ -27,7 +28,7 @@ class Task : Serializable{
         this.isCompleted = mIsCompleted
     }
 
-    constructor(mTitle : String?, mTaskId: String?, mIsCompleted : Boolean, mCreatedById : String?, mDueDate : Date?, mUrgency : String, mAssigneesList : ArrayList<User>?) {
+    constructor(mTitle : String?, mTaskId: String?, mIsCompleted : Boolean, mCreatedById : String?, description : String?, mDueDate : String?, mUrgency : String, mAssigneesList : ArrayList<User>?) {
         this.title = mTitle
         this.taskId = mTaskId
         this.isCompleted = mIsCompleted
@@ -35,6 +36,7 @@ class Task : Serializable{
         this.assigneesList = mAssigneesList
         this.dueDate = mDueDate
         this.urgency = mUrgency
+        this.description = description
     }
 
     override fun toString(): String {

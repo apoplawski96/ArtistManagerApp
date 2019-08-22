@@ -1,15 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activities.TaskDetailsActivity">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:id="@+id/task_details_fragment"
+        android:background="@mipmap/steel_grey_darker"
+        style="android.R.style.Theme_Material_Light_NoActionBar_Fullscreen" android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" tools:layout_editor_absoluteY="355dp"
-            tools:layout_editor_absoluteX="175dp" android:id="@+id/taskName"/>
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.AppBarLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/steelGrayEntryColor"
+                app:titleTextColor="@color/appWhite"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textColor="@color/appWhite"
+                        android:id="@+id/toolbar_task_details_text" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent" app:layout_constraintHorizontal_bias="0.48"
+                        android:textAlignment="center" android:fontFamily="@font/montserrat"/>
+                <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" app:srcCompat="@drawable/ic_back_button"
+                        android:id="@+id/toolbar_back_button_task_details" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" app:srcCompat="@drawable/ic_dismiss"
+                        android:id="@+id/toolbar_dismiss_button" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent" android:visibility="invisible"/>
+                <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" app:srcCompat="@drawable/ic_check"
+                        android:id="@+id/toolbar_confirm_button"
+                        android:visibility="invisible"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="16dp"/>
+                <ProgressBar
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:id="@+id/toolbar_progress_bar" app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="8dp" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/appBlack" android:alpha="0.5"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_nav_bar" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"></View>
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="8dp">
+
+            <EditText
+                    android:text="It's an example task"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/task_details_title"
+                    android:layout_marginEnd="0dp"
+                    android:textSize="@dimen/font_even_larger"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/appWhite"
+                    android:paddingStart="0dp"
+                    android:paddingTop="12dp"
+                    android:layout_marginHorizontal="12dp"/>
+
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_normal" android:hint="Describe your task to your team member"
+                    android:textColor="@color/appWhite"
+                    android:textColorHint="@color/textGray"
+                    android:backgroundTint="@color/appLightGray"
+                    android:layout_marginEnd="0dp"
+                    android:fontFamily="@font/montserrat"
+                    android:layout_marginHorizontal="16dp" android:id="@+id/task_description"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="64dp" android:orientation="horizontal"
+                    android:id="@+id/add_members_wrapper" >
+
+                <ImageView android:layout_width="50dp" android:layout_height="50dp" android:src="@drawable/ic_person_outline"
+                        android:layout_gravity="center" android:layout_marginStart="0dp"
+                        android:backgroundTint="@color/appWhite"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/assign_members_tv"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="@color/appWhite"
+                        android:text="Assign members to this task" android:layout_gravity="center"
+                        android:layout_margin="20dp"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="@color/colorAccent"
+                        android:visibility="gone"
+                        android:id="@+id/assigned_members_display"
+                        android:text="3 members assigned" android:layout_gravity="center"
+                        android:layout_margin="20dp"/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/users_list_recycler_view" android:paddingHorizontal="16dp"
+                    android:visibility="gone"></android.support.v7.widget.RecyclerView>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="64dp" android:orientation="horizontal"
+                    android:id="@+id/set_due_date_wrapper">
+
+                <ImageView android:layout_width="50dp" android:layout_height="50dp" android:src="@drawable/ic_calendar"
+                        android:layout_gravity="center" android:layout_marginStart="0dp"/>
+
+                <ProgressBar
+                        android:layout_width="wrap_content" android:id="@+id/progress_bar_date" android:visibility="gone"
+                        android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginStart="12dp"></ProgressBar>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/set_due_date_tv"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="@color/appWhite"
+                        android:text="Set the due date" android:layout_gravity="center" android:layout_margin="20dp"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/due_date_display"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="@color/colorAccent"
+                        android:text="13/08/19" android:layout_gravity="center" android:layout_margin="20dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:orientation="vertical" android:background="@color/steelGrayEntryColor">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Progress and Activity" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"
+                        android:textColor="@color/appWhite"
+                        android:fontFamily="@font/montserrat"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+
+                <ImageView android:layout_width="wrap_content" android:layout_gravity="center" android:layout_height="wrap_content" android:src="@drawable/ic_message_black_24dp"/>
+
+                <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:textSize="@dimen/font_normal" android:hint="Add comment"
+                        android:textColor="@color/appWhite"
+                        android:layout_marginBottom="8dp"
+                        android:textColorHint="@color/textGray"
+                        android:backgroundTint="@color/appLightGray"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="0dp"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginHorizontal="16dp" android:id="@+id/add_comment_field"/>
+
+            </LinearLayout>
+
+            <ProgressBar
+                    android:id="@+id/progress_bar_comments_list"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone"></ProgressBar>
+
+
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent" android:id="@+id/comments_recycler_view"
+                    android:layout_height="match_parent"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</LinearLayout>

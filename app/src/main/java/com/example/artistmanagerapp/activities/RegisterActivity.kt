@@ -1,5 +1,6 @@
 package com.example.artistmanagerapp.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -40,6 +41,12 @@ class RegisterActivity : BaseActivity() {
                 Toast.makeText(this, "Password fields do not equal", Toast.LENGTH_SHORT).show()
             }
         }
+
+        alreadyRegisteredButton?.setOnClickListener{
+            val intent = Intent(this, LoginActivity::class.java )
+            startActivity(intent)
+        }
+
     }
 
 

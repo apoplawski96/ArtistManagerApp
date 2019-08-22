@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.models.Comment
+import com.example.artistmanagerapp.utils.Utils
 import kotlinx.android.synthetic.main.item_comment.view.*
 
 class CommentsListAdapter (var commentsList : ArrayList<Comment>) : RecyclerView.Adapter<CommentsListAdapter.ViewHolder>() {
@@ -34,6 +35,11 @@ class CommentsListAdapter (var commentsList : ArrayList<Comment>) : RecyclerView
             itemView.comment_content.text = comment.content
             itemView.comment_date.text = comment.dateCreated
             itemView.comment_created_by.text = comment.createdByDisplayName
+
+            //var displayName = comment.createdByDisplayName
+            //var namesDelimited : List<String> = displayName.split("")[2]
+
+            //itemView.name_acronym.text = Utils.createNameAcronym()
         }
     }
 

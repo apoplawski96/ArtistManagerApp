@@ -46,6 +46,9 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     var currentPage : String? = null
     var email : String? = null
 
+    // Bundle objects
+    var userBundleInstance : User? = null
+
     // Views
     var selectArtistRecyclerView : RecyclerView? = null
     var createPageDialog : Dialog? = null
@@ -181,34 +184,29 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
                 startActivity(intent)
             }
             const.ARTIST_PAGE_CREATED -> {
-                val pageInstance : ArtistPage? = data as ArtistPage
+                val newCurrentPageId : String = data as String
+                userBundleInstance?.currentArtistPageId = newCurrentPageId
                 val intent = Intent(this, MainActivity::class.java).apply {
-                    putExtra(Constants.FIRST_NAME_BUNDLE, mFirstName)
-                    putExtra(Constants.LAST_NAME_BUNDLE, mLastName)
-                    putExtra(Constants.PAGE_ROLE_BUNDLE, pageRole)
-                    putExtra("PAGE_INSTANCE", pageInstance)
+                    putExtra(Constants.BUNDLE_USER_INSTANCE, userBundleInstance)
                 }
-                Log.d("SelectArtistPageActivity -> MainActivity", "Bundle data sent: ${pageInstance?.artistName},ID: ${pageInstance?.artistPageId}")
+                //Log.d("SelectArtistPageActivity -> MainActivity", "Bundle data sent: ${pageInstance?.artistName},ID: ${pageInstance?.artistPageId}")
                 startActivity(intent)
             }
             const.CODE_SUCCESSFULLY_REDEEMED -> {
                 val currentPageId : String = data as String
+                userBundleInstance?.currentArtistPageId = currentPageId
                 val intent = Intent(applicationContext, MainActivity::class.java).apply{
-                    putExtra(Constants.FIRST_NAME_BUNDLE, mFirstName)
-                    putExtra(Constants.LAST_NAME_BUNDLE, mLastName)
-                    putExtra(Constants.PAGE_ROLE_BUNDLE, pageRole)
-                    putExtra("CURRENT_PAGE_BUNDLE", currentPageId)
+                    putExtra(Constants.BUNDLE_USER_INSTANCE, userBundleInstance)
                 }
                 startActivity(intent)
             }
             const.ARTIST_PAGE_SELECTED -> {
                 val pageInstance : ArtistPage? = data as ArtistPage
+                userBundleInstance?.currentArtistPageId = pageInstance?.artistPageId
                 Log.d("updateUI() fun inside of SelectArtistPageActivity", "Option: ${const.ARTIST_PAGE_SELECTED}")
                 val intent = Intent(this, MainActivity::class.java).apply {
-                    putExtra(Constants.FIRST_NAME_BUNDLE, mFirstName)
-                    putExtra(Constants.LAST_NAME_BUNDLE, mLastName)
-                    putExtra(Constants.PAGE_ROLE_BUNDLE, pageRole)
-                    putExtra("PAGE_INSTANCE", pageInstance)
+                    putExtra(Constants.BUNDLE_USER_INSTANCE, userBundleInstance)
+                    putExtra(Constants.BUNDLE_ARTIST_PAGE_INSTANCE, pageInstance)
                 }
                 Log.d("SelectArtistPageActivity -> MainActivity", "Bundle data sent: ${pageInstance?.artistName},ID: ${pageInstance?.artistPageId}")
                 startActivity(intent)
@@ -333,6 +331,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     // We're receiving CurrentPage data to decide if we stay here or go to CurrentPage
     override fun receiveData(data: Any?, mInterface: Any?) {
         val userInfo = data as User
+        userBundleInstance = data
         userObject = data
         currentPage = userInfo.currentArtistPageId.toString()
         mFirstName = userInfo.firstName.toString()
@@ -340,6 +339,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         email = userInfo.email.toString()
         pageRole = userInfo.pageRole.toString()
         artistRole = userInfo.artistRole.toString()
+
+        Log.d("USER DATA REECEIVED", userObject.toString())
 
         if (currentPage != "null"){
             Log.d("SelectArtistPage, receiveData()", currentPage)

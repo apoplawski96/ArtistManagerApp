@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:background="@mipmap/steel_grey_darker"
+        android:id="@+id/tasks_list_layout"
         android:layout_height="match_parent"
         tools:context=".activities.TaskListActivity">
 
@@ -20,9 +21,6 @@
                                                     android:layout_height="wrap_content"
                                                     android:id="@+id/task_list_recyclerview"></android.support.v7.widget.RecyclerView>
 
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:text="@string/no_tasks" android:id="@+id/no_open_tasks_tv"/>
-
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:text="Show completed tasks" android:layout_gravity="center"
                       android:fontFamily="@font/light"
@@ -32,9 +30,6 @@
                                                     android:layout_height="wrap_content"
                                                     android:id="@+id/completed_task_list_recyclerview"
             ></android.support.v7.widget.RecyclerView>
-
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:text="@string/no_tasks" android:id="@+id/no_completed_tasks_tv"/>
 
         </LinearLayout>
 

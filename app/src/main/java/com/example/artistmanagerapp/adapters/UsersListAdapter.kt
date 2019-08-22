@@ -12,7 +12,7 @@ import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Utils
 import kotlinx.android.synthetic.main.item_user_avatar.view.*
 
-class UsersListAdapter (usersListListener: UsersListListener, val context : Context?, var usersList : ArrayList<User>, val clickListener : (User) -> Unit) : RecyclerView.Adapter<UsersListAdapter.ViewHolder>() {
+class UsersListAdapter (usersListListener: UsersListListener, val context : Context?, var usersList : ArrayList<User>, val clickListener : (User, View) -> Unit) : RecyclerView.Adapter<UsersListAdapter.ViewHolder>() {
 
     val usersListListener : UsersListListener = usersListListener
 
@@ -36,9 +36,13 @@ class UsersListAdapter (usersListListener: UsersListListener, val context : Cont
 
     class ViewHolder (usersListListener: UsersListListener, itemView : View, context: Context?) : RecyclerView.ViewHolder(itemView){
 
-        fun bind(usersListListener: UsersListListener, user : User, clickListener: (User) -> Unit){
-            itemView.setOnClickListener {clickListener(user)}
+        fun bind(usersListListener: UsersListListener, user : User, clickListener: (User, View) -> Unit){
+
+            itemView.setOnClickListener { view ->
+                clickListener(user, view)
+            }
             itemView.name_acronym.text = Utils.createNameAcronym(user.firstName.toString(), user.lastName.toString())
+
         }
 
     }

@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".activities.TaskDetailsActivity">
         </activity>
-        <activity android:name=".activities.TaskListActivity">
+        <activity android:name=".activities.TaskListActivity" android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".activities.CreateTaskActivity">
         </activity>

@@ -17,6 +17,8 @@ class SplashScreenActivity : BaseActivity() {
     // Others
     val context : Context = this
 
+    val this2 = this
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
@@ -32,22 +34,24 @@ class SplashScreenActivity : BaseActivity() {
     }
 
     fun guideUserDelayed(loggedIn : Boolean) {
-        Timer().schedule(1000){
+        var mIntent : Intent? = null
+
+        Timer().schedule(3000){
             if (loggedIn){
                 // If user is logged in - we go to TransitionActivity
                 Log.d(FIREBASE_TAG, "User is logged in - we go to TransitionActivity")
-                val intent = Intent(context, TransitionActivity::class.java).apply {
+                mIntent = Intent(context, TransitionActivity::class.java).apply {
                     //putExtra("asdasd", "asda")
                 }
-                startActivity(intent)
             } else {
                 // If user is not logged in - we go to LoginActivity
                 Log.d(FIREBASE_TAG, "User is not logged in - we go to LoginActivity")
-                val intent = Intent(context, LoginActivity::class.java).apply {
+                mIntent = Intent(context, LoginActivity::class.java).apply {
                     //putExtra("asdasd", "asda")
                 }
-                startActivity(intent)
             }
+            this2.finish()
+            startActivity(mIntent)
         }
     }
 

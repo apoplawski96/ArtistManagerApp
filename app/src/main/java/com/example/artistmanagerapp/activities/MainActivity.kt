@@ -96,7 +96,7 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
     fun replaceFragment(fragment : Fragment){
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragment_container, fragment)
-        fragmentTransaction.commit()
+        fragmentTransaction.addToBackStack(null).commit()
     }
 
     override fun receiveData(data: Any?, mInterface: Any?) {

@@ -9,7 +9,7 @@
                                                   android:src="@color/colorAccent"
                                                   app:layout_constraintStart_toStartOf="parent"
                                                   android:layout_marginStart="8dp"
-                                                  android:id="@+id/circleImageView"/>
+                                                  android:id="@+id/circle_avatar_background"/>
     <TextView
             android:text="AP"
             android:layout_width="wrap_content"
@@ -18,10 +18,10 @@
             android:textColor="@color/appWhite"
             android:textAlignment="center"
             android:textSize="@dimen/font_large"
-            android:id="@+id/name_acronym" app:layout_constraintStart_toStartOf="@+id/circleImageView"
-            app:layout_constraintBottom_toBottomOf="@id/circleImageView"
-            app:layout_constraintTop_toTopOf="@id/circleImageView"
-            app:layout_constraintEnd_toEndOf="@+id/circleImageView"
+            android:id="@+id/name_acronym" app:layout_constraintStart_toStartOf="@+id/circle_avatar_background"
+            app:layout_constraintBottom_toBottomOf="@id/circle_avatar_background"
+            app:layout_constraintTop_toTopOf="@id/circle_avatar_background"
+            app:layout_constraintEnd_toEndOf="@+id/circle_avatar_background"
     />
 
 </android.support.constraint.ConstraintLayout>

@@ -92,7 +92,7 @@ class FirebaseDataWriter : BaseActivity(){
         // Uploading page avatar
         var uploadTask = storageRef.child("pageAvatars/$pageId/avatar.jpg").putBytes(data)
         uploadTask.addOnSuccessListener {
-            uiUpdater.updateUI(const.ARTIST_PAGE_CREATED, null)
+            uiUpdater.updateUI(const.ARTIST_PAGE_CREATED, pageId)
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }

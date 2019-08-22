@@ -50,15 +50,18 @@ class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var ta
 
         fun bind (taskUpdater : TaskUpdater, task : Task, clickListener: (Task) -> Unit){
 
+            // Setting up data to the corresponding views
+            itemView.task_title.text = task.title
+            if (task.dueDate.toString() != "null") itemView.due_date.text = task.dueDate
+
+            val taskUpdater = mTaskUpdater
+
             itemView.setOnClickListener { clickListener(task) }
 
             itemView.setOnLongClickListener {
                 taskUpdater.onTaskLongClicked(itemView, task)
                 true
             }
-
-            itemView.task_title.text = task.title
-            val taskUpdater = mTaskUpdater
 
             // Checkbox setup
             itemView.check_box.isChecked = task.isCompleted
