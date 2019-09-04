@@ -15,8 +15,6 @@ class Task : Serializable{
     var dueDate : String? = null
     var urgency : String? = null
 
-    // RedeemCode (redeemCodeString, false, artistPageId, userId, null)
-
     constructor(mTitle : String?, mIsCompleted : Boolean) {
         this.title = mTitle
         this.isCompleted = mIsCompleted
@@ -42,5 +40,4 @@ class Task : Serializable{
     override fun toString(): String {
         return "Title: $title, id: $taskId, isCompleted: $isCompleted, createdBy: $createdById, dueDate: $dueDate, urgency: $urgency"
     }
-
 }

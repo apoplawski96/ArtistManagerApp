@@ -9,6 +9,22 @@
         android:layout_height="match_parent"
         tools:context=".activities.CreateUserProfileActivity">
 
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent" android:id="@+id/cover_solid"
+            android:layout_height="match_parent" android:visibility="gone">
+
+        <ProgressBar
+                android:id="@+id/cover_progress"
+                android:layout_width="@dimen/progress_bar_large"
+                android:layout_height="@dimen/progress_bar_large"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></ProgressBar>
+
+    </android.support.constraint.ConstraintLayout>
+
     <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
                                                  android:layout_height="256dp" android:layout_marginBottom="16dp">
 
@@ -37,6 +53,20 @@
                                                       android:layout_marginBottom="1dp"
                                                       android:src="@mipmap/steel_grey_darker"
                                                       android:alpha="0.5" android:id="@+id/add_avatar_image_view"/>
+
+        <ProgressBar android:layout_width="106dp" android:layout_height="106dp"
+                android:layout_gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/avatar_progress_bar"/>
+
+
+
         <android.support.design.widget.FloatingActionButton
                 android:layout_width="30dp"
                 android:layout_height="30dp"

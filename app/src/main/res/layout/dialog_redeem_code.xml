@@ -5,11 +5,13 @@
                                              android:layout_height="175dp">
 
     <ImageView
+            android:id="@+id/dialog_background_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteY="16dp" tools:layout_editor_absoluteX="61dp"
-            android:id="@+id/dialog_background_image"
-            android:scaleType="centerCrop" app:srcCompat="@mipmap/cover7"/>
+            android:scaleType="centerCrop"
+            app:srcCompat="@mipmap/cover_new_1"
+            tools:layout_editor_absoluteX="61dp"
+            tools:layout_editor_absoluteY="16dp" />
     <View android:layout_width="match_parent" android:layout_height="match_parent"
           android:background="@android:color/black" android:alpha="0.5" android:id="@+id/view"/>
 
@@ -36,14 +38,16 @@
             android:textSize="20sp"/>
     <Button
             android:text="REDEEM"
+            android:layout_height="@dimen/button_short_height"
+            android:layout_width="@dimen/button_short_length"
+            android:background="@drawable/button_dark"
             android:textColor="@color/appWhite"
             android:fontFamily="@font/montserrat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/redeem_code_button" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginBottom="24dp" app:layout_constraintBottom_toBottomOf="@+id/view"/>
+            android:id="@+id/redeem_code_button" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="24dp" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            />
     <ProgressBar
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"

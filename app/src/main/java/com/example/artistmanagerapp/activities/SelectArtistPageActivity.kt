@@ -14,6 +14,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.provider.MediaStore
+import android.support.constraint.ConstraintLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.CardView
 import android.view.View
@@ -27,6 +28,7 @@ import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.UsersHelper
 import com.example.artistmanagerapp.utils.Utils
+import kotlinx.android.synthetic.main.activity_select_artist_page.*
 import java.io.IOException
 
 class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInterfaceUpdater, RedeemCodeDataReceiver, DataReceiver {
@@ -66,6 +68,9 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     var joinArtistPageItem : CardView? = null
     var createDialogProgressBar : ProgressBar? = null
     var redeemDialogProgressBar : ProgressBar? = null
+    var coverSolid : ConstraintLayout? = null
+    var coverProgress : ProgressBar? = null
+
 
     // Adapters
     private var adapter: SelectArtistPageAdapter? = null
@@ -109,6 +114,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         selectArtistRecyclerView = findViewById(R.id.artist_page_selector_recycler_view)
         createArtistPageItem = findViewById(R.id.create_artist_page_cardview)
         joinArtistPageItem = findViewById(R.id.join_artist_page_cardview)
+        coverSolid = findViewById(R.id.cover_solid) as ConstraintLayout
+        coverProgress = findViewById(R.id.cover_progress) as ProgressBar
 
         // Dialog stuff
         createPageDialog = Dialog(this)
@@ -309,11 +316,16 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     override fun receiveCodesList(codesList: ArrayList<RedeemCode>) { }
 
+    fun showProgressOverlay(){
+        coverProgress?.visibility = View.VISIBLE
+        coverSolid?.visibility = View.VISIBLE
+        linear_layout_container.visibility = View.GONE
+    }
+
     override fun showProgress() {
-        dialogNameInput?.visibility = View.GONE
-        dialogClose?.visibility = View.GONE
-        dialogCreatePageButton?.visibility = View.GONE
-        createDialogProgressBar?.visibility = View.VISIBLE
+        createPageDialog?.hide()
+        redeemCodeDialog?.hide()
+        showProgressOverlay()
     }
 
     override fun hideProgress() {

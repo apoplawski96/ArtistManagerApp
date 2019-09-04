@@ -50,7 +50,7 @@ class SplashScreenActivity : BaseActivity() {
                     //putExtra("asdasd", "asda")
                 }
             }
-            this2.finish()
+            //this2.finish()
             startActivity(mIntent)
         }
     }

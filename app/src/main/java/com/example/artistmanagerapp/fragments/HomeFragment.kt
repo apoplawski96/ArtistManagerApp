@@ -16,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -37,6 +38,7 @@ import com.example.artistmanagerapp.utils.TaskHelper
 import com.google.firebase.storage.FirebaseStorage
 import com.makeramen.roundedimageview.RoundedImageView
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPagesPresenter, MediaLoader {
 
@@ -58,6 +60,7 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
     var assignmentsCounter : TextView? = null
     var pageAvatar : CircleImageView? = null
     var manageTeamButton : RoundedImageView? = null
+    var avatarProgressBar : ProgressBar? = null
 
     companion object {
         @JvmStatic
@@ -86,6 +89,8 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         pageInfoMapBundle.put(c.ARTIST_NAME_BUNDLE, pageName)
         pageInfoMapBundle.put(c.EPK_SHARE_CODE_BUNDLE, epkShareCode)
 
+        initUI()
+
         Log.d("Welcome to HomeFragment - onCreateView()", "Fragment Entered")
         Log.d("HomeFragment", "PageName: $pageName, pageId: $pageId, epkShareCode: $epkShareCode")
 
@@ -97,6 +102,7 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         pageAvatar = rootView.findViewById(R.id.circle_page_avatar)
         manageTeamButton = rootView.findViewById(R.id.manage_team_button)
         thisIsBandName?.text = pageName
+        avatarProgressBar = rootView.findViewById(R.id.avatar_progress_bar)
 
         //model = ViewModelProviders.of(activity!!).get(Communicator::class.java)
         //model!!.setMsgCommunicator(pageName.toString())
@@ -118,6 +124,8 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
     }
 
     override fun loadImage(bitmap: Bitmap?, option: MediaLoader.MediaLoaderOptions?) {
+        avatarProgressBar?.visibility = View.GONE
+        pageAvatar?.visibility = View.VISIBLE
         pageAvatar?.setImageBitmap(bitmap)
         //Toast.makeText(activity, "hui", Toast.LENGTH_SHORT).show()
     }
@@ -147,7 +155,8 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
     }
 
     fun initUI(){
-
+        avatarProgressBar?.visibility = View.VISIBLE
+        pageAvatar?.visibility = View.GONE
     }
 
     override fun receiveData(data: Any?, mInterface: Any?) {

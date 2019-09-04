@@ -4,8 +4,6 @@ import java.io.Serializable
 
 class ArtistPage : Serializable {
 
-    // JESLI ZMIENIE COŚ W MODELU TO MUSZE TEZ KURWA ZMIENIC W READERZE
-
     var artistName : String? = null
     var artistPageAdminId : String? = null
     var artistPageId : String? = null

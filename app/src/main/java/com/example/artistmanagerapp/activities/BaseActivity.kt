@@ -18,17 +18,11 @@ import com.google.firebase.storage.StorageReference
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    //
-    var baseArtistPage : ArtistPage? = null
-
     // Tags
     val FIREBASE_TAG : String = "FIREBASE"
     val FIREBASE_ERROR : String = "FIREBASE_ERROR"
     val ACTIVITY_WELCOME_TAG : String = "ACTIVITY_START"
     val FIREBASE_STORAGE_TAG : String = "FIREBASE_STORAGE"
-
-    // Numeric values
-    val USER_PROFILE_INPUTS_COUNTER : Int = 2
 
     // Firebase basic stuff
     val auth = FirebaseAuth.getInstance()
@@ -46,44 +40,18 @@ abstract class BaseActivity : AppCompatActivity() {
     val userPath = usersCollectionPath.document(userId)
     val userArtistPagesCollectionPath = userPath.collection("artistPages")
 
-    // Current Artist Page ID
-    //var pageId : String? = null
-
-    // Perfect stuff
-    val perfectUserID = "perfectUser"
-    val perfectUserPath = db.collection("users").document("perfectUser")
-    val perfectArtistPagePath = db.collection("artist_pages").document("perfect_artistpage_id")
-
-    // Views
-    var toolbarActivityDescription : TextView? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_base)
-
-        Toast.makeText(this, "Current user ID: $userId", Toast.LENGTH_LONG).show()
-
-        exitIfUserNotLogged()
-    }
-
-    override fun onResume() {
-        super.onResume()
 
         //exitIfUserNotLogged()
     }
 
     fun exitIfUserNotLogged(){
-        /*if (user == null){
+        if (user == null){
             val intent = Intent(applicationContext, LoginActivity::class.java)
             startActivity(intent)
             this.finish()
-        }*/
+        }
     }
-
-//    fun putArtistPageDataToBundle(){
-//        putExtra(Constants.PAGE_ID_BUNDLE, pageId)
-//        putExtra(Constants.ARTIST_NAME_BUNDLE, pageName)
-//        putExtra(Constants.EPK_SHARE_CODE_BUNDLE, pageEpkShareCode)
-//    }
 
 }

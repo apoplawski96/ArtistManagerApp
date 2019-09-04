@@ -2,6 +2,7 @@ package com.example.artistmanagerapp.fragments
 
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -9,16 +10,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.CreateUserProfileActivity
 import com.example.artistmanagerapp.activities.LoginActivity
+import com.example.artistmanagerapp.firebase.StorageDataRetriever
+import com.example.artistmanagerapp.interfaces.MediaLoader
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.Utils
 import de.hdodenhof.circleimageview.CircleImageView
 
-class UserProfileFragment : BaseFragment() {
+class UserProfileFragment : BaseFragment(), MediaLoader {
 
     //
     val CTX_TAG = "UserProfileFragment"
@@ -45,6 +49,7 @@ class UserProfileFragment : BaseFragment() {
     var changePassword : TextView? = null
     var legalInfo : TextView? = null
     var appInfo : TextView? = null
+    var avatarProgressBar : ProgressBar? = null
 
     companion object {
         @JvmStatic
@@ -76,6 +81,12 @@ class UserProfileFragment : BaseFragment() {
         changePassword = rootView.findViewById(R.id.change_password)
         appInfo = rootView.findViewById(R.id.app_info)
         legalInfo = rootView.findViewById(R.id.legal_info)
+        avatarProgressBar = rootView.findViewById(R.id.user_avatar_progress_bar)
+
+        initUI()
+
+        // Load page avatar
+        StorageDataRetriever().downloadImageViaId(userInstance?.id, StorageDataRetriever.DownloadOption.USER_AVATAR, this)
 
         displayName?.text = "${userInstance?.firstName} ${userInstance?.lastName}"
 
@@ -111,6 +122,25 @@ class UserProfileFragment : BaseFragment() {
         }
 
         return rootView
+    }
+
+    override fun loadImage(bitmap: Bitmap?, option: MediaLoader.MediaLoaderOptions?) {
+        userAvatar?.setImageBitmap(bitmap)
+        hideProgress()
+    }
+
+    fun initUI(){
+        showProgress()
+    }
+
+    fun showProgress(){
+        avatarProgressBar?.visibility = View.VISIBLE
+        userAvatar?.visibility = View.INVISIBLE
+    }
+
+    fun hideProgress(){
+        userAvatar?.visibility = View.VISIBLE
+        avatarProgressBar?.visibility = View.INVISIBLE
     }
 
 }

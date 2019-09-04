@@ -133,8 +133,8 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         addNewTaskDialog?.setContentView(R.layout.dialog_add_new_task)
 
         // Setting up toolbar
-        toolbarActivityDescription = findViewById(R.id.toolbar_activity_description)
-        toolbarActivityDescription?.text = ACTIVITY_DESCRIPTION
+        //toolbarActivityDescription = findViewById(R.id.toolbar_activity_description)
+        //toolbarActivityDescription?.text = ACTIVITY_DESCRIPTION
 
         // TaskListRecyclerView setup
         taskListRecyclerView?.layoutManager = LinearLayoutManager(MainActivity(), OrientationHelper.VERTICAL, false)
@@ -300,6 +300,8 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
     }
 
     override fun onTaskLongClicked(itemView : View, task : Task) {
+
+        // PRZEROBIĆ NA WHEN
 
         if (isTaskSelected == false){
             isTaskSelected = true

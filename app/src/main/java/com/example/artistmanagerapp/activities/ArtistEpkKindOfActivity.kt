@@ -23,7 +23,6 @@ import com.example.artistmanagerapp.ui.DialogCreator
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
 
-
 class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCreator.DialogControllerCallback, BundleUpdater {
 
     // ArtistPage data

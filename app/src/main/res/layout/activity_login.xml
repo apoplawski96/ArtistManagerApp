@@ -9,8 +9,51 @@
         android:layout_height="match_parent"
         tools:context=".activities.LoginActivity">
 
-    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
-                                                 android:layout_height="300dp"></android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent" android:id="@+id/cover_solid"
+            android:layout_height="match_parent" android:visibility="gone">
+
+        <ProgressBar
+                android:id="@+id/cover_progress"
+                android:layout_width="@dimen/progress_bar_large"
+                android:layout_height="@dimen/progress_bar_large"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></ProgressBar>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="192dp"
+            android:layout_marginBottom="24dp">
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/cover_new_3"></ImageView>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.5"
+                android:background="@color/steelGrayRealEntryColor"></View>
+
+        <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.23000002"
+                app:srcCompat="@mipmap/app_logo_photoshop" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Email"
               android:layout_marginLeft="30dp" android:fontFamily="@font/light"/>

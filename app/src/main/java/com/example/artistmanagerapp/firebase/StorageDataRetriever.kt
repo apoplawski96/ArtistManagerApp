@@ -1,6 +1,7 @@
 package com.example.artistmanagerapp.firebase
 
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.View
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.interfaces.DataReceiver
@@ -20,19 +21,13 @@ class StorageDataRetriever : BaseActivity() {
         EPK_COVER_PHOTO
     }
 
-    fun loadEpkImage(pageId : String?, dataReceiver : DataReceiver){
-        val pathString = "electronicPressKitPhotos/$pageId/cover.jpg"
-        val imageRef = storageRef.child(pathString)
-
-    }
-
     fun downloadImageViaId(id : String?, option : DownloadOption, mediaLoader: MediaLoader){
         var optionMask : String? = null
         var fileNameMask : String? = null
 
         when (option){
             DownloadOption.USER_AVATAR -> {
-                optionMask = "userAvatars"
+                optionMask = "avatars"
                 fileNameMask = "avatar.jpg"
             }
             DownloadOption.PAGE_AVATAR -> {
@@ -46,9 +41,13 @@ class StorageDataRetriever : BaseActivity() {
         }
 
         var pathReference = storageRef.child("$optionMask/$id/$fileNameMask")
-        pathReference.getBytes(1024*1024).addOnSuccessListener { bitmapData ->
+        pathReference.getBytes(1024*1024*5).addOnSuccessListener { bitmapData ->
             val bitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData?.size!!.toInt())
             mediaLoader.loadImage(bitmap, null)
+        }.addOnSuccessListener {
+            Log.d("Storage", "Image successfully loaded to a bitmap")
+        }.addOnFailureListener{
+            Log.d("Storage", it.toString())
         }
 
     }

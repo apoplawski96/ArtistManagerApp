@@ -2,9 +2,12 @@ package com.example.artistmanagerapp.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.google.firebase.auth.FirebaseAuth
@@ -13,6 +16,9 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : BaseActivity() {
 
     val CTX_TAG = "LoginActivity"
+
+    var coverSolid : ConstraintLayout? = null
+    var coverProgress : ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,13 +30,10 @@ class LoginActivity : BaseActivity() {
         val loginButton : Button = findViewById(R.id.register_button) as Button
         val loginEmailEditText = findViewById(R.id.register_email_edit_text) as EditText
         val loginPasswordEditText = findViewById(R.id.login_password_edit_text) as EditText
+        coverSolid = findViewById(R.id.cover_solid) as ConstraintLayout
+        coverProgress = findViewById(R.id.cover_progress) as ProgressBar
 
         var auth = FirebaseAuth.getInstance()
-
-        // Variables
-        var user = auth.currentUser
-
-        // Firebase stuff
 
         loginButton.setOnClickListener {
             var loadAuthFieldsResult = loadAuthFields(loginEmailEditText, loginPasswordEditText)
@@ -45,19 +48,20 @@ class LoginActivity : BaseActivity() {
     }
 
     fun signIn(email : String, password : String, auth : FirebaseAuth){
+        coverSolid?.visibility = View.VISIBLE
+        coverProgress?.visibility = View.VISIBLE
 
         if (!email.isEmpty() && !password.isEmpty()){
 
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this){ task ->
-
                 if (task.isSuccessful){
-                    Log.d(TAG, "signInWithEmail:success")
+                    coverSolid?.visibility = View.VISIBLE
+                    coverProgress?.visibility = View.VISIBLE
                     Toast.makeText(baseContext, "Authentication successful.", Toast.LENGTH_SHORT).show()
                     // When login is successful - we go to TransitionActivity
                     val intent = Intent(this, TransitionActivity::class.java)
                     startActivity(intent)
                 } else {
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
 
@@ -77,10 +81,6 @@ class LoginActivity : BaseActivity() {
         var result = LoadAuthFieldsResult(email, password)
 
         return result
-    }
-
-    companion object {
-        private const val TAG = "EmailPasswordSignIn"
     }
 
 }

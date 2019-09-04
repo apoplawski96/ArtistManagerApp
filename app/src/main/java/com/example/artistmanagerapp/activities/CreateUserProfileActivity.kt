@@ -4,13 +4,16 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.constraint.ConstraintLayout
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.View
 import android.widget.*
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.firebase.FirebaseDataWriter
+import com.example.artistmanagerapp.firebase.StorageDataRetriever
 import com.example.artistmanagerapp.firebase.StorageFileUploader
+import com.example.artistmanagerapp.interfaces.MediaLoader
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
@@ -21,7 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import java.io.IOException
 import kotlin.collections.HashMap
 
-class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
+class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoader {
 
     var userInstance : User? = null
 
@@ -35,6 +38,9 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
     var radioButtonManager : RadioButton? = null
     var pageRoleInput : EditText? = null
     var userProfileBackButton : ImageView? = null
+    var coverSolid : ConstraintLayout? = null
+    var coverProgress : ProgressBar? = null
+    var avatarProgressBar : ProgressBar? = null
 
     // Variables
     var bitmap : Bitmap? = null
@@ -72,6 +78,9 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
         radioButtonManager = findViewById(R.id.radio_button_manager)
         pageRoleInput = findViewById(R.id.edit_profile_position)
         userProfileBackButton = findViewById(R.id.edit_profile_back_button)
+        coverSolid = findViewById(R.id.cover_solid) as ConstraintLayout
+        coverProgress = findViewById(R.id.cover_progress) as ProgressBar
+        avatarProgressBar = findViewById(R.id.avatar_progress_bar) as ProgressBar
 
         // Getting data from previous activity
         isDbRecordCreated = intent.getStringExtra("isDbRecordCreated")
@@ -93,6 +102,9 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
             // We check if all the inputs have correct format
 
             if (true){
+                coverSolid?.visibility = View.VISIBLE
+                coverProgress?.visibility = View.VISIBLE
+
                 mapDataFromTextInputs(firstNameInput, lastNameInput, pageRoleInput, isArtistRadioChecked, isManagerRadioChecked)
                 // We mark completion status as completed
                 userProfileData.put(c.PROFILE_COMPLETION_STATUS, c.V_PROFILE_STATUS_COMPLETED)
@@ -118,6 +130,8 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
             }
             Constants.USER_PROFILE_EDIT_MODE -> {
                 loadCurrentData()
+                showAvatarProgressBar()
+                StorageDataRetriever().downloadImageViaId(userInstance?.id, StorageDataRetriever.DownloadOption.USER_AVATAR, this)
                 userProfileBackButton?.visibility = View.VISIBLE
                 userProfileBackButton?.setOnClickListener { onBackPressed() }
                 submitButton?.text = "SAVE CHANGES"
@@ -203,15 +217,29 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
     override fun updateUI(option : String, data : Any?){
         when (mode){
             Constants.USER_PROFILE_EDIT_MODE -> {
+                coverSolid?.visibility = View.GONE
+                coverProgress?.visibility = View.GONE
                 Toast.makeText(this, "Data successfully saved", Toast.LENGTH_SHORT).show()
             }
             Constants.USER_PROFILE_CREATE_MODE -> {
+                coverSolid?.visibility = View.VISIBLE
+                coverProgress?.visibility = View.VISIBLE
                 var intent = Intent(applicationContext, SelectArtistPageActivity::class.java).apply{
                     //putExtra("isDbRecordCreated", "true")
                 }
                 startActivity(intent)
             }
         }
+    }
+
+    fun showAvatarProgressBar(){
+        avatarProgressBar?.visibility = View.VISIBLE
+        avatarImageView?.visibility = View.GONE
+    }
+
+    fun hideAvatarProgressBar(){
+        avatarProgressBar?.visibility = View.GONE
+        avatarImageView?.visibility = View.VISIBLE
     }
 
     override fun initializeUI() {
@@ -222,6 +250,11 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater {
     }
 
     override fun showProgress() {
+    }
+
+    override fun loadImage(bitmap: Bitmap?, option: MediaLoader.MediaLoaderOptions?) {
+        avatarImageView?.setImageBitmap(bitmap)
+        hideAvatarProgressBar()
     }
 
     // ************************************ FUNCTIONS SECTION ENDS ************************************

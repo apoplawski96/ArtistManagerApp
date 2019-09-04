@@ -9,7 +9,23 @@
         android:background="@mipmap/steel_grey_darker"
         tools:context=".activities.SelectArtistPageActivity">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent" android:id="@+id/cover_solid"
+            android:layout_height="match_parent" android:visibility="gone">
+
+        <ProgressBar
+                android:id="@+id/cover_progress"
+                android:layout_width="@dimen/progress_bar_large"
+                android:layout_height="@dimen/progress_bar_large"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></ProgressBar>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/linear_layout_container"
                   android:orientation="vertical" app:layout_constraintEnd_toEndOf="parent"
                   app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent">
 
