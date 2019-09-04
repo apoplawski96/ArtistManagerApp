@@ -8,9 +8,50 @@
               android:background="@mipmap/steel_grey_darker"
              tools:context=".fragments.HomeFragment">
 
-    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:id="@+id/constraint">
+    <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraint"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="66dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="94dp"
+                android:layout_marginEnd="104dp"
+                android:src="@mipmap/ic_nutka"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="44dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="105dp"
+                android:layout_marginTop="120dp"
+                android:src="@mipmap/ic_nutka"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hello_user" />
+
+        <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_marginStart="149dp"
+                android:layout_marginTop="91dp"
+                android:src="@mipmap/ic_nutka"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="31dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="165dp"
+                android:layout_marginEnd="101dp"
+                android:src="@mipmap/ic_nutka"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hello_user" />
 
         <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/circle_page_avatar"
@@ -26,6 +67,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/hello_user"
                 app:layout_constraintVertical_bias="0.19"
                 tools:src="@mipmap/band_photo_avatar" />
+
+        <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="24dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="111dp"
+                android:layout_marginTop="200dp"
+                android:src="@mipmap/ic_nutka"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hello_user" />
 
         <Button
                 android:id="@+id/artist_category_display"
@@ -58,24 +109,36 @@
                 app:layout_constraintVertical_bias="0.22000003" />
 
         <TextView
-                android:text="TextView"
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView2" android:textSize="22sp" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.03"
-                app:layout_constraintVertical_bias="0.01999998" android:fontFamily="sans-serif-light"/>
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-light"
+                android:text="TextView"
+                android:textSize="22sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.03"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.01999998" />
 
         <TextView
-                android:text="TextView"
+                android:id="@+id/hello_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/hello_user" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp" app:layout_constraintTop_toTopOf="parent" android:visibility="gone"/>
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:text="TextView"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
                 android:id="@+id/this_is_band_name"
@@ -112,97 +175,114 @@
 
 
         <TextView
-                android:text="4"
+                android:id="@+id/tasks_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/appWhite"
-                android:fontFamily="@font/medium"
-                android:textSize="@dimen/font_larger"
-                android:id="@+id/tasks_counter" android:layout_marginTop="56dp"
-                app:layout_constraintTop_toBottomOf="@+id/circle_page_avatar" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"/>
-        <TextView
-                android:text="6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/appWhite"
-                android:textSize="@dimen/font_larger"
-                android:fontFamily="@font/medium"
-                android:textAlignment="center"
-                android:id="@+id/events_counter"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="74dp" android:layout_marginTop="58dp"
-                app:layout_constraintTop_toTopOf="@+id/this_is_band_name"/>
-        <TextView
-                android:text="0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/appWhite"
-                android:textSize="@dimen/font_larger"
-                android:textAlignment="center"
-                android:fontFamily="@font/medium"
-                android:id="@+id/other_counter"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="74dp" android:layout_marginTop="58dp"
-                app:layout_constraintTop_toTopOf="@+id/this_is_band_name"/>
-        <TextView
-                android:text="NEW TASKS"
-                android:layout_width="46dp"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                android:layout_height="wrap_content"
-                android:id="@+id/new_tasks_tv"
-                android:fontFamily="@font/montserrat"
-                app:layout_constraintTop_toBottomOf="@+id/tasks_counter" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"/>
-        <TextView
-                android:text="UPCOMING EVENTS"
-                android:layout_width="70dp"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                android:layout_height="wrap_content"
-                android:id="@+id/upcoming_events_tv"
-                android:fontFamily="@font/montserrat"
-                app:layout_constraintStart_toStartOf="@+id/events_counter"
-                android:layout_marginStart="8dp" app:layout_constraintTop_toBottomOf="@+id/events_counter"
-                app:layout_constraintEnd_toEndOf="@+id/events_counter"/>
-        <TextView
-                android:text="PENDING ASSIGNMENTS"
-                android:layout_width="100dp"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                android:layout_height="wrap_content"
-                android:id="@+id/pending_assignments_tv"
-                android:fontFamily="@font/montserrat"
-                app:layout_constraintStart_toStartOf="@+id/other_counter"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="76dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/medium"
+                android:text="4"
+                android:textColor="@color/appWhite"
+                android:textSize="@dimen/font_larger"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/circle_page_avatar" />
+
+        <TextView
+                android:id="@+id/events_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="74dp"
+                android:layout_marginTop="80dp"
+                android:fontFamily="@font/medium"
+                android:text="6"
+                android:textAlignment="center"
+                android:textColor="@color/appWhite"
+                android:textSize="@dimen/font_larger"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/this_is_band_name" />
+
+        <TextView
+                android:id="@+id/other_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="74dp"
+                android:fontFamily="@font/medium"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/appWhite"
+                android:textSize="@dimen/font_larger"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/this_is_band_name" />
+
+        <TextView
+                android:id="@+id/new_tasks_tv"
+                android:layout_width="46dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/montserrat"
+                android:text="NEW TASKS"
+                android:textAlignment="center"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tasks_counter" />
+
+        <TextView
+                android:id="@+id/upcoming_events_tv"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/montserrat"
+                android:text="UPCOMING EVENTS"
+                android:textAlignment="center"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/events_counter"
+                app:layout_constraintStart_toStartOf="@+id/events_counter"
+                app:layout_constraintTop_toBottomOf="@+id/events_counter" />
+
+        <TextView
+                android:id="@+id/pending_assignments_tv"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/montserrat"
+                android:text="PENDING ASSIGNMENTS"
+                android:textAlignment="center"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/other_counter"
-                app:layout_constraintTop_toBottomOf="@+id/other_counter"/>
+                app:layout_constraintStart_toStartOf="@+id/other_counter"
+                app:layout_constraintTop_toBottomOf="@+id/other_counter" />
+
         <ImageView
-                android:src="@drawable/ic_settings_black_24dp"
+                android:id="@+id/home_screen_settings_button"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/home_screen_settings_button"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_settings_black_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
-                android:src="@drawable/ic_back_button"
+                android:id="@+id/home_screen_back_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:id="@+id/home_screen_back_button"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"/>
+                android:src="@drawable/ic_back_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/manage_team_button"
                 android:layout_width="180dp"
                 android:layout_height="136dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginBottom="120dp"
+                android:layout_marginBottom="104dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/cover_photo_4"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -210,16 +290,15 @@
                 app:riv_corner_radius="25dp" />
 
         <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/view6"
+                android:id="@+id/cover_transparent_1"
                 android:layout_width="180dp"
                 android:layout_height="44dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="120dp"
                 android:alpha="0.5"
                 android:scaleType="centerCrop"
                 android:src="@color/appBlack"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/manage_team_button"
+                app:layout_constraintEnd_toEndOf="@id/manage_team_button"
+                app:layout_constraintStart_toStartOf="@id/manage_team_button"
                 app:riv_corner_radius="25dp" />
 
 
@@ -228,7 +307,7 @@
                 android:layout_width="180dp"
                 android:layout_height="136dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="120dp"
+                android:layout_marginBottom="104dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/cover_new_3"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -236,16 +315,15 @@
                 app:riv_corner_radius="25dp" />
 
         <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/roundedImageView"
+                android:id="@+id/cover_transparent_2"
                 android:layout_width="180dp"
                 android:layout_height="44dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="120dp"
                 android:alpha="0.5"
                 android:scaleType="centerCrop"
                 android:src="@color/appBlack"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/activity_button"
+                app:layout_constraintEnd_toEndOf="@id/activity_button"
+                app:layout_constraintStart_toStartOf="@id/activity_button"
                 app:riv_corner_radius="25dp" />
 
         <TextView
@@ -256,10 +334,10 @@
                 android:text="YOUR TEAM"
                 android:textColor="@color/appWhite"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/view6"
-                app:layout_constraintEnd_toEndOf="@+id/view6"
-                app:layout_constraintStart_toStartOf="@+id/view6"
-                app:layout_constraintTop_toTopOf="@+id/view6" />
+                app:layout_constraintBottom_toBottomOf="@+id/cover_transparent_1"
+                app:layout_constraintEnd_toEndOf="@+id/cover_transparent_1"
+                app:layout_constraintStart_toStartOf="@+id/cover_transparent_1"
+                app:layout_constraintTop_toTopOf="@+id/cover_transparent_1" />
 
         <TextView
                 android:id="@+id/activity_tv"
@@ -272,7 +350,17 @@
                 app:layout_constraintBottom_toBottomOf="@+id/activity_button"
                 app:layout_constraintEnd_toEndOf="@+id/activity_button"
                 app:layout_constraintStart_toStartOf="@+id/activity_button"
-                app:layout_constraintTop_toTopOf="@+id/roundedImageView" />
+                app:layout_constraintTop_toTopOf="@+id/cover_transparent_2" />
+
+        <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="73dp"
+                android:src="@mipmap/ic_nutka"
+                app:layout_constraintStart_toEndOf="@+id/imageView7"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
     </android.support.constraint.ConstraintLayout>
