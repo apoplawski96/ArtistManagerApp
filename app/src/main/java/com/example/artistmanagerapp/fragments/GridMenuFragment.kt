@@ -135,10 +135,10 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
     }
 
     fun populateMenuItemsList(){
-        menuItemsList.add(MenuItem("Task manager", R.mipmap.cover1))
-        menuItemsList.add(MenuItem("Events manager", R.mipmap.cover3))
-        menuItemsList.add(MenuItem("Electronic Press Kit", R.mipmap.cover_photo_4))
-        menuItemsList.add(MenuItem("Switch/create artist page", R.mipmap.cover2))
+        menuItemsList.add(MenuItem("Task manager", R.mipmap.cover_purple_1))
+        menuItemsList.add(MenuItem("Events manager", R.mipmap.cover_red_3b))
+        menuItemsList.add(MenuItem("Electronic Press Kit", R.mipmap.cover_red_4b))
+        menuItemsList.add(MenuItem("Switch/create artist page", R.mipmap.cover_white_1))
     }
 
     override fun hideProgress() {

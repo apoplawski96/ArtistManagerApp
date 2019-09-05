@@ -377,6 +377,7 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
 
     override fun onCommentAdded(option: CommentsHelper.Option?) {
         progressBarCommentsList?.visibility = View.VISIBLE
+        Toast.makeText(this, "Comment successfully added", Toast.LENGTH_LONG).show()
         CommentsHelper.parseComments(pathToCommentsCollection, this)
     }
 

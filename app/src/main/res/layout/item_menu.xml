@@ -1,16 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
                                              android:layout_height="137dp" android:layout_marginHorizontal="8dp" android:layout_marginTop="8dp">
 
-    <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="centerCrop" android:id="@+id/menu_item_image"/>
+    <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/menu_item_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius_top_right="50dp"
+            tools:src="@mipmap/cover_purple_1" />
 
-    <View android:layout_width="match_parent" android:layout_height="36dp" android:background="@color/appBlack"
-          android:alpha="0.5" app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"></View>
+    <View
+            android:id="@+id/view6"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:alpha="0.85"
+            android:background="@color/appBlack"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/menu_item_image"
+            app:layout_constraintVertical_bias="1.0"></View>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/menu_item_name"
-              app:layout_constraintBottom_toBottomOf="@+id/menu_item_image" android:textColor="@color/appWhite"
-              app:layout_constraintStart_toStartOf="parent" android:text="Costamcostam" android:textSize="@dimen/font_larger" android:fontFamily="@font/medium" android:layout_margin="4dp"/>
+    <TextView
+            android:id="@+id/menu_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/light"
+            android:text="Costamcostam"
+            android:textColor="@color/appWhite"
+            android:textSize="@dimen/font_larger"
+            app:layout_constraintBottom_toBottomOf="@+id/view6"
+            app:layout_constraintEnd_toEndOf="@+id/view6"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view6" />
 
 </android.support.constraint.ConstraintLayout>
