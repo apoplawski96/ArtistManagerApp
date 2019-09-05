@@ -221,7 +221,7 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater, View.OnClickLi
 
     override fun initializeUI() {
         artistNameInput?.setText(pageName.toString())
-        Utils.disableEditText(artistNameInput)
+        Utils.hardDisableEditText(artistNameInput)
     }
 
     override fun showProgress() {

@@ -278,7 +278,7 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
         toolbarMidText?.text = "Task Details"
 
         // Setting up views
-        Utils.disableEditText(taskTitleEditText)
+        //Utils.disableEditText(taskTitleEditText)
         usersListRecyclerView?.visibility = View.GONE
     }
 
@@ -357,7 +357,7 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
                 c.COMMENT_ADDED -> {
                     addCommentField?.isEnabled = false
                     disableActionToolbar()
-                    CommentsHelper.addComment(userInstance?.id, userInstance?.getDisplayName(), addCommentField?.text.toString(), Utils.getCurrentDate(), pathToCommentsCollection as CollectionReference, this, null)
+                    CommentsHelper.addComment(userInstance, addCommentField?.text.toString(), Utils.getCurrentDate(), pathToCommentsCollection as CollectionReference, this, null)
                     addCommentField?.setText(null)
                 }
             }

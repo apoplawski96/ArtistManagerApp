@@ -62,6 +62,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
     var tasksDialogClose : TextView? = null
     var addTaskSubmitButton : Button? = null
     var tasksListEmptyTv : TextView? = null
+    var addFirstTaskText : TextView? = null
 
     // Views - Toolbar
     var toolbarMidText : TextView? = null
@@ -120,6 +121,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         showCompletedTasks = findViewById(R.id.show_completed_tasks)
         fabTasksActivity = findViewById(R.id.fab_tasks_list)
         tasksListEmptyTv = findViewById(R.id.tasks_list_empty_tv)
+        addFirstTaskText = findViewById(R.id.add_first_task_text)
 
         // Views - Toolbar
         toolbarMidText = findViewById(R.id.toolbar_tasks_list_textview)
@@ -168,6 +170,10 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         }
 
         fabTasksActivity?.setOnClickListener {
+            showAddNewTaskDialog()
+        }
+
+        addFirstTaskText?.setOnClickListener {
             showAddNewTaskDialog()
         }
 
@@ -433,6 +439,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         completedTaskListRecyclerView?.visibility = View.GONE
         showCompletedTasks?.visibility = View.GONE
         tasksListEmptyTv?.visibility = View.VISIBLE
+        addFirstTaskText?.visibility = View.VISIBLE
     }
 
     fun onTasksListNotEmpty(){
@@ -440,6 +447,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         completedTaskListRecyclerView?.visibility = View.VISIBLE
         showCompletedTasks?.visibility = View.VISIBLE
         tasksListEmptyTv?.visibility = View.GONE
+        addFirstTaskText?.visibility = View.GONE
     }
 
     override fun onCodeRedeemed(pageId: String?) {

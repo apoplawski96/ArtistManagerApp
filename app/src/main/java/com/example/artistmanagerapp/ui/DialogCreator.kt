@@ -91,7 +91,7 @@ class DialogCreator{
             when (type) {
                 DialogType.SHARE_EPK_DIALOG -> {
                     dialogButton.text = msg.COPY_TEXT
-                    Utils.disableEditText(dialogText)
+                    Utils.hardDisableEditText(dialogText)
                     dialogText.setText(textContent.toString())
                 }
                 DialogType.REDEEM_EPK_DIALOG -> {
@@ -100,7 +100,7 @@ class DialogCreator{
                 }
                 DialogType.INVITE_CODE_GENERATED -> {
                     dialogButton.text = msg.COPY_TEXT
-                    Utils.disableEditText(dialogText)
+                    Utils.hardDisableEditText(dialogText)
                     dialogText.setText(textContent.toString())
                 }
             }

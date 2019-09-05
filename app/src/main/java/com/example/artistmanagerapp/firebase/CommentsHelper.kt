@@ -5,6 +5,7 @@ import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.Comment
 import com.example.artistmanagerapp.models.Task
+import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.google.firebase.firestore.CollectionReference
 
@@ -19,22 +20,22 @@ object CommentsHelper : BaseActivity() {
     }
 
     // ************************* \WRITE FUNCTIONS *************************
-    fun addComment (userId : String?, createdByDisplayName : String?, commentContent : String?, currentDate : String?, pathToCommentsCollection : CollectionReference, commentsUpdater: CommentsUpdater?, option : Option?){
-        pathToCommentsCollection.document().set(Comment (commentContent, userId, currentDate, createdByDisplayName)).addOnSuccessListener {
+    fun addComment (author : User?, commentContent : String?, currentDate : String?, pathToCommentsCollection : CollectionReference, commentsUpdater: CommentsUpdater?, option : Option?){
+        pathToCommentsCollection.document().set(Comment (commentContent, author?.id, currentDate, author?.getDisplayName(), author?.firstName, author?.lastName)).addOnSuccessListener {
             commentsUpdater?.onCommentAdded(option)
         }.addOnFailureListener {
 
         }
     }
 
-    fun addInitComment (task : Task, userId : String?, createdByDisplayName: String?, currentDate : String?, pathToCommentsCollection : CollectionReference, commentsUpdater: CommentsUpdater?, option : Option?){
+    /*fun addInitComment (task : Task, userId : String?, createdByDisplayName: String?, currentDate : String?, pathToCommentsCollection : CollectionReference, commentsUpdater: CommentsUpdater?, option : Option?){
         val commentContent = "Task created by $createdByDisplayName"
         pathToCommentsCollection.document().set(Comment (commentContent, userId, currentDate, createdByDisplayName)).addOnSuccessListener {
             commentsUpdater?.onCommentAdded(option)
         }.addOnFailureListener {
 
         }
-    }
+    }*/
 
     // ************************* WRITE FUNCTIONS/ *************************
 
@@ -56,7 +57,9 @@ object CommentsHelper : BaseActivity() {
                                 document.get(fbC.COMMENT_CONTENT).toString(),
                                 document.get(fbC.COMMENT_CREATED_BY).toString(),
                                 document.get(fbC.COMMENT_DATE_CREATED).toString(),
-                                document.get(fbC.CREATED_BY_DISPLAY_NAME).toString()))
+                                document.get(fbC.CREATED_BY_DISPLAY_NAME).toString(),
+                                document.get(fbC.AUTHOR_FIRST_NAME).toString(),
+                                document.get(fbC.AUTHOR_LAST_NAME).toString()))
                         Log.d("FIREBASE - COMMENTS", document.get(fbC.COMMENT_CONTENT).toString())
                     }
                     commentsUpdater.onCommentsParsed(CommentsHelper.Option.COMMENTS_PARSED, commentsOutput)

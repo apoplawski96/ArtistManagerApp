@@ -41,7 +41,7 @@ object TaskHelper : BaseActivity() {
 
         // Adding init comment to comments collection
         val commentContent = "Task created by ${user?.getDisplayName()}"
-        pathToCommentsCollection.document().set(Comment (commentContent, userId, Utils.getCurrentDate(), user?.getDisplayName())).addOnSuccessListener {
+        pathToCommentsCollection.document().set(Comment (commentContent, userId, Utils.getCurrentDate(), user?.getDisplayName(), user?.firstName, user?.lastName)).addOnSuccessListener {
             taskUpdater.triggerUpdate()
         }.addOnFailureListener {
 

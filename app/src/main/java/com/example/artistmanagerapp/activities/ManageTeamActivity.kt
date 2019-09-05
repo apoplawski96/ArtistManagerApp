@@ -110,7 +110,7 @@ class ManageTeamActivity : BaseActivity(), UsersListListener{
 
     fun setupDialog(){
         dialogText?.setText(codeString.toString())
-        Utils.disableEditText(dialogText)
+        Utils.softDisableEditText(dialogText)
 
         dialogCopyButton?.setOnClickListener {
             // Setting up copying

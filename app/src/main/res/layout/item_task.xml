@@ -13,6 +13,7 @@
                     android:text="Send payment to HoldTight PR"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/appWhite"
                     android:fontFamily="@font/montserrat"
                     android:id="@+id/task_title" app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="8dp"

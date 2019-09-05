@@ -92,10 +92,18 @@ object Utils : BaseActivity (){
         return listA == listB
     }
 
-    fun disableEditText(editText: EditText?){
+    fun hardDisableEditText(editText: EditText?){
         editText?.isFocusable = false
         editText?.isEnabled = false
         editText?.isCursorVisible = false
+        editText?.keyListener = null
+        editText?.setBackgroundColor(Color.TRANSPARENT)
+    }
+
+    fun softDisableEditText(editText: EditText?){
+        editText?.isFocusable = false
+        editText?.isEnabled = false
+        //editText?.isCursorVisible = false
         //editText?.keyListener = null
         editText?.setBackgroundColor(Color.TRANSPARENT)
     }

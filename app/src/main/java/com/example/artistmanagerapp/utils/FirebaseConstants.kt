@@ -40,5 +40,7 @@ object FirebaseConstants {
     val COMMENT_CREATED_BY = "createdBy"
     val COMMENT_DATE_CREATED = "dateCreated"
     val CREATED_BY_DISPLAY_NAME = "createdByDisplayName"
+    val AUTHOR_FIRST_NAME = "authorFirstName"
+    val AUTHOR_LAST_NAME = "authorLastName"
 
 }

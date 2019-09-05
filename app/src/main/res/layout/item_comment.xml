@@ -1,88 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:paddingBottom="0dp"
-                                             android:layout_marginBottom="8dp"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="wrap_content">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:paddingBottom="0dp">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:layout_width="wrap_content"
-                                                 android:layout_height="wrap_content"
-                                                 app:layout_constraintStart_toStartOf="parent"
-                                                 app:layout_constraintTop_toTopOf="parent"
-                                                 android:layout_marginTop="8dp" android:layout_marginStart="8dp"
-                                                 android:id="@+id/user_avatar_container">
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:paddingBottom="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView android:layout_width="50dp" android:layout_height="50dp"
-                                                      app:layout_constraintBottom_toBottomOf="parent"
-                                                      app:layout_constraintTop_toTopOf="parent"
-                                                      android:src="@color/colorAccent"
-                                                      app:layout_constraintStart_toStartOf="parent"
-                                                      android:id="@+id/circle_avatar_background"/>
-        <TextView
-                android:text="AP"
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/user_avatar_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/bold"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/circle_avatar_background"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                    android:id="@+id/name_acronym"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bold"
+                    android:text="AP"
+                    android:textAlignment="center"
+                    android:textColor="@color/appWhite"
+                    android:textSize="@dimen/font_large"
+                    app:layout_constraintBottom_toBottomOf="@id/circle_avatar_background"
+                    app:layout_constraintEnd_toEndOf="@+id/circle_avatar_background"
+                    app:layout_constraintStart_toStartOf="@+id/circle_avatar_background"
+                    app:layout_constraintTop_toTopOf="@id/circle_avatar_background" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <TextView
+                android:id="@+id/comment_created_by"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Artur Popławski"
                 android:textColor="@color/appWhite"
-                android:textAlignment="center"
-                android:textSize="@dimen/font_large"
-                android:id="@+id/name_acronym" app:layout_constraintStart_toStartOf="@+id/circle_avatar_background"
-                app:layout_constraintBottom_toBottomOf="@id/circle_avatar_background"
-                app:layout_constraintTop_toTopOf="@id/circle_avatar_background"
-                app:layout_constraintEnd_toEndOf="@+id/circle_avatar_background"
-        />
+                app:layout_constraintStart_toEndOf="@id/user_avatar_container"
+                app:layout_constraintTop_toTopOf="@id/user_avatar_container" />
+
+        <LinearLayout
+                android:id="@+id/comment_field"
+                android:layout_width="325dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="#CCC4F0"
+                android:orientation="vertical"
+                android:padding="4dp"
+                android:text="TextView"
+                app:layout_constraintStart_toStartOf="@+id/comment_created_by"
+                app:layout_constraintTop_toBottomOf="@+id/comment_created_by">
+
+            <TextView
+                    android:id="@+id/comment_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Comment content"
+                    android:textColor="@color/appBlack"
+                    android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+        <android.support.constraint.ConstraintLayout
+                android:id="@+id/date_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintStart_toStartOf="@id/comment_field"
+                app:layout_constraintTop_toBottomOf="@+id/comment_field">
+
+
+            <TextView
+                    android:id="@+id/comment_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/light"
+                    android:text="Aug 7, 2019"
+                    android:textColor="@color/appLightGray"
+                    android:textSize="8sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 
-    <TextView
-            android:text="Artur Popławski"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/appWhite"
-            android:fontFamily="@font/montserrat"
-            app:layout_constraintStart_toEndOf="@id/user_avatar_container"
-            android:id="@+id/comment_created_by"
-            app:layout_constraintTop_toTopOf="@id/user_avatar_container" android:layout_marginTop="4dp"
-            android:layout_marginStart="12dp"/>
-    <LinearLayout
-            android:orientation="vertical"
-            android:text="TextView"
-            android:background="@color/steelGrayEndColor"
-            android:layout_width="275dp"
-            android:padding="4dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/comment_field" app:layout_constraintStart_toStartOf="@+id/comment_created_by"
-            app:layout_constraintTop_toBottomOf="@+id/comment_created_by" android:layout_marginTop="4dp">
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textColor="@color/appBlack"
-                  android:text="Comment content"
-                  android:fontFamily="@font/montserrat"
-                  android:textSize="12sp" android:id="@+id/comment_content"/>
-
-
-    </LinearLayout>
-
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              app:layout_constraintStart_toStartOf="@id/comment_field"
-              app:layout_constraintTop_toBottomOf="@+id/comment_field"
-              android:textColor="@color/appLightGray"
-              android:layout_marginTop="4dp"
-              android:layout_marginBottom="8dp"
-              android:text="Aug 7, 2019"
-              android:fontFamily="@font/light"
-              android:textSize="8sp" android:id="@+id/comment_date"/>
-
-    <View android:layout_width="match_parent" android:layout_height="0.5dp"
-          android:background="@color/cardview_light_background"
-          android:layout_marginTop="20dp"
-          app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"></View>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/cardview_light_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"></View>
 
 </android.support.constraint.ConstraintLayout>

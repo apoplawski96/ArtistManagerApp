@@ -138,8 +138,7 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
         toolbarProgressBar = findViewById(R.id.toolbar_progress_bar)
 
         // Users list setup
-        populateUsersListWithFakeData(usersList)
-        //usersHelper?.parseUsers(currentArtistPage, this)
+        UsersHelper.parseUsers(artistPagesCollectionPath.document(artistPageInstance?.artistPageId.toString()).collection("pageMembers"), this)
         usersListRecyclerView?.layoutManager = LinearLayoutManager(TaskListActivity(), OrientationHelper.HORIZONTAL, false)
         adapter = UsersListAdapter(this, this, usersList) {user: User, itemView : View ->  userItemClicked (user, itemView)}
         usersListRecyclerView?.adapter = adapter
@@ -245,7 +244,7 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
         toolbarMidText?.text = "Task Details"
 
         // Setting up views
-        Utils.disableEditText(taskTitleEditText)
+        Utils.hardDisableEditText(taskTitleEditText)
         usersListRecyclerView?.visibility = View.GONE
     }
 
@@ -324,7 +323,7 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
                 c.COMMENT_ADDED -> {
                     addCommentField?.isEnabled = false
                     disableActionToolbar()
-                    CommentsHelper.addComment(userInstance?.id, userInstance?.getDisplayName(), addCommentField?.text.toString(), Utils.getCurrentDate(), pathToCommentsCollection as CollectionReference, this, null)
+                    CommentsHelper.addComment(userInstance, addCommentField?.text.toString(), Utils.getCurrentDate(), pathToCommentsCollection as CollectionReference, this, null)
                     addCommentField?.setText(null)
                 }
             }
@@ -404,6 +403,10 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
         } else {
             enableActionToolbar(Constants.MEMBERS_ASSIGNED, usersAssignedTemp.size)
         }
+    }
+
+    override fun updateList(usersOutput: ArrayList<User>) {
+        adapter?.updateItems(usersOutput)
 
     }
 
@@ -414,7 +417,6 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
     override fun hideAddTaskDialog() {}
     override fun onTaskDeleted() {}
     override fun onTasksListEmpty() {}
-    override fun updateList(usersOutput: ArrayList<User>) {}
     override fun onTaskLongClicked(itemView: View, task : Task) {}
 
 }

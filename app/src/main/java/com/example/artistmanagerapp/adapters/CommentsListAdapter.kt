@@ -39,7 +39,7 @@ class CommentsListAdapter (var commentsList : ArrayList<Comment>) : RecyclerView
             //var displayName = comment.createdByDisplayName
             //var namesDelimited : List<String> = displayName.split("")[2]
 
-            //itemView.name_acronym.text = Utils.createNameAcronym()
+            itemView.name_acronym.text = Utils.createNameAcronym(comment.authorFirstName.toString(), comment.authorLastName.toString())
         }
     }
 

@@ -18,6 +18,7 @@
 
     // Gradient colors
     <color name="steelGrayRealEntryColor">#1f1c2c</color>
+    <color name="steelGrayLight">#992E2C36</color>
     <color name="steelGrayEntryColor">#2e2c36</color>
     <color name="steelGrayEndColor">#928dab</color>
 
