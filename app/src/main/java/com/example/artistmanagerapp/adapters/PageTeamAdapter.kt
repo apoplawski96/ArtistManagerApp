@@ -25,7 +25,11 @@ class PageTeamAdapter (usersListListener: UsersListListener, val context : Conte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(usersListListener, usersList[position], clickListener)
+        holder.bind(usersListListener, usersList[position], clickListener, null)
+    }
+
+    fun showAdminSettingsOnItem(){
+
     }
 
     fun updateItems(newUsers : ArrayList<User>){
@@ -35,10 +39,16 @@ class PageTeamAdapter (usersListListener: UsersListListener, val context : Conte
 
     class ViewHolder (usersListListener: UsersListListener, itemView : View, context: Context?) : RecyclerView.ViewHolder(itemView){
 
-        fun bind(usersListListener: UsersListListener, user : User, clickListener: (User) -> Unit){
+        fun bind(usersListListener: UsersListListener, user : User, clickListener: (User) -> Unit, isAdminModeEnabled: Boolean?){
             itemView.setOnClickListener {clickListener(user)}
             itemView.name_acronym.text = Utils.createNameAcronym(user.firstName.toString(), user.lastName.toString())
             itemView.full_name.text = "${user.firstName} ${user.lastName}"
+            itemView.page_role_display.text = user.roleCategory
+            itemView.artist_role_display.text = user.artistRole
+
+            if (isAdminModeEnabled == true){
+                itemView.admin_settings_opener.visibility = View.VISIBLE
+            }
 
             itemView.option_dialog_opener.setOnClickListener {
                 clickListener(user)

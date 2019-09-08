@@ -80,13 +80,13 @@
 
         <Button
                 android:id="@+id/artist_category_display"
-                android:layout_width="60dp"
+                android:layout_width="100dp"
                 android:layout_height="18dp"
                 android:layout_marginTop="152dp"
                 android:background="@drawable/button_standard"
                 android:clickable="false"
                 android:fontFamily="@font/montserrat"
-                android:text="Band"
+                android:text="Solo Artist"
                 android:textColor="@color/appWhite"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/circle_page_avatar"
@@ -153,6 +153,18 @@
                 android:textColor="@color/appWhite"
                 android:textSize="24sp"
                 android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/circle_page_avatar" />
+
+        <ProgressBar
+                android:id="@+id/home_progress_bar_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/circle_page_avatar" />
@@ -258,16 +270,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/other_counter" />
 
         <ImageView
-                android:id="@+id/home_screen_settings_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_settings_red"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
                 android:id="@+id/home_screen_back_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -317,7 +319,7 @@
 
 
         <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/activity_button"
+                android:id="@+id/activity_logs_list_button"
                 android:layout_width="186dp"
                 android:layout_height="136dp"
                 android:layout_marginEnd="13dp"
@@ -348,9 +350,9 @@
                 android:alpha="0.6"
                 android:scaleType="centerCrop"
                 android:src="@color/appBlack"
-                app:layout_constraintBottom_toBottomOf="@id/activity_button"
-                app:layout_constraintEnd_toEndOf="@id/activity_button"
-                app:layout_constraintStart_toStartOf="@id/activity_button"
+                app:layout_constraintBottom_toBottomOf="@id/activity_logs_list_button"
+                app:layout_constraintEnd_toEndOf="@id/activity_logs_list_button"
+                app:layout_constraintStart_toStartOf="@id/activity_logs_list_button"
                 app:layout_constraintTop_toTopOf="@+id/activity_button3"
                 app:riv_corner_radius="0dp" />
 

@@ -11,10 +11,8 @@ import com.example.artistmanagerapp.models.Comment
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
 import com.google.android.gms.common.api.Batch
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.model.value.FieldValueOptions
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -47,6 +45,7 @@ object TaskHelper : BaseActivity() {
         }.addOnFailureListener {
 
         }
+
     }
 
     // Changing "isCompleted" field of a Task in database with a specified value
@@ -138,23 +137,6 @@ object TaskHelper : BaseActivity() {
                     taskUpdater.onTasksListEmpty()
                 }
             }
-    }
-
-    // Getting all data of a task specified with its ID
-    fun getTaskData (pathToTasksCollection: CollectionReference, taskId : String, taskDetailPresenter: TaskDetailPresenter){
-        lateinit var outputTask : Task
-
-        pathToTasksCollection.document(taskId).get()
-            .addOnSuccessListener { documentSnapshot ->
-                if (documentSnapshot.exists()){
-                    var taskTitle = documentSnapshot.getString("title").toString()
-                    var taskId = documentSnapshot.getString("id").toString()
-                    // Need to change isCompleted later
-                    outputTask = Task (taskTitle, taskId, true)
-                }
-                taskDetailPresenter.showTask(outputTask)
-        }
-
     }
 
     fun sortTasks (isCompleted: Boolean, inputList : ArrayList<Task>) : ArrayList<Task>{

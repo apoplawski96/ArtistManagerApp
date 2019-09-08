@@ -349,7 +349,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
             val taskTitle : String = taskNameInput?.text.toString()
             if (taskTitle.isNotBlank()){
                 taskNameInput?.text = null
-                TaskHelper.addTask(Task(taskTitle, false), artistPageInstance, userInstance, this)
+                TaskHelper.addTask(Task(taskTitle, false, true), artistPageInstance, userInstance, this)
                 hideAddNewTaskDialog()
                 showProgressBar()
             } else {

@@ -11,22 +11,23 @@ class Task : Serializable{
     var isCompleted : Boolean = false
     var createdById : String? = null
     var description : String? = null
-    var assigneesList : ArrayList<User>? = null
+    var assigneesList : ArrayList<String>? = null
     var dueDate : String? = null
     var urgency : String? = null
+    var isTaskNew : Boolean? = null
 
     constructor(mTitle : String?, mIsCompleted : Boolean) {
         this.title = mTitle
         this.isCompleted = mIsCompleted
     }
 
-    constructor(mTitle : String?, mTaskId : String?, mIsCompleted : Boolean) {
+    constructor(mTitle : String?, mIsCompleted : Boolean, mIsTaskNew : Boolean?) {
         this.title = mTitle
-        this.taskId = mTaskId
         this.isCompleted = mIsCompleted
+        this.isTaskNew = mIsTaskNew
     }
 
-    constructor(mTitle : String?, mTaskId: String?, mIsCompleted : Boolean, mCreatedById : String?, description : String?, mDueDate : String?, mUrgency : String, mAssigneesList : ArrayList<User>?) {
+    constructor(mTitle : String?, mTaskId: String?, mIsCompleted : Boolean, mCreatedById : String?, description : String?, mDueDate : String?, mUrgency : String, mAssigneesList : ArrayList<String>?) {
         this.title = mTitle
         this.taskId = mTaskId
         this.isCompleted = mIsCompleted
@@ -36,6 +37,8 @@ class Task : Serializable{
         this.urgency = mUrgency
         this.description = description
     }
+
+
 
     override fun toString(): String {
         return "Title: $title, id: $taskId, isCompleted: $isCompleted, createdBy: $createdById, dueDate: $dueDate, urgency: $urgency"

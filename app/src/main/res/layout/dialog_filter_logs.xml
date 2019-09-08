@@ -1,6 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="300dp"
+        android:background="@color/steelGrayEntryColor"
+        android:layout_height="wrap_content" android:padding="8dp">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dialog_header"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat"
+            android:textSize="@dimen/font_larger"
+            android:textColor="@color/appWhite" android:text="Filter ActivityLogs"/>
+
+    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="8dp">
+
+        <RadioButton
+                android:id="@+id/radio_button_only_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginStart="150dp"
+                android:fontFamily="@font/light"
+                android:onClick="onFilterRadioButtonChecked"
+                android:text="Only me"
+                android:textColor="@color/appWhite"
+                android:textSize="@dimen/font_large"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/radio_button_team"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioButton
+                android:id="@+id/radio_button_team"
+                android:text="All team"
+                android:onClick="onFilterRadioButtonChecked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/light"
+                android:textColor="@color/appWhite"
+                android:textSize="@dimen/font_large"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="8dp">
+
+        <RadioButton
+                android:id="@+id/radio_button_ascending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginStart="150dp"
+                android:fontFamily="@font/light"
+                android:onClick="onFilterRadioButtonChecked"
+                android:text="Ascending"
+                android:textColor="@color/appWhite"
+                android:textSize="@dimen/font_large"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/radio_button_descending"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioButton
+                android:id="@+id/radio_button_descending"
+                android:text="Descending"
+                android:onClick="onFilterRadioButtonChecked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/light"
+                android:textColor="@color/appWhite"
+                android:textSize="@dimen/font_large"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="8dp">
+
+        <TextView
+                android:id="@+id/filter_dialog_apply_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Apply"
+                android:textColor="@color/appWhite"
+                android:textSize="@dimen/font_large"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/filter_dialog_cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Cancel"
+                android:textColor="@color/appWhite"
+                android:textSize="@dimen/font_large"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/filter_dialog_apply_button"
+                app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

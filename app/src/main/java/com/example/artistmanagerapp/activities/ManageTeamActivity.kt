@@ -32,6 +32,7 @@ import com.example.artistmanagerapp.models.ArtistPage
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_create_artist_page.*
 import kotlinx.android.synthetic.main.activity_manage_team.*
+import kotlinx.android.synthetic.main.dialog_user_details.*
 import kotlinx.android.synthetic.main.item_team_member.*
 import kotlinx.android.synthetic.main.item_team_member.view.*
 
@@ -110,7 +111,7 @@ class ManageTeamActivity : BaseActivity(), UsersListListener, DialogCreator.Dial
         // Views - admin options dialog
 
         // Initializing and modifying UI according to access mode
-        initUI(Utils.getUserAccess(userInstance.id.toString(), pageInstance.membersAndRoles))
+        initUI(Utils.getUserAccess(userInstance.id.toString(), pageInstance.pageAdmins!!))
 
         // Getting team members list
         UsersHelper.parseUsers(artistPagesCollectionPath.document(pageId.toString()).collection("pageMembers"), this)
@@ -270,7 +271,8 @@ class ManageTeamActivity : BaseActivity(), UsersListListener, DialogCreator.Dial
         userDetailsDialogCloseX = userDetailsDialog?.findViewById(R.id.dialog_close_x_button) as TextView?
         userDetailsDialogDisplayName = userDetailsDialog?.findViewById(R.id.user_details_name)
         userDetailsDialogRole = userDetailsDialog?.findViewById(R.id.user_details_role) as TextView?
-        userAvatar = userDetailsDialog?.findViewById(R.id.user_details_avatar) as CircleImageView?
+        userAvatar = userDetailsDialog?.findViewById(R.id.circle_avatar_background) as CircleImageView?
+        userDetailsDialog!!.user_acronym.text = user.getAcronym()
         //statsCounterLeft = userDetailsDialog?.findViewById(R.id.counter_1) as TextView?
         //statsCounterCenter = userDetailsDialog?.findViewById(R.id.counter_2) as TextView?
         //statsCounterRight = userDetailsDialog?.findViewById(R.id.counter_3) as TextView?

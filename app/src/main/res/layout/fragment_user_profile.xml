@@ -156,7 +156,7 @@
                 tools:text="Artur Popławski" />
 
         <TextView
-                android:id="@+id/profile_user_details"
+                android:id="@+id/user_profession_display"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -171,15 +171,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profile_user_fullname"
                 tools:text="guitar, vocals" />
-
-        <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="14dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_settings_red" />
 
 
     </android.support.constraint.ConstraintLayout>

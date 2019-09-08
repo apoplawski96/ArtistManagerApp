@@ -39,6 +39,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.makeramen.roundedimageview.RoundedImageView
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPagesPresenter, MediaLoader {
 
@@ -62,6 +63,7 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
     var pageAvatar : CircleImageView? = null
     var manageTeamButton : RoundedImageView? = null
     var avatarProgressBar : ProgressBar? = null
+    var activityLogsListButton : RoundedImageView? = null
 
     companion object {
         @JvmStatic
@@ -81,8 +83,10 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         }
     }
 
+    lateinit var rootView : View
+
     override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+        rootView = inflater.inflate(R.layout.fragment_home, container, false)
 
         // Getting bundle data
         userInstance = arguments?.getSerializable(c.BUNDLE_USER_INSTANCE) as User
@@ -95,23 +99,17 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         pageInfoMapBundle.put(c.ARTIST_NAME_BUNDLE, pageName)
         pageInfoMapBundle.put(c.EPK_SHARE_CODE_BUNDLE, epkShareCode)
 
-        initUI()
-
         Log.d("Welcome to HomeFragment - onCreateView()", "Fragment Entered")
         Log.d("HomeFragment", "PageName: $pageName, pageId: $pageId, epkShareCode: $epkShareCode")
-
-        //Toast.makeText(activity, "$pageName+asdasd$pageId+asdasd$epkShareCode", Toast.LENGTH_SHORT).show()
 
         // Views
         helloUser = rootView.findViewById(R.id.hello_user)
         thisIsBandName = rootView.findViewById(R.id.this_is_band_name)
         pageAvatar = rootView.findViewById(R.id.circle_page_avatar)
         manageTeamButton = rootView.findViewById(R.id.manage_team_button)
-        thisIsBandName?.text = pageName
         avatarProgressBar = rootView.findViewById(R.id.avatar_progress_bar)
 
-        //model = ViewModelProviders.of(activity!!).get(Communicator::class.java)
-        //model!!.setMsgCommunicator(pageName.toString())
+        initUI()
 
         // Load page avatar
         StorageDataRetriever().downloadImageViaId(pageId, StorageDataRetriever.DownloadOption.PAGE_AVATAR, this)
@@ -126,6 +124,12 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
             startActivity(intent)
         }
 
+        rootView.activity_logs_list_button.setOnClickListener {
+            var intent = Intent(activity, ActivityLogsActivity::class.java)
+            putDataToBundle(intent)
+            startActivity(intent)
+        }
+
         return rootView
     }
 
@@ -133,6 +137,7 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         avatarProgressBar?.visibility = View.GONE
         pageAvatar?.visibility = View.VISIBLE
         pageAvatar?.setImageBitmap(bitmap)
+        loadUserData()
         //Toast.makeText(activity, "hui", Toast.LENGTH_SHORT).show()
     }
 
@@ -141,32 +146,45 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         intent?.putExtra (Constants.ARTIST_NAME_BUNDLE, pageName)
         intent?.putExtra (Constants.EPK_SHARE_CODE_BUNDLE, epkShareCode)
 
-
         intent?.putExtra (Constants.BUNDLE_USER_INSTANCE, userInstance)
         intent?.putExtra (Constants.BUNDLE_ARTIST_PAGE_INSTANCE, pageInstance)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun showUserData(userData: User) {
 
-        /*val model = ViewModelProviders.of(activity!!).get(Communicator::class.java)
-        model.message.observe(this, object : Observer<Any> {
-            override fun onChanged(t: Any?) {
-                var ap : HashMap<String?, String?> = t as HashMap<String?, String?>
-                pageName = ap.get(GridMenuFragment.c.ARTIST_NAME_BUNDLE)
-                pageId = ap.get(GridMenuFragment.c.PAGE_ID_BUNDLE)
-                shareEpkCode = ap.get(GridMenuFragment.c.EPK_SHARE_CODE_BUNDLE)
-            }
-        })*/
     }
 
+    fun loadUserData(){
+        thisIsBandName?.text = pageInstance.artistName
+        rootView.artist_genre_home.text = pageInstance.genre
 
-    override fun showUserData(userData: User) {
+        rootView.artist_category_display.visibility = View.VISIBLE
+        thisIsBandName?.visibility = View.VISIBLE
+        rootView.artist_genre_home.visibility = View.VISIBLE
+        rootView.home_progress_bar_small.visibility = View.GONE
+
+        when (pageInstance.pageCategory){
+            "Band" -> {
+                rootView.artist_category_display.text = pageInstance.pageCategory
+                rootView.artist_category_display.layoutParams.width = 150
+            }
+            "Solo Artist" -> {
+                rootView.artist_category_display.text = pageInstance.pageCategory
+                rootView.artist_category_display.layoutParams.width = 300
+            }
+        }
     }
 
     fun initUI(){
+        // HIDE
+        rootView.artist_category_display.visibility = View.INVISIBLE
+        pageAvatar?.visibility = View.INVISIBLE
+        thisIsBandName?.visibility = View.INVISIBLE
+        rootView.artist_genre_home.visibility = View.INVISIBLE
+
+        // SHOW
+        rootView.home_progress_bar_small.visibility = View.VISIBLE
         avatarProgressBar?.visibility = View.VISIBLE
-        pageAvatar?.visibility = View.GONE
     }
 
     override fun receiveData(data: Any?, mInterface: Any?) {
@@ -177,7 +195,8 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
     }
 
     override fun showArtistPageData(artistPage: ArtistPage) {
-        thisIsBandName?.text = artistPage.artistName
+
+
     }
 
     override fun showNoPagesText() {

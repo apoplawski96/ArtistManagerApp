@@ -68,7 +68,7 @@ class FirebaseDataWriter : BaseActivity(){
 
         artistPage.artistPageId = pageId
         artistPage.artistPageAdminId = userId
-        artistPage.membersAndRoles = hashMapOf(user.id.toString() to "admin")
+        artistPage.pageAdmins = arrayListOf(user.id.toString())
 
         // Setting up photo
         val bytes = ByteArrayOutputStream()

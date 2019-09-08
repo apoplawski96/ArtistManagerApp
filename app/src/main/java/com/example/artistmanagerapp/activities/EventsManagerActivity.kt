@@ -47,6 +47,7 @@ class EventsManagerActivity : BaseActivity(), FirebaseEventsHelper.EventsPresent
         addEventButton = findViewById(R.id.add_event_button)
 
         // EventsGridViewAdapter stuff
+        populateEventList()
         adapter = EventsGridViewAdapter(this, eventList)
         gridView?.adapter = adapter
 

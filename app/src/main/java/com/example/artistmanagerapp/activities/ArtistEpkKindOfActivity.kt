@@ -202,4 +202,8 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
     override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {}
     override fun showNoPagesText() {}
 
+    override fun onDismissWithOption(option: DialogCreator.DialogControllerCallback.DismissCalbackOption) {
+
+    }
+
 }

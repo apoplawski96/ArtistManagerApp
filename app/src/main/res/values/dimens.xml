@@ -25,4 +25,8 @@
     <dimen name="button_short_length">144dp</dimen>
     <dimen name="button_short_height">35dp</dimen>
 
+
+    <dimen name="app_bar_height">56dp</dimen>
+    <dimen name="app_bar_text_size">18sp</dimen>
+
 </resources>

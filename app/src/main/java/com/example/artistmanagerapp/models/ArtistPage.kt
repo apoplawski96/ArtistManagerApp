@@ -18,7 +18,7 @@ class ArtistPage : Serializable {
     var timeCreated : String? = null
     var createdById : String? = null
     var createdByDisplayName : String? = null
-    var membersAndRoles : HashMap<String, Any?>? = null
+    var pageAdmins : ArrayList<String>? = null
     var newTasks : Number? = 0
     var upcomingEvents : Number? = 0
 
@@ -40,8 +40,6 @@ class ArtistPage : Serializable {
         this.facebookLink = fbLink
         this.genre = genre
     }
-
-
 
     constructor(
         artistName: String?,
@@ -97,7 +95,7 @@ class ArtistPage : Serializable {
         timeCreated: String?,
         createdById: String?,
         createdByDisplayName: String?,
-        membersAndRoles: HashMap<String, Any?>?,
+        pageAdmins : ArrayList<String>,
         newTasks: Number?,
         upcomingEvents: Number?
     ) {
@@ -114,7 +112,7 @@ class ArtistPage : Serializable {
         this.timeCreated = timeCreated
         this.createdById = createdById
         this.createdByDisplayName = createdByDisplayName
-        this.membersAndRoles = membersAndRoles
+        this.pageAdmins = pageAdmins
         this.newTasks = newTasks
         this.upcomingEvents = upcomingEvents
     }

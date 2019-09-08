@@ -33,30 +33,19 @@ class User : Serializable {
         this.pageRole = pageRole
     }
 
-    constructor(firstName: String?, lastName: String?, artistRole: String?, pageRole: String?) {
+    constructor(firstName: String?, lastName: String?, artistRole: String?, roleCategory: String?) {
         this.firstName = firstName
         this.lastName = lastName
-        this.pageRole = pageRole
         this.artistRole = artistRole
+        this.roleCategory = roleCategory
     }
 
-    constructor(firstName: String?, lastName: String?, artistRole: String?, pageRole: String?, currentArtistPageId: String?) {
+    constructor(firstName: String?, lastName: String?, artistRole: String?, pageRole: String?, currentArtistPageId: String?, roleCategory: String?) {
         this.firstName = firstName
         this.lastName = lastName
-        this.pageRole = pageRole
         this.artistRole = artistRole
         this.currentArtistPageId = currentArtistPageId
-    }
-
-    constructor(id: String?, firstName: String?, lastName: String?, pageRole: String?, artistRole: String?, artistPages: ArrayList<ArtistPage>?, currentArtistPageId: String?, email: String?) {
-        this.id = id
-        this.firstName = firstName
-        this.lastName = lastName
-        this.pageRole = pageRole
-        this.artistRole = artistRole
-        this.artistPages = artistPages
-        this.currentArtistPageId = currentArtistPageId
-        this.email = email
+        this.roleCategory = roleCategory
     }
 
     constructor(

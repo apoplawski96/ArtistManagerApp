@@ -22,6 +22,9 @@ import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.Utils
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.dialog_user_details.view.*
+import kotlinx.android.synthetic.main.fragment_user_profile.*
+import kotlinx.android.synthetic.main.fragment_user_profile.view.*
 
 class UserProfileFragment : BaseFragment(), MediaLoader {
 
@@ -66,8 +69,10 @@ class UserProfileFragment : BaseFragment(), MediaLoader {
         }
     }
 
+    lateinit var rootView : View
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_user_profile, container, false)
+        rootView = inflater.inflate(R.layout.fragment_user_profile, container, false)
         Log.d(CTX_TAG, "Welcome to UserProfileFragment!")
 
         // Getting User bundled data
@@ -88,8 +93,6 @@ class UserProfileFragment : BaseFragment(), MediaLoader {
 
         // Load page avatar
         StorageDataRetriever().downloadImageViaId(userInstance?.id, StorageDataRetriever.DownloadOption.USER_AVATAR, this)
-
-        displayName?.text = "${userInstance?.firstName} ${userInstance?.lastName}"
 
         editProfile?.setOnClickListener{
             val intent = Intent(activity, CreateUserProfileActivity::class.java)
@@ -132,6 +135,18 @@ class UserProfileFragment : BaseFragment(), MediaLoader {
 
     fun initUI(){
         showProgress()
+
+        when (userInstance!!.roleCategory){
+            "artist" -> {
+                rootView.artist_category_display.layoutParams.width = 150
+            }
+            "manager" -> {
+                rootView.artist_category_display.layoutParams.width = 235
+            }
+        }
+        rootView.user_profession_display.text = userInstance!!.artistRole
+        rootView.artist_category_display.text = userInstance!!.roleCategory
+        displayName?.text = "${userInstance?.firstName} ${userInstance?.lastName}"
     }
 
     fun showProgress(){

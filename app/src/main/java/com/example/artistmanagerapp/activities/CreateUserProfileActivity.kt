@@ -100,7 +100,6 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoa
         // OnClicks implementation
         submitButton?.setOnClickListener {
             // We check if all the inputs have correct format
-
             if (true){
                 coverSolid?.visibility = View.VISIBLE
                 coverProgress?.visibility = View.VISIBLE
@@ -142,7 +141,7 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoa
     fun loadCurrentData(){
         if (userInstance?.firstName != "null") firstNameInput?.setText(userInstance?.firstName)
         if (userInstance?.lastName != "null") lastNameInput?.setText(userInstance?.lastName)
-        if (userInstance?.pageRole != "null") pageRoleInput?.setText(userInstance?.pageRole)
+        if (userInstance?.artistRole != "null") pageRoleInput?.setText(userInstance?.artistRole)
         when (userInstance?.roleCategory){
             "artist" -> radioButtonArtist?.isChecked = true
             "manager" -> radioButtonManager?.isChecked = true
@@ -213,7 +212,7 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoa
     fun mapDataFromTextInputs(firstName : EditText?, lastName : EditText?, position : EditText?, isArtistChecked : Boolean?, isManagerChecked : Boolean?){
         userProfileData.put(c.FIRST_NAME, firstName?.text.toString())
         userProfileData.put(c.LAST_NAME, lastName?.text.toString())
-        userProfileData.put(c.PAGE_ROLE, position?.text.toString())
+        userProfileData.put(c.ARTIST_ROLE, position?.text.toString())
         if (isArtistChecked == true) userProfileData.put(c.ROLE_CATEGORY, "artist")
         else if (isManagerChecked == true) userProfileData.put (c.ROLE_CATEGORY, "manager")
     }

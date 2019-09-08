@@ -27,7 +27,8 @@ class FirebaseDataReader : BaseActivity () {
                     var artistRole = documentSnapshot.getString(c.ARTIST_ROLE).toString()
                     var pageRole = documentSnapshot.getString(c.PAGE_ROLE).toString()
                     var currentArtistPageId = documentSnapshot.getString(c.CURRENT_ARTIST_PAGE).toString()
-                    person = User(firstName, lastName, artistRole, pageRole, currentArtistPageId)
+                    var roleCategory = documentSnapshot.getString(c.ROLE_CATEGORY).toString()
+                    person = User(firstName, lastName, artistRole, pageRole, currentArtistPageId, roleCategory)
                 }
                 Log.d("chuj", documentSnapshot.data.toString())
                 userDataPresenter.showUserData(person)
@@ -121,11 +122,11 @@ class FirebaseDataReader : BaseActivity () {
                 val timeCreated = documentSnapshot.get(c.ARTIST_TIME_CREATED).toString()
                 val createdById = documentSnapshot.get(c.ARTIST_CREATED_BY_ID).toString()
                 val createdByDisplayName = documentSnapshot.get(c.ARTIST_CREATED_BY_DISPLAY_NAME).toString()
-                val membersAndRoles : HashMap<String, Any?> = documentSnapshot.get(c.ARTIST_MEMBERS_AND_ROLES) as HashMap<String, Any?>
+                val pageAdmins = documentSnapshot.get(c.PAGE_ADMINS) as ArrayList<String>
                 val newTasks = documentSnapshot.get(c.ARTIST_NEW_TASKS) as Number
                 val upcomingEvents = documentSnapshot.get(c.ARTIST_UPCOMING_EVENTS) as Number
 
-                val artistPage = ArtistPage(artistName, id, bio, instaLink, fbLink, genre, contact, shareCode, category, dateCreated, timeCreated, createdById, createdByDisplayName, membersAndRoles, newTasks, upcomingEvents)
+                val artistPage = ArtistPage(artistName, id, bio, instaLink, fbLink, genre, contact, shareCode, category, dateCreated, timeCreated, createdById, createdByDisplayName, pageAdmins, newTasks, upcomingEvents)
                 presenter?.showArtistPageData(artistPage)
                 receiver?.callback(artistPage)
             }

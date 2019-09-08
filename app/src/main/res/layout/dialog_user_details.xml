@@ -14,14 +14,28 @@
             android:paddingTop="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/user_details_avatar"
-                android:layout_width="54dp"
-                android:layout_height="54dp"
-                android:layout_gravity="center"
-                android:src="@mipmap/cover9"
+                android:id="@+id/circle_avatar_background"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/red_ocean"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/user_acronym"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat"
+                android:text="MB"
+                android:textAlignment="center"
+                android:textColor="@color/appWhite"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/circle_avatar_background"
+                app:layout_constraintEnd_toEndOf="@+id/circle_avatar_background"
+                app:layout_constraintStart_toStartOf="@+id/circle_avatar_background"
+                app:layout_constraintTop_toTopOf="@id/circle_avatar_background" />
 
         <TextView
                 android:id="@+id/user_details_name"
@@ -33,9 +47,9 @@
                 android:textAlignment="center"
                 android:textColor="@color/appWhite"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/user_details_avatar"
-                app:layout_constraintStart_toStartOf="@+id/user_details_avatar"
-                app:layout_constraintTop_toBottomOf="@+id/user_details_avatar" />
+                app:layout_constraintEnd_toEndOf="@+id/circle_avatar_background"
+                app:layout_constraintStart_toStartOf="@+id/circle_avatar_background"
+                app:layout_constraintTop_toBottomOf="@id/circle_avatar_background" />
 
         <TextView
                 android:id="@+id/dialog_close_x_button"
@@ -43,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:text="x"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

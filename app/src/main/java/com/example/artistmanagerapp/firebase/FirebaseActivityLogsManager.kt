@@ -1,6 +1,7 @@
 package com.example.artistmanagerapp.firebase
 
 import android.util.Log
+import com.example.artistmanagerapp.activities.ActivityLogsActivity
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.models.*
 import com.example.artistmanagerapp.utils.Utils
@@ -105,34 +106,37 @@ object FirebaseActivityLogsManager : BaseActivity(){
                     val createdById = doc.get("createdById").toString()
                     activityLogsList.add(ActivityLog(displayName, dateCreated, timeCreated, eventCategory, logDescription, userAcronym, connectedPageId, createdById))
                 }
-                presenter.showLogs(activityLogsList)
+                presenter.receiveLogs(activityLogsList)
             } else {
                 Log.d("error", "activity logs list empty")
             }
         }
     }
 
-    fun filterActivityLogs(inputList : ArrayList<ActivityLog>, parameter : Any?) : ArrayList<ActivityLog>{
+    fun filterActivityLogs(inputList : ArrayList<ActivityLog>, parameter : ActivityLogsActivity.FilterParameter, userId : String?) : ArrayList<ActivityLog>{
         var filteredList = ArrayList<ActivityLog>()
 
         when (parameter){
-            is User -> {
+            ActivityLogsActivity.FilterParameter.ONLY_ME -> {
                 for (log in inputList){
-                    if (log.createdById == parameter.id){
+                    if (log.createdById == userId){
                         filteredList.add(log)
                     }
                 }
+            }
+            ActivityLogsActivity.FilterParameter.TEAM -> {
+                filteredList = inputList
             }
         }
 
         return filteredList
     }
 
-    fun sortActivityLogsByDate(inputList: ArrayList<ActivityLog>, parameter : SortParameters){
-
+    fun sortActivityLogsByDate(inputList: ArrayList<ActivityLog>, parameter : ActivityLogsActivity.SortParameter) : ArrayList<ActivityLog>{
+        return inputList
     }
 
     interface ActivityLogsPresenter{
-        fun showLogs(activityLogs : ArrayList<ActivityLog>)
+        fun receiveLogs(activityLogs : ArrayList<ActivityLog>)
     }
 }

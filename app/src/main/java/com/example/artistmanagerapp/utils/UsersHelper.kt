@@ -27,9 +27,10 @@ object UsersHelper : BaseActivity() {
                         // Need to work on assignees list later
                         usersOutput!!.add(
                             User(
-                                document.get(c.ID).toString(),
                                 document.get(c.FIRST_NAME).toString(),
-                                document.get(c.LAST_NAME).toString()
+                                document.get(c.LAST_NAME).toString(),
+                                document.get(c.ARTIST_ROLE).toString(),
+                                document.get(c.ROLE_CATEGORY).toString()
                             )
                         )
                     }

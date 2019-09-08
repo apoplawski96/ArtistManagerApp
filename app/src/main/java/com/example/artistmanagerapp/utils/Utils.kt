@@ -139,20 +139,16 @@ object Utils : BaseActivity (){
         return "${firstName[0]}${lastName[0]}".toUpperCase()
     }
 
-    fun getUserAccess(currentUserId : String, membersAndRoles : HashMap<String, Any?>?) : ManageTeamActivity.AccessMode{
-        lateinit var accessMode : ManageTeamActivity.AccessMode
+    fun getUserAccess(currentUserId : String, pageAdminsIdList : ArrayList<String>) : ManageTeamActivity.AccessMode{
+        // Default value
+        var accessMode : ManageTeamActivity.AccessMode = ManageTeamActivity.AccessMode.REGULAR
 
-        if (membersAndRoles != null) {
-            for ((memberId, role) in membersAndRoles){
-                if (memberId == currentUserId) {
-                    when (role as String){
-                       "admin" -> accessMode = ManageTeamActivity.AccessMode.ADMIN
-                        "regular" -> accessMode = ManageTeamActivity.AccessMode.REGULAR
-                    }
-                }
+        // If user is on the admins list though, we change the value
+        for (adminId in pageAdminsIdList){
+            if (adminId == currentUserId){
+                accessMode = ManageTeamActivity.AccessMode.ADMIN
+                break
             }
-        } else {
-            accessMode = ManageTeamActivity.AccessMode.ERROR
         }
 
         return accessMode
