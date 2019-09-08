@@ -44,6 +44,14 @@ class FirebaseDataWriter : BaseActivity(){
 
     }
 
+    fun updateArtistPageData(pageId : String, newData : Map<String, Any>, uiUpdater: UserInterfaceUpdater){
+        artistPagesCollectionPath.document(pageId).update(newData).addOnSuccessListener {
+            uiUpdater.updateUI(Constants.ARTIST_PAGE_UPDATED, null)
+        }.addOnFailureListener {
+
+        }
+    }
+
     fun createArtistPage(artistPage : ArtistPage, uiUpdater: UserInterfaceUpdater, user: User?, photoBitmap: Bitmap?){
         // Creating and capturing new Page id
         val pageId = artistPagesCollectionPath.document().id
@@ -54,11 +62,13 @@ class FirebaseDataWriter : BaseActivity(){
 
         // Settin up Page data
         var artistPageInfo = HashMap<String, Any>()
-        artistPage.artistPageId = pageId
-        artistPage.artistPageAdminId = userId
         artistPageInfo.put(c.ARTIST_NAME, artistPage.artistName.toString())
         artistPageInfo.put(c.ARTIST_PAGE_ID, pageId)
         artistPageInfo.put(c.ARTIST_PAGE_ADMIN_ID, userId)
+
+        artistPage.artistPageId = pageId
+        artistPage.artistPageAdminId = userId
+        artistPage.membersAndRoles = hashMapOf(user.id.toString() to "admin")
 
         // Setting up photo
         val bytes = ByteArrayOutputStream()
@@ -92,11 +102,13 @@ class FirebaseDataWriter : BaseActivity(){
         // Uploading page avatar
         var uploadTask = storageRef.child("pageAvatars/$pageId/avatar.jpg").putBytes(data)
         uploadTask.addOnSuccessListener {
-            uiUpdater.updateUI(const.ARTIST_PAGE_CREATED, pageId)
+            uiUpdater.updateUI(const.ARTIST_PAGE_CREATED, artistPage)
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
         }
 
+        // Creating an activity log
+        logsManager.createActivityLog(user, artistPage.artistPageId.toString(), null, FirebaseActivityLogsManager.ActivityLogCategory.PAGE_CREATED)
     }
 
     fun generateRedeemCode(redeemCodeString : String, userId : String, artistPageId : String){

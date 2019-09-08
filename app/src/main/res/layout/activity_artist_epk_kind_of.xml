@@ -22,13 +22,15 @@ android:layout_height="match_parent">
                                                      android:layout_height="match_parent">
 
             <ImageView
+                    android:id="@+id/artist_cover_photo_epk"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:srcCompat="@mipmap/band_photo_avatar"
-                    android:id="@+id/artist_cover_photo_epk"
                     android:scaleType="centerCrop"
-                    app:layout_collapseMode="parallax" tools:layout_editor_absoluteY="0dp"
-                    tools:layout_editor_absoluteX="0dp"/>
+                    app:layout_collapseMode="parallax"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@mipmap/band_photo_avatar" />
 
             <View android:layout_width="match_parent" android:layout_height="50dp"
                   android:background="@android:color/black"

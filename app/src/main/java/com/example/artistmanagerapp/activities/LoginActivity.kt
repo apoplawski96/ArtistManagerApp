@@ -55,13 +55,13 @@ class LoginActivity : BaseActivity() {
 
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this){ task ->
                 if (task.isSuccessful){
-                    coverSolid?.visibility = View.VISIBLE
-                    coverProgress?.visibility = View.VISIBLE
+                    showProgressOverlay()
                     Toast.makeText(baseContext, "Authentication successful.", Toast.LENGTH_SHORT).show()
                     // When login is successful - we go to TransitionActivity
                     val intent = Intent(this, TransitionActivity::class.java)
                     startActivity(intent)
                 } else {
+                    hideProgressOverlay()
                     Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
 
@@ -83,4 +83,13 @@ class LoginActivity : BaseActivity() {
         return result
     }
 
+    fun showProgressOverlay(){
+        coverSolid?.visibility = View.VISIBLE
+        coverProgress?.visibility = View.VISIBLE
+    }
+
+    fun hideProgressOverlay(){
+        coverSolid?.visibility = View.GONE
+        coverProgress?.visibility = View.GONE
+    }
 }

@@ -34,6 +34,15 @@ object FirebaseConstants {
     val ARTIST_IG = "instagramLink"
     val ARTIST_CONTACT = "contact"
     val ARTIST_SHARE_CODE = "epkShareCode"
+    val ARTIST_NEW_TASKS = "newTasks"
+    val ARTIST_UPCOMING_EVENTS = "upcomingEvents"
+    val ARTIST_DATE_CREATED = "dateCreated"
+    val ARTIST_TIME_CREATED = "timeCreated"
+    val ARTIST_CREATED_BY_ID = "createdById"
+    val ARTIST_CREATED_BY_DISPLAY_NAME = "createdByDisplayName"
+    val ARTIST_CATEGORY = "category"
+    val ARTIST_MEMBERS_AND_ROLES = "membersAndRoles"
+
 
     // FIELDS NAMES - COMMENTS
     val COMMENT_CONTENT = "content"

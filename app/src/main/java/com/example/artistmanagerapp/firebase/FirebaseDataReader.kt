@@ -116,9 +116,16 @@ class FirebaseDataReader : BaseActivity () {
                 val contact = documentSnapshot.get(c.ARTIST_CONTACT).toString()
                 val id = documentSnapshot.get(c.ARTIST_PAGE_ID).toString()
                 val shareCode = documentSnapshot.get(c.ARTIST_SHARE_CODE).toString()
-                val adminId = documentSnapshot.get(c.ARTIST_PAGE_ADMIN_ID).toString()
+                val category = documentSnapshot.get(c.ARTIST_CATEGORY).toString()
+                val dateCreated = documentSnapshot.get(c.ARTIST_DATE_CREATED).toString()
+                val timeCreated = documentSnapshot.get(c.ARTIST_TIME_CREATED).toString()
+                val createdById = documentSnapshot.get(c.ARTIST_CREATED_BY_ID).toString()
+                val createdByDisplayName = documentSnapshot.get(c.ARTIST_CREATED_BY_DISPLAY_NAME).toString()
+                val membersAndRoles : HashMap<String, Any?> = documentSnapshot.get(c.ARTIST_MEMBERS_AND_ROLES) as HashMap<String, Any?>
+                val newTasks = documentSnapshot.get(c.ARTIST_NEW_TASKS) as Number
+                val upcomingEvents = documentSnapshot.get(c.ARTIST_UPCOMING_EVENTS) as Number
 
-                val artistPage = ArtistPage(artistName, adminId, id, bio, instaLink, fbLink, genre, contact, shareCode)
+                val artistPage = ArtistPage(artistName, id, bio, instaLink, fbLink, genre, contact, shareCode, category, dateCreated, timeCreated, createdById, createdByDisplayName, membersAndRoles, newTasks, upcomingEvents)
                 presenter?.showArtistPageData(artistPage)
                 receiver?.callback(artistPage)
             }

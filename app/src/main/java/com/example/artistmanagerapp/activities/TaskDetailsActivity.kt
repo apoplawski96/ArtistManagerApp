@@ -16,6 +16,7 @@ import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.adapters.CommentsListAdapter
 import com.example.artistmanagerapp.adapters.UsersListAdapter
 import com.example.artistmanagerapp.firebase.CommentsHelper
+import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
 import com.example.artistmanagerapp.fragments.TaskDetailsDialogFragment
 import com.example.artistmanagerapp.interfaces.TaskDetailPresenter
 import com.example.artistmanagerapp.interfaces.TaskUpdater
@@ -233,6 +234,7 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
         setDueDateTextView?.visibility = View.GONE
         // Setting dueDate in database
         TaskHelper.setTaskDueDate(taskInstance?.taskId, date, artistPageInstance?.artistPageId, this)
+        logsManager.createActivityLog(userInstance, artistPageInstance!!.artistPageId.toString(), taskInstance, FirebaseActivityLogsManager.ActivityLogCategory.TASK_DUE_DATE_SET)
     }
 
     fun initializeUI() {
@@ -319,6 +321,7 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
                     toolbarConfirmButton?.visibility = View.GONE
                     toolbarDismissButton?.visibility = View.GONE
                     TaskHelper.assignMembers(taskInstance?.taskId, usersAssignedTemp, artistPageInstance?.artistPageId, this)
+                    logsManager.createActivityLog(userInstance, artistPageInstance!!.artistPageId.toString(), usersAssignedTemp, FirebaseActivityLogsManager.ActivityLogCategory.TASK_MEMBERS_ASSIGNED)
                 }
                 c.COMMENT_ADDED -> {
                     addCommentField?.isEnabled = false
@@ -411,6 +414,9 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
 
     }
 
+    override fun controlAdminPanel(user: User, itemView: View) {
+
+    }
     override fun updateTasks(tasksOutput: ArrayList<Task>) {}
     override fun triggerUpdate() {}
     override fun showProgressBar() {}

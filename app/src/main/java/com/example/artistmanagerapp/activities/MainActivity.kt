@@ -34,24 +34,6 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
     var userBundleInstance : User? = null
     var artistPageInstance : ArtistPage? = null
 
-//    var pageId : String? = null
-//    var pageName : String? = null
-//    var pageBundleInstance : ArtistPage? = null
-//    var currentPageIdBundle : String? = null
-
-//    // Bundle data variables - User
-//    var userInstance : User = User()
-
-    // Variables set - User
-//    var userObject : User? = null
-//    var mFirstName : String? = null
-//    var mLastName : String? = null
-//    var pageRole : String? = null
-//    var artistRole : String? = null
-//    var currentPage : String? = null
-//    var email : String? = null
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -78,7 +60,7 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {item ->
         when (item.itemId){
             R.id.home -> {
-                replaceFragment(HomeFragment.newInstance(userBundleInstance?.currentArtistPageId.toString(), artistPageInstance as ArtistPage))
+                replaceFragment(HomeFragment.newInstance(userBundleInstance?.currentArtistPageId.toString(), artistPageInstance as ArtistPage, userBundleInstance as User))
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag2 -> {
@@ -114,7 +96,7 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
         Log.d("MainActivity - getPageInfo() -> receiver", "${artistPage.artistPageId} : ${artistPage.artistName}")
         artistPageInstance = artistPage
         //Toast.makeText(this, artistPage.artistPageId, Toast.LENGTH_SHORT).show()
-        replaceFragment(HomeFragment.newInstance(userBundleInstance?.currentArtistPageId.toString(), artistPageInstance as ArtistPage))
+        replaceFragment(HomeFragment.newInstance(userBundleInstance?.currentArtistPageId.toString(), artistPageInstance as ArtistPage, userBundleInstance as User))
     }
 
 }

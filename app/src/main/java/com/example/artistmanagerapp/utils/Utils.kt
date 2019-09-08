@@ -6,13 +6,20 @@ import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.widget.EditText
 import com.example.artistmanagerapp.activities.BaseActivity
+import com.example.artistmanagerapp.activities.ManageTeamActivity
 import com.example.artistmanagerapp.models.RedeemCode
+import com.example.artistmanagerapp.models.User
 import java.util.*
 import kotlin.collections.ArrayList
 import com.google.common.io.Files.isFile
 import java.io.File
 import java.text.DateFormat
-
+import android.support.v4.graphics.drawable.DrawableCompat
+import android.graphics.drawable.Drawable
+import android.R
+import android.content.Context
+import android.support.v7.content.res.AppCompatResources
+import kotlin.collections.HashMap
 
 object Utils : BaseActivity (){
 
@@ -22,6 +29,18 @@ object Utils : BaseActivity (){
         val calendar : Calendar = Calendar.getInstance()
         val currentDate : String = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.time)
         return currentDate
+    }
+
+    fun getCurrentDateShort() : String{
+        val calendar : Calendar = Calendar.getInstance()
+        val currentDate : String = DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(calendar.time)
+        return currentDate
+    }
+
+    fun getCurrentTimeShort() : String{
+        val calendar : Calendar = Calendar.getInstance()
+        val currentTime : String = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(calendar.time)
+        return currentTime
     }
 
     fun generateCodeString(lenght : Int) : String{
@@ -118,6 +137,31 @@ object Utils : BaseActivity (){
 
     fun createNameAcronym(firstName : String, lastName : String) : String{
         return "${firstName[0]}${lastName[0]}".toUpperCase()
+    }
+
+    fun getUserAccess(currentUserId : String, membersAndRoles : HashMap<String, Any?>?) : ManageTeamActivity.AccessMode{
+        lateinit var accessMode : ManageTeamActivity.AccessMode
+
+        if (membersAndRoles != null) {
+            for ((memberId, role) in membersAndRoles){
+                if (memberId == currentUserId) {
+                    when (role as String){
+                       "admin" -> accessMode = ManageTeamActivity.AccessMode.ADMIN
+                        "regular" -> accessMode = ManageTeamActivity.AccessMode.REGULAR
+                    }
+                }
+            }
+        } else {
+            accessMode = ManageTeamActivity.AccessMode.ERROR
+        }
+
+        return accessMode
+    }
+
+    fun setDrawableColor(context : Context, drawableId : Int, color : Int){
+        val unwrappedDrawable = AppCompatResources.getDrawable(context, drawableId)
+        val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
+        DrawableCompat.setTint(wrappedDrawable, color)
     }
 
 }

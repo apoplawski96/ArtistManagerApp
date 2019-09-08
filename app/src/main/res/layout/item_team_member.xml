@@ -1,61 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:tools="http://schemas.android.com/tools" app:cardBackgroundColor="@color/steelGrayEntryColor"
-                                    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
-                                             android:layout_height="64dp" android:layout_marginTop="4dp" android:layout_marginHorizontal="4dp">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/steelGrayEntryColor"
+        android:layout_marginBottom="11dp">
 
-    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
-                                                 android:layout_height="match_parent">
+    <LinearLayout
+            android:layout_width="match_parent" android:orientation="vertical"
+            android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView android:layout_width="50dp" android:layout_height="50dp"
-                                                      app:layout_constraintBottom_toBottomOf="parent"
-                                                      app:layout_constraintTop_toTopOf="parent"
-                                                      android:src="@color/colorAccent"
-                                                      app:layout_constraintStart_toStartOf="parent"
-                                                      android:layout_marginStart="8dp"
-                                                      android:id="@+id/circle_avatar_background"/>
-        <TextView
-                android:text="AP"
-                android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/circle_avatar_background"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@mipmap/red_ocean"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                    android:id="@+id/page_role_display"
+                    android:layout_width="40dp"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/button_standard"
+                    android:clickable="false"
+                    android:fontFamily="@font/montserrat"
+                    android:text="ADMIN"
+                    android:textColor="@color/appWhite"
+                    android:textSize="7sp"
+                    app:layout_constraintEnd_toEndOf="@+id/circle_avatar_background"
+                    app:layout_constraintStart_toStartOf="@id/circle_avatar_background"
+                    app:layout_constraintTop_toTopOf="@id/circle_avatar_background" />
+
+            <TextView
+                    android:id="@+id/name_acronym"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bold"
+                    android:text="AP"
+                    android:textAlignment="center"
+                    android:textColor="@color/appWhite"
+                    android:textSize="@dimen/font_large"
+                    app:layout_constraintBottom_toBottomOf="@id/circle_avatar_background"
+                    app:layout_constraintEnd_toEndOf="@+id/circle_avatar_background"
+                    app:layout_constraintStart_toStartOf="@+id/circle_avatar_background"
+                    app:layout_constraintTop_toTopOf="@id/circle_avatar_background" />
+
+            <TextView
+                    android:id="@+id/full_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Arczibald Poplawko"
+                    android:textColor="@color/appWhite"
+                    app:layout_constraintStart_toEndOf="@+id/circle_avatar_background"
+                    app:layout_constraintTop_toTopOf="@+id/circle_avatar_background" />
+
+            <ImageView
+                    android:id="@+id/option_dialog_opener"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_more_dots" />
+
+            <ImageView
+                    android:id="@+id/admin_settings_opener"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/option_dialog_opener"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_settings_white" />
+
+            <TextView
+                    android:id="@+id/artist_role_display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/light"
+                    android:text="Guitar, vocals"
+                    android:textColor="@color/appWhite"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/circle_avatar_background"
+                    app:layout_constraintStart_toEndOf="@+id/circle_avatar_background" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+                android:id="@+id/admin_settings_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/bold"
-                android:textColor="@color/appWhite"
-                android:textAlignment="center"
-                android:textSize="@dimen/font_large"
-                android:id="@+id/name_acronym" app:layout_constraintStart_toStartOf="@+id/circle_avatar_background"
-                app:layout_constraintBottom_toBottomOf="@id/circle_avatar_background"
-                app:layout_constraintTop_toTopOf="@id/circle_avatar_background"
-                app:layout_constraintEnd_toEndOf="@+id/circle_avatar_background"
-        />
-        <TextView
-                android:text="Arczibald Poplawko"
-                android:layout_width="wrap_content"
-                android:textColor="@color/appWhite"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat"
-                android:id="@+id/full_name" app:layout_constraintStart_toEndOf="@+id/circle_avatar_background"
-                android:layout_marginStart="14dp" app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-        />
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_more_dots"
-                android:id="@+id/option_dialog_opener" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="14dp" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent"/>
-        <TextView
-                android:text="(A)"
-                android:fontFamily="@font/light"
-                android:textColor="@color/warningRed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/admin_note" app:layout_constraintStart_toEndOf="@+id/full_name"
-                android:layout_marginStart="8dp" app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-        />
+                android:visibility="gone"
+                tools:visibility="visible">
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:background="@color/appWhite"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></View>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <RadioButton
+                            android:id="@+id/regular_radio_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="9dp"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Regular"
+                            android:onClick="onPageRoleChangeButtonClicked"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    <RadioButton
+                            android:id="@+id/admin_radio_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Admin"
+                            android:onClick="onPageRoleChangeButtonClicked"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/regular_radio_button"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                            android:id="@+id/remove_member_button"
+                            android:layout_width="186dp"
+                            android:layout_height="28dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dp"
+                            android:layout_marginStart="15dp"
+                            android:background="@drawable/button_red"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Remove from the page"
+                            android:textColor="@color/appWhite"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/admin_radio_button"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </LinearLayout>
 
 
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

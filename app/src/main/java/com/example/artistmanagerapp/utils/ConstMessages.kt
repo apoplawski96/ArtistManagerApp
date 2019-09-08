@@ -18,6 +18,20 @@ object ConstMessages {
     val SHARE_MISSING_EPK_DATA_HEADER = "Mobile EPK not ready!"
     val SHARE_MISSING_EPK_DATA_BODY = "You have to first generate your Mobile EPK to share it with others"
 
+    // MISSING EPK PHOTO
+    val MISSING_EPK_PHOTO_HEADER = "EPK image not found!"
+    val MISSING_EPK_PHOTO_BODY = "You need to upload a photo specific for EPK to generate it"
+
+    // MEMBER REMOVE WARNING
+    val MEMBER_REMOVE_HEADER = "Are you sure to delete member?"
+    val MEMBER_REMOVE_BODY = "Chosen member will be removed from the page premanently from the Team"
+
+    // MEMBER ROLE CHANGE WARNING
+    val ROLE_CHANGE_HEADER_A = "Are you sure?"
+    val ROLE_CHANGE_BODY_A = "Selected user will be given admin rights"
+    val ROLE_CHANGE_HEADER_R = "Are you sure?"
+    val ROLE_CHANGE_BODY_R = "Selected user will be given regular rights"
+
     // OTHERS
     val COPY_TEXT = "Copy to clipboard"
 

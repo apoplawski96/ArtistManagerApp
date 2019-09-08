@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.activities.ChangePasswordActivity
 import com.example.artistmanagerapp.activities.CreateUserProfileActivity
 import com.example.artistmanagerapp.activities.LoginActivity
 import com.example.artistmanagerapp.firebase.StorageDataRetriever
@@ -100,7 +101,7 @@ class UserProfileFragment : BaseFragment(), MediaLoader {
         }
 
         changePassword?.setOnClickListener {
-
+            startActivity(Intent(activity, ChangePasswordActivity::class.java))
         }
 
         appInfo?.setOnClickListener {
@@ -141,6 +142,10 @@ class UserProfileFragment : BaseFragment(), MediaLoader {
     fun hideProgress(){
         userAvatar?.visibility = View.VISIBLE
         avatarProgressBar?.visibility = View.INVISIBLE
+    }
+
+    override fun onLoadingFailed(error: String?) {
+
     }
 
 }

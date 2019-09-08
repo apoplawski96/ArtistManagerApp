@@ -189,7 +189,7 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater, View.OnClickLi
                 val contentURI = data!!.data
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
-                    fileUploader?.saveImage(bitmap, storageRef.child("electronicPressKitPhotos/$pageId/cover.jpg"), this)
+                    fileUploader?.saveImage(bitmap, storageRef.child("epkPhotos/$pageId/cover.jpg"), this)
                 }
                 catch (e: IOException) {
                     e.printStackTrace()
@@ -197,6 +197,11 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater, View.OnClickLi
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        //disableToolbar()
+        super.onBackPressed()
     }
 
     fun activateToolbar(){

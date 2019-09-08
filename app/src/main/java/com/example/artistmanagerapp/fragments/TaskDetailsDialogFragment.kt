@@ -440,6 +440,10 @@ class TaskDetailsDialogFragment : DialogFragment(), UsersListListener, TaskUpdat
 
     }
 
+    override fun controlAdminPanel(user: User, itemView: View) {
+
+    }
+
     override fun updateTasks(tasksOutput: ArrayList<Task>) {}
     override fun triggerUpdate() {}
     override fun showProgressBar() {}

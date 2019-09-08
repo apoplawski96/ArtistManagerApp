@@ -25,6 +25,7 @@ object Constants {
     val IMAGE_SUCCESSFULLY_UPLOADED : String = "IMAGE_SUCCESSFULLY_UPLOADED"
     val CURRENT_PAGE_NOT_NULL = "CURRENT_PAGE_NOT_NULL"
     val TASK_DUE_DATE_SET = "DUE_DATE_SET"
+    val ARTIST_PAGE_UPDATED = "ARTIST_PAGE_UPDATED"
 
     // Options - TaskManager ActionToolbar activation
     val TASKS_ON_LONG_CLICKED : String = "TASKS_ON_LONG_CLICKED"

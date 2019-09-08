@@ -1,18 +1,14 @@
 package com.example.artistmanagerapp.activities
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.ui.DialogCreator
 import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
-import com.example.artistmanagerapp.utils.FirebaseConstants
 
 class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.DialogControllerCallback, DataReceiver {
 
@@ -40,7 +36,7 @@ class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.
         //Toast.makeText(this, "Name:$pageName+ ID:$pageId+ ShareCode:$epkShareCode", Toast.LENGTH_SHORT).show()
 
         // Views
-        editEpkInfoButton = findViewById(R.id.edit_info_bt)
+        editEpkInfoButton = findViewById(R.id.change_password_button)
         generateEpkButton = findViewById(R.id.generate_epk_btn)
         shareEpkButton = findViewById(R.id.share_epk_btn)
         redeeemEpkButton = findViewById(R.id.redeem_epk_btn)
@@ -53,6 +49,7 @@ class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.
                 putExtra(Constants.EPK_SHARE_CODE_BUNDLE, epkShareCode)
             }
             startActivity(intent)
+            finish()
         }
 
         generateEpkButton?.setOnClickListener {
@@ -62,6 +59,7 @@ class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.
                 putExtra(Constants.EPK_SHARE_CODE_BUNDLE, epkShareCode)
             }
             startActivity(intent)
+            finish()
         }
 
         shareEpkButton?.setOnClickListener {

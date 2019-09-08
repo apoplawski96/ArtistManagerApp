@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.artistmanagerapp">
+        package="com.example.artistmanagerapp">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
             android:allowBackup="true"
@@ -11,51 +11,37 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activities.CreateEventActivity">
-        </activity>
-        <activity android:name=".activities.ManageTeamActivity">
-        </activity>
-        <activity android:name=".activities.SharedEpkActivity">
-        </activity>
-        <activity android:name=".activities.EpkEditInfoActivity">
-        </activity>
-        <activity android:name=".activities.EpkSelectorActivity">
-        </activity>
-        <activity android:name=".activities.EventsManagerActivity">
-        </activity>
-        <activity android:name=".activities.ArtistEpkKindOfActivity">
-        </activity>
-        <activity android:name=".activities.TaskDetailsActivity">
-        </activity>
-        <activity android:name=".activities.TaskListActivity" android:windowSoftInputMode="adjustPan">
-        </activity>
-        <activity android:name=".activities.CreateTaskActivity">
-        </activity>
-        <activity android:name=".activities.SelectArtistPageActivity">
-        </activity>
-        <activity android:name=".activities.CheckArtistPageLinkActivity">
-        </activity>
-        <activity android:name=".activities.BaseActivity">
-        </activity>
-        <activity android:name=".activities.TestActivity">
-        </activity>
+        <activity android:name=".activities.ActivityLogsActivity"></activity>
+        <activity android:name=".activities.CreateArtistPageActivity" />
+        <activity android:name=".activities.ChangePasswordActivity" />
+        <activity android:name=".activities.CreateEventActivity" />
+        <activity android:name=".activities.ManageTeamActivity" />
+        <activity android:name=".activities.SharedEpkActivity" />
+        <activity android:name=".activities.EpkEditInfoActivity" />
+        <activity android:name=".activities.EpkSelectorActivity" />
+        <activity android:name=".activities.EventsManagerActivity" />
+        <activity android:name=".activities.ArtistEpkKindOfActivity" />
+        <activity android:name=".activities.TaskDetailsActivity" />
+        <activity
+                android:name=".activities.TaskListActivity"
+                android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activities.CreateTaskActivity" />
+        <activity android:name=".activities.SelectArtistPageActivity" />
+        <activity android:name=".activities.CheckArtistPageLinkActivity" />
+        <activity android:name=".activities.BaseActivity" />
+        <activity android:name=".activities.TestActivity"></activity>
         <activity android:name=".activities.SplashScreenActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.CreateUserProfileActivity">
-        </activity>
-        <activity android:name=".activities.TransitionActivity">
-        </activity>
-        <activity android:name=".activities.RegisterActivity">
-        </activity>
-        <activity android:name=".activities.LoginActivity">
-        </activity>
-        <activity android:name=".activities.MainActivity">
-        </activity>
+        <activity android:name=".activities.CreateUserProfileActivity" />
+        <activity android:name=".activities.TransitionActivity" />
+        <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.MainActivity" />
     </application>
 
 </manifest>

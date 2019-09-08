@@ -23,6 +23,7 @@ object CommentsHelper : BaseActivity() {
     fun addComment (author : User?, commentContent : String?, currentDate : String?, pathToCommentsCollection : CollectionReference, commentsUpdater: CommentsUpdater?, option : Option?){
         pathToCommentsCollection.document().set(Comment (commentContent, author?.id, currentDate, author?.getDisplayName(), author?.firstName, author?.lastName)).addOnSuccessListener {
             commentsUpdater?.onCommentAdded(option)
+            logsManager.createActivityLog(author, author?.currentArtistPageId.toString(), null, FirebaseActivityLogsManager.ActivityLogCategory.COMMENT_CREATED)
         }.addOnFailureListener {
 
         }

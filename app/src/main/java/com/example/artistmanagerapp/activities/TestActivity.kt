@@ -11,6 +11,7 @@ import com.google.firebase.FirebaseApp
 import android.support.design.widget.Snackbar
 import android.util.Log
 import com.example.artistmanagerapp.models.ArtistPage
+import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,15 +31,17 @@ class TestActivity : AppCompatActivity() {
         // WRITE TO DB stuff
         val auth = FirebaseAuth.getInstance()
         var user = auth.currentUser
-        val dbButton = findViewById(R.id.write_to_db_button) as Button
-        val logoutButton = findViewById(R.id.logout_button) as Button
+        val dbButton = findViewById(R.id.date_btn) as Button
+        val logoutButton = findViewById(R.id.time_btn) as Button
 
         dbButton.setOnClickListener {
-            writeToDb(user)
+            // date
+            Toast.makeText(this, Utils.getCurrentDateShort(), Toast.LENGTH_SHORT).show()
         }
 
         logoutButton.setOnClickListener {
-            logout(auth)
+            // time
+            Toast.makeText(this, Utils.getCurrentTimeShort(), Toast.LENGTH_SHORT).show()
         }
 
         val both = ArtistPage("name", "id")

@@ -13,6 +13,14 @@ class ArtistPage : Serializable {
     var genre : String? = null
     var contact : String? = null
     var epkShareCode : String? = null
+    var pageCategory : String? = null
+    var dateCreated : String? = null
+    var timeCreated : String? = null
+    var createdById : String? = null
+    var createdByDisplayName : String? = null
+    var membersAndRoles : HashMap<String, Any?>? = null
+    var newTasks : Number? = 0
+    var upcomingEvents : Number? = 0
 
     constructor()
 
@@ -25,12 +33,6 @@ class ArtistPage : Serializable {
         this.artistPageId = mArtistPageId
     }
 
-    constructor(artistName: String?, artistPageAdminId: String?, artistPageId: String?) {
-        this.artistName = artistName
-        this.artistPageAdminId = artistPageAdminId
-        this.artistPageId = artistPageId
-    }
-
     constructor(artistName: String?, biography: String?, instaLink: String?, fbLink: String?, genre: String?) {
         this.artistName = artistName
         this.biography = biography
@@ -39,14 +41,7 @@ class ArtistPage : Serializable {
         this.genre = genre
     }
 
-    constructor(artistName: String?, biography: String?, instaLink: String?, fbLink: String?, genre: String?, contact: String?) {
-        this.artistName = artistName
-        this.biography = biography
-        this.instagramLink = instaLink
-        this.facebookLink = fbLink
-        this.genre = genre
-        this.contact = contact
-    }
+
 
     constructor(
         artistName: String?,
@@ -69,6 +64,61 @@ class ArtistPage : Serializable {
         this.contact = contact
         this.epkShareCode = epkShareCode
     }
+
+    constructor(
+        artistName: String?,
+        genre: String?,
+        pageCategory: String?,
+        dateCreated: String?,
+        timeCreated: String?,
+        createdById: String?,
+        createdByDisplayName : String
+    ) {
+        this.artistName = artistName
+        this.genre = genre
+        this.pageCategory = pageCategory
+        this.dateCreated = dateCreated
+        this.timeCreated = timeCreated
+        this.createdById = createdById
+        this.createdByDisplayName = createdByDisplayName
+    }
+
+    constructor(
+        artistName: String?,
+        artistPageId: String?,
+        biography: String?,
+        instagramLink: String?,
+        facebookLink: String?,
+        genre: String?,
+        contact: String?,
+        epkShareCode: String?,
+        pageCategory: String?,
+        dateCreated: String?,
+        timeCreated: String?,
+        createdById: String?,
+        createdByDisplayName: String?,
+        membersAndRoles: HashMap<String, Any?>?,
+        newTasks: Number?,
+        upcomingEvents: Number?
+    ) {
+        this.artistName = artistName
+        this.artistPageId = artistPageId
+        this.biography = biography
+        this.instagramLink = instagramLink
+        this.facebookLink = facebookLink
+        this.genre = genre
+        this.contact = contact
+        this.epkShareCode = epkShareCode
+        this.pageCategory = pageCategory
+        this.dateCreated = dateCreated
+        this.timeCreated = timeCreated
+        this.createdById = createdById
+        this.createdByDisplayName = createdByDisplayName
+        this.membersAndRoles = membersAndRoles
+        this.newTasks = newTasks
+        this.upcomingEvents = upcomingEvents
+    }
+
 
     override fun toString(): String {
         return "*ARTIST_PAGE* id: $artistPageId, name: $artistName, adminId: $artistPageAdminId"

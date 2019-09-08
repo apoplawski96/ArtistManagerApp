@@ -1,5 +1,6 @@
 package com.example.artistmanagerapp.models
 
+import com.example.artistmanagerapp.utils.Utils
 import java.io.Serializable
 
 class User : Serializable {
@@ -119,6 +120,10 @@ class User : Serializable {
 
     fun getDisplayName() : String {
         return "$firstName $lastName"
+    }
+
+    fun getAcronym() : String {
+        return Utils.createNameAcronym(firstName!!, lastName!!)
     }
 
 }

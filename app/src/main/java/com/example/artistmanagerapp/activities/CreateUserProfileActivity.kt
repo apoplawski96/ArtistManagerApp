@@ -69,9 +69,9 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoa
         Log.d(ACTIVITY_WELCOME_TAG, "Welcome to CreateUserProfileActivity")
 
         // Views
-        firstNameInput = findViewById(R.id.artist_name_epk)
-        lastNameInput = findViewById(R.id.artist_genre_epk)
-        submitButton = findViewById(R.id.generate_button)
+        firstNameInput = findViewById(R.id.first_name_input)
+        lastNameInput = findViewById(R.id.last_name_input)
+        submitButton = findViewById(R.id.submit_button)
         addPhotoFab = findViewById(R.id.fab_add_photo)
         avatarImageView = findViewById(R.id.edit_profile_photo)
         radioButtonArtist = findViewById(R.id.radio_button_artist)
@@ -147,6 +147,10 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoa
             "artist" -> radioButtonArtist?.isChecked = true
             "manager" -> radioButtonManager?.isChecked = true
         }
+    }
+
+    override fun onLoadingFailed(error: String?) {
+
     }
 
     fun onRadioButtonClicked(view: View) {

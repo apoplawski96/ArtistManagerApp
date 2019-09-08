@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.FirebaseConstants
@@ -17,6 +18,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
 abstract class BaseActivity : AppCompatActivity() {
+
+    // Objects shortcuts
+    val logsManager = FirebaseActivityLogsManager
 
     // Tags
     val FIREBASE_TAG : String = "FIREBASE"

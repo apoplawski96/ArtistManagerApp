@@ -35,7 +35,7 @@ class StorageDataRetriever : BaseActivity() {
                 fileNameMask = "avatar.jpg"
             }
             DownloadOption.EPK_COVER_PHOTO -> {
-                optionMask = "electronicPressKitPhotos"
+                optionMask = "epkPhotos"
                 fileNameMask = "cover.jpg"
             }
         }
@@ -44,10 +44,8 @@ class StorageDataRetriever : BaseActivity() {
         pathReference.getBytes(1024*1024*5).addOnSuccessListener { bitmapData ->
             val bitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData?.size!!.toInt())
             mediaLoader.loadImage(bitmap, null)
-        }.addOnSuccessListener {
-            Log.d("Storage", "Image successfully loaded to a bitmap")
         }.addOnFailureListener{
-            Log.d("Storage", it.toString())
+            mediaLoader.onLoadingFailed(it.toString())
         }
 
     }

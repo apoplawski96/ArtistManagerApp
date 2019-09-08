@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.activities.TaskListActivity
+import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.utils.TaskHelper
@@ -47,6 +48,7 @@ class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var ta
     class ViewHolder (taskUpdater: TaskUpdater, itemView : View, context: Context?, pathToTasksCollection : CollectionReference) : RecyclerView.ViewHolder(itemView) {
         var path : CollectionReference = pathToTasksCollection
         val mTaskUpdater : TaskUpdater = taskUpdater
+        val logsManager = FirebaseActivityLogsManager
 
         fun bind (taskUpdater : TaskUpdater, task : Task, clickListener: (Task) -> Unit){
 
@@ -72,7 +74,6 @@ class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var ta
                 taskUpdater.showProgressBar()
                 // Setting "isCompleted" value in database
                 TaskHelper.changeTaskCompletionStatus(taskUpdater, task.taskId, itemView.check_box.isChecked, path)
-
                 //setupCheckBoxStatus()
             }
 

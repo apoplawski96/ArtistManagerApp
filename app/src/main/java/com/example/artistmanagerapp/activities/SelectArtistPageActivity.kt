@@ -172,7 +172,6 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         adapter?.update(artistPagesList)
     }
 
-
     override fun showNoPagesText() {
         noPagesText?.visibility = View.VISIBLE
     }
@@ -191,13 +190,15 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
                 startActivity(intent)
             }
             const.ARTIST_PAGE_CREATED -> {
-                val newCurrentPageId : String = data as String
-                userBundleInstance?.currentArtistPageId = newCurrentPageId
-                val intent = Intent(this, MainActivity::class.java).apply {
+                val newArtistPage : ArtistPage = data as ArtistPage
+                userBundleInstance?.currentArtistPageId = newArtistPage.artistPageId
+                val intent = Intent(this, CreateArtistPageActivity::class.java).apply {
                     putExtra(Constants.BUNDLE_USER_INSTANCE, userBundleInstance)
+                    putExtra(Constants.BUNDLE_ARTIST_PAGE_INSTANCE, newArtistPage)
                 }
                 //Log.d("SelectArtistPageActivity -> MainActivity", "Bundle data sent: ${pageInstance?.artistName},ID: ${pageInstance?.artistPageId}")
                 startActivity(intent)
+                finish()
             }
             const.CODE_SUCCESSFULLY_REDEEMED -> {
                 val currentPageId : String = data as String

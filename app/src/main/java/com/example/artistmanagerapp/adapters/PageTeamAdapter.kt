@@ -44,6 +44,10 @@ class PageTeamAdapter (usersListListener: UsersListListener, val context : Conte
                 clickListener(user)
             }
 
+            itemView.admin_settings_opener.setOnClickListener {
+                usersListListener.controlAdminPanel(user, itemView)
+            }
+
         }
     }
 

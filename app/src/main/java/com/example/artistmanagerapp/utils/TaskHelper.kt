@@ -3,6 +3,7 @@ package com.example.artistmanagerapp.utils
 import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.firebase.CommentsHelper
+import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
 import com.example.artistmanagerapp.interfaces.TaskDetailPresenter
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.ArtistPage
@@ -34,7 +35,7 @@ object TaskHelper : BaseActivity() {
 
         // Adding task to task collection
         pathToTasksCollection.document(taskId).set(task).addOnSuccessListener {
-            //taskUpdater.triggerUpdate()
+            logsManager.createActivityLog(user, artistPage!!.artistPageId.toString(), task, FirebaseActivityLogsManager.ActivityLogCategory.TASK_CREATED)
         }.addOnFailureListener {
             taskUpdater.hideProgressBar()
         }

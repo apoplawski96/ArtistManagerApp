@@ -18,6 +18,7 @@ import android.widget.*
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.firebase.CommentsHelper
+import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
 import com.example.artistmanagerapp.fragments.GridMenuFragment
 import com.example.artistmanagerapp.fragments.TaskDetailsDialogFragment
 import com.example.artistmanagerapp.interfaces.IOnBackPressed
@@ -397,6 +398,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
 
     override fun onAccept(option : DialogCreator.DialogControllerCallback.CallbackOption?) {
         TaskHelper.deleteTask(selectedTaskId, pathToTasksCollection as CollectionReference, this)
+        logsManager.createActivityLog(userInstance, artistPageInstance?.artistPageId.toString(), selectedTaskId, FirebaseActivityLogsManager.ActivityLogCategory.TASK_REMOVED)
         showProgressBar()
         disableActionToolbar()
     }
@@ -448,6 +450,10 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         showCompletedTasks?.visibility = View.VISIBLE
         tasksListEmptyTv?.visibility = View.GONE
         addFirstTaskText?.visibility = View.GONE
+    }
+
+    override fun onDismissWithOption(option: DialogCreator.DialogControllerCallback.DismissCalbackOption) {
+
     }
 
     override fun onCodeRedeemed(pageId: String?) {

@@ -1,6 +1,7 @@
 package com.example.artistmanagerapp.activities
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
@@ -16,14 +17,17 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
+import com.example.artistmanagerapp.firebase.StorageDataRetriever
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.interfaces.BundleUpdater
+import com.example.artistmanagerapp.interfaces.MediaLoader
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.ui.DialogCreator
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
+import kotlinx.android.synthetic.main.activity_artist_epk_kind_of.*
 
-class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCreator.DialogControllerCallback, BundleUpdater {
+class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCreator.DialogControllerCallback, BundleUpdater, MediaLoader {
 
     // ArtistPage data
     var pageId : String? = null
@@ -42,6 +46,9 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
     var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     var progressOverlay : ConstraintLayout? = null
     var progressBar : ProgressBar? = null
+
+    // Boolean controllers
+    var isEpkDataMissing : Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -138,31 +145,33 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
         // Checking if there's all the necessary data
         for ((key, value) in artistPageData){
             if (value == "null"){
-                isEpkDataMissing = true
-            }
-        }
-
-
-        // Cover photo retrieving and loading into a view
-        val imageRef = storageRef.child("electronicPressKitPhotos/MvFdswTbaR9YdnWr967C/cover.jpg")
-        var artistImage : ImageView = findViewById(R.id.artist_cover_photo_epk)
-        imageRef.getBytes(1024*1024).addOnSuccessListener { bitmapData ->
-            val bitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData?.size!!.toInt())
-            artistImage.setImageBitmap(bitmap)
-
-            if (isEpkDataMissing){
                 DialogCreator.showDialog(DialogCreator.DialogType.MISSING_EPK_DATA, this, this)
                 progressOverlay?.visibility = View.VISIBLE
                 progressBar?.visibility = View.GONE
-            } else{
-                if ((epkShareCode == null) or (epkShareCode == "null")){
-                    ElectronicPressKitHelper.generateShareCode(pageId, this)
-                }
-                updateUI()
+                /*isEpkDataMissing = true
+                Toast.makeText(this, "You need to fill all the EPK data first!", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, EpkSelectorActivity::class.java))
+                finish()*/
             }
-
         }
 
+        StorageDataRetriever().downloadImageViaId(pageId, StorageDataRetriever.DownloadOption.EPK_COVER_PHOTO, this)
+    }
+
+    override fun loadImage(bitmap: Bitmap?, option: MediaLoader.MediaLoaderOptions?) {
+        artist_cover_photo_epk.setImageBitmap(bitmap)
+        onImageSuccessfullyLoaded()
+    }
+
+    override fun onLoadingFailed(error: String?) {
+        DialogCreator.showDialog(DialogCreator.DialogType.MISSING_EPK_DATA, this, this)
+        progressOverlay?.visibility = View.VISIBLE
+        progressBar?.visibility = View.GONE
+    }
+
+    fun onImageSuccessfullyLoaded(){
+        if ((epkShareCode == null) or (epkShareCode == "null")){ ElectronicPressKitHelper.generateShareCode(pageId, this) }
+        updateUI()
     }
 
     override fun onAccept(option : DialogCreator.DialogControllerCallback.CallbackOption?) {

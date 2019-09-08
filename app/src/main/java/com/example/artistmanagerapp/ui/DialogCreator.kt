@@ -25,7 +25,11 @@ class DialogCreator{
         SHARE_EPK_DIALOG,
         REDEEM_EPK_DIALOG,
         EPK_NOT_GENERATED,
-        INVITE_CODE_GENERATED
+        INVITE_CODE_GENERATED,
+        EPK_PHOTO_NOT_FOUND,
+        MEMBER_DELETE_WARNING,
+        MEMBER_CHANGE_ROLE_TO_ADMIN_WARNING,
+        MEMBER_CHANGE_ROLE_TO_REGULAR_WARNING
     }
 
     companion object : DataReceiver {
@@ -38,6 +42,7 @@ class DialogCreator{
             val view = inflater.inflate(R.layout.dialog_standard ,null)
             var dialog = Dialog(context)
             dialog.setContentView(view)
+            var option : DialogControllerCallback.CallbackOption? = null
 
             val dialogHeader = view.findViewById(R.id.dialog_header) as TextView
             val dialogMessage = view.findViewById(R.id.dialog_message) as TextView
@@ -61,11 +66,35 @@ class DialogCreator{
                     cancelButton.visibility = View.GONE
                     acceptButton.text = "I understand"
                 }
+                DialogType.EPK_PHOTO_NOT_FOUND -> {
+                    dialogHeader.text = msg.MISSING_EPK_PHOTO_HEADER
+                    dialogMessage.text = msg.MISSING_EPK_PHOTO_BODY
+                    cancelButton.visibility = View.GONE
+                    acceptButton.text = "I understand"
+                }
+                DialogType.MEMBER_CHANGE_ROLE_TO_ADMIN_WARNING -> {
+                    dialogHeader.text = msg.ROLE_CHANGE_HEADER_A
+                    dialogMessage.text = msg.ROLE_CHANGE_BODY_A
+                    option = DialogControllerCallback.CallbackOption.ADMIN_RIGHTS_OBTAIN_ATTEMPT
+                    acceptButton.text = "I understand"
+                }
+                DialogType.MEMBER_CHANGE_ROLE_TO_REGULAR_WARNING -> {
+                    dialogHeader.text = msg.ROLE_CHANGE_HEADER_R
+                    dialogMessage.text = msg.ROLE_CHANGE_BODY_R
+                    option = DialogControllerCallback.CallbackOption.REGULAR_RIGHTS_OBTAIN_ATTEMPT
+                    acceptButton.text = "I understand"
+                }
+                DialogType.MEMBER_DELETE_WARNING -> {
+                    dialogHeader.text = msg.MEMBER_REMOVE_HEADER
+                    dialogMessage.text = msg.MEMBER_REMOVE_BODY
+                    option = DialogControllerCallback.CallbackOption.MEMBER_REMOVED
+                    acceptButton.text = "I understand"
+                }
             }
 
             acceptButton.setOnClickListener {
                 dialog.hide()
-                dialogControllerCallback.onAccept(null)
+                dialogControllerCallback.onAccept(option)
             }
 
             cancelButton.setOnClickListener {
@@ -139,11 +168,20 @@ class DialogCreator{
     interface DialogControllerCallback{
 
         enum class CallbackOption {
-            CODE_REDEEMED
+            CODE_REDEEMED,
+            ADMIN_RIGHTS_OBTAIN_ATTEMPT,
+            REGULAR_RIGHTS_OBTAIN_ATTEMPT,
+            MEMBER_REMOVED
+        }
+
+        enum class DismissCalbackOption {
+            ADMIN_RIGHTS_OBTAIN_ATTEMPT,
+            REGULAR_RIGHTS_OBTAIN_ATTEMPT
         }
 
         fun onAccept(option : CallbackOption?)
         fun onDismiss()
+        fun onDismissWithOption(option : DismissCalbackOption)
         fun onShown()
         fun onCallInvalid()
         fun onCodeRedeemed(pageId : String?)

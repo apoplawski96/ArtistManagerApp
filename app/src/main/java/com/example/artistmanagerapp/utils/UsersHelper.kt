@@ -97,6 +97,4 @@ object UsersHelper : BaseActivity() {
         }.addOnFailureListener {  }
     }
 
-    // ************************************************ WRITE FUNCTIONS/ ************************************************
-
 }

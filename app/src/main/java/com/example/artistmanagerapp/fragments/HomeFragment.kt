@@ -42,8 +42,9 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPagesPresenter, MediaLoader {
 
-    // FragmentsMessenger
-    var model : Communicator? = null
+    // Bundled instances
+    lateinit var userInstance : User
+    lateinit var pageInstance : ArtistPage
 
     // ArtistPage info
     var pageInfoMapBundle : HashMap <String?, String?> = HashMap()
@@ -66,9 +67,11 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         @JvmStatic
         val c = Constants
 
-        fun newInstance(pageId : String, artistPage: ArtistPage) : HomeFragment {
+        fun newInstance(pageId : String, artistPage : ArtistPage, user : User) : HomeFragment {
             val fragment = HomeFragment()
             val bundle = Bundle().apply{
+                putSerializable (c.BUNDLE_USER_INSTANCE, user)
+                putSerializable (c.BUNDLE_ARTIST_PAGE_INSTANCE, artistPage)
                 putString (c.PAGE_ID_BUNDLE, artistPage.artistPageId)
                 putString (c.ARTIST_NAME_BUNDLE, artistPage.artistName)
                 putString (c.EPK_SHARE_CODE_BUNDLE, artistPage.epkShareCode)
@@ -82,6 +85,9 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
 
         // Getting bundle data
+        userInstance = arguments?.getSerializable(c.BUNDLE_USER_INSTANCE) as User
+        pageInstance = arguments?.getSerializable(c.BUNDLE_ARTIST_PAGE_INSTANCE) as ArtistPage
+
         pageId = arguments?.getString(c.PAGE_ID_BUNDLE).toString()
         pageName = arguments?.getString(c.ARTIST_NAME_BUNDLE).toString()
         epkShareCode = arguments?.get(c.EPK_SHARE_CODE_BUNDLE).toString()
@@ -134,6 +140,10 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         intent?.putExtra (Constants.PAGE_ID_BUNDLE, pageId)
         intent?.putExtra (Constants.ARTIST_NAME_BUNDLE, pageName)
         intent?.putExtra (Constants.EPK_SHARE_CODE_BUNDLE, epkShareCode)
+
+
+        intent?.putExtra (Constants.BUNDLE_USER_INSTANCE, userInstance)
+        intent?.putExtra (Constants.BUNDLE_ARTIST_PAGE_INSTANCE, pageInstance)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -175,6 +185,10 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
     }
 
     override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {
+
+    }
+
+    override fun onLoadingFailed(error: String?) {
 
     }
 

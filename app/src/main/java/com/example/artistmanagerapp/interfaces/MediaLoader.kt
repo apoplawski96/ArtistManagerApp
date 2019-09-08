@@ -9,4 +9,5 @@ interface MediaLoader {
     }
 
     fun loadImage(bitmap: Bitmap?, option : MediaLoaderOptions?)
+    fun onLoadingFailed(error : String?)
 }
