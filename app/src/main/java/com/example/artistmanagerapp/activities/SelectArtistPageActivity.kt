@@ -269,6 +269,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
                 showProgress()
                 createDialogProgressBar?.visibility = View.VISIBLE
                 dataWriter?.createArtistPage(artistPage, this, userObject, bitmap)
+                createPageDialog!!.hide()
             } else {
                 Toast.makeText(this, "Page name must be at least 3 characters long and photo needs to be uploaded", Toast.LENGTH_LONG).show()
             }

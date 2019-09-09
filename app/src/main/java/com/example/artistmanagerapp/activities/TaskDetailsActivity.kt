@@ -139,7 +139,7 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
         toolbarProgressBar = findViewById(R.id.toolbar_progress_bar)
 
         // Users list setup
-        UsersHelper.parseUsers(artistPagesCollectionPath.document(artistPageInstance?.artistPageId.toString()).collection("pageMembers"), this)
+        UsersHelper.parsePageMembers(artistPagesCollectionPath.document(artistPageInstance?.artistPageId.toString()).collection("pageMembers"), this)
         usersListRecyclerView?.layoutManager = LinearLayoutManager(TaskListActivity(), OrientationHelper.HORIZONTAL, false)
         adapter = UsersListAdapter(this, this, usersList) {user: User, itemView : View ->  userItemClicked (user, itemView)}
         usersListRecyclerView?.adapter = adapter

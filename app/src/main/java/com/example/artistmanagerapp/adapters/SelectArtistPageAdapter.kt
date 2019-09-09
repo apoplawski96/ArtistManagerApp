@@ -27,7 +27,7 @@ class SelectArtistPageAdapter (var artistPageArrayList : ArrayList<ArtistPage>, 
     class ViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView){
         fun bind (artistPage : ArtistPage, clickListener: (ArtistPage) -> Unit){
             itemView.setOnClickListener { clickListener(artistPage) }
-            itemView.artist_name_selector.text = "${artistPage.artistName}, ID: ${artistPage.artistPageId}"
+            itemView.artist_name_selector.text = "${artistPage.artistName}"
         }
     }
 

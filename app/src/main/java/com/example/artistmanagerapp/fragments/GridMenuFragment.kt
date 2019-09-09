@@ -116,16 +116,16 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
         Toast.makeText(activity, "$pageName+$pageId+$epkShareCode", Toast.LENGTH_SHORT).show()
 
         when (option){
-            "Task manager" ->  {
+            "Task Manager" ->  {
                 intent = Intent(activity, TaskListActivity::class.java)
             }
-            "Events manager" -> {
-                intent = Intent(activity, EventsManagerActivity::class.java)
+            "Manage Team" -> {
+                intent = Intent(activity, ManageTeamActivity::class.java)
             }
-            "Electronic Press Kit" -> {
+            "Mobile Electronic Press Kit" -> {
                 intent = Intent(activity, EpkSelectorActivity::class.java)
             }
-            "Switch/create artist page" -> {
+            "Switch/Create Artist Page" -> {
                 UsersHelper.removeCurrentArtistPage(userIdGlobal, this)
             }
         }
@@ -135,10 +135,10 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
     }
 
     fun populateMenuItemsList(){
-        menuItemsList.add(MenuItem("Task manager", R.mipmap.cover_purple_1))
-        menuItemsList.add(MenuItem("Events manager", R.mipmap.cover_red_3b))
-        menuItemsList.add(MenuItem("Electronic Press Kit", R.mipmap.cover_red_4b))
-        menuItemsList.add(MenuItem("Switch/create artist page", R.mipmap.cover_white_1))
+        menuItemsList.add(MenuItem("Task Manager", R.mipmap.cover_purple_1))
+        menuItemsList.add(MenuItem("Mobile Electronic Press Kit", R.mipmap.cover_red_4b))
+        menuItemsList.add(MenuItem("Manage Team", R.mipmap.cover_red_3b))
+        menuItemsList.add(MenuItem("Switch/Create Artist Page", R.mipmap.cover_white_1))
     }
 
     override fun hideProgress() {

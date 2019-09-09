@@ -68,7 +68,7 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
                 return@OnNavigationItemSelectedListener true
             }
             R.id.frag3 -> {
-                replaceFragment(UserProfileFragment.newInstance(userBundleInstance?.currentArtistPageId.toString(), userBundleInstance))
+                replaceFragment(UserProfileFragment.newInstance(userBundleInstance?.currentArtistPageId.toString(), userBundleInstance, artistPageInstance as ArtistPage))
                 return@OnNavigationItemSelectedListener true
             }
         }

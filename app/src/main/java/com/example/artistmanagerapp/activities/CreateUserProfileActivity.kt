@@ -54,7 +54,7 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoa
     var userProfileData : HashMap <String, Any> = HashMap()
 
     // Boolean controllers
-    var isAvatarUploaded : Boolean? = false
+    var isAvatarUploaded : Boolean? = null
     var areInputsValid : Boolean? = false
     var isArtistRadioChecked : Boolean? = false
     var isManagerRadioChecked : Boolean? = false
@@ -85,32 +85,37 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoa
         // Getting data from previous activity
         isDbRecordCreated = intent.getStringExtra("isDbRecordCreated")
         mode = intent.getStringExtra(Constants.MODE_KEY)
+
         if (mode == Constants.USER_PROFILE_EDIT_MODE){
             userInstance = intent.getSerializableExtra(Constants.BUNDLE_USER_INSTANCE) as User?
+            isAvatarUploaded = true
+        } else {
+            isAvatarUploaded = false
         }
 
         if (isDbRecordCreated == "false"){
             initUserDatabaseRecord(user)
         }
 
-        Toast.makeText(this, mode.toString(), Toast.LENGTH_SHORT).show()
-
         initUI(mode)
 
         // OnClicks implementation
         submitButton?.setOnClickListener {
-            // We check if all the inputs have correct format
-            if (true){
-                coverSolid?.visibility = View.VISIBLE
-                coverProgress?.visibility = View.VISIBLE
+            if (isAvatarUploaded == true){
+                if ( firstNameInput!!.text.isNotEmpty() && lastNameInput!!.text.isNotEmpty() && pageRoleInput!!.text.isNotEmpty()){
+                    coverSolid?.visibility = View.VISIBLE
+                    coverProgress?.visibility = View.VISIBLE
 
-                mapDataFromTextInputs(firstNameInput, lastNameInput, pageRoleInput, isArtistRadioChecked, isManagerRadioChecked)
-                // We mark completion status as completed
-                userProfileData.put(c.PROFILE_COMPLETION_STATUS, c.V_PROFILE_STATUS_COMPLETED)
-                StorageFileUploader()?.saveImage(bitmap, storageRef.child("avatars/$userId/avatar.jpg"), this)
-                FirebaseDataWriter().addUserDataToDbAndUpdateUi(usersCollectionPath, userProfileData, user?.uid.toString(), this, bitmap)
+                    mapDataFromTextInputs(firstNameInput, lastNameInput, pageRoleInput, isArtistRadioChecked, isManagerRadioChecked)
+                    // We mark completion status as completed
+                    userProfileData.put(c.PROFILE_COMPLETION_STATUS, c.V_PROFILE_STATUS_COMPLETED)
+                    StorageFileUploader()?.saveImage(bitmap, storageRef.child("avatars/$userId/avatar.jpg"), this)
+                    FirebaseDataWriter().addUserDataToDbAndUpdateUi(usersCollectionPath, userProfileData, user?.uid.toString(), this, bitmap)
+                } else {
+                    Toast.makeText(this, "All the fields have to be filled", Toast.LENGTH_SHORT).show()
+                }
             } else {
-
+                Toast.makeText(this, "Avatar has to be uploaded", Toast.LENGTH_SHORT).show()
             }
         }
 

@@ -13,7 +13,7 @@ class Task : Serializable{
     var description : String? = null
     var assigneesList : ArrayList<String>? = null
     var dueDate : String? = null
-    var urgency : String? = null
+    var dateCreated : String? = null
     var isTaskNew : Boolean? = null
 
     constructor(mTitle : String?, mIsCompleted : Boolean) {
@@ -27,20 +27,20 @@ class Task : Serializable{
         this.isTaskNew = mIsTaskNew
     }
 
-    constructor(mTitle : String?, mTaskId: String?, mIsCompleted : Boolean, mCreatedById : String?, description : String?, mDueDate : String?, mUrgency : String, mAssigneesList : ArrayList<String>?) {
+    constructor(mTitle : String?, mTaskId: String?, mIsCompleted : Boolean, mCreatedById : String?, description : String?, mDueDate : String?, mDateCreated : String, mAssigneesList : ArrayList<String>?) {
         this.title = mTitle
         this.taskId = mTaskId
         this.isCompleted = mIsCompleted
         this.createdById = mCreatedById
         this.assigneesList = mAssigneesList
         this.dueDate = mDueDate
-        this.urgency = mUrgency
+        this.dateCreated = mDateCreated
         this.description = description
     }
 
 
 
     override fun toString(): String {
-        return "Title: $title, id: $taskId, isCompleted: $isCompleted, createdBy: $createdById, dueDate: $dueDate, urgency: $urgency"
+        return "Title: $title, id: $taskId, isCompleted: $isCompleted, createdBy: $createdById, dueDate: $dueDate, dateCreated: $dateCreated"
     }
 }

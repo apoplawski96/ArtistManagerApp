@@ -16,8 +16,10 @@ import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.ChangePasswordActivity
 import com.example.artistmanagerapp.activities.CreateUserProfileActivity
 import com.example.artistmanagerapp.activities.LoginActivity
+import com.example.artistmanagerapp.activities.SelectArtistPageActivity
 import com.example.artistmanagerapp.firebase.StorageDataRetriever
 import com.example.artistmanagerapp.interfaces.MediaLoader
+import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.Utils
@@ -44,6 +46,7 @@ class UserProfileFragment : BaseFragment(), MediaLoader {
     var currentPage : String? = null
     var email : String? = null
     var userInstance : User? = null
+    var pageInstance : ArtistPage? = null
 
     // Views
     var displayName : TextView? = null
@@ -57,12 +60,13 @@ class UserProfileFragment : BaseFragment(), MediaLoader {
 
     companion object {
         @JvmStatic
-        fun newInstance(pageId : String, user : User?) : UserProfileFragment {
+        fun newInstance(pageId : String, user : User?, artistPage : ArtistPage?) : UserProfileFragment {
             val c = Constants
             val fragment = UserProfileFragment()
             val bundle = Bundle().apply{
                 putString ("PAGE_ID", pageId)
                 putSerializable(Constants.BUNDLE_USER_INSTANCE, user)
+                putSerializable(Constants.BUNDLE_ARTIST_PAGE_INSTANCE, artistPage)
             }
             fragment.arguments = bundle
             return fragment
@@ -78,6 +82,7 @@ class UserProfileFragment : BaseFragment(), MediaLoader {
         // Getting User bundled data
         pageId = arguments?.getString("PAGE_ID")
         userInstance = arguments?.getSerializable(Constants.BUNDLE_USER_INSTANCE) as User?
+        pageInstance = arguments?.getSerializable(Constants.BUNDLE_ARTIST_PAGE_INSTANCE) as ArtistPage?
 
         // Views
         displayName = rootView.findViewById(R.id.profile_user_fullname)
@@ -125,6 +130,12 @@ class UserProfileFragment : BaseFragment(), MediaLoader {
             startActivity(intent)
         }
 
+        rootView.home_screen_back_button.setOnClickListener {
+            var intent = Intent(activity, SelectArtistPageActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
+            putDataToBundle(intent)
+            startActivity(intent)
+        }
+
         return rootView
     }
 
@@ -161,6 +172,12 @@ class UserProfileFragment : BaseFragment(), MediaLoader {
 
     override fun onLoadingFailed(error: String?) {
 
+    }
+
+    fun putDataToBundle(intent : Intent?){
+        intent?.putExtra (Constants.PAGE_ID_BUNDLE, pageId)
+        intent?.putExtra (Constants.BUNDLE_USER_INSTANCE, userInstance)
+        intent?.putExtra (Constants.BUNDLE_ARTIST_PAGE_INSTANCE, pageInstance)
     }
 
 }

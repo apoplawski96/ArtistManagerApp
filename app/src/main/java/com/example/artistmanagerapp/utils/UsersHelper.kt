@@ -41,6 +41,32 @@ object UsersHelper : BaseActivity() {
             }
     }
 
+    fun parsePageMembers (pathToUsersCollection : CollectionReference?, listener : UsersListListener){
+        var usersOutput : ArrayList<User> = ArrayList()
+
+        pathToUsersCollection?.get()
+            ?.addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    for (document in documents){
+                        // Need to work on assignees list later
+                        usersOutput!!.add(
+                            User(
+                                document.get(c.FIRST_NAME).toString(),
+                                document.get(c.LAST_NAME).toString(),
+                                document.get(c.ARTIST_ROLE).toString(),
+                                document.get(c.CURRENT_ARTIST_PAGE).toString(),
+                                document.get(c.ROLE_CATEGORY).toString(),
+                                document.get(c.ID).toString()
+                            )
+                        )
+                    }
+                    listener.updateList(usersOutput)
+                } else {
+
+                }
+            }
+    }
+
     fun getCurrentArtistPage (userID : String, dataReceiver: DataReceiver){
         usersCollectionPath.document(userId).get().addOnSuccessListener { document ->
             if (document.exists()){

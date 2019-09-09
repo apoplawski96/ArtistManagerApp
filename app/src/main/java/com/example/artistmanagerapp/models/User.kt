@@ -40,12 +40,13 @@ class User : Serializable {
         this.roleCategory = roleCategory
     }
 
-    constructor(firstName: String?, lastName: String?, artistRole: String?, pageRole: String?, currentArtistPageId: String?, roleCategory: String?) {
+    constructor(firstName: String?, lastName: String?, artistRole: String?, currentArtistPageId: String?, roleCategory: String?, id : String?) {
         this.firstName = firstName
         this.lastName = lastName
         this.artistRole = artistRole
         this.currentArtistPageId = currentArtistPageId
         this.roleCategory = roleCategory
+        this.id = id
     }
 
     constructor(

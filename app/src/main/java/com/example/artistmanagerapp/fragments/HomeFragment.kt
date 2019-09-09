@@ -25,23 +25,24 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.*
 import com.example.artistmanagerapp.adapters.TaskListAdapter
+import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
+import com.example.artistmanagerapp.firebase.FirebaseStatisticsHelper
 import com.example.artistmanagerapp.firebase.StorageDataRetriever
 import com.example.artistmanagerapp.interfaces.*
+import com.example.artistmanagerapp.models.ActivityLog
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.utils.Communicator
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.FirebaseConstants
-import com.example.artistmanagerapp.utils.TaskHelper
+import com.example.artistmanagerapp.utils.*
 import com.google.firebase.storage.FirebaseStorage
 import com.makeramen.roundedimageview.RoundedImageView
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlin.math.roundToInt
 
-class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPagesPresenter, MediaLoader {
+class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPagesPresenter, MediaLoader, FirebaseActivityLogsManager.ActivityLogsPresenter, FirebaseStatisticsHelper.StatisticsReceiver {
 
     // Bundled instances
     lateinit var userInstance : User
@@ -111,6 +112,13 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
 
         initUI()
 
+        // Load statistics - logs count
+        FirebaseActivityLogsManager.parseActivityLogs(pageInstance!!.artistPageId.toString(), this)
+        // Load statistics - new tasks
+        TaskHelper.checkNewTasksCount(pageInstance.artistPageId.toString(), this)
+        // Load statistics - pending assignments
+        FirebaseStatisticsHelper.readStats(userInstance.id.toString(), null, "tasksAssigned", this)
+
         // Load page avatar
         StorageDataRetriever().downloadImageViaId(pageId, StorageDataRetriever.DownloadOption.PAGE_AVATAR, this)
 
@@ -126,6 +134,12 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
 
         rootView.activity_logs_list_button.setOnClickListener {
             var intent = Intent(activity, ActivityLogsActivity::class.java)
+            putDataToBundle(intent)
+            startActivity(intent)
+        }
+
+        rootView.home_screen_back_button.setOnClickListener {
+            var intent = Intent(activity, SelectArtistPageActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
             putDataToBundle(intent)
             startActivity(intent)
         }
@@ -191,7 +205,48 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         if (data == null){
             val intent = Intent(activity, SelectArtistPageActivity::class.java)
             startActivity(intent)
+        } else if (data is Double?){
+            val dataInt = data.roundToInt()
+            presentStats(dataInt, "newTasks")
         }
+    }
+
+    fun presentStats(counter : Any, option : String){
+        when (option){
+            "newTasks" -> {
+                rootView.new_tasks_counter.text = counter.toString()
+            }
+            "pendingAssignments" -> {
+                rootView.pending_assignments_counter.text = counter.toString()
+            }
+            "todaysActivity" -> {
+                rootView.todays_activity_counter.text = counter.toString()
+            }
+        }
+
+    }
+
+    override fun receiveLogs(activityLogs: ArrayList<ActivityLog>) {
+        var todaysLogsCount : Int = countTodaysLogs(activityLogs)
+        presentStats(todaysLogsCount, "todaysActivity")
+    }
+
+    fun countTodaysLogs(activityLogs: ArrayList<ActivityLog>) : Int{
+        var counter = 0
+        for (log in activityLogs){
+            if (log.dateCreated == Utils.getCurrentDateShort()) counter++
+        }
+        return counter
+    }
+
+    override fun onStatsReceived(data: Any?, option: String?) {
+        when (option){
+            "tasksAssigned" -> {
+                val counter = data as Int
+                presentStats(counter, "pendingAssignments")
+            }
+        }
+
     }
 
     override fun showArtistPageData(artistPage: ArtistPage) {

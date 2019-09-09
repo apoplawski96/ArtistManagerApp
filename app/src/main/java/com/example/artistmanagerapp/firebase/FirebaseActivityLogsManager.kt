@@ -5,6 +5,10 @@ import com.example.artistmanagerapp.activities.ActivityLogsActivity
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.models.*
 import com.example.artistmanagerapp.utils.Utils
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 object FirebaseActivityLogsManager : BaseActivity(){
 
@@ -88,7 +92,7 @@ object FirebaseActivityLogsManager : BaseActivity(){
         }
     }
 
-    fun parseActivityLogs(pageId : String, presenter : ActivityLogsPresenter ){
+    fun parseActivityLogs(pageId : String, presenter : ActivityLogsPresenter){
         var activityLogsList : ArrayList<ActivityLog> = ArrayList()
         val activityLogsCollectionPath = artistPagesCollectionPath.document(pageId).collection("activityLogs")
 
@@ -133,7 +137,39 @@ object FirebaseActivityLogsManager : BaseActivity(){
     }
 
     fun sortActivityLogsByDate(inputList: ArrayList<ActivityLog>, parameter : ActivityLogsActivity.SortParameter) : ArrayList<ActivityLog>{
-        return inputList
+        var datesList : ArrayList<String> = ArrayList()
+        var sortedDatesList : List<String>
+        var sortedLogsList : ArrayList<ActivityLog> = ArrayList()
+
+        // Setting up comparator
+        val cmp = compareBy<String> { LocalDateTime.parse(it, DateTimeFormatter.ofPattern("dd.MM.yy | HH:mm")) }
+
+        // Creating dates list out of input ActivityLogs list
+        for (log in inputList){
+            datesList.add("${log.dateCreated} | ${log.timeCreated}")
+        }
+
+        // Sorting dates list
+        sortedDatesList = datesList.sortedWith(cmp)
+
+        // Loop over dates list
+        for (date in sortedDatesList){
+            Log.d("SORTED-DATES", "$date + ${sortedDatesList.indexOf(date)}")
+
+            // Loop over input logs list
+            for (log in inputList){
+                val dateFullFormat = "${log.dateCreated} | ${log.timeCreated}"
+                if (dateFullFormat == date){
+                    sortedLogsList.add(log)
+                    inputList.remove(log)
+                    break
+                }
+            }
+
+        }
+
+        if (parameter == ActivityLogsActivity.SortParameter.DESCENDING) sortedLogsList.reverse()
+        return sortedLogsList
     }
 
     interface ActivityLogsPresenter{

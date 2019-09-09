@@ -2,18 +2,15 @@ package com.example.artistmanagerapp.utils
 
 import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
-import com.example.artistmanagerapp.firebase.CommentsHelper
 import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
-import com.example.artistmanagerapp.interfaces.TaskDetailPresenter
+import com.example.artistmanagerapp.firebase.FirebaseStatisticsHelper
+import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Comment
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
-import com.google.android.gms.common.api.Batch
 import com.google.firebase.firestore.*
-import com.google.firebase.firestore.model.value.FieldValueOptions
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -21,6 +18,7 @@ object TaskHelper : BaseActivity() {
 
     // Objects
     val c = Constants
+    val transactionHelper = FirebaseStatisticsHelper
 
     // ************************************************ \WRITE FUNCTIONS ************************************************
 
@@ -31,9 +29,13 @@ object TaskHelper : BaseActivity() {
         val taskId = pathToTasksCollection.document().id
         val pathToCommentsCollection = pathToTasksCollection.document(taskId).collection("comments")
 
+        var mTask = task
+        mTask.dateCreated = Utils.getCurrentDateShort()
+
         // Adding task to task collection
-        pathToTasksCollection.document(taskId).set(task).addOnSuccessListener {
+        pathToTasksCollection.document(taskId).set(mTask).addOnSuccessListener {
             logsManager.createActivityLog(user, artistPage!!.artistPageId.toString(), task, FirebaseActivityLogsManager.ActivityLogCategory.TASK_CREATED)
+
         }.addOnFailureListener {
             taskUpdater.hideProgressBar()
         }
@@ -43,8 +45,18 @@ object TaskHelper : BaseActivity() {
         pathToCommentsCollection.document().set(Comment (commentContent, userId, Utils.getCurrentDate(), user?.getDisplayName(), user?.firstName, user?.lastName)).addOnSuccessListener {
             taskUpdater.triggerUpdate()
         }.addOnFailureListener {
-
         }
+
+        transactionHelper.incrementValue(artistPagesCollectionPath.document(artistPage!!.artistPageId.toString()), "newTasks")
+    }
+
+    fun checkNewTasksCount(pageId : String, receiver : DataReceiver){
+        artistPagesCollectionPath.document(pageId).get().addOnSuccessListener { doc ->
+            if (doc.exists()){
+                val newTasksCount : Double? = doc.getDouble("newTasks")
+                receiver.receiveData(newTasksCount, null)
+            }
+        }.addOnFailureListener { Log.d("ERROR", it.toString()) }
 
     }
 
@@ -91,9 +103,10 @@ object TaskHelper : BaseActivity() {
         val assigneesCollectionReference = artistPagesCollectionPath.document(currentArtistPageId.toString()).collection("tasks").document(taskId.toString()).collection("assignees")
 
         // Loading batch
-        for (user in assigneesList){
-            val docRef = assigneesCollectionReference.document(user?.id.toString())
-            batch.set(docRef, user as User, SetOptions.merge())
+        for (userItem in assigneesList){
+            val docRef = assigneesCollectionReference.document(userItem?.id.toString())
+            batch.update(usersCollectionPath.document(userItem!!.id.toString()), "tasksAssigned", FieldValue.arrayUnion(taskId))
+            batch.set(docRef, userItem as User, SetOptions.merge())
         }
 
         batch.commit().addOnSuccessListener {
@@ -129,7 +142,7 @@ object TaskHelper : BaseActivity() {
                             document.get("createdById").toString(),
                             document.get("description").toString(),
                             document.get("dueDate").toString(),
-                            document.get("urgency").toString(),
+                            document.get("dateCreated").toString(),
                             null))
                     }
                     taskUpdater.updateTasks(tasksOutput)

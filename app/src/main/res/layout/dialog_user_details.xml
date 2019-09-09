@@ -246,7 +246,7 @@
                         android:textSize="12sp" />
 
                 <TextView
-                        android:id="@+id/tasks_counter"
+                        android:id="@+id/pending_assignments_counter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/light"

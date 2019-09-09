@@ -187,14 +187,14 @@
 
 
         <TextView
-                android:id="@+id/tasks_counter"
+                android:id="@+id/pending_assignments_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="80dp"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/medium"
-                android:text="4"
+                android:text="0"
                 android:textColor="@color/appWhite"
                 android:textSize="@dimen/font_larger"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -202,13 +202,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/circle_page_avatar" />
 
         <TextView
-                android:id="@+id/events_counter"
+                android:id="@+id/new_tasks_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="74dp"
                 android:layout_marginTop="86dp"
                 android:fontFamily="@font/medium"
-                android:text="6"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/appWhite"
                 android:textSize="@dimen/font_larger"
@@ -216,7 +216,7 @@
                 app:layout_constraintTop_toTopOf="@+id/this_is_band_name" />
 
         <TextView
-                android:id="@+id/other_counter"
+                android:id="@+id/todays_activity_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="86dp"
@@ -231,43 +231,41 @@
 
         <TextView
                 android:id="@+id/new_tasks_tv"
-                android:layout_width="46dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/montserrat"
-                android:text="NEW TASKS"
+                android:text="PENDING ASSIGNMENTS"
                 android:textAlignment="center"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tasks_counter" />
+                app:layout_constraintTop_toBottomOf="@+id/pending_assignments_counter" />
 
         <TextView
                 android:id="@+id/upcoming_events_tv"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:fontFamily="@font/montserrat"
-                android:text="UPCOMING EVENTS"
+                android:text="NEW TASKS"
                 android:textAlignment="center"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@+id/events_counter"
-                app:layout_constraintStart_toStartOf="@+id/events_counter"
-                app:layout_constraintTop_toBottomOf="@+id/events_counter" />
+                app:layout_constraintEnd_toEndOf="@+id/new_tasks_counter"
+                app:layout_constraintStart_toStartOf="@+id/new_tasks_counter"
+                app:layout_constraintTop_toBottomOf="@+id/new_tasks_counter" />
 
         <TextView
                 android:id="@+id/pending_assignments_tv"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:fontFamily="@font/montserrat"
-                android:text="PENDING ASSIGNMENTS"
+                android:text="TODAY'S ACTIVITY"
                 android:textAlignment="center"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@+id/other_counter"
-                app:layout_constraintStart_toStartOf="@+id/other_counter"
-                app:layout_constraintTop_toBottomOf="@+id/other_counter" />
+                app:layout_constraintEnd_toEndOf="@+id/todays_activity_counter"
+                app:layout_constraintStart_toStartOf="@+id/todays_activity_counter"
+                app:layout_constraintTop_toBottomOf="@+id/todays_activity_counter" />
 
         <ImageView
                 android:id="@+id/home_screen_back_button"

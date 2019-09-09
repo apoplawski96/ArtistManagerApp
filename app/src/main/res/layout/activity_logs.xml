@@ -7,13 +7,26 @@
         android:background="@mipmap/steel_grey_darker"
         tools:context=".activities.ActivityLogsActivity">
 
+    <ProgressBar
+            android:id="@+id/logs_progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="@dimen/progress_bar_large"
+            android:layout_height="@dimen/progress_bar_large"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"  app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
         <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent" android:paddingHorizontal="4dp"
-                android:layout_height="56dp">
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:paddingHorizontal="4dp">
 
             <TextView
                     android:id="@+id/activity_logs_activity_header"
@@ -61,11 +74,15 @@
         </android.support.constraint.ConstraintLayout>
 
         <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_logs_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
-                android:id="@+id/activity_logs_recycler_view"/>
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
 
