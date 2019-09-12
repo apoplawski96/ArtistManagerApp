@@ -108,14 +108,14 @@ class DialogCreator{
         // Code Dialog setup
         fun showCodeDialog (type : DialogType, context: Context, dialogControllerCallback: DialogControllerCallback, textContent : String?){
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(R.layout.dialog_mod_dynamic ,null)
+            val view = inflater.inflate(R.layout.dialog_use_epk_code ,null)
             var dialog = Dialog(context)
             dialog.setContentView(view)
 
-            val dialogText : EditText = view.findViewById(R.id.dialog_mod_text)
-            val dialogButton : Button = view.findViewById(R.id.dialog_mod_btn)
-            val dialogCloseX : TextView = view.findViewById(R.id.dialog_mod_close_x)
-            val dialogProgressBar : ProgressBar = view.findViewById(R.id.dialog_mod_progress_bar)
+            val dialogText : EditText = view.findViewById(R.id.epk_code_input)
+            val dialogButton : Button = view.findViewById(R.id.redeem_code_button)
+            val dialogCloseX : TextView = view.findViewById(R.id.dialog_close_x)
+            val dialogProgressBar : ProgressBar = view.findViewById(R.id.dialog_progress_bar)
 
             when (type) {
                 DialogType.SHARE_EPK_DIALOG -> {
@@ -146,7 +146,7 @@ class DialogCreator{
 
             dialogCloseX.setOnClickListener {
                 dialog.hide()
-                dialogControllerCallback.onDismiss()
+                //dialogControllerCallback.onDismiss()
             }
 
             dialog.show()

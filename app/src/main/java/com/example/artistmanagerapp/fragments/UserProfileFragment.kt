@@ -4,12 +4,10 @@ package com.example.artistmanagerapp.fragments
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.artistmanagerapp.R
@@ -17,15 +15,13 @@ import com.example.artistmanagerapp.activities.ChangePasswordActivity
 import com.example.artistmanagerapp.activities.CreateUserProfileActivity
 import com.example.artistmanagerapp.activities.LoginActivity
 import com.example.artistmanagerapp.activities.SelectArtistPageActivity
-import com.example.artistmanagerapp.firebase.StorageDataRetriever
+import com.example.artistmanagerapp.firebase.StorageFileDownloader
 import com.example.artistmanagerapp.interfaces.MediaLoader
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.Utils
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.dialog_user_details.view.*
-import kotlinx.android.synthetic.main.fragment_user_profile.*
 import kotlinx.android.synthetic.main.fragment_user_profile.view.*
 
 class UserProfileFragment : BaseFragment(), MediaLoader {
@@ -97,7 +93,7 @@ class UserProfileFragment : BaseFragment(), MediaLoader {
         initUI()
 
         // Load page avatar
-        StorageDataRetriever().downloadImageViaId(userInstance?.id, StorageDataRetriever.DownloadOption.USER_AVATAR, this)
+        StorageFileDownloader().downloadImageViaId(userInstance?.id, StorageFileDownloader.DownloadOption.USER_AVATAR, this)
 
         editProfile?.setOnClickListener{
             val intent = Intent(activity, CreateUserProfileActivity::class.java)

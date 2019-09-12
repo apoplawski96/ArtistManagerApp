@@ -8,7 +8,7 @@ import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.models.ArtistPage
 import kotlinx.android.synthetic.main.item_artist_page.view.*
 
-class SelectArtistPageAdapter (var artistPageArrayList : ArrayList<ArtistPage>, val clickListener : (ArtistPage) -> Unit) : RecyclerView.Adapter<SelectArtistPageAdapter.ViewHolder> () {
+class SelectArtistPageAdapter (var artistPageArrayList : ArrayList<ArtistPage>, val clickListener : (ArtistPage, View) -> Unit) : RecyclerView.Adapter<SelectArtistPageAdapter.ViewHolder> () {
 
     override fun onCreateViewHolder(parent : ViewGroup, viewType: Int): ViewHolder {
         val view : View = LayoutInflater.from(parent.context).inflate(R.layout.item_artist_page, parent, false)
@@ -25,9 +25,10 @@ class SelectArtistPageAdapter (var artistPageArrayList : ArrayList<ArtistPage>, 
     }
 
     class ViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView){
-        fun bind (artistPage : ArtistPage, clickListener: (ArtistPage) -> Unit){
-            itemView.setOnClickListener { clickListener(artistPage) }
+        fun bind (artistPage : ArtistPage, clickListener: (ArtistPage, View) -> Unit){
+            itemView.setOnClickListener { clickListener(artistPage, itemView) }
             itemView.artist_name_selector.text = "${artistPage.artistName}"
+            itemView.artist_genre_selector.text = artistPage.genre.toString()
         }
     }
 

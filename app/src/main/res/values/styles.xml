@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <style name = "AppTheme" parent = "Theme.AppCompat.NoActionBar">
-    <!-- Customize your theme here. -->
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -52,12 +52,15 @@
                 app:layout_constraintTop_toBottomOf="@id/circle_avatar_background" />
 
         <TextView
-                android:id="@+id/dialog_close_x_button"
+                android:id="@+id/dialog_close_x"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
+                android:fontFamily="@font/light"
                 android:text="x"
-                android:textSize="22sp"
+                android:textAlignment="center"
+                android:textColor="@color/appWhite"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,9 +69,9 @@
     <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/appWhite"
-            android:layout_marginTop="4dp"
             android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@mipmap/steel_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"></View>
@@ -166,10 +169,22 @@
 
             </LinearLayout>
 
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="175dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="0dp"
                     android:orientation="horizontal">
 
                 <TextView
@@ -193,22 +208,10 @@
 
             </LinearLayout>
 
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="175dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:layout_marginTop="0dp">
+                    android:orientation="horizontal" android:layout_marginTop="2dp">
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -247,58 +250,6 @@
 
                 <TextView
                         android:id="@+id/pending_assignments_counter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/light"
-                        android:text="0"
-                        android:textAlignment="center"
-                        android:textColor="@color/appWhite"
-                        android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:layout_marginTop="2dp">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat"
-                        android:text="Events created: "
-                        android:textAlignment="center"
-                        android:textColor="@color/appWhite"
-                        android:textSize="12sp" />
-
-                <TextView
-                        android:id="@+id/events_created_counter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/light"
-                        android:text="0"
-                        android:textAlignment="center"
-                        android:textColor="@color/appWhite"
-                        android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:layout_marginTop="2dp">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat"
-                        android:text="Events attended: "
-                        android:textAlignment="center"
-                        android:textColor="@color/appWhite"
-                        android:textSize="12sp" />
-
-                <TextView
-                        android:id="@+id/events_attended_counter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/light"

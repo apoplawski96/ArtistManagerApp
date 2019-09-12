@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.artistmanagerapp.R
+import com.example.artistmanagerapp.utils.FirebaseConstants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -24,6 +25,7 @@ abstract class BaseFragment : Fragment() {
 
     val userPath = db.collection("users").document(user?.uid.toString())
     val artistsCollectionPath = userPath.collection(R.string.firestore_artistpages_collection.toString())
+    val artistPagesCollectionPath = db.collection(FirebaseConstants.ARTIST_PAGES_COLLECTION_NAME)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return super.onCreateView(inflater, container, savedInstanceState)

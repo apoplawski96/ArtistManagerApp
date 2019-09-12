@@ -5,6 +5,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent"
+        android:background="@mipmap/steel_grey_darker"
         tools:context=".activities.CreateArtistPageActivity">
 
     <android.support.constraint.ConstraintLayout
@@ -29,15 +30,27 @@
             android:layout_marginBottom="16dp">
 
         <ImageView
-                android:id="@+id/artist_cover_photo"
+            android:id="@+id/artist_cover_photo"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/cover_new_2" />
+
+        <View
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:alpha="0.7"
+                android:background="@mipmap/steel_grey_darker"
                 android:scaleType="centerCrop"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/cover_new_2" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
                 android:id="@+id/avatar_progress_bar"
@@ -60,6 +73,28 @@
                 app:layout_constraintStart_toStartOf="@+id/artist_cover_photo"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back_button" />
+
+        <View
+                android:id="@+id/view9"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:alpha="0.6"
+                android:background="@color/appBlack"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"></View>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Create new Artist Page"
+                android:textColor="@color/appWhite"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/view9" />
 
 
     </android.support.constraint.ConstraintLayout>
@@ -121,7 +156,7 @@
                 android:id="@+id/radio_button_solo_artist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="26dp"
+                android:layout_marginStart="36dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/light"

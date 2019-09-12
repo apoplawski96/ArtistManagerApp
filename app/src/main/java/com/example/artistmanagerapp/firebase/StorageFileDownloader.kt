@@ -11,7 +11,7 @@ import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
 import com.google.firebase.firestore.CollectionReference
 
-class StorageDataRetriever : BaseActivity() {
+class StorageFileDownloader : BaseActivity() {
 
     val c = Constants
 
@@ -47,7 +47,6 @@ class StorageDataRetriever : BaseActivity() {
         }.addOnFailureListener{
             mediaLoader.onLoadingFailed(it.toString())
         }
-
     }
 
 }

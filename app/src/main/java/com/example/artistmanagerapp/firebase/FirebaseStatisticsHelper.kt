@@ -36,8 +36,16 @@ object FirebaseStatisticsHelper : BaseActivity(){
         when (fieldValue){
             "tasksAssigned" -> {
                 usersCollectionPath.document(userId!!).get().addOnSuccessListener { doc ->
-                    val tasksAssignedList = doc.get(fieldValue) as ArrayList<String>
-                    statsReceiver.onStatsReceived(tasksAssignedList.size, fieldValue)
+                    if (doc.exists()){
+                        if (doc.get(fieldValue) != null){
+                            val tasksAssignedList = doc.get(fieldValue) as ArrayList<String>
+                            statsReceiver.onStatsReceived(tasksAssignedList.size, fieldValue)
+                        } else {
+                            statsReceiver.onStatsReceived(0, null)
+                        }
+                    } else {
+                        Log.d("ReadStats", "Document does not exist")
+                    }
                 }
             }
         }

@@ -1,16 +1,10 @@
 package com.example.artistmanagerapp.fragments
 
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.OrientationHelper
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,30 +13,25 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.*
-import com.example.artistmanagerapp.adapters.TaskListAdapter
-import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
-import com.example.artistmanagerapp.firebase.FirebaseDataReader
-import com.example.artistmanagerapp.firebase.FirebaseStatisticsHelper
-import com.example.artistmanagerapp.firebase.StorageDataRetriever
+import com.example.artistmanagerapp.enums.RealTimeUpdateType
+import com.example.artistmanagerapp.firebase.*
 import com.example.artistmanagerapp.interfaces.*
 import com.example.artistmanagerapp.models.ActivityLog
 import com.example.artistmanagerapp.models.ArtistPage
-import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.*
-import com.google.firebase.storage.FirebaseStorage
 import com.makeramen.roundedimageview.RoundedImageView
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlin.math.roundToInt
 
-class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPagesPresenter, MediaLoader, FirebaseActivityLogsManager.ActivityLogsPresenter, FirebaseStatisticsHelper.StatisticsReceiver {
+class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPagesPresenter, MediaLoader, FirebaseActivityLogsManager.ActivityLogsPresenter, FirebaseStatisticsHelper.StatisticsReceiver, FirebaseRealTimeUpdatesPresenter, UserInterfaceUpdater {
+
+    // Class tag
+    val TAG = "HomeFragment()"
 
     // Bundled instances
     lateinit var userInstance : User
@@ -57,33 +46,13 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
     // Views
     var helloUser : TextView? = null
     var thisIsBandName : TextView? = null
-    var bandAvatar : ImageView? = null
-    var tasksCounter : TextView? = null
-    var eventsCounter : TextView? = null
-    var assignmentsCounter : TextView? = null
     var pageAvatar : CircleImageView? = null
     var manageTeamButton : RoundedImageView? = null
     var avatarProgressBar : ProgressBar? = null
-    var activityLogsListButton : RoundedImageView? = null
 
-    companion object {
-        @JvmStatic
-        val c = Constants
-
-        fun newInstance(pageId : String, artistPage : ArtistPage, user : User) : HomeFragment {
-            val fragment = HomeFragment()
-            val bundle = Bundle().apply{
-                putSerializable (c.BUNDLE_USER_INSTANCE, user)
-                putSerializable (c.BUNDLE_ARTIST_PAGE_INSTANCE, artistPage)
-                putString (c.PAGE_ID_BUNDLE, artistPage.artistPageId)
-                putString (c.ARTIST_NAME_BUNDLE, artistPage.artistName)
-                putString (c.EPK_SHARE_CODE_BUNDLE, artistPage.epkShareCode)
-            }
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
-
+    // Variables
+    var backPressedTime : Long = 0
+    var pressAgainToast : Toast? = null
     lateinit var rootView : View
 
     override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -112,18 +81,23 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
 
         initUI()
 
+        // *************************** \FIREBASE READ/DOWNLOAD METHOD SETUP ***************************
+
         // Load statistics - logs count
         FirebaseActivityLogsManager.parseActivityLogs(pageInstance!!.artistPageId.toString(), this)
-        // Load statistics - new tasks
-        TaskHelper.checkNewTasksCount(pageInstance.artistPageId.toString(), this)
-        // Load statistics - pending assignments
-        FirebaseStatisticsHelper.readStats(userInstance.id.toString(), null, "tasksAssigned", this)
-
         // Load page avatar
-        StorageDataRetriever().downloadImageViaId(pageId, StorageDataRetriever.DownloadOption.PAGE_AVATAR, this)
-
+        StorageFileDownloader().downloadImageViaId(pageId, StorageFileDownloader.DownloadOption.PAGE_AVATAR, this)
         // Show user data
         FirebaseDataReader().getUserData(userIdGlobal, this)
+
+        // *************************** FIREBASE READ/DOWNLOAD METHOD SETUP/ ***************************
+
+        // *************************** \FIREBASE REAL-TIME CHANGES LISTENERS SETUP ***************************
+
+        FirebaseRealTimeUpdatesManager.attachNewTasksCounterListener(pageInstance.artistPageId.toString(), this)
+        FirebaseRealTimeUpdatesManager.attachUserPendingAssignmentsListener(userInstance.id.toString(), this)
+
+        // *************************** FIREBASE REAL-TIME CHANGES LISTENERS SETUP/ ***************************
 
         // OnClicks managed
         manageTeamButton?.setOnClickListener {
@@ -139,12 +113,41 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         }
 
         rootView.home_screen_back_button.setOnClickListener {
-            var intent = Intent(activity, SelectArtistPageActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
-            putDataToBundle(intent)
-            startActivity(intent)
+            if (backPressedTime + 2000 > System.currentTimeMillis()){
+                pressAgainToast!!.cancel()
+                rootView.home_screen_upper_corner_progress_bar.visibility = View.VISIBLE
+                rootView.home_screen_back_button.isClickable = false
+
+                UsersHelper.removeCurrentArtistPage(userIdGlobal, this)
+                return@setOnClickListener
+            } else {
+                pressAgainToast = Toast.makeText(activity, "Press again to leave current ArtistPage", Toast.LENGTH_SHORT)
+                pressAgainToast!!.show()
+            }
+
+
+            backPressedTime = System.currentTimeMillis()
         }
 
         return rootView
+    }
+
+    companion object {
+        @JvmStatic
+        val c = Constants
+
+        fun newInstance(pageId : String, artistPage : ArtistPage, user : User) : HomeFragment {
+            val fragment = HomeFragment()
+            val bundle = Bundle().apply{
+                putSerializable (c.BUNDLE_USER_INSTANCE, user)
+                putSerializable (c.BUNDLE_ARTIST_PAGE_INSTANCE, artistPage)
+                putString (c.PAGE_ID_BUNDLE, artistPage.artistPageId)
+                putString (c.ARTIST_NAME_BUNDLE, artistPage.artistName)
+                putString (c.EPK_SHARE_CODE_BUNDLE, artistPage.epkShareCode)
+            }
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 
     override fun loadImage(bitmap: Bitmap?, option: MediaLoader.MediaLoaderOptions?) {
@@ -265,5 +268,71 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
     override fun onLoadingFailed(error: String?) {
 
     }
+
+    fun updateNewTasksDisplay(newCounter : Int){
+        var mNewCounter = newCounter
+        if (newCounter <= 0){
+            mNewCounter = 0
+            rootView.new_tasks_counter.setTextColor(Color.parseColor(ColorCodes.APP_WHITE))
+        } else{
+            rootView.new_tasks_counter.setTextColor(Color.parseColor(ColorCodes.COLOR_ACCENT))
+        }
+        rootView.new_tasks_counter.text = mNewCounter.toString()
+    }
+
+    fun updatePendingAssignmentsDisplay(newCounter : Int){
+        var mNewCounter = newCounter
+        if (newCounter <= 0){
+            mNewCounter = 0
+            rootView.pending_assignments_counter.setTextColor(Color.parseColor(ColorCodes.APP_WHITE))
+        } else{
+            rootView.pending_assignments_counter.setTextColor(Color.parseColor(ColorCodes.COLOR_ACCENT))
+        }
+        rootView.pending_assignments_counter.text = mNewCounter.toString()
+    }
+
+    override fun presentNewData(data: Any?, updateType: RealTimeUpdateType) {
+        when (updateType){
+            RealTimeUpdateType.NEW_TASKS -> {
+                var newTasksCounter = data as Int
+                val currentTasksCounterDisplay = rootView.new_tasks_counter.text
+                if (!currentTasksCounterDisplay.isNullOrEmpty()){
+                    val currentTasksCounter = currentTasksCounterDisplay.toString().toInt()
+                    if (currentTasksCounter != newTasksCounter){
+                        Toast.makeText(activity, "It looks like someone has just added a new task!", Toast.LENGTH_SHORT).show()
+                        updateNewTasksDisplay(newTasksCounter)
+                    }
+                } else {
+                    updateNewTasksDisplay(newTasksCounter)
+                }
+            }
+            RealTimeUpdateType.PENDING_ASSIGNMENTS -> {
+                var newPendingAssignmentsCounter = data as Int
+                val currentAssignmentsCounterDisplay = rootView.pending_assignments_counter.text
+                if (!currentAssignmentsCounterDisplay.isNullOrEmpty()){
+                    val currentAssignmentsCounter = currentAssignmentsCounterDisplay.toString().toInt()
+                    if (currentAssignmentsCounter != newPendingAssignmentsCounter){
+                        Toast.makeText(activity, "It looks like someone has assigned a task to you", Toast.LENGTH_SHORT).show()
+                        updatePendingAssignmentsDisplay(newPendingAssignmentsCounter)
+                    }
+                } else {
+                    updatePendingAssignmentsDisplay(newPendingAssignmentsCounter)
+                }
+            }
+        }
+    }
+
+    override fun updateUI(option: String, data: Any?) {
+        rootView.home_screen_upper_corner_progress_bar.visibility = View.GONE
+        var intent = Intent(activity, SelectArtistPageActivity::class.java)
+        putDataToBundle(intent)
+        startActivity(intent)
+    }
+
+    override fun hideProgress() {}
+
+    override fun initializeUI() {}
+
+    override fun showProgress() {}
 
 }

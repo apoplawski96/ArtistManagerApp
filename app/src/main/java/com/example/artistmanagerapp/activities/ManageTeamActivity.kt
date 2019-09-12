@@ -268,7 +268,7 @@ class ManageTeamActivity : BaseActivity(), UsersListListener, DialogCreator.Dial
         // Views initialization
         userDetailsDialog = Dialog(this)
         userDetailsDialog?.setContentView(R.layout.dialog_user_details)
-        userDetailsDialogCloseX = userDetailsDialog?.findViewById(R.id.dialog_close_x_button) as TextView?
+        userDetailsDialogCloseX = userDetailsDialog?.findViewById(R.id.dialog_close_x) as TextView?
         userDetailsDialogDisplayName = userDetailsDialog?.findViewById(R.id.user_details_name)
         userDetailsDialogRole = userDetailsDialog?.findViewById(R.id.user_details_role) as TextView?
         userAvatar = userDetailsDialog?.findViewById(R.id.circle_avatar_background) as CircleImageView?

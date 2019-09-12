@@ -33,6 +33,12 @@ class ArtistPage : Serializable {
         this.artistPageId = mArtistPageId
     }
 
+    constructor(mArtistName: String?, mArtistPageId: String?, genre: String?){
+        this.artistName = mArtistName
+        this.artistPageId = mArtistPageId
+        this.genre = genre
+    }
+
     constructor(artistName: String?, biography: String?, instaLink: String?, fbLink: String?, genre: String?) {
         this.artistName = artistName
         this.biography = biography

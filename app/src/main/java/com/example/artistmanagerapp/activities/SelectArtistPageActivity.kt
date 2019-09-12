@@ -29,6 +29,12 @@ import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.UsersHelper
 import com.example.artistmanagerapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_select_artist_page.*
+import kotlinx.android.synthetic.main.dialog_create_page.*
+import kotlinx.android.synthetic.main.dialog_create_page.create_dialog_progress_bar
+import kotlinx.android.synthetic.main.dialog_create_page.dialog_close_x
+import kotlinx.android.synthetic.main.dialog_redeem_code.*
+import kotlinx.android.synthetic.main.item_artist_page.view.*
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInterfaceUpdater, RedeemCodeDataReceiver, DataReceiver {
@@ -55,7 +61,6 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     var selectArtistRecyclerView : RecyclerView? = null
     var createPageDialog : Dialog? = null
     var dialogNameInput : EditText? = null
-    var dialogAddImageButton : FloatingActionButton? = null
     var dialogCreatePageButton : Button? = null
     var dialogClose : TextView? = null
     var noPagesText : TextView? = null
@@ -90,6 +95,8 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     val const = Constants
     val utils = Utils
     var bitmap : Bitmap? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,7 +138,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
         // Adapter stuff
         selectArtistRecyclerView?.layoutManager = LinearLayoutManager(this, OrientationHelper.VERTICAL, false)
-        adapter = SelectArtistPageAdapter(artistPageArrayList) { item : ArtistPage -> artistPageClicked(item)}
+        adapter = SelectArtistPageAdapter(artistPageArrayList) { item : ArtistPage, view : View -> artistPageClicked(item, view)}
         selectArtistRecyclerView?.adapter = adapter
 
         createArtistPageItem?.setOnClickListener { showCreatePageDialog() }
@@ -168,12 +175,16 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
     // RecyclerView presenter method
     override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {
-        noPagesText?.visibility = View.GONE
+        //no_artist_pages_layout_group.visibility = View.VISIBLE
+        artist_page_selector_recycler_view.visibility = View.VISIBLE
+        thin_line.visibility = View.VISIBLE
         adapter?.update(artistPagesList)
     }
 
     override fun showNoPagesText() {
-        noPagesText?.visibility = View.VISIBLE
+        //no_artist_pages_layout_group.visibility = View.VISIBLE
+        artist_page_selector_recycler_view.visibility = View.GONE
+        thin_line.visibility = View.GONE
     }
 
     override fun updateUI(option : String, data : Any?) {
@@ -190,9 +201,17 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
                 startActivity(intent)
             }
             const.ARTIST_PAGE_CREATED -> {
+                createPageDialog!!.hide()
                 val newArtistPage : ArtistPage = data as ArtistPage
+
+                val bytes = ByteArrayOutputStream()
+                bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+                val photoCompressed = bytes.toByteArray()
+
                 userBundleInstance?.currentArtistPageId = newArtistPage.artistPageId
                 val intent = Intent(this, CreateArtistPageActivity::class.java).apply {
+                    //putExtra("photoBitmap", bitmap)
+                    putExtra("photoCompressed", photoCompressed)
                     putExtra(Constants.BUNDLE_USER_INSTANCE, userBundleInstance)
                     putExtra(Constants.BUNDLE_ARTIST_PAGE_INSTANCE, newArtistPage)
                 }
@@ -223,8 +242,10 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     }
 
     // ArtisPage selector RecyclerView onClick
-    fun artistPageClicked(artistPage: ArtistPage){
+    fun artistPageClicked(artistPage: ArtistPage, view : View){
         Log.d(ACT_TAG, "pageItemClicked() - ${artistPage.artistName}, ${artistPage.artistPageId}")
+        view.artist_page_item_progress_bar.visibility = View.VISIBLE
+        view.ic_nutka.visibility = View.INVISIBLE
         UsersHelper.setCurrentArtistPage(userId, artistPage, this)
     }
 
@@ -249,7 +270,6 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
         // Views
         dialogNameInput = createPageDialog?.findViewById(R.id.dialog_redeem_code_text)
-        dialogAddImageButton = createPageDialog?.findViewById(R.id.dialog_add_image_button)
         dialogClose = createPageDialog?.findViewById(R.id.dialog_close_x)
         dialogCreatePageButton = createPageDialog?.findViewById(R.id.dialog_copy_button)
         dialogBackgroundImage = createPageDialog?.findViewById(R.id.dialog_background_image)
@@ -267,19 +287,38 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
             if (isPageNameValid && isPhotoUploaded){
                 var artistPage = ArtistPage(pageNameInputText, userId)
                 showProgress()
-                createDialogProgressBar?.visibility = View.VISIBLE
-                dataWriter?.createArtistPage(artistPage, this, userObject, bitmap)
-                createPageDialog!!.hide()
+                //dataWriter?.createArtistPage(artistPage, this, userObject, bitmap)
+                goToCreatePageActivity(artistPage)
+                Utils.softDisableEditText(dialogNameInput)
             } else {
                 Toast.makeText(this, "Page name must be at least 3 characters long and photo needs to be uploaded", Toast.LENGTH_LONG).show()
             }
         }
 
-        dialogAddImageButton?.setOnClickListener {
+        createPageDialog!!.dialog_add_image_button.setOnClickListener {
             val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(galleryIntent, const.GALLERY)
         }
 
+    }
+
+    fun goToCreatePageActivity(data : ArtistPage){
+        createPageDialog!!.hide()
+        val newArtistPage : ArtistPage = data //mamy nazwe i createdByID
+
+        val bytes = ByteArrayOutputStream()
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
+        val photoCompressed = bytes.toByteArray()
+
+        //userBundleInstance?.currentArtistPageId = newArtistPage.artistPageId
+        val intent = Intent(this, CreateArtistPageActivity::class.java).apply {
+            //putExtra("photoBitmap", bitmap)
+            putExtra("photoCompressed", photoCompressed)
+            putExtra(Constants.BUNDLE_USER_INSTANCE, userBundleInstance)
+            putExtra(Constants.BUNDLE_ARTIST_PAGE_INSTANCE, newArtistPage)
+        }
+        startActivity(intent)
+        finish()
     }
 
     private fun showRedeemCodeDialog(){
@@ -298,8 +337,13 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
         redeemCodeSubmitButton?.setOnClickListener {
             var redeemCodeStringInput = redeemCodeInput?.text.toString()
-
-            dataReader?.getRedeemCodeData(redeemCodeStringInput, this)
+            if (redeemCodeStringInput.length == 7){
+                redeemCodeDialog!!.create_dialog_progress_bar.visibility = View.VISIBLE
+                redeemCodeDialog!!.dialog_close_x.visibility = View.GONE
+                dataReader?.getRedeemCodeData(redeemCodeStringInput, this)
+            } else {
+                Toast.makeText(this, "Redeem code needs to have exactly 7 charakters, please try again", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -307,11 +351,18 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     override fun redeemCode(redeemCode: RedeemCode?) {
         if (redeemCode != null){
             // Setting all the stuff up in database
-            dataWriter?.markCodeAsRedeemed(redeemCode.codeString.toString(), userId)
-            dataWriter?.addArtistReferenceToUserRecord(userId, redeemCode.artistPageId)
-            dataWriter?.addMemberToArtistPage(userId, redeemCode.artistPageId.toString(), userObject as User, this)
-
+            if (redeemCode.wasUsed == false){
+                dataWriter?.markCodeAsRedeemed(redeemCode.codeString.toString(), userId)
+                dataWriter?.addArtistReferenceToUserRecord(userId, redeemCode.artistPageId)
+                dataWriter?.addMemberToArtistPage(userId, redeemCode.artistPageId.toString(), userObject as User, this)
+            } else {
+                redeemCodeDialog!!.create_dialog_progress_bar.visibility = View.GONE
+                redeemCodeDialog!!.dialog_close_x.visibility = View.VISIBLE
+                Toast.makeText(this, "This code has already been used!", Toast.LENGTH_SHORT).show()
+            }
         } else {
+            redeemCodeDialog!!.create_dialog_progress_bar.visibility = View.GONE
+            redeemCodeDialog!!.dialog_close_x.visibility = View.VISIBLE
             Toast.makeText(this, "The code is not valid, please try again", Toast.LENGTH_SHORT).show()
         }
     }
@@ -325,9 +376,12 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     }
 
     override fun showProgress() {
-        createPageDialog?.hide()
-        redeemCodeDialog?.hide()
-        showProgressOverlay()
+        //createPageDialog?.hide()
+        //redeemCodeDialog?.hide()
+        //showProgressOverlay()
+        createPageDialog!!.dialog_close_x.visibility = View.INVISIBLE
+        createPageDialog!!.create_dialog_progress_bar.visibility = View.VISIBLE
+        createPageDialog!!.dialog_copy_button.isClickable = false
     }
 
     override fun hideProgress() {

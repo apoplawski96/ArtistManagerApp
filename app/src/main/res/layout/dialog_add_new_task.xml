@@ -20,12 +20,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.5"
-            android:background="@android:color/black"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:background="@color/steelGrayEntryColor">
+
+    </View>
+
+    <View
+            android:id="@+id/view7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:background="@color/appBlack">
 
     </View>
 
@@ -33,12 +37,13 @@
             android:id="@+id/tasks_dialog_close_x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:fontFamily="@font/montserrat"
-            android:text="x"
-            android:textColor="@color/appWhite"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="13dp"
+            android:fontFamily="@font/light"
+            android:text="X"
             android:textAlignment="center"
-            android:textSize="26sp"
+            android:textColor="@color/appWhite"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,18 +58,17 @@
             android:inputType="textPersonName"
             android:textAlignment="center"
             android:textColor="@color/appWhite"
-            app:layout_constraintBottom_toBottomOf="@+id/view2"
-            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/dialog_background_image"
-            app:layout_constraintVertical_bias="0.39" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.35000002" />
 
     <Button
             android:id="@+id/add_task_submit_button"
-            android:layout_width="@dimen/button_short_length"
+            android:layout_width="256dp"
             android:layout_height="@dimen/button_short_height"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="14dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/button_standard"
             android:fontFamily="@font/montserrat"
@@ -74,7 +78,7 @@
             android:textColor="@color/appWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/create_dialog_progress_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/task_name_input" />
 
     <ProgressBar
             style="?android:attr/progressBarStyle"

@@ -25,6 +25,7 @@ class FirebaseDataWriter : BaseActivity(){
 
         // Initializing user record in database
         collectionPath.document(userId).set(dataMap, SetOptions.merge()).addOnSuccessListener {
+            Log.d("ADD_USER_TO_DB", dataMap.get("category").toString())
             Log.d(FIREBASE_TAG, "Data successfully added: $dataMap")
         }.addOnFailureListener {
             Log.d(FIREBASE_ERROR, "Failure: $it")
@@ -52,6 +53,41 @@ class FirebaseDataWriter : BaseActivity(){
         }
     }
 
+
+    fun createNewArtistPageRecord(artistPage : ArtistPage, user : User, photoBitmap: Bitmap?, uiUpdater: UserInterfaceUpdater){
+        val pageId = artistPagesCollectionPath.document().id
+        val batch = db.batch()
+
+        // Adding page record to artistPages collection
+        val pageRef = artistPagesCollectionPath.document(pageId)
+        batch.set(pageRef, artistPage)
+
+        // Adding user record to artistPage -> pageMembers collection
+        val pageMemberRef = pageRef.collection("pageMembers").document(user.id.toString())
+        batch.set(pageMemberRef, user)
+
+        // Linking artistPage with user data
+        val linkedPageRef = userPath.collection(c.ARTIST_PAGES_COLLECTION_NAME).document(pageId)
+        batch.set(linkedPageRef, artistPage)
+
+        // Setting up currentArtistPageId
+        batch.update(userPath, mapOf(c.CURRENT_ARTIST_PAGE to pageId))
+
+        // Setting up and uploading page avatar
+        val bytes = ByteArrayOutputStream()
+        photoBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val data = bytes.toByteArray()
+
+        var uploadTask = storageRef.child("pageAvatars/$pageId/avatar.jpg").putBytes(data)
+        uploadTask.addOnSuccessListener {
+            batch.commit().addOnSuccessListener {
+                uiUpdater.updateUI(const.ARTIST_PAGE_CREATED, artistPage)
+            }
+        }.addOnFailureListener {
+            Log.d(FIREBASE_ERROR, "Failure: $it")
+        }
+    }
+
     fun createArtistPage(artistPage : ArtistPage, uiUpdater: UserInterfaceUpdater, user: User?, photoBitmap: Bitmap?){
         // Creating and capturing new Page id
         val pageId = artistPagesCollectionPath.document().id
@@ -65,6 +101,7 @@ class FirebaseDataWriter : BaseActivity(){
         artistPageInfo.put(c.ARTIST_NAME, artistPage.artistName.toString())
         artistPageInfo.put(c.ARTIST_PAGE_ID, pageId)
         artistPageInfo.put(c.ARTIST_PAGE_ADMIN_ID, userId)
+        artistPageInfo.put(c.ARTIST_GENRE, artistPage.genre.toString())
 
         artistPage.artistPageId = pageId
         artistPage.artistPageAdminId = userId
@@ -116,6 +153,8 @@ class FirebaseDataWriter : BaseActivity(){
 
         redeemCodesCollectionPath.document(redeemCodeString).set(redeemCodeObject).addOnSuccessListener {
             Log.d(FIREBASE_TAG, "Code successfully added to db: $redeemCodeObject")
+        }.addOnFailureListener {
+            Log.d(FIREBASE_TAG, "Error occured: $it")
         }
     }
 

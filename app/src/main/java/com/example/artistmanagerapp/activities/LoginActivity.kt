@@ -43,6 +43,7 @@ class LoginActivity : BaseActivity() {
         already_registered_button.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+            //overridePendingTransition(R.anim.slide_right, R.anim.slide_left)
         }
 
     }

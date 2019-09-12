@@ -7,7 +7,7 @@
     <color name="appBlack">#0d0c0c</color>
     <color name="warningRed">#b02a2a</color>
 
-    <color name="appWhite">#FDFEFD</color>
+    <color name="appWhite">#FFFFFFFF</color>
     <color name="bestGray">#DBDBDB</color>
     <color name="appLightGray">#dedfe0</color>
     <color name="appRegularGray">#979C97</color>

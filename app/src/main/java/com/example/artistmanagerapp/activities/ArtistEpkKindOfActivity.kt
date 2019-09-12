@@ -17,7 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
-import com.example.artistmanagerapp.firebase.StorageDataRetriever
+import com.example.artistmanagerapp.firebase.StorageFileDownloader
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.interfaces.BundleUpdater
 import com.example.artistmanagerapp.interfaces.MediaLoader
@@ -155,7 +155,7 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
             }
         }
 
-        StorageDataRetriever().downloadImageViaId(pageId, StorageDataRetriever.DownloadOption.EPK_COVER_PHOTO, this)
+        StorageFileDownloader().downloadImageViaId(pageId, StorageFileDownloader.DownloadOption.EPK_COVER_PHOTO, this)
     }
 
     override fun loadImage(bitmap: Bitmap?, option: MediaLoader.MediaLoaderOptions?) {

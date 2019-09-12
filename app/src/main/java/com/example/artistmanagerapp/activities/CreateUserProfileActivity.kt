@@ -11,16 +11,16 @@ import android.view.View
 import android.widget.*
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.firebase.FirebaseDataWriter
-import com.example.artistmanagerapp.firebase.StorageDataRetriever
+import com.example.artistmanagerapp.firebase.StorageFileDownloader
 import com.example.artistmanagerapp.firebase.StorageFileUploader
 import com.example.artistmanagerapp.interfaces.MediaLoader
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.Constants
 import com.example.artistmanagerapp.utils.FirebaseConstants
-import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.auth.FirebaseUser
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_create_user_profile.*
 import java.io.IOException
 import kotlin.collections.HashMap
 
@@ -119,7 +119,7 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoa
             }
         }
 
-        addPhotoFab?.setOnClickListener {
+        add_user_avatar_button.setOnClickListener {
             val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(galleryIntent, 1)
         }
@@ -135,7 +135,7 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoa
             Constants.USER_PROFILE_EDIT_MODE -> {
                 loadCurrentData()
                 showAvatarProgressBar()
-                StorageDataRetriever().downloadImageViaId(userInstance?.id, StorageDataRetriever.DownloadOption.USER_AVATAR, this)
+                StorageFileDownloader().downloadImageViaId(userInstance?.id, StorageFileDownloader.DownloadOption.USER_AVATAR, this)
                 userProfileBackButton?.visibility = View.VISIBLE
                 userProfileBackButton?.setOnClickListener { onBackPressed() }
                 submitButton?.text = "SAVE CHANGES"
@@ -219,7 +219,8 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoa
         userProfileData.put(c.LAST_NAME, lastName?.text.toString())
         userProfileData.put(c.ARTIST_ROLE, position?.text.toString())
         if (isArtistChecked == true) userProfileData.put(c.ROLE_CATEGORY, "artist")
-        else if (isManagerChecked == true) userProfileData.put (c.ROLE_CATEGORY, "manager")
+        if (isManagerChecked == true) userProfileData.put (c.ROLE_CATEGORY, "manager")
+        Log.d("CATEGORY", userProfileData.get(c.ROLE_CATEGORY).toString())
     }
 
     override fun updateUI(option : String, data : Any?){

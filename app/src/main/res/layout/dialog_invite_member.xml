@@ -46,7 +46,7 @@
             android:id="@+id/dialog_redeem_code_text"
             android:layout_width="256dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="24dp"
             android:ems="10"
             android:fontFamily="@font/medium"
             android:hint=""
@@ -58,15 +58,14 @@
             app:layout_constraintEnd_toEndOf="@+id/view2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/dialog_background_image"
-            app:layout_constraintVertical_bias="0.39"
+            app:layout_constraintVertical_bias="0.35000002"
             tools:text="wAqwt3s" />
 
     <Button
             android:id="@+id/dialog_copy_button"
-            android:layout_width="@dimen/button_short_length"
+            android:layout_width="256dp"
             android:layout_height="@dimen/button_short_height"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="14dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/button_standard"
             android:fontFamily="@font/montserrat"

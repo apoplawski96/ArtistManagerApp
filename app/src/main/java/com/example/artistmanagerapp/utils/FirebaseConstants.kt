@@ -40,7 +40,7 @@ object FirebaseConstants {
     val ARTIST_TIME_CREATED = "timeCreated"
     val ARTIST_CREATED_BY_ID = "createdById"
     val ARTIST_CREATED_BY_DISPLAY_NAME = "createdByDisplayName"
-    val ARTIST_CATEGORY = "category"
+    val ARTIST_CATEGORY = "pageCategory"
     val ARTIST_MEMBERS_AND_ROLES = "membersAndRoles"
     val PAGE_ADMINS = "pageAdmins"
 

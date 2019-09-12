@@ -1,8 +1,11 @@
 package com.example.artistmanagerapp.activities
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
@@ -18,9 +21,13 @@ import kotlinx.android.synthetic.main.activity_create_artist_page.*
 
 class CreateArtistPageActivity : BaseActivity(), UserInterfaceUpdater {
 
+    val TAG = "CreateArtistPageActivity"
+
     // Bundled objects
-    lateinit var userBundleInstance : User
-    lateinit var artistPageInstance : ArtistPage
+    var userBundleInstance : User? = null
+    var artistPageInstance : ArtistPage? = null
+    var photoBitmap : Bitmap? = null
+    var photoByteArray : ByteArray? = null
 
     // Boolean controllers
     var isSoloArtistRadioChecked = false
@@ -30,9 +37,12 @@ class CreateArtistPageActivity : BaseActivity(), UserInterfaceUpdater {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_artist_page)
 
+        Log.d(TAG, "Activity entered")
+
         // Receiving bundled objects
         artistPageInstance = intent.extras.getSerializable(Constants.BUNDLE_ARTIST_PAGE_INSTANCE) as ArtistPage
         userBundleInstance = intent.extras.getSerializable(Constants.BUNDLE_USER_INSTANCE) as User
+        photoByteArray = intent.extras.getByteArray("photoCompressed")
 
         initUI()
 
@@ -45,8 +55,8 @@ class CreateArtistPageActivity : BaseActivity(), UserInterfaceUpdater {
                 val genre = genre_input.text.toString()
                 val currentTime = Utils.getCurrentTimeShort()
                 val currentDate = Utils.getCurrentDateShort()
-                val createdById = userBundleInstance.id.toString()
-                var createdByDisplayName = userBundleInstance.getDisplayName()
+                val createdById = userBundleInstance!!.id.toString()
+                var createdByDisplayName = userBundleInstance!!.getDisplayName()
                 if (isSoloArtistRadioChecked) category = radio_button_solo_artist.text.toString()
                 else category = radio_button_band.text.toString()
 
@@ -59,7 +69,15 @@ class CreateArtistPageActivity : BaseActivity(), UserInterfaceUpdater {
                     c.ARTIST_CREATED_BY_DISPLAY_NAME to createdByDisplayName,
                     c.ARTIST_CATEGORY to category)
 
-                FirebaseDataWriter().updateArtistPageData(artistPageInstance.artistPageId.toString(), newData, this)
+                val newArtistPage = ArtistPage()
+                newArtistPage.artistName = name
+                newArtistPage.genre = genre
+                newArtistPage.pageCategory = category
+                newArtistPage.createdById = createdById
+                newArtistPage.createdByDisplayName = createdByDisplayName
+
+                FirebaseDataWriter()?.createArtistPage(newArtistPage!!, this, userBundleInstance, convertBytesArrayToBitmap(photoByteArray!!))
+                //FirebaseDataWriter().updateArtistPageData(artistPageInstance.artistPageId.toString(), newData, this)
 
             } else {
                 Toast.makeText(this, "Genre and category has to be filled", Toast.LENGTH_SHORT).show()
@@ -100,17 +118,25 @@ class CreateArtistPageActivity : BaseActivity(), UserInterfaceUpdater {
     }
 
     fun initUI(){
-        artist_page_name_input.setText(artistPageInstance.artistName.toString())
+        artist_page_name_input.setText(artistPageInstance!!.artistName.toString())
         Utils.hardDisableEditText(artist_page_name_input)
+        val bitmap = convertBytesArrayToBitmap(photoByteArray!!)
+        artist_cover_photo.setImageBitmap(bitmap)
+    }
+
+    fun convertBytesArrayToBitmap(byteArray: ByteArray) : Bitmap{
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray?.size!!.toInt())
     }
 
     override fun updateUI(option: String, data: Any?) {
         hideProgressOverlay()
         when (option){
-            Constants.ARTIST_PAGE_UPDATED -> {
-                userBundleInstance?.currentArtistPageId = artistPageInstance.artistPageId
+            Constants.ARTIST_PAGE_CREATED -> {
+                val artistPage : ArtistPage = data as ArtistPage
+                userBundleInstance?.currentArtistPageId = artistPage!!.artistPageId
                 val intent = Intent(this, MainActivity::class.java).apply {
                     putExtra(Constants.BUNDLE_USER_INSTANCE, userBundleInstance)
+                    putExtra(Constants.BUNDLE_ARTIST_PAGE_INSTANCE, artistPage)
                 }
                 startActivity(intent)
                 finish()

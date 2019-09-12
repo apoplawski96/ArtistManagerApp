@@ -33,14 +33,12 @@ object Utils : BaseActivity (){
 
     fun getCurrentDateShort() : String{
         val calendar : Calendar = Calendar.getInstance()
-        val currentDate : String = DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(calendar.time)
-        return currentDate
+        return DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(calendar.time)
     }
 
     fun getCurrentTimeShort() : String{
         val calendar : Calendar = Calendar.getInstance()
-        val currentTime : String = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(calendar.time)
-        return currentTime
+        return DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(calendar.time)
     }
 
     fun generateCodeString(lenght : Int) : String{

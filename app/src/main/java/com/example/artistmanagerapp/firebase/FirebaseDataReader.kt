@@ -46,7 +46,8 @@ class FirebaseDataReader : BaseActivity () {
                 for (document in documents){
                     var artistPageName : String? = document.get(c.ARTIST_NAME).toString()
                     var artistPageId : String? = document.get(c.ARTIST_PAGE_ID).toString()
-                    artistPagesOutput!!.add(ArtistPage(artistPageName, artistPageId))
+                    var artistPageGenre : String? = document.get(c.ARTIST_GENRE).toString()
+                    artistPagesOutput!!.add(ArtistPage(artistPageName, artistPageId, artistPageGenre))
                 }
                 Log.d("getArtistPages()", "Pages parsed: ${artistPagesOutput.toString()}")
                 presenter.showArtistPages(artistPagesOutput)
