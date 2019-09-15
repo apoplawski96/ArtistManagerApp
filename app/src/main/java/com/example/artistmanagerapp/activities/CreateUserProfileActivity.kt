@@ -16,8 +16,8 @@ import com.example.artistmanagerapp.firebase.StorageFileUploader
 import com.example.artistmanagerapp.interfaces.MediaLoader
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.FirebaseConstants
+import com.example.artistmanagerapp.constants.Constants
+import com.example.artistmanagerapp.constants.FirebaseConstants
 import com.google.firebase.auth.FirebaseUser
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_create_user_profile.*
@@ -208,9 +208,8 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoa
 
         // Writing init user data to database
         db.collection("users").document(userId).set(userInitData).addOnSuccessListener {
-            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {
-            Toast.makeText(this, "Fallus", Toast.LENGTH_SHORT).show()
         }
     }
 

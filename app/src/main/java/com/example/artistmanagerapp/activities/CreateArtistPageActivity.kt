@@ -3,7 +3,6 @@ package com.example.artistmanagerapp.activities
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,8 +13,8 @@ import com.example.artistmanagerapp.firebase.FirebaseDataWriter
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.FirebaseConstants
+import com.example.artistmanagerapp.constants.Constants
+import com.example.artistmanagerapp.constants.FirebaseConstants
 import com.example.artistmanagerapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_create_artist_page.*
 

@@ -5,9 +5,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.artistmanagerapp.R
-import com.example.artistmanagerapp.utils.FirebaseConstants
+import com.example.artistmanagerapp.constants.FirebaseConstants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -29,7 +28,7 @@ abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return super.onCreateView(inflater, container, savedInstanceState)
-        Toast.makeText(activity, "Current user Id: ${user?.uid}", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity, "Current user Id: ${user?.uid}", Toast.LENGTH_SHORT).show()
     }
 
 }

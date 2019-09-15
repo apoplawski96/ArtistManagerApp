@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
-import android.util.Log
 import android.view.View
 import android.widget.RadioButton
 import com.example.artistmanagerapp.R
@@ -13,7 +12,7 @@ import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
 import com.example.artistmanagerapp.models.ActivityLog
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.utils.Constants
+import com.example.artistmanagerapp.constants.Constants
 import kotlinx.android.synthetic.main.activity_logs.*
 import kotlinx.android.synthetic.main.dialog_filter_logs.*
 

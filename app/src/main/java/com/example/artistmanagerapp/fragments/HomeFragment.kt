@@ -9,14 +9,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.*
-import com.example.artistmanagerapp.enums.RealTimeUpdateType
+import com.example.artistmanagerapp.constants.ColorCodes
+import com.example.artistmanagerapp.constants.Constants
+import com.example.artistmanagerapp.constants.RealTimeUpdateType
 import com.example.artistmanagerapp.firebase.*
 import com.example.artistmanagerapp.interfaces.*
 import com.example.artistmanagerapp.models.ActivityLog
@@ -118,7 +119,7 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
                 rootView.home_screen_upper_corner_progress_bar.visibility = View.VISIBLE
                 rootView.home_screen_back_button.isClickable = false
 
-                UsersHelper.removeCurrentArtistPage(userIdGlobal, this)
+                FirebaseUsersManager.removeCurrentArtistPage(userIdGlobal, this)
                 return@setOnClickListener
             } else {
                 pressAgainToast = Toast.makeText(activity, "Press again to leave current ArtistPage", Toast.LENGTH_SHORT)
@@ -155,7 +156,6 @@ class HomeFragment : BaseFragment(), UserDataPresenter, DataReceiver, ArtistPage
         pageAvatar?.visibility = View.VISIBLE
         pageAvatar?.setImageBitmap(bitmap)
         loadUserData()
-        //Toast.makeText(activity, "hui", Toast.LENGTH_SHORT).show()
     }
 
     fun putDataToBundle(intent : Intent?){

@@ -15,7 +15,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.provider.MediaStore
 import android.support.constraint.ConstraintLayout
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.CardView
 import android.view.View
 import android.widget.*
@@ -25,14 +24,13 @@ import com.example.artistmanagerapp.interfaces.RedeemCodeDataReceiver
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.RedeemCode
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.UsersHelper
+import com.example.artistmanagerapp.constants.Constants
+import com.example.artistmanagerapp.firebase.FirebaseUsersManager
 import com.example.artistmanagerapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_select_artist_page.*
 import kotlinx.android.synthetic.main.dialog_create_page.*
 import kotlinx.android.synthetic.main.dialog_create_page.create_dialog_progress_bar
 import kotlinx.android.synthetic.main.dialog_create_page.dialog_close_x
-import kotlinx.android.synthetic.main.dialog_redeem_code.*
 import kotlinx.android.synthetic.main.item_artist_page.view.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -105,7 +103,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
 
         // Getting User data
         var uId = auth.currentUser?.uid.toString()
-        UsersHelper.getUserData(uId, this)
+        FirebaseUsersManager.getUserData(uId, this)
         Log.d(ACT_TAG, "getUserData() called")
 
         // Booleans initialization
@@ -246,7 +244,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         Log.d(ACT_TAG, "pageItemClicked() - ${artistPage.artistName}, ${artistPage.artistPageId}")
         view.artist_page_item_progress_bar.visibility = View.VISIBLE
         view.ic_nutka.visibility = View.INVISIBLE
-        UsersHelper.setCurrentArtistPage(userId, artistPage, this)
+        FirebaseUsersManager.setCurrentArtistPage(userId, artistPage, this)
     }
 
     /*private fun showFABMenu() {
@@ -342,7 +340,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
                 redeemCodeDialog!!.dialog_close_x.visibility = View.GONE
                 dataReader?.getRedeemCodeData(redeemCodeStringInput, this)
             } else {
-                Toast.makeText(this, "Redeem code needs to have exactly 7 charakters, please try again", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Redeem code needs to have exactly 7 characters, please try again", Toast.LENGTH_SHORT).show()
             }
         }
     }

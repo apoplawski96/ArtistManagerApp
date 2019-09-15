@@ -1,7 +1,6 @@
 package com.example.artistmanagerapp.activities
 
 import android.app.Dialog
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
@@ -9,28 +8,21 @@ import android.support.v7.widget.OrientationHelper
 import android.support.v7.widget.RecyclerView
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.adapters.PageTeamAdapter
-import com.example.artistmanagerapp.firebase.FirebaseDataReader
 import com.example.artistmanagerapp.firebase.FirebaseDataWriter
 import com.example.artistmanagerapp.interfaces.UsersListListener
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.ui.DialogCreator
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.UsersHelper
+import com.example.artistmanagerapp.constants.Constants
 import com.example.artistmanagerapp.utils.Utils
-import org.w3c.dom.Text
-import android.R.attr.label
 import android.content.ClipData
-import android.content.Context.CLIPBOARD_SERVICE
 import android.content.ClipboardManager
 import android.content.Context
-import android.graphics.Color
 import android.view.View
 import android.widget.*
-import com.example.artistmanagerapp.firebase.ArtistPagesHelper
+import com.example.artistmanagerapp.firebase.FirebaseArtistPagesHelper
 import com.example.artistmanagerapp.firebase.FirebaseUsersManager
 import com.example.artistmanagerapp.models.ArtistPage
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_create_artist_page.*
 import kotlinx.android.synthetic.main.activity_manage_team.*
 import kotlinx.android.synthetic.main.dialog_user_details.*
 import kotlinx.android.synthetic.main.item_team_member.*
@@ -114,7 +106,7 @@ class ManageTeamActivity : BaseActivity(), UsersListListener, DialogCreator.Dial
         initUI(Utils.getUserAccess(userInstance.id.toString(), pageInstance.pageAdmins!!))
 
         // Getting team members list
-        UsersHelper.parseUsers(artistPagesCollectionPath.document(pageId.toString()).collection("pageMembers"), this)
+        FirebaseUsersManager.parseUsers(artistPagesCollectionPath.document(pageId.toString()).collection("pageMembers"), this)
 
         teamMembersRecyclerView?.layoutManager = LinearLayoutManager(this, OrientationHelper.VERTICAL, false)
         adapter = PageTeamAdapter(this, this, teamMembersList) {
@@ -304,7 +296,7 @@ class ManageTeamActivity : BaseActivity(), UsersListListener, DialogCreator.Dial
             }
             DialogCreator.DialogControllerCallback.CallbackOption.MEMBER_REMOVED -> {
                 showProgressAdminMode()
-                ArtistPagesHelper.removeMember()
+                FirebaseArtistPagesHelper.removeMember()
             }
         }
     }

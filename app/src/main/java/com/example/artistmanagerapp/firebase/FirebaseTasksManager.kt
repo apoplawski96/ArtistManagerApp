@@ -1,20 +1,20 @@
-package com.example.artistmanagerapp.utils
+package com.example.artistmanagerapp.firebase
 
 import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
-import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
-import com.example.artistmanagerapp.firebase.FirebaseStatisticsHelper
+import com.example.artistmanagerapp.constants.Constants
 import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Comment
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
+import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.firestore.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-object TaskHelper : BaseActivity() {
+object FirebaseTasksManager : BaseActivity() {
 
     // Objects
     val c = Constants
@@ -42,7 +42,8 @@ object TaskHelper : BaseActivity() {
 
         // Adding init comment to comments collection
         val commentContent = "Task created by ${user?.getDisplayName()}"
-        pathToCommentsCollection.document().set(Comment (commentContent, userId, Utils.getCurrentDate(), user?.getDisplayName(), user?.firstName, user?.lastName)).addOnSuccessListener {
+        pathToCommentsCollection.document().set(Comment (commentContent, userId,
+            Utils.getCurrentDate(), user?.getDisplayName(), user?.firstName, user?.lastName)).addOnSuccessListener {
             taskUpdater.triggerUpdate()
         }.addOnFailureListener {
         }

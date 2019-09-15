@@ -1,6 +1,6 @@
 package com.example.artistmanagerapp.interfaces
 
-import com.example.artistmanagerapp.enums.RealTimeUpdateType
+import com.example.artistmanagerapp.constants.RealTimeUpdateType
 
 interface FirebaseRealTimeUpdatesPresenter {
     fun presentNewData(data : Any?, updateType : RealTimeUpdateType)

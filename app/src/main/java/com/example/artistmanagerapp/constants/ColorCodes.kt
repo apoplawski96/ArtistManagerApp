@@ -1,4 +1,4 @@
-package com.example.artistmanagerapp.utils
+package com.example.artistmanagerapp.constants
 
 object ColorCodes {
     val COLOR_ACCENT = "#79db79"

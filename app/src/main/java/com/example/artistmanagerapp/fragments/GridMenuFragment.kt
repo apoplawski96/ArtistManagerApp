@@ -1,35 +1,24 @@
 package com.example.artistmanagerapp.fragments
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.activities.*
 import com.example.artistmanagerapp.adapters.MenuAdapter
-import com.example.artistmanagerapp.adapters.TaskListAdapter
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.MenuItem
-import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.utils.Communicator
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.TaskHelper
-import com.example.artistmanagerapp.utils.UsersHelper
+import com.example.artistmanagerapp.constants.Constants
+import com.example.artistmanagerapp.firebase.FirebaseUsersManager
 
 class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
 
@@ -84,7 +73,7 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
         // Views
         var menuRecyclerView = rootView.findViewById(R.id.menu_recycler_view) as RecyclerView
 
-        Toast.makeText(activity, "$pageName+$pageId+$epkShareCode+asd", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity, "$pageName+$pageId+$epkShareCode+asd", Toast.LENGTH_SHORT).show()
 
         // Parse tasks
         populateMenuItemsList()
@@ -113,7 +102,7 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
         var intent : Intent? = null
         var option = menuItem.itemName
 
-        Toast.makeText(activity, "$pageName+$pageId+$epkShareCode", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity, "$pageName+$pageId+$epkShareCode", Toast.LENGTH_SHORT).show()
 
         when (option){
             "Task Manager" ->  {
@@ -126,7 +115,7 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
                 intent = Intent(activity, EpkSelectorActivity::class.java)
             }
             "Switch/Create Artist Page" -> {
-                UsersHelper.removeCurrentArtistPage(userIdGlobal, this)
+                FirebaseUsersManager.removeCurrentArtistPage(userIdGlobal, this)
             }
         }
 
@@ -155,7 +144,8 @@ class GridMenuFragment : BaseFragment(), UserInterfaceUpdater {
 
     override fun updateUI(option: String, data : Any?) {
         if (option == Constants.CURRENT_ARTIST_PAGE_REMOVED){
-            var intent = Intent(activity, SelectArtistPageActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
+            var intent = Intent(activity, SelectArtistPageActivity::class.java).apply { putExtra (
+                Constants.PAGE_ID_BUNDLE, pageId) }
             startActivity(intent)
         }
     }

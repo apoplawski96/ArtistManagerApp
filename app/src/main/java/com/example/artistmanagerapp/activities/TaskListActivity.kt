@@ -7,8 +7,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
-import android.support.v7.view.menu.ActionMenuItemView
-import android.support.v7.view.menu.MenuView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
 import android.support.v7.widget.RecyclerView
@@ -17,22 +15,19 @@ import android.view.View
 import android.widget.*
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.adapters.TaskListAdapter
-import com.example.artistmanagerapp.firebase.CommentsHelper
+import com.example.artistmanagerapp.constants.Constants
+import com.example.artistmanagerapp.constants.FirebaseConstants
 import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
+import com.example.artistmanagerapp.firebase.FirebaseTasksManager
 import com.example.artistmanagerapp.fragments.GridMenuFragment
-import com.example.artistmanagerapp.fragments.TaskDetailsDialogFragment
-import com.example.artistmanagerapp.interfaces.IOnBackPressed
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.ui.DialogCreator
-import com.example.artistmanagerapp.utils.*
 import com.google.firebase.firestore.CollectionReference
-import kotlinx.android.synthetic.main.activity_task_details.*
 import kotlinx.android.synthetic.main.item_task.view.*
-import com.example.artistmanagerapp.fragments.BaseFragment
 import java.io.Serializable
 
 class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, DialogCreator.DialogControllerCallback, Serializable{
@@ -107,9 +102,10 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         userInstance = intent.extras.getSerializable(GridMenuFragment.c.BUNDLE_USER_INSTANCE) as User?
 
         // Generate path to tasks list in Firestore
-        pathToTasksCollection = artistPagesCollectionPath.document(pageId.toString()).collection(FirebaseConstants.ARTIST_TASKS)
+        pathToTasksCollection = artistPagesCollectionPath.document(pageId.toString()).collection(
+            FirebaseConstants.ARTIST_TASKS)
         // Tasks parsing
-        TaskHelper.parseTasks(pathToTasksCollection as CollectionReference, this)
+        FirebaseTasksManager.parseTasks(pathToTasksCollection as CollectionReference, this)
 
         Log.d(ACT_TAG, "TasksListActivity")
         Log.d(ACT_TAG, artistPageInstance.toString())
@@ -189,30 +185,11 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         super.onResume()
     }
 
-    // Setting up system back button custom behaviour
-    override fun onBackPressed() {
-        val fragmentsList = supportFragmentManager.fragments
-        var handled = false
-
-        for (fragment in fragmentsList){
-            if (fragment is TaskDetailsDialogFragment) {
-                handled = fragment.onBackPressed(this)
-                if (handled) {
-                    break
-                }
-            }
-        }
-
-        if(!handled) {
-            super.onBackPressed()
-        }
-    }
-
     // **********  TaskUpdater interface implementation **********
 
     override fun updateTasks(tasksOutput: ArrayList<Task>) {
-        var tasksOpen : ArrayList<Task> = TaskHelper.sortTasks(false, tasksOutput)
-        var tasksCompleted : ArrayList<Task> = TaskHelper.sortTasks(true, tasksOutput)
+        var tasksOpen : ArrayList<Task> = FirebaseTasksManager.sortTasks(false, tasksOutput)
+        var tasksCompleted : ArrayList<Task> = FirebaseTasksManager.sortTasks(true, tasksOutput)
 
         adapter?.updateItems(tasksOpen)
         onTasksListNotEmpty()
@@ -235,11 +212,11 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
     }
 
     override fun triggerUpdate() {
-        TaskHelper.parseTasks(pathToTasksCollection, this)
+        FirebaseTasksManager.parseTasks(pathToTasksCollection, this)
     }
 
     fun triggerTasksListReload(pathToTasksCollection : CollectionReference?){
-        TaskHelper.parseTasks(pathToTasksCollection, this)
+        FirebaseTasksManager.parseTasks(pathToTasksCollection, this)
     }
 
     override fun showProgressBar() {
@@ -349,7 +326,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
             val taskTitle : String = taskNameInput?.text.toString()
             if (taskTitle.isNotBlank()){
                 taskNameInput?.text = null
-                TaskHelper.addTask(Task(taskTitle, false, true), artistPageInstance, userInstance, this)
+                FirebaseTasksManager.addTask(Task(taskTitle, false, true), artistPageInstance, userInstance, this)
                 hideAddNewTaskDialog()
                 showProgressBar()
             } else {
@@ -397,7 +374,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
     }
 
     override fun onAccept(option : DialogCreator.DialogControllerCallback.CallbackOption?) {
-        TaskHelper.deleteTask(selectedTaskId, pathToTasksCollection as CollectionReference, this)
+        FirebaseTasksManager.deleteTask(selectedTaskId, pathToTasksCollection as CollectionReference, this)
         logsManager.createActivityLog(userInstance, artistPageInstance?.artistPageId.toString(), selectedTaskId, FirebaseActivityLogsManager.ActivityLogCategory.TASK_REMOVED)
         showProgressBar()
         disableActionToolbar()
@@ -425,7 +402,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         triggerUpdate()
         hideProgressBar()
         setTaskColorDefault(selectedTaskItemView)
-        Toast.makeText(this, "Task successfully deleted", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Task deleted", Toast.LENGTH_SHORT).show()
     }
 
     fun disableActionToolbar(){

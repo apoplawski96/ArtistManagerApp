@@ -2,7 +2,7 @@ package com.example.artistmanagerapp.firebase
 
 import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
-import com.example.artistmanagerapp.enums.RealTimeUpdateType
+import com.example.artistmanagerapp.constants.RealTimeUpdateType
 import com.example.artistmanagerapp.interfaces.FirebaseRealTimeUpdatesPresenter
 import kotlin.math.roundToInt
 

@@ -2,15 +2,12 @@ package com.example.artistmanagerapp.firebase
 
 import android.graphics.Bitmap
 import android.util.Log
-import android.widget.Toast
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.interfaces.*
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.RedeemCode
-import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.utils.FirebaseConstants
-import com.google.firebase.storage.StorageReference
+import com.example.artistmanagerapp.constants.FirebaseConstants
 
 class FirebaseDataReader : BaseActivity () {
 

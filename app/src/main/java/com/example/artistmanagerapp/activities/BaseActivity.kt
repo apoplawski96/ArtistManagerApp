@@ -3,19 +3,11 @@ package com.example.artistmanagerapp.activities
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
-import com.example.artistmanagerapp.models.ArtistPage
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.FirebaseConstants
-import com.example.artistmanagerapp.utils.Utils
+import com.example.artistmanagerapp.constants.FirebaseConstants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 
 abstract class BaseActivity : AppCompatActivity() {
 

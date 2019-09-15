@@ -2,10 +2,8 @@ package com.example.artistmanagerapp.activities
 
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
-import android.support.v4.app.DialogFragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
 import android.support.v7.widget.RecyclerView
@@ -15,10 +13,11 @@ import android.widget.*
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.adapters.CommentsListAdapter
 import com.example.artistmanagerapp.adapters.UsersListAdapter
-import com.example.artistmanagerapp.firebase.CommentsHelper
+import com.example.artistmanagerapp.constants.Constants
+import com.example.artistmanagerapp.firebase.FirebaseCommentsHelper
 import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
-import com.example.artistmanagerapp.fragments.TaskDetailsDialogFragment
-import com.example.artistmanagerapp.interfaces.TaskDetailPresenter
+import com.example.artistmanagerapp.firebase.FirebaseTasksManager
+import com.example.artistmanagerapp.firebase.FirebaseUsersManager
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.interfaces.UsersListListener
 import com.example.artistmanagerapp.models.ArtistPage
@@ -27,13 +26,11 @@ import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
 import com.example.artistmanagerapp.utils.*
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_task_details.*
 import kotlinx.android.synthetic.main.item_user_avatar.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, DatePickerDialog.OnDateSetListener, CommentsHelper.CommentsUpdater {
+class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, DatePickerDialog.OnDateSetListener, FirebaseCommentsHelper.CommentsUpdater {
 
     // Others
     val ACT_TAG = "TaskDetailsActivity"
@@ -44,7 +41,7 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
     var taskInstance : Task? = null
 
     // Utils objects
-    var usersHelper : UsersHelper? = null
+    var usersHelper : FirebaseUsersManager? = null
 
     // Adapters
     var adapter : UsersListAdapter? = null
@@ -114,7 +111,7 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
         Log.d(ACT_TAG, taskInstance.toString())
 
         // Utils objects
-        usersHelper = UsersHelper
+        usersHelper = FirebaseUsersManager
 
         // Views
         taskTitleEditText = findViewById(R.id.task_details_title)
@@ -139,13 +136,13 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
         toolbarProgressBar = findViewById(R.id.toolbar_progress_bar)
 
         // Users list setup
-        UsersHelper.parsePageMembers(artistPagesCollectionPath.document(artistPageInstance?.artistPageId.toString()).collection("pageMembers"), this)
+        FirebaseUsersManager.parsePageMembers(artistPagesCollectionPath.document(artistPageInstance?.artistPageId.toString()).collection("pageMembers"), this)
         usersListRecyclerView?.layoutManager = LinearLayoutManager(TaskListActivity(), OrientationHelper.HORIZONTAL, false)
         adapter = UsersListAdapter(this, this, usersList) {user: User, itemView : View ->  userItemClicked (user, itemView)}
         usersListRecyclerView?.adapter = adapter
 
         // Comments list setup
-        CommentsHelper.parseComments(pathToCommentsCollection, this)
+        FirebaseCommentsHelper.parseComments(pathToCommentsCollection, this)
         progressBarCommentsList?.visibility = View.VISIBLE
         commentsListRecyclerView?.layoutManager = LinearLayoutManager(TaskListActivity(), OrientationHelper.VERTICAL, false)
         commentsListAdapter = CommentsListAdapter(commentsList)
@@ -233,7 +230,7 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
         progressBarDate?.visibility = View.VISIBLE
         setDueDateTextView?.visibility = View.GONE
         // Setting dueDate in database
-        TaskHelper.setTaskDueDate(taskInstance?.taskId, date, artistPageInstance?.artistPageId, this)
+        FirebaseTasksManager.setTaskDueDate(taskInstance?.taskId, date, artistPageInstance?.artistPageId, this)
         logsManager.createActivityLog(userInstance, artistPageInstance!!.artistPageId.toString(), taskInstance, FirebaseActivityLogsManager.ActivityLogCategory.TASK_DUE_DATE_SET)
     }
 
@@ -285,7 +282,7 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
         when (option){
             c.TASK_TITLE_MODIFIED -> {
                 toolbarMidText?.text = "Change Task Title"
-                // TaskHelper.updateTitle()
+                // FirebaseTasksManager.updateTitle()
             }
             c.DESCRIPTION_ADDED -> {
                 toolbarMidText?.text = "Save Description"
@@ -298,7 +295,7 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
             }
             c.COMMENT_ADDED -> {
                 toolbarMidText?.text = "Add Comment"
-                // CommentsHelper.addComment()
+                // FirebaseCommentsHelper.addComment()
             }
         }
 
@@ -307,11 +304,11 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
 
             when (option){
                 c.TASK_TITLE_MODIFIED -> {
-                    // TaskHelper.updateTitle()
+                    // FirebaseTasksManager.updateTitle()
                 }
                 c.DESCRIPTION_ADDED -> {
                     val description = taskDescription?.text.toString()
-                    TaskHelper.setTaskDescription(taskInstance?.taskId.toString(), tasksCollectionPath, description)
+                    FirebaseTasksManager.setTaskDescription(taskInstance?.taskId.toString(), tasksCollectionPath, description)
                     Toast.makeText(this, "Description updated", Toast.LENGTH_SHORT).show()
                     taskDescription?.isEnabled = false
                     disableActionToolbar()
@@ -320,13 +317,13 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
                     toolbarProgressBar?.visibility = View.VISIBLE
                     toolbarConfirmButton?.visibility = View.GONE
                     toolbarDismissButton?.visibility = View.GONE
-                    TaskHelper.assignMembers(taskInstance?.taskId, usersAssignedTemp, artistPageInstance?.artistPageId, this)
+                    FirebaseTasksManager.assignMembers(taskInstance?.taskId, usersAssignedTemp, artistPageInstance?.artistPageId, this)
                     logsManager.createActivityLog(userInstance, artistPageInstance!!.artistPageId.toString(), usersAssignedTemp, FirebaseActivityLogsManager.ActivityLogCategory.TASK_MEMBERS_ASSIGNED)
                 }
                 c.COMMENT_ADDED -> {
                     addCommentField?.isEnabled = false
                     disableActionToolbar()
-                    CommentsHelper.addComment(userInstance, addCommentField?.text.toString(), Utils.getCurrentDate(), pathToCommentsCollection as CollectionReference, this, null)
+                    FirebaseCommentsHelper.addComment(userInstance, addCommentField?.text.toString(), Utils.getCurrentDate(), pathToCommentsCollection as CollectionReference, this, null)
                     addCommentField?.setText(null)
                 }
             }
@@ -378,13 +375,13 @@ class TaskDetailsActivity : BaseActivity(), UsersListListener, TaskUpdater, Date
         }
     }
 
-    override fun onCommentAdded(option: CommentsHelper.Option?) {
+    override fun onCommentAdded(option: FirebaseCommentsHelper.Option?) {
         progressBarCommentsList?.visibility = View.VISIBLE
         Toast.makeText(this, "Comment successfully added", Toast.LENGTH_LONG).show()
-        CommentsHelper.parseComments(pathToCommentsCollection, this)
+        FirebaseCommentsHelper.parseComments(pathToCommentsCollection, this)
     }
 
-    override fun onCommentsParsed(option: CommentsHelper.Option?, commentsList: ArrayList<Comment>) {
+    override fun onCommentsParsed(option: FirebaseCommentsHelper.Option?, commentsList: ArrayList<Comment>) {
         progressBarCommentsList?.visibility = View.GONE
         commentsListAdapter?.updateItems(commentsList)
     }

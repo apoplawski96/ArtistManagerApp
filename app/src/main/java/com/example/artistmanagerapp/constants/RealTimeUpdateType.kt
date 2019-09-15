@@ -1,4 +1,4 @@
-package com.example.artistmanagerapp.enums
+package com.example.artistmanagerapp.constants
 
 enum class RealTimeUpdateType {
     PENDING_ASSIGNMENTS,

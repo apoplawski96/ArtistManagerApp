@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.example.artistmanagerapp.R
-import com.example.artistmanagerapp.models.Event
-import com.example.artistmanagerapp.models.Task
 import kotlinx.android.synthetic.main.item_event.view.*
 
-class EventsGridViewAdapter : BaseAdapter {
-    var eventsList = ArrayList<Event>()
+class EventsGridViewAdapter{
+    /*var eventsList = ArrayList<Event>()
     var context : Context? = null
 
     constructor(context: Context, eventsList : ArrayList<Event>) : super(){
@@ -46,6 +44,6 @@ class EventsGridViewAdapter : BaseAdapter {
     fun updateItems(newEvents : ArrayList<Event>){
         eventsList = newEvents
         notifyDataSetChanged()
-    }
+    }*/
 
 }

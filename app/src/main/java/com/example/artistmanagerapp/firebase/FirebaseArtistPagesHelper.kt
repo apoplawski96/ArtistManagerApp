@@ -5,7 +5,7 @@ import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.User
 import com.google.firebase.firestore.FieldValue
 
-object ArtistPagesHelper : BaseActivity( ){
+object FirebaseArtistPagesHelper : BaseActivity( ){
 
     fun giveUserAdminRights(targetUser : User?, artistPage: ArtistPage?, givenBy : User?){
         val pageId = artistPage!!.artistPageId.toString()

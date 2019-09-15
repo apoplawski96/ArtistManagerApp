@@ -4,17 +4,15 @@ import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.interfaces.DataReceiver
-import com.example.artistmanagerapp.utils.ConstMessages
-import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
+import com.example.artistmanagerapp.constants.ConstMessages
+import com.example.artistmanagerapp.firebase.FirebaseElectronicPressKitHelper
 import com.example.artistmanagerapp.utils.Utils
-import kotlinx.android.synthetic.main.dialog_standard.view.*
 
 class DialogCreator{
 
@@ -137,7 +135,7 @@ class DialogCreator{
             dialogButton.setOnClickListener {
                 if (callbackOption == DialogControllerCallback.CallbackOption.CODE_REDEEMED){
                     dialogProgressBar.visibility = View.VISIBLE
-                    ElectronicPressKitHelper.redeemShareCode(dialogText.text.toString(), this, dialogControllerCallback) //tutaj receiver dostaje dane o pomyslnym lub niepomyslnym zreedemowaniu kodu
+                    FirebaseElectronicPressKitHelper.redeemShareCode(dialogText.text.toString(), this, dialogControllerCallback) //tutaj receiver dostaje dane o pomyslnym lub niepomyslnym zreedemowaniu kodu
                 } else{
                     dialog.hide()
                 }

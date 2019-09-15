@@ -2,10 +2,8 @@ package com.example.artistmanagerapp.activities
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
 import android.view.View
 import android.widget.*
 import com.example.artistmanagerapp.R
@@ -14,9 +12,9 @@ import com.example.artistmanagerapp.firebase.StorageFileUploader
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.ArtistPage
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
-import com.example.artistmanagerapp.utils.FirebaseConstants
+import com.example.artistmanagerapp.constants.Constants
+import com.example.artistmanagerapp.firebase.FirebaseElectronicPressKitHelper
+import com.example.artistmanagerapp.constants.FirebaseConstants
 import com.example.artistmanagerapp.utils.Utils
 import java.io.IOException
 
@@ -143,7 +141,7 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater, View.OnClickLi
                 dataMap.put(c.ARTIST_BIO, bio)
                 dataMap.put(c.ARTIST_CONTACT, contact)
 
-                ElectronicPressKitHelper.saveEpkData(dataMap, pageId, this)
+                FirebaseElectronicPressKitHelper.saveEpkData(dataMap, pageId, this)
             }
             saveDataUpperButton -> {
                 var dataMap : HashMap <String, Any> = HashMap()
@@ -163,7 +161,7 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater, View.OnClickLi
                 dataMap.put(c.ARTIST_BIO, bio)
                 dataMap.put(c.ARTIST_CONTACT, contact)
 
-                ElectronicPressKitHelper.saveEpkData(dataMap, pageId, this)
+                FirebaseElectronicPressKitHelper.saveEpkData(dataMap, pageId, this)
             }
             backButton -> {
                 onBackPressed()
@@ -181,8 +179,6 @@ class EpkEditInfoActivity : BaseActivity(), UserInterfaceUpdater, View.OnClickLi
         // UI updates
         uploadProgressBar?.visibility = View.VISIBLE
         artistImage?.visibility = View.INVISIBLE
-
-        Toast.makeText(this, "kuraw wrucilem", Toast.LENGTH_SHORT).show()
 
         if (requestCode == 1) {
             if (data != null) {

@@ -2,19 +2,14 @@ package com.example.artistmanagerapp.activities
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.FirebaseConstants
-import com.example.artistmanagerapp.utils.UsersHelper
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.artistmanagerapp.constants.Constants
+import com.example.artistmanagerapp.constants.FirebaseConstants
+import com.example.artistmanagerapp.firebase.FirebaseUsersManager
 
 
 class TransitionActivity : BaseActivity(), DataReceiver {
@@ -33,7 +28,7 @@ class TransitionActivity : BaseActivity(), DataReceiver {
         Log.d("USER_ID", user?.uid.toString())
 
 
-        UsersHelper.getUserData(userIdGlobal, this)
+        FirebaseUsersManager.getUserData(userIdGlobal, this)
     }
 
     // ************************************ FUNCTIONS SECTION START ************************************

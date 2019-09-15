@@ -15,7 +15,7 @@ import com.example.artistmanagerapp.R
 import com.example.artistmanagerapp.firebase.FirebaseDataReader
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.models.ArtistPage
-import com.example.artistmanagerapp.utils.Constants
+import com.example.artistmanagerapp.constants.Constants
 
 
 class SharedEpkActivity : BaseActivity(), ArtistPagesPresenter {
@@ -108,7 +108,7 @@ class SharedEpkActivity : BaseActivity(), ArtistPagesPresenter {
         artistPageData.put("Name", artistPage.artistName.toString())
 
         // Cover photo retrieving and loading into a view
-        val imageRef = storageRef.child("electronicPressKitPhotos/MvFdswTbaR9YdnWr967C/cover.jpg")
+        val imageRef = storageRef.child("epkPhotos/$sharedPageId/cover.jpg")
         var artistImage : ImageView = findViewById(R.id.artist_cover_photo_epk)
         imageRef.getBytes(1024*1024).addOnSuccessListener { bitmapData ->
             val bitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData?.size!!.toInt())

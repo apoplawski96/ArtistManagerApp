@@ -7,15 +7,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import com.example.artistmanagerapp.R
-import com.example.artistmanagerapp.activities.BaseActivity
-import com.example.artistmanagerapp.activities.TaskListActivity
 import com.example.artistmanagerapp.firebase.FirebaseActivityLogsManager
 import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.Task
-import com.example.artistmanagerapp.utils.TaskHelper
+import com.example.artistmanagerapp.firebase.FirebaseTasksManager
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.android.synthetic.main.item_task.view.*
 
@@ -73,7 +69,7 @@ class TaskListAdapter (taskUpdater : TaskUpdater, val context : Context?, var ta
             itemView.check_box.setOnClickListener {
                 taskUpdater.showProgressBar()
                 // Setting "isCompleted" value in database
-                TaskHelper.changeTaskCompletionStatus(taskUpdater, task.taskId, itemView.check_box.isChecked, path)
+                FirebaseTasksManager.changeTaskCompletionStatus(taskUpdater, task.taskId, itemView.check_box.isChecked, path)
                 //setupCheckBoxStatus()
             }
 

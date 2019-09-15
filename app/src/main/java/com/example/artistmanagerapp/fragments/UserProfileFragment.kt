@@ -19,7 +19,7 @@ import com.example.artistmanagerapp.firebase.StorageFileDownloader
 import com.example.artistmanagerapp.interfaces.MediaLoader
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.utils.Constants
+import com.example.artistmanagerapp.constants.Constants
 import com.example.artistmanagerapp.utils.Utils
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_user_profile.view.*
@@ -127,7 +127,8 @@ class UserProfileFragment : BaseFragment(), MediaLoader {
         }
 
         rootView.home_screen_back_button.setOnClickListener {
-            var intent = Intent(activity, SelectArtistPageActivity::class.java).apply { putExtra (Constants.PAGE_ID_BUNDLE, pageId) }
+            var intent = Intent(activity, SelectArtistPageActivity::class.java).apply { putExtra (
+                Constants.PAGE_ID_BUNDLE, pageId) }
             putDataToBundle(intent)
             startActivity(intent)
         }

@@ -40,6 +40,7 @@ class LoginActivity : BaseActivity() {
             signIn(loadAuthFieldsResult.email, loadAuthFieldsResult.password, auth)
         }
 
+
         already_registered_button.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
@@ -49,21 +50,17 @@ class LoginActivity : BaseActivity() {
     }
 
     fun signIn(email : String, password : String, auth : FirebaseAuth){
-        coverSolid?.visibility = View.VISIBLE
-        coverProgress?.visibility = View.VISIBLE
-
         if (!email.isEmpty() && !password.isEmpty()){
-
+            showProgressOverlay()
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this){ task ->
                 if (task.isSuccessful){
-                    showProgressOverlay()
-                    Toast.makeText(baseContext, "Authentication successful.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, "Authenticated successfuly", Toast.LENGTH_SHORT).show()
                     // When login is successful - we go to TransitionActivity
                     val intent = Intent(this, TransitionActivity::class.java)
                     startActivity(intent)
                 } else {
                     hideProgressOverlay()
-                    Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, "${task.exception}", Toast.LENGTH_SHORT).show()
                 }
 
             }
@@ -71,7 +68,6 @@ class LoginActivity : BaseActivity() {
         } else {
             Toast.makeText(this, "Email and password can't be empty!", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     data class LoadAuthFieldsResult(var email : String, var password : String)

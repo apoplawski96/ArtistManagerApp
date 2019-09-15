@@ -23,8 +23,8 @@ import com.example.artistmanagerapp.interfaces.BundleUpdater
 import com.example.artistmanagerapp.interfaces.MediaLoader
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.ui.DialogCreator
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
+import com.example.artistmanagerapp.constants.Constants
+import com.example.artistmanagerapp.firebase.FirebaseElectronicPressKitHelper
 import kotlinx.android.synthetic.main.activity_artist_epk_kind_of.*
 
 class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCreator.DialogControllerCallback, BundleUpdater, MediaLoader {
@@ -133,7 +133,7 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
         instaLink?.text = artistPage.instagramLink.toString()
         fbLink?.text = artistPage.facebookLink.toString()
         bio?.text = artistPage.biography.toString()
-        contact?.text = artistPage.biography.toString()
+        contact?.text = artistPage.contact.toString()
 
         artistPageData.put("Genre", genre?.text.toString())
         artistPageData.put("Instagram link",instaLink?.text.toString())
@@ -170,7 +170,7 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
     }
 
     fun onImageSuccessfullyLoaded(){
-        if ((epkShareCode == null) or (epkShareCode == "null")){ ElectronicPressKitHelper.generateShareCode(pageId, this) }
+        if ((epkShareCode == null) or (epkShareCode == "null")){ FirebaseElectronicPressKitHelper.generateShareCode(pageId, this) }
         updateUI()
     }
 
@@ -196,7 +196,7 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
 
     override fun updateBundleData(newData: Any?) {
         epkShareCode = newData.toString()
-        Toast.makeText(this, "Data updated with: $epkShareCode", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "Data updated with: $epkShareCode", Toast.LENGTH_SHORT).show()
     }
 
     override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {}

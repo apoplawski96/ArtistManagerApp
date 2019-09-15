@@ -3,15 +3,12 @@ package com.example.artistmanagerapp.firebase
 import android.graphics.Bitmap
 import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
-import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.RedeemCode
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.ui.DialogCreator
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.FirebaseConstants
-import com.example.artistmanagerapp.utils.Utils
+import com.example.artistmanagerapp.constants.Constants
+import com.example.artistmanagerapp.constants.FirebaseConstants
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
 import java.io.ByteArrayOutputStream
@@ -169,15 +166,27 @@ class FirebaseDataWriter : BaseActivity(){
     }
 
     fun addArtistReferenceToUserRecord(userId : String, artistPageId : String?){
-        val initData : HashMap<String, Any?> = HashMap()
-        initData.put("pageRole", null)
+        var artistPageInfo = HashMap<String, Any>()
 
-        usersCollectionPath.document(userId).collection("artistPages").document(artistPageId.toString()).set(initData, SetOptions.merge()).addOnSuccessListener {
-            Log.d(FIREBASE_TAG, "Artist page info successfully added to user record: $initData")
-        }.addOnFailureListener {
-            Log.d(FIREBASE_ERROR, "Failure: $it")
-        }
+        db.runTransaction {
+            val snapshot = it.get(artistPagesCollectionPath.document(artistPageId.toString()))
+            if (snapshot.exists()){
+                Log.d("TANSACTION", "Snapshot $snapshot")
+                val name = snapshot.get(c.ARTIST_NAME).toString()
+                val pageId = snapshot.get(c.ARTIST_PAGE_ID).toString()
+                val genre = snapshot.get(c.ARTIST_GENRE).toString()
 
+                artistPageInfo.put(c.ARTIST_NAME, name)
+                artistPageInfo.put(c.ARTIST_PAGE_ID, pageId)
+                artistPageInfo.put(c.ARTIST_GENRE, genre)
+
+                it.update(usersCollectionPath.document(userId).collection("artistPages").document(artistPageId.toString()), artistPageInfo)
+            }
+        }.addOnSuccessListener { Log.d("TANSACTION", "SUCCESS") }.addOnFailureListener { Log.d("TANSACTION", "Failure ${it}") }
+
+        // Setting up currentArtistPage
+        userPath.set(mapOf(c.CURRENT_ARTIST_PAGE to artistPageId), SetOptions.merge()).addOnSuccessListener {  }.addOnFailureListener {  }
+        //logsManager.createActivityLog(null, artistPageId.toString(), null, FirebaseActivityLogsManager.ActivityLogCategory.MEMBER_JOINED)
     }
 
     // TO FIX

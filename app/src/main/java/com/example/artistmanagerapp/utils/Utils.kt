@@ -8,18 +8,14 @@ import android.widget.EditText
 import com.example.artistmanagerapp.activities.BaseActivity
 import com.example.artistmanagerapp.activities.ManageTeamActivity
 import com.example.artistmanagerapp.models.RedeemCode
-import com.example.artistmanagerapp.models.User
 import java.util.*
 import kotlin.collections.ArrayList
-import com.google.common.io.Files.isFile
 import java.io.File
 import java.text.DateFormat
 import android.support.v4.graphics.drawable.DrawableCompat
-import android.graphics.drawable.Drawable
-import android.R
 import android.content.Context
 import android.support.v7.content.res.AppCompatResources
-import kotlin.collections.HashMap
+import com.example.artistmanagerapp.constants.Constants
 
 object Utils : BaseActivity (){
 

@@ -1,18 +1,19 @@
-package com.example.artistmanagerapp.utils
+package com.example.artistmanagerapp.firebase
 
-import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
+import com.example.artistmanagerapp.constants.Constants
 import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
 import com.example.artistmanagerapp.interfaces.BundleUpdater
 import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.UserInterfaceUpdater
 import com.example.artistmanagerapp.models.ArtistPage
-import com.example.artistmanagerapp.models.RedeemCode
 import com.example.artistmanagerapp.models.ShareEpkCode
 import com.example.artistmanagerapp.ui.DialogCreator
+import com.example.artistmanagerapp.constants.FirebaseConstants
+import com.example.artistmanagerapp.utils.Utils
 import com.google.firebase.firestore.SetOptions
 
-object ElectronicPressKitHelper : BaseActivity() {
+object FirebaseElectronicPressKitHelper : BaseActivity() {
 
     val c = FirebaseConstants
 
@@ -27,11 +28,11 @@ object ElectronicPressKitHelper : BaseActivity() {
     fun readEpkData (pageId: String?, presenter : ArtistPagesPresenter){
         artistPagesCollectionPath.document(pageId.toString()).get().addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot.exists()){
-                var name = documentSnapshot.get(c.ARTIST_NAME).toString()
-                var bio = documentSnapshot.get(c.ARTIST_BIO).toString()
-                var insta = documentSnapshot.get(c.ARTIST_IG).toString()
-                var fb = documentSnapshot.get(c.ARTIST_FB).toString()
-                var genre = documentSnapshot.get(c.ARTIST_GENRE).toString()
+                var name = documentSnapshot.get(FirebaseConstants.ARTIST_NAME).toString()
+                var bio = documentSnapshot.get(FirebaseConstants.ARTIST_BIO).toString()
+                var insta = documentSnapshot.get(FirebaseConstants.ARTIST_IG).toString()
+                var fb = documentSnapshot.get(FirebaseConstants.ARTIST_FB).toString()
+                var genre = documentSnapshot.get(FirebaseConstants.ARTIST_GENRE).toString()
 
                 val epkData = ArtistPage(name, bio, insta, fb, genre)
                 presenter.showArtistPageData(epkData)
@@ -42,7 +43,8 @@ object ElectronicPressKitHelper : BaseActivity() {
     }
 
     fun generateShareCode (pageId : String?, bundleUpdater: BundleUpdater){
-        val redeemCodeString : String = Utils.generateCodeString(Constants.EPK_SHARE_CODE_LENGHT)
+        val redeemCodeString : String =
+            Utils.generateCodeString(Constants.EPK_SHARE_CODE_LENGHT)
         val redeemCodeObject = ShareEpkCode(redeemCodeString, pageId)
 
         // Adding ShareCode to shareCodes collection
@@ -51,7 +53,7 @@ object ElectronicPressKitHelper : BaseActivity() {
         }
 
         // Updating shareCode field in ArtistPages
-        artistPagesCollectionPath.document(pageId.toString()).set (mapOf(c.ARTIST_SHARE_CODE to redeemCodeString), SetOptions.merge()).addOnSuccessListener {
+        artistPagesCollectionPath.document(pageId.toString()).set (mapOf(FirebaseConstants.ARTIST_SHARE_CODE to redeemCodeString), SetOptions.merge()).addOnSuccessListener {
             bundleUpdater.updateBundleData(redeemCodeString)
         }
 
@@ -63,6 +65,16 @@ object ElectronicPressKitHelper : BaseActivity() {
                 receiver.receiveData(documentSnapshot.get("connectedPageId").toString(), dialogControllerCallback)
             } else {
                 receiver.receiveData(null, dialogControllerCallback)
+            }
+        }
+    }
+
+    fun redeemEpkShareCode (shareCode : String, receiver : DataReceiver) {
+        epkShareCodesCollectionPath.document(shareCode).get().addOnSuccessListener { documentSnapshot ->
+            if (documentSnapshot.exists()){
+                receiver.receiveData(documentSnapshot.get("connectedPageId").toString(), null)
+            } else {
+                receiver.receiveData(null, null)
             }
         }
     }

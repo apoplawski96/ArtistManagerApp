@@ -2,14 +2,12 @@ package com.example.artistmanagerapp.firebase
 
 import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
-import com.example.artistmanagerapp.interfaces.TaskUpdater
 import com.example.artistmanagerapp.models.Comment
-import com.example.artistmanagerapp.models.Task
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.utils.FirebaseConstants
+import com.example.artistmanagerapp.constants.FirebaseConstants
 import com.google.firebase.firestore.CollectionReference
 
-object CommentsHelper : BaseActivity() {
+object FirebaseCommentsHelper : BaseActivity() {
 
     val fbC = FirebaseConstants
 
@@ -63,7 +61,7 @@ object CommentsHelper : BaseActivity() {
                                 document.get(fbC.AUTHOR_LAST_NAME).toString()))
                         Log.d("FIREBASE - COMMENTS", document.get(fbC.COMMENT_CONTENT).toString())
                     }
-                    commentsUpdater.onCommentsParsed(CommentsHelper.Option.COMMENTS_PARSED, commentsOutput)
+                    commentsUpdater.onCommentsParsed(FirebaseCommentsHelper.Option.COMMENTS_PARSED, commentsOutput)
                 } else {
                     Log.d("FIREBASE - COMMENTS", "DOCUMENT IS EMPTY")
                 }

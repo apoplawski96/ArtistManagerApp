@@ -44,8 +44,8 @@ object FirebaseActivityLogsManager : BaseActivity(){
                 logDescription = "Task ${task.title} created by ${user?.getDisplayName()}"
             }
             ActivityLogCategory.EVENT_CREATED -> {
-                val event = data as Event
-                logDescription = "Event ${event.eventTitle} created b ${user?.getDisplayName()}"
+                //val event = data as Event
+                //logDescription = "Event ${event.eventTitle} created b ${user?.getDisplayName()}"
             }
             ActivityLogCategory.MEMBER_JOINED -> {
                 logDescription = "A new member ${user?.getDisplayName()} have joined to a team!"

@@ -1,4 +1,4 @@
-package com.example.artistmanagerapp.utils
+package com.example.artistmanagerapp.constants
 
 object FirebaseConstants {
 

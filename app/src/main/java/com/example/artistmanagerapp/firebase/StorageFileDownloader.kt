@@ -1,15 +1,9 @@
 package com.example.artistmanagerapp.firebase
 
 import android.graphics.BitmapFactory
-import android.util.Log
-import android.view.View
 import com.example.artistmanagerapp.activities.BaseActivity
-import com.example.artistmanagerapp.interfaces.DataReceiver
 import com.example.artistmanagerapp.interfaces.MediaLoader
-import com.example.artistmanagerapp.ui.DialogCreator
-import com.example.artistmanagerapp.utils.Constants
-import com.example.artistmanagerapp.utils.ElectronicPressKitHelper
-import com.google.firebase.firestore.CollectionReference
+import com.example.artistmanagerapp.constants.Constants
 
 class StorageFileDownloader : BaseActivity() {
 

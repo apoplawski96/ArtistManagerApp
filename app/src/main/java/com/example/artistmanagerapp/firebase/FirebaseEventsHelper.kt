@@ -1,16 +1,13 @@
-package com.example.artistmanagerapp.utils
+package com.example.artistmanagerapp.firebase
 
 import android.util.Log
 import com.example.artistmanagerapp.activities.BaseActivity
-import com.example.artistmanagerapp.interfaces.TaskUpdater
-import com.example.artistmanagerapp.models.Event
-import com.example.artistmanagerapp.models.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
 
 class FirebaseEventsHelper : BaseActivity() {
 
-    fun parseEvents (pathToEventsCollection : CollectionReference, presenter : EventsPresenter){
+    /*fun parseEvents (pathToEventsCollection : CollectionReference, presenter : EventsPresenter){
         var eventsOutput : ArrayList<Event> = ArrayList()
 
         pathToEventsCollection.get()
@@ -46,6 +43,6 @@ class FirebaseEventsHelper : BaseActivity() {
 
     interface EventsPresenter{
         fun updateEvents (eventsList : ArrayList<Event>?)
-    }
+    }*/
 
 }

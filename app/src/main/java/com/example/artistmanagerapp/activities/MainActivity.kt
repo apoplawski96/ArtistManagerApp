@@ -1,7 +1,6 @@
 package com.example.artistmanagerapp.activities
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -12,17 +11,11 @@ import com.example.artistmanagerapp.fragments.HomeFragment
 import com.example.artistmanagerapp.fragments.UserProfileFragment
 import com.example.artistmanagerapp.interfaces.ArtistPageDataReceiver
 import com.example.artistmanagerapp.interfaces.DataReceiver
-import com.example.artistmanagerapp.interfaces.FragmentsMessenger
 import com.example.artistmanagerapp.models.ArtistPage
 import com.example.artistmanagerapp.models.User
-import com.example.artistmanagerapp.utils.UsersHelper
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
-import android.R.id.message
 import android.util.Log
-import android.widget.Toast
-import com.example.artistmanagerapp.interfaces.ArtistPagesPresenter
-import com.example.artistmanagerapp.utils.Constants
+import com.example.artistmanagerapp.constants.Constants
 
 
 class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
@@ -49,7 +42,7 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
 
         // TO CHANGE LATER
         //val mUserId = auth.currentUser?.uid
-        //UsersHelper.getCurrentArtistPage(userIdGlobal, this)
+        //FirebaseUsersManager.getCurrentArtistPage(userIdGlobal, this)
 
         FirebaseDataReader().getArtistPageData(userBundleInstance?.currentArtistPageId, null, this)
 

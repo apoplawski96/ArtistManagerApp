@@ -54,17 +54,13 @@ class RegisterActivity : BaseActivity() {
             startActivity(intent)
             //overridePendingTransition(R.anim.slide_right, R.anim.slide_left)
         }
-
     }
 
 
 
     fun signUp(email : String, password : String){
-        // Showing progress in UI
-        coverSolid?.visibility = View.VISIBLE
-        coverProgress?.visibility = View.VISIBLE
-
         if (!email.isEmpty() && !password.isEmpty()){
+            showProgressOverlay()
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
                 if (task.isSuccessful){
                     coverSolid?.visibility = View.GONE
@@ -73,6 +69,7 @@ class RegisterActivity : BaseActivity() {
                     val user = auth.currentUser
                     updateUI(user)
                 } else {
+                    hideProgressOverlay()
                     Toast.makeText(baseContext, "Authentication failed." + task.exception.toString(), Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
@@ -98,6 +95,16 @@ class RegisterActivity : BaseActivity() {
         var result = LoadAuthFieldsResult(email, password, passwordRepeat)
 
         return result
+    }
+
+    fun showProgressOverlay(){
+        coverSolid?.visibility = View.VISIBLE
+        coverProgress?.visibility = View.VISIBLE
+    }
+
+    fun hideProgressOverlay(){
+        coverSolid?.visibility = View.GONE
+        coverProgress?.visibility = View.GONE
     }
 
 }
