@@ -51,22 +51,11 @@
 ## App Demo Showcase
 
 <p align="center">
-  <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="300"/></a></img>
-  <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="300"/></a></img>
-  <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="300"/></a></img>
+  <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="256"/></a></img>
+  <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif" width="256"/></a></img>
+  <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/3.gif" width="256"/></a></img>
   <a href="#credits">Contact</a>
 </p>
-
-
-<p><h4> • General overview </h4></p>
-<img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="300"/></a></img>
-<br>
-<p><h4> • ArtistPageSelector overview</h4></p>
-<img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif"width="300"/></a></img>
-<br>
-<p><h4> • TaskManager overview</h4></p>
-<img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/3.gif"width="300"/></a></img>
-<br>
   
 ## Contact
 
