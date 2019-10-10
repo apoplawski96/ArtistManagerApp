@@ -6,7 +6,7 @@
   <a href="#key-features">Technology</a> •
   <a href="#how-to-use">Functionality Overview</a> •
   <a href="#download">App showcase</a> •
-  <a href="#credits">Contact</a> •
+  <a href="#credits">Contact</a>
 </p>
 
 <a href="https://github.com/apoplawski96/projects-summary/blob/master/assets/ArtistManagementApp.png">
@@ -15,82 +15,43 @@
 <p><h4>This app is a project for my bachelor's degree thesis. App's purpose is to provide a platform to manage and organise everyday's workload concerning the artist or the manager of a music band/music project.<h4><p>
 </br>
 
-## Technology
+  ## Technology
 
-* LivePreview - Make changes, See changes
-  - Instantly see what your Markdown documents look like in HTML as you create them.
-* Sync Scrolling
-  - While you type, LivePreview will automatically scroll to the current location you're editing.
-* GitHub Flavored Markdown  
-* Syntax highlighting
-* [KaTeX](https://khan.github.io/KaTeX/) Support
-* Dark/Light mode
-* Toolbar for basic Markdown formatting
-* Supports multiple cursors
-* Save the Markdown preview as PDF
-* Emoji support in preview :tada:
-* App will keep alive in tray for quick usage
-* Full screen mode
-  - Write distraction free.
-* Cross platform
-  - Windows, macOS and Linux ready.
+* Kotlin 1.3.10
+* Firebase
+  - Cloud Firestore
+  - Authentication
+  - Storage
   
   ## Functionality overview
 
-* LivePreview - Make changes, See changes
-  - Instantly see what your Markdown documents look like in HTML as you create them.
-* Sync Scrolling
-  - While you type, LivePreview will automatically scroll to the current location you're editing.
-* GitHub Flavored Markdown  
-* Syntax highlighting
-* [KaTeX](https://khan.github.io/KaTeX/) Support
-* Dark/Light mode
-* Toolbar for basic Markdown formatting
-* Supports multiple cursors
-* Save the Markdown preview as PDF
-* Emoji support in preview :tada:
-* App will keep alive in tray for quick usage
-* Full screen mode
-  - Write distraction free.
-* Cross platform
-  - Windows, macOS and Linux ready.
+* User profile module
+  - Login/register
+  - Change password
+  - Edit profile info
+* "Artist Page" module
+  - Create "Artist Page"
+  - Join/invite user to "Artist Page" via invitation code
+  - Navigate and select between "Artist Pages"
+* Task Manager module
+  - Add new task
+  - Delete task/tasks
+  - Change task completion status
+  - Set task description
+  - Assign users to a task
+  - Set task due date
+  - Add comment to a task
+* "Mobile Electronic Press Kit" module
+  - Create and generate Electronic Press Kit
+  - Share/redeem other pages' EPK
+* Page administrator module
+* "Activity Logs Registry" module
+
   
   ## App showcase
 
-* LivePreview - Make changes, See changes
-  - Instantly see what your Markdown documents look like in HTML as you create them.
-* Sync Scrolling
-  - While you type, LivePreview will automatically scroll to the current location you're editing.
-* GitHub Flavored Markdown  
-* Syntax highlighting
-* [KaTeX](https://khan.github.io/KaTeX/) Support
-* Dark/Light mode
-* Toolbar for basic Markdown formatting
-* Supports multiple cursors
-* Save the Markdown preview as PDF
-* Emoji support in preview :tada:
-* App will keep alive in tray for quick usage
-* Full screen mode
-  - Write distraction free.
-* Cross platform
-  - Windows, macOS and Linux ready.
+
   
   ## Contact
 
-* LivePreview - Make changes, See changes
-  - Instantly see what your Markdown documents look like in HTML as you create them.
-* Sync Scrolling
-  - While you type, LivePreview will automatically scroll to the current location you're editing.
-* GitHub Flavored Markdown  
-* Syntax highlighting
-* [KaTeX](https://khan.github.io/KaTeX/) Support
-* Dark/Light mode
-* Toolbar for basic Markdown formatting
-* Supports multiple cursors
-* Save the Markdown preview as PDF
-* Emoji support in preview :tada:
-* App will keep alive in tray for quick usage
-* Full screen mode
-  - Write distraction free.
-* Cross platform
-  - Windows, macOS and Linux ready.
+
