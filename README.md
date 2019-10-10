@@ -69,13 +69,6 @@
 <br>
 <br>
 
-<img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif" width="256"/></a>
-<p><h1>General Overwiew</h1></p>
-<h2 align="left"> • Navigation between fragments (HomeFragment, MenuFragment, UserProfileFragment) in home screen using BottomNavigationView</h2>
-<h4> • Brief showcase of ManageTeam module and admin functionalities in admin mode</h4>
-<h4> • Brief showcase of ActivityLogsRegistry module and sort/filter functionality</h4>
-<br></br>
-
 <a href="https://github.com/Ramotion/folding-cell-android">
 <img align="left" src="https://github.com/Ramotion/android-animation-ui-libraires/blob/master/gifs/folding_cell.gif" width="480" height="360" /></a>
 <p><h1 align="left"><a href="https://github.com/Ramotion/folding-cell-android">FOLDING CELL</a></h1></p>
