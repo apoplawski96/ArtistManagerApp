@@ -48,10 +48,19 @@
 * "Activity Logs Registry" module
 
   
-  ## App showcase
+## App showcase
+
+* General overview
+<img align="center" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif"/></a>
+
+* ArtistPageSelector overview
+<img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif"/></a>
+
+* TaskManager overview
+<img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/3.gif"/></a>
 
 
   
-  ## Contact
+## Contact
 
 
