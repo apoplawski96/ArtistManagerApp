@@ -19,7 +19,7 @@
 
 * <b>Min SDK</b> - 26
 * <b>Kotlin</b> - 1.3.20
-* Firebase
+* <b>Firebase</b>
   - Firebase Cloud Firestore
   - Firebase Authentication
   - Firebase Cloud Storage
