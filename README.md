@@ -1,6 +1,6 @@
 <a href="https://github.com/apoplawski96/projects-summary/blob/master/assets/header.png"><img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/header.png"></a>
 
-# Artist Management App
+<h1 align="center"> Artist Management App</h4>
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
