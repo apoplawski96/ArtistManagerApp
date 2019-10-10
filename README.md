@@ -71,9 +71,31 @@
 
 <img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif" width="256"/></a>
 <p><h1>General Overwiew</h1></p>
-<h4> • Navigation between fragments (HomeFragment, MenuFragment, UserProfileFragment) in home screen using BottomNavigationView</h4>
+<h2 align="left"> • Navigation between fragments (HomeFragment, MenuFragment, UserProfileFragment) in home screen using BottomNavigationView</h2>
 <h4> • Brief showcase of ManageTeam module and admin functionalities in admin mode</h4>
 <h4> • Brief showcase of ActivityLogsRegistry module and sort/filter functionality</h4>
+<br></br>
+
+<a href="https://github.com/Ramotion/folding-cell-android">
+<img align="left" src="https://github.com/Ramotion/android-animation-ui-libraires/blob/master/gifs/folding_cell.gif" width="480" height="360" /></a>
+<p><h1 align="left"><a href="https://github.com/Ramotion/folding-cell-android">FOLDING CELL</a></h1></p>
+<h4>Material design expanding content cell inspired by folding paper material</h4>
+<p><h6>Stay tuned for the latest updates:</h6>
+<a href="https://goo.gl/rPFpid" >
+<img src="https://i.imgur.com/ziSqeSo.png/" width="156" height="28"></a></p>
+<h4><a href="https://github.com/Ramotion/folding-cell-android#installation">⚙️ Installation Guide →</a></h4>
+<h4><a href="https://github.com/Ramotion/folding-cell-android#requirements">☑️ Requirements →</a></h4>
+<br></br>
+
+<a href="https://github.com/Ramotion/folding-cell-android">
+<img align="left" src="https://github.com/Ramotion/android-animation-ui-libraires/blob/master/gifs/folding_cell.gif" width="480" height="360" /></a>
+<p><h1 align="left"><a href="https://github.com/Ramotion/folding-cell-android">FOLDING CELL</a></h1></p>
+<h4>Material design expanding content cell inspired by folding paper material</h4>
+<p><h6>Stay tuned for the latest updates:</h6>
+<a href="https://goo.gl/rPFpid" >
+<img src="https://i.imgur.com/ziSqeSo.png/" width="156" height="28"></a></p>
+<h4><a href="https://github.com/Ramotion/folding-cell-android#installation">⚙️ Installation Guide →</a></h4>
+<h4><a href="https://github.com/Ramotion/folding-cell-android#requirements">☑️ Requirements →</a></h4>
 <br></br>
   
 ## Contact
