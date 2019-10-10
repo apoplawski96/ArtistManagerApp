@@ -51,10 +51,11 @@
 ## App Demo Showcase
 
 <img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="256"/></a>
-<p><h1 align="left"><a href="https://github.com/Ramotion/folding-cell-android">FOLDING CELL</a></h1></p>
+<p><h1 align="left">General Overview</a></h1></p>
 <h4>Material design expanding content cell inspired by folding paper material</h4>
-<p><h6>Stay tuned for the latest updates:</h6>
-<a href="https://goo.gl/rPFpid" >
+<p> • Navigation between fragments (HomeFragment, MenuFragment, UserProfileFragment) in home screen using BottomNavigationView</p>
+<p> • Navigation between fragments (HomeFragment, MenuFragment, UserProfileFragment) in home screen using BottomNavigationView</p>
+<p> • Navigation between fragments (HomeFragment, MenuFragment, UserProfileFragment) in home screen using BottomNavigationView</p>
 <img src="https://i.imgur.com/ziSqeSo.png/" width="156" height="28"></a></p>
 <h4><a href="https://github.com/Ramotion/folding-cell-android#installation">⚙️ Installation Guide →</a></h4>
 <h4><a href="https://github.com/Ramotion/folding-cell-android#requirements">☑️ Requirements →</a></h4>
