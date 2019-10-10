@@ -60,6 +60,14 @@
 <br>
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 <img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif" width="256"/></a>
 <p><h1>General Overwiew</h1></p>
