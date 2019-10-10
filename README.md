@@ -3,9 +3,9 @@
 <h1 align="center"> Artist Management App</h4>
 
 <p align="center">
-  <a href="#key-features">Technology</a> •
+  <a href="#key-features">Technology and Requirements</a> •
   <a href="#how-to-use">Functionality Overview</a> •
-  <a href="#download">App showcase</a> •
+  <a href="#download">App Demp Showcase</a> •
   <a href="#credits">Contact</a>
 </p>
 
@@ -15,7 +15,7 @@
 <p><h4>This app is a project for my bachelor's degree thesis. App's purpose is to provide a platform to manage and organise everyday's workload concerning the artist or the manager of a music band/music project.<h4><p>
 </br>
 
-## Technology
+## Technology and Requirements
 
 * Kotlin 1.3.10
 * Firebase
@@ -23,7 +23,7 @@
   - Authentication
   - Storage
   
-## Functionality overview
+## Functionality Overview
 
 * User profile module
   - Login/register
@@ -48,7 +48,16 @@
 * "Activity Logs Registry" module
 
   
-## App showcase
+## App Demo Showcase
+
+<p align="center">
+  <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="300"/></a></img>
+  <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="300"/></a></img>
+  <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="300"/></a></img>
+  <a href="#credits">Contact</a>
+</p>
+
+
 <p><h4> • General overview </h4></p>
 <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="300"/></a></img>
 <br>
