@@ -51,13 +51,16 @@
 ## App Demo Showcase
 
 <img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="256"/></a>
-<p><h1>General Overwiew</h1></p>
+<p><h3>General Overwiew</h3></p>
 <h4> • Navigation between fragments (HomeFragment, MenuFragment, UserProfileFragment) in home screen using BottomNavigationView</h4>
 <h4> • Brief showcase of ManageTeam module and admin functionalities in admin mode</h4>
 <h4> • Brief showcase of ActivityLogsRegistry module and sort/filter functionality</h4>
 <br></br>
+<br>
+<br>
+<br>
+<br>
 
-<a href="https://github.com/Ramotion/folding-cell-android">
 <img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif" width="256"/></a>
 <p><h1>General Overwiew</h1></p>
 <h4> • Navigation between fragments (HomeFragment, MenuFragment, UserProfileFragment) in home screen using BottomNavigationView</h4>
