@@ -64,28 +64,31 @@
 <br>
 <br>
 <br>
-
-
-<img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif" width="256"/></a>
-<p><h1 align="left">ArtistPageSelector module overview</a></h1></p>
-<p> • Navigation from current ArtistPage to selector via "Press again to exit" flow </p>
-<p> • Showcase of Dialog layouts </p>
-<p> • Showcase of ArtistPageSelector layout</p>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 <br>
 
 <img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/3.gif" width="256"/></a>
 <p><h1 align="left">TaskManager module overview</a></h1></p>
-<p> • 
-<p> • Brief showcase of ManageTeam module and admin functionalities in admin mode</p>
-<p> • Brief showcase of ActivityLogsRegistry module and sort/filter functionality</p>
+<p> • Complete/un-complete task functionality </p>
+<p> • TaskDetails display</p>
+<p> • Add task description</p>
+<p> • Add comment to task </p>
+<p> • Assign team members to task</p>
+<p> • Set task due date</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif" width="256"/></a>
+<p><h1 align="left">ArtistPageSelector module overview</a></h1></p>
+<p> • Navigation from current ArtistPage to selector using "Press again to leave..." flow </p>
+<p> • Showcase of Dialog layouts </p>
+<p> • Showcase of ArtistPageSelector layout</p>
 <br>
 <br>
 <br>
