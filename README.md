@@ -52,7 +52,6 @@
 
 <img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="256"/></a>
 <p><h1 align="left">General Overview</a></h1></p>
-<h4>Material design expanding content cell inspired by folding paper material</h4>
 <p> • Navigation between fragments (HomeFragment, MenuFragment, UserProfileFragment) in home screen using BottomNavigationView</p>
 <p> • Brief showcase of ManageTeam module and admin functionalities in admin mode</p>
 <p> • Brief showcase of ActivityLogsRegistry module and sort/filter functionality</p>
@@ -63,29 +62,39 @@
 <br>
 <br>
 <br>
+<br>
+<br>
 
 
-<a href="https://github.com/Ramotion/folding-cell-android">
-<img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="256"/></a>
-<p><h1 align="left"><a href="https://github.com/Ramotion/folding-cell-android">FOLDING CELL</a></h1></p>
-<h4>Material design expanding content cell inspired by folding paper material</h4>
-<p><h6>Stay tuned for the latest updates:</h6>
-<a href="https://goo.gl/rPFpid" >
-<img src="https://i.imgur.com/ziSqeSo.png/" width="156" height="28"></a></p>
-<h4><a href="https://github.com/Ramotion/folding-cell-android#installation">⚙️ Installation Guide →</a></h4>
-<h4><a href="https://github.com/Ramotion/folding-cell-android#requirements">☑️ Requirements →</a></h4>
-<br></br>
+<img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif" width="256"/></a>
+<p><h1 align="left">ArtistPageSelector module overview</a></h1></p>
+<p> • Navigation from current ArtistPage to selector via "Press again to exit" flow </p>
+<p> • Showcase of Dialog layouts </p>
+<p> • Showcase of ArtistPageSelector layout</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-<a href="https://github.com/Ramotion/folding-cell-android">
-<img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="256"/></a>
-<p><h1 align="left"><a href="https://github.com/Ramotion/folding-cell-android">FOLDING CELL</a></h1></p>
-<h4>Material design expanding content cell inspired by folding paper material</h4>
-<p><h6>Stay tuned for the latest updates:</h6>
-<a href="https://goo.gl/rPFpid" >
-<img src="https://i.imgur.com/ziSqeSo.png/" width="156" height="28"></a></p>
-<h4><a href="https://github.com/Ramotion/folding-cell-android#installation">⚙️ Installation Guide →</a></h4>
-<h4><a href="https://github.com/Ramotion/folding-cell-android#requirements">☑️ Requirements →</a></h4>
-<br></br>
+<img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/3.gif" width="256"/></a>
+<p><h1 align="left">TaskManager module overview</a></h1></p>
+<p> • 
+<p> • Brief showcase of ManageTeam module and admin functionalities in admin mode</p>
+<p> • Brief showcase of ActivityLogsRegistry module and sort/filter functionality</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
   
 ## Contact
 
