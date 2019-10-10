@@ -3,10 +3,10 @@
 <h1 align="center"> Artist Management App</h4>
 
 <p align="center">
-  <a href="#key-features">Technology and Requirements</a> •
-  <a href="#how-to-use">Functionality Overview</a> •
-  <a href="#download">App Demp Showcase</a> •
-  <a href="#credits">Contact</a>
+  <a href="#technology-and-requirements">Technology and Requirements</a> •
+  <a href="#functionality-overview">Functionality Overview</a> •
+  <a href="#app-demo-showcase">App Demo Showcase</a> •
+  <a href="#contact">Contact</a>
 </p>
 
 <a href="https://github.com/apoplawski96/projects-summary/blob/master/assets/ArtistManagementApp.png">
@@ -26,15 +26,15 @@
   
 ## Functionality Overview
 
-* User profile module
+* <b>User profile module</b>
   - Login/register
   - Change password
   - Edit profile info
-* "Artist Page" module
+* <b>"Artist Page" module</b>
   - Create "Artist Page"
   - Join/invite user to "Artist Page" via invitation code
   - Navigate and select between "Artist Pages"
-* Task Manager module
+* <b>Task Manager module</b>
   - Add new task
   - Delete task/tasks
   - Change task completion status
@@ -42,11 +42,11 @@
   - Assign users to a task
   - Set task due date
   - Add comment to a task
-* "Mobile Electronic Press Kit" module
+* <b>"Mobile Electronic Press Kit" module</b>
   - Create and generate Electronic Press Kit
   - Share/redeem other pages' EPK
-* Page administrator module
-* "Activity Logs Registry" module
+* <b>Page administrator module</b>
+* <b>"Activity Logs Registry" module</b>
 
   
 ## App Demo Showcase
