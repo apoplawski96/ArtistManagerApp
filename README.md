@@ -49,9 +49,9 @@
 
   
 ## App showcase
-<img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="300"/></a>
-<img align="center" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif"width="300"/></a>
-<img align="right" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/3.gif"width="300"/></a>
+<img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="300"/></a></img>
+<img align="center" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif"width="300"/></a></img>
+<img align="right" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/3.gif"width="300"/></a></img>
 
   
 ## Contact
