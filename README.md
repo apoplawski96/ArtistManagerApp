@@ -100,6 +100,7 @@
 ## Contact
 
 ✉️ a.poplawski96@gmail.com
+<br>
 https://www.linkedin.com/in/apoplawski96/
 
 
