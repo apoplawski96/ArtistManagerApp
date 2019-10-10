@@ -25,7 +25,6 @@ class CreateArtistPageActivity : BaseActivity(), UserInterfaceUpdater {
     // Bundled objects
     var userBundleInstance : User? = null
     var artistPageInstance : ArtistPage? = null
-    var photoBitmap : Bitmap? = null
     var photoByteArray : ByteArray? = null
 
     // Boolean controllers
@@ -35,7 +34,6 @@ class CreateArtistPageActivity : BaseActivity(), UserInterfaceUpdater {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_artist_page)
-
         Log.d(TAG, "Activity entered")
 
         // Receiving bundled objects
@@ -59,15 +57,6 @@ class CreateArtistPageActivity : BaseActivity(), UserInterfaceUpdater {
                 if (isSoloArtistRadioChecked) category = radio_button_solo_artist.text.toString()
                 else category = radio_button_band.text.toString()
 
-                val newData = mapOf<String, Any>(
-                    c.ARTIST_NAME to name,
-                    c.ARTIST_GENRE to genre,
-                    c.ARTIST_TIME_CREATED to currentTime,
-                    c.ARTIST_DATE_CREATED to currentDate,
-                    c.ARTIST_CREATED_BY_ID to createdById,
-                    c.ARTIST_CREATED_BY_DISPLAY_NAME to createdByDisplayName,
-                    c.ARTIST_CATEGORY to category)
-
                 val newArtistPage = ArtistPage()
                 newArtistPage.artistName = name
                 newArtistPage.genre = genre
@@ -76,8 +65,6 @@ class CreateArtistPageActivity : BaseActivity(), UserInterfaceUpdater {
                 newArtistPage.createdByDisplayName = createdByDisplayName
 
                 FirebaseDataWriter()?.createArtistPage(newArtistPage!!, this, userBundleInstance, convertBytesArrayToBitmap(photoByteArray!!))
-                //FirebaseDataWriter().updateArtistPageData(artistPageInstance.artistPageId.toString(), newData, this)
-
             } else {
                 Toast.makeText(this, "Genre and category has to be filled", Toast.LENGTH_SHORT).show()
             }
@@ -144,9 +131,6 @@ class CreateArtistPageActivity : BaseActivity(), UserInterfaceUpdater {
     }
 
     override fun hideProgress() { }
-
     override fun initializeUI() { }
-
     override fun showProgress() { }
-
 }

@@ -17,8 +17,6 @@ class SplashScreenActivity : BaseActivity() {
     // Others
     val context : Context = this
 
-    val this2 = this
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
@@ -40,15 +38,11 @@ class SplashScreenActivity : BaseActivity() {
             if (loggedIn){
                 // If user is logged in - we go to TransitionActivity
                 Log.d(FIREBASE_TAG, "User is logged in - we go to TransitionActivity")
-                mIntent = Intent(context, TransitionActivity::class.java).apply {
-                    //putExtra("asdasd", "asda")
-                }
+                mIntent = Intent(context, TransitionActivity::class.java).apply {}
             } else {
                 // If user is not logged in - we go to LoginActivity
                 Log.d(FIREBASE_TAG, "User is not logged in - we go to LoginActivity")
-                mIntent = Intent(context, LoginActivity::class.java).apply {
-                    //putExtra("asdasd", "asda")
-                }
+                mIntent = Intent(context, LoginActivity::class.java).apply {}
             }
             //this2.finish()
             startActivity(mIntent)
@@ -58,5 +52,4 @@ class SplashScreenActivity : BaseActivity() {
     fun checkIfUserLoggedIn(user : FirebaseUser?) : Boolean{
         return user != null
     }
-
 }

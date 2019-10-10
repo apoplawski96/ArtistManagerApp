@@ -11,8 +11,6 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activities.LicencesActivity"></activity>
-        <activity android:name=".activities.AppInfoActivity" />
         <activity android:name=".activities.ActivityLogsActivity" />
         <activity android:name=".activities.CreateArtistPageActivity" />
         <activity android:name=".activities.ChangePasswordActivity" />

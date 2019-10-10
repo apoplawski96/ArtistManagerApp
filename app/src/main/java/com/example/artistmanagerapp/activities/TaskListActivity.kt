@@ -131,10 +131,6 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         addNewTaskDialog = Dialog(this)
         addNewTaskDialog?.setContentView(R.layout.dialog_add_new_task)
 
-        // Setting up toolbar
-        //toolbarActivityDescription = findViewById(R.id.toolbar_activity_description)
-        //toolbarActivityDescription?.text = ACTIVITY_DESCRIPTION
-
         // TaskListRecyclerView setup
         taskListRecyclerView?.layoutManager = LinearLayoutManager(MainActivity(), OrientationHelper.VERTICAL, false)
         adapter = TaskListAdapter(this, context, tasksList, pathToTasksCollection as CollectionReference) { taskItem : Task -> taskItemClicked(taskItem)}
@@ -309,7 +305,6 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
                 setTaskColorWarning(itemView)
             }
         }
-
     }
 
     private fun showAddNewTaskDialog(){
@@ -429,12 +424,7 @@ class TaskListActivity : BaseActivity(), TaskUpdater, UserInterfaceUpdater, Dial
         addFirstTaskText?.visibility = View.GONE
     }
 
-    override fun onDismissWithOption(option: DialogCreator.DialogControllerCallback.DismissCalbackOption) {
+    override fun onDismissWithOption(option: DialogCreator.DialogControllerCallback.DismissCalbackOption) {}
 
-    }
-
-    override fun onCodeRedeemed(pageId: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
+    override fun onCodeRedeemed(pageId: String?) {}
 }

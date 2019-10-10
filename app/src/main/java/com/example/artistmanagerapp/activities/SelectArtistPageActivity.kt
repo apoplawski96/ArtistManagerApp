@@ -247,22 +247,6 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         FirebaseUsersManager.setCurrentArtistPage(userId, artistPage, this)
     }
 
-    /*private fun showFABMenu() {
-        isFABOpen = true
-        Toast.makeText(this, "show", Toast.LENGTH_SHORT).show()
-        fabMin1?.animate()?.translationY(resources.getDimension(R.dimen.standard_55))
-        fabMin2?.animate()?.translationY(resources.getDimension(R.dimen.standard_105))
-        fabMin3?.animate()?.translationY(resources.getDimension(R.dimen.standard_155))
-    }
-
-    private fun closeFABMenu() {
-        isFABOpen = false
-        Toast.makeText(this, "hide", Toast.LENGTH_SHORT).show()
-        fabMin1?.animate()?.translationY(0.toFloat())
-        fabMin2?.animate()?.translationY(0.toFloat())
-        fabMin3?.animate()?.translationY(0.toFloat())
-    }*/
-
     private fun showCreatePageDialog(){
         isCreatePageDialogOpen = true
 
@@ -374,9 +358,6 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
     }
 
     override fun showProgress() {
-        //createPageDialog?.hide()
-        //redeemCodeDialog?.hide()
-        //showProgressOverlay()
         createPageDialog!!.dialog_close_x.visibility = View.INVISIBLE
         createPageDialog!!.create_dialog_progress_bar.visibility = View.VISIBLE
         createPageDialog!!.dialog_copy_button.isClickable = false
@@ -386,13 +367,7 @@ class SelectArtistPageActivity : BaseActivity(), ArtistPagesPresenter, UserInter
         createDialogProgressBar?.visibility = View.GONE
     }
 
-    fun codeRedeemedUiUpdater() {
-
-    }
-
-    override fun initializeUI() {
-
-    }
+    override fun initializeUI() {}
 
     // We're receiving CurrentPage data to decide if we stay here or go to CurrentPage
     override fun receiveData(data: Any?, mInterface: Any?) {

@@ -18,20 +18,14 @@ class TransitionActivity : BaseActivity(), DataReceiver {
     val c = FirebaseConstants
     val tag = "TransitionActivity"
 
-    // Bundle data objects
-    var userInstance : User = User()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transition)
         Log.d(ACTIVITY_WELCOME_TAG, "Welcome to TransitionActivity")
         Log.d("USER_ID", user?.uid.toString())
 
-
         FirebaseUsersManager.getUserData(userIdGlobal, this)
     }
-
-    // ************************************ FUNCTIONS SECTION START ************************************
 
     override fun receiveData(data: Any?, mInterface: Any?) {
         if (data == null){
@@ -83,9 +77,4 @@ class TransitionActivity : BaseActivity(), DataReceiver {
         this.finish()
         startActivity(intent)
     }
-
-
-
-    // ************************************ FUNCTIONS SECTION END **************************************
-
 }

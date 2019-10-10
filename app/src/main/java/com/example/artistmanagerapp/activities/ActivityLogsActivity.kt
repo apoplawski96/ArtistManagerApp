@@ -32,7 +32,7 @@ class ActivityLogsActivity : BaseActivity(), FirebaseActivityLogsManager.Activit
     var activityLogsList : ArrayList<ActivityLog> = ArrayList()
     var activityLogsListRawBackup : ArrayList<ActivityLog> = ArrayList()
 
-    // Bundled objects
+    // Bundle objects
     lateinit var userInstance : User
     lateinit var pageInstance : ArtistPage
 
@@ -42,7 +42,7 @@ class ActivityLogsActivity : BaseActivity(), FirebaseActivityLogsManager.Activit
     // Views
     var filterDialog : Dialog? = null
 
-    // Variables
+    // Sort/filter parameter vars
     var currentFilterParameter = FilterParameter.TEAM
     var currentSortParameter = SortParameter.DESCENDING
 
@@ -56,7 +56,7 @@ class ActivityLogsActivity : BaseActivity(), FirebaseActivityLogsManager.Activit
 
         // Loading whole logs collection from the DB
         FirebaseActivityLogsManager.parseActivityLogs(pageInstance.artistPageId!!, this)
-        logs_progress_bar.visibility = View.VISIBLE
+        showProgressBar()
 
         // Dialog setup
         filterDialog = Dialog(this)
@@ -73,6 +73,14 @@ class ActivityLogsActivity : BaseActivity(), FirebaseActivityLogsManager.Activit
         }
     }
 
+    private fun showProgressBar(){
+        logs_progress_bar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar(){
+        logs_progress_bar.visibility = View.GONE
+    }
+
     // Receiving logs from Firestore
     override fun receiveLogs(activityLogs : ArrayList<ActivityLog>) {
         // Initializing backup list with every log existing
@@ -80,12 +88,11 @@ class ActivityLogsActivity : BaseActivity(), FirebaseActivityLogsManager.Activit
         // Sorting
         val sortedLogs = filterAndSortLogs(activityLogs, currentSortParameter, currentFilterParameter)
         // UI
-        logs_progress_bar.visibility = View.GONE
+        hideProgressBar()
         adapter?.updateItems(sortedLogs)
     }
 
-    fun setupFilterDialog(){
-
+    private fun setupFilterDialog(){
         //Setting up filter parameter
         when (currentFilterParameter){
             FilterParameter.TEAM -> {
@@ -110,7 +117,7 @@ class ActivityLogsActivity : BaseActivity(), FirebaseActivityLogsManager.Activit
         }
 
         filterDialog!!.filter_dialog_apply_button.setOnClickListener {
-            var fullLogsList : ArrayList <ActivityLog> = ArrayList()
+            val fullLogsList : ArrayList <ActivityLog> = ArrayList()
             fullLogsList.addAll(activityLogsListRawBackup)
 
             logs_progress_bar.visibility = View.VISIBLE
@@ -132,9 +139,9 @@ class ActivityLogsActivity : BaseActivity(), FirebaseActivityLogsManager.Activit
         super.onBackPressed()
     }
 
-    fun filterAndSortLogs (logsListRaw : ArrayList<ActivityLog>, sortParam : SortParameter, filterParam : FilterParameter) : ArrayList<ActivityLog>{
-        var listFiltered = logsManager.filterActivityLogs(logsListRaw, filterParam, userInstance.id.toString())
-        var listFinal = logsManager.sortActivityLogsByDate(listFiltered, sortParam)
+    private fun filterAndSortLogs (logsListRaw : ArrayList<ActivityLog>, sortParam : SortParameter, filterParam : FilterParameter) : ArrayList<ActivityLog>{
+        val listFiltered = logsManager.filterActivityLogs(logsListRaw, filterParam, userInstance.id.toString())
+        val listFinal = logsManager.sortActivityLogsByDate(listFiltered, sortParam)
 
         return listFinal
     }

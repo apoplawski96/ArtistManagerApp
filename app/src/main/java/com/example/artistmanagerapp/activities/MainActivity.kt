@@ -40,12 +40,7 @@ class MainActivity : BaseActivity(), DataReceiver, ArtistPageDataReceiver{
         Log.d(ACT_TAG, "Page instance from bundle: ${artistPageInstance?.artistPageId}, ${artistPageInstance?.artistName}")
         Log.d(ACT_TAG, "Current page from bundle: ${userBundleInstance?.currentArtistPageId}")
 
-        // TO CHANGE LATER
-        //val mUserId = auth.currentUser?.uid
-        //FirebaseUsersManager.getCurrentArtistPage(userIdGlobal, this)
-
         FirebaseDataReader().getArtistPageData(userBundleInstance?.currentArtistPageId, null, this)
-
         bottom_nav_bar.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 

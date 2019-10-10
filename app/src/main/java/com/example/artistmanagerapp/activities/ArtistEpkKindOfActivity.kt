@@ -47,9 +47,6 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
     var progressOverlay : ConstraintLayout? = null
     var progressBar : ProgressBar? = null
 
-    // Boolean controllers
-    var isEpkDataMissing : Boolean? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_artist_epk_kind_of)
@@ -77,7 +74,7 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
 
         FirebaseDataReader().getArtistPageData(pageId, this, null)
 
-        // Collapsing Toolbar Setup (jakby ktos nie zauwazyl xD)
+        // Collapsing Toolbar Setup
         val typeface : Typeface? = ResourcesCompat.getFont(this, R.font.montserrat)
         collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar) as CollapsingToolbarLayout
         collapsingToolbarLayout!!.title = "NOT ENOUGH"
@@ -96,7 +93,6 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
 
     override fun onBackPressed() {
         super.onBackPressed()
-
         // Making sure that updated data is sent back to EpkSelectorActivity
         val intent = Intent(applicationContext, EpkSelectorActivity::class.java).apply{
             putExtra(Constants.PAGE_ID_BUNDLE, pageId)
@@ -178,32 +174,15 @@ class ArtistEpkKindOfActivity : BaseActivity(), ArtistPagesPresenter, DialogCrea
         this.finish()
     }
 
-    override fun onCodeRedeemed(pageId: String?) {
-
-    }
-
-    override fun onDismiss() {
-
-    }
-
-    override fun onShown() {
-
-    }
-
-    override fun onCallInvalid() {
-
-    }
-
     override fun updateBundleData(newData: Any?) {
         epkShareCode = newData.toString()
-        //Toast.makeText(this, "Data updated with: $epkShareCode", Toast.LENGTH_SHORT).show()
     }
 
     override fun showArtistPages(artistPagesList: ArrayList<ArtistPage>) {}
     override fun showNoPagesText() {}
-
-    override fun onDismissWithOption(option: DialogCreator.DialogControllerCallback.DismissCalbackOption) {
-
-    }
-
+    override fun onCodeRedeemed(pageId: String?) {}
+    override fun onDismiss() {}
+    override fun onShown() {}
+    override fun onCallInvalid() {}
+    override fun onDismissWithOption(option: DialogCreator.DialogControllerCallback.DismissCalbackOption) {}
 }

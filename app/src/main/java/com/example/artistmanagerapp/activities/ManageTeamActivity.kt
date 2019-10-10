@@ -265,9 +265,6 @@ class ManageTeamActivity : BaseActivity(), UsersListListener, DialogCreator.Dial
         userDetailsDialogRole = userDetailsDialog?.findViewById(R.id.user_details_role) as TextView?
         userAvatar = userDetailsDialog?.findViewById(R.id.circle_avatar_background) as CircleImageView?
         userDetailsDialog!!.user_acronym.text = user.getAcronym()
-        //statsCounterLeft = userDetailsDialog?.findViewById(R.id.counter_1) as TextView?
-        //statsCounterCenter = userDetailsDialog?.findViewById(R.id.counter_2) as TextView?
-        //statsCounterRight = userDetailsDialog?.findViewById(R.id.counter_3) as TextView?
 
         // Views setup with data
         userDetailsDialogDisplayName?.text = "${user.firstName.toString()} ${user.lastName.toString()}"
@@ -305,30 +302,9 @@ class ManageTeamActivity : BaseActivity(), UsersListListener, DialogCreator.Dial
         admin_mode_progress_bar.visibility = View.VISIBLE
     }
 
-    override fun onDismiss() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onShown() {
-
-    }
-
-    override fun onDismissWithOption(option: DialogCreator.DialogControllerCallback.DismissCalbackOption) {
-        when (option){
-
-        }
-    }
-
-    override fun onCallInvalid() {
-
-    }
-
-    override fun onCodeRedeemed(pageId: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    interface TeamManagementPanelController{
-
-    }
-
+    override fun onDismiss() {}
+    override fun onShown() {}
+    override fun onDismissWithOption(option: DialogCreator.DialogControllerCallback.DismissCalbackOption) {}
+    override fun onCallInvalid() {}
+    override fun onCodeRedeemed(pageId: String?) {}
 }

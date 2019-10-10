@@ -166,8 +166,6 @@ class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.
         }
     }
 
-    override fun onCodeRedeemed(redeemedPageId: String?) {}
-
     override fun onAccept(option: DialogCreator.DialogControllerCallback.CallbackOption?) {
         when (option){
             DialogCreator.DialogControllerCallback.CallbackOption.CODE_REDEEMED -> {
@@ -176,35 +174,13 @@ class EpkSelectorActivity : BaseActivity(), UserInterfaceUpdater, DialogCreator.
         }
     }
 
-    override fun onDismiss() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onShown() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onCallInvalid() {
-
-    }
-
-    override fun hideProgress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun initializeUI() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun showProgress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun updateUI(option: String, data : Any?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onDismissWithOption(option: DialogCreator.DialogControllerCallback.DismissCalbackOption) {
-
-    }
+    override fun onCodeRedeemed(redeemedPageId: String?) {}
+    override fun onDismiss() {}
+    override fun onShown() {}
+    override fun onCallInvalid() {}
+    override fun hideProgress() {}
+    override fun initializeUI() {}
+    override fun showProgress() {}
+    override fun updateUI(option: String, data : Any?) {}
+    override fun onDismissWithOption(option: DialogCreator.DialogControllerCallback.DismissCalbackOption) {}
 }

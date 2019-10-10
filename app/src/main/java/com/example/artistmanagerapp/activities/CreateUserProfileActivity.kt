@@ -246,7 +246,7 @@ class CreateUserProfileActivity : BaseActivity(), UserInterfaceUpdater, MediaLoa
     }
 
     fun hideAvatarProgressBar(){
-        avatarProgressBar?.visibility = View.GONE
+        avatarProgressBar?.visibility = View.INVISIBLE
         avatarImageView?.visibility = View.VISIBLE
     }
 
