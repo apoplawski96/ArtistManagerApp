@@ -49,10 +49,14 @@
 
   
 ## App showcase
+<p><h4>FOLDING CELL [JAVA]</h4></p>
 <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="300"/></a></img>
 <br>
+<p><h4>FOLDING CELL [JAVA]</h4></p>
 <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/2.gif"width="300"/></a></img>
 <br>
+<p><h4>FOLDING CELL [JAVA]</h4></p>
+
 <img src="https://github.com/apoplawski96/projects-summary/blob/master/assets/3.gif"width="300"/></a></img>
 <br>
 
