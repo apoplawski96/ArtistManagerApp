@@ -60,6 +60,18 @@
 <h4><a href="https://github.com/Ramotion/folding-cell-android#installation">⚙️ Installation Guide →</a></h4>
 <h4><a href="https://github.com/Ramotion/folding-cell-android#requirements">☑️ Requirements →</a></h4>
 <br></br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 <a href="https://github.com/Ramotion/folding-cell-android">
 <img align="left" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/1.gif" width="256"/></a>
