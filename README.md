@@ -17,11 +17,12 @@
 
 ## Technology and Requirements
 
-* Kotlin 1.3.10
+* <b>Min SDK</b> - 26
+* <b>Kotlin</b> - 1.3.20
 * Firebase
-  - Cloud Firestore
-  - Authentication
-  - Storage
+  - Firebase Cloud Firestore
+  - Firebase Authentication
+  - Firebase Cloud Storage
   
 ## Functionality Overview
 
@@ -101,6 +102,6 @@
 
 ✉️ a.poplawski96@gmail.com
 <br>
-https://www.linkedin.com/in/apoplawski96/
+linkedin.com/in/apoplawski96/
 
 
