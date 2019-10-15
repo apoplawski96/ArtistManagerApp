@@ -102,6 +102,6 @@
 
 ✉️ a.poplawski96@gmail.com
 <br>
-linkedin.com/in/apoplawski96/
+👷 <a href="http://www.linkedin.com/in/apoplawski96/">linkedin.com/in/apoplawski96/</a>
 
 
