@@ -13,7 +13,6 @@
 <img align="center" src="https://github.com/apoplawski96/projects-summary/blob/master/assets/ArtistManagementApp.png" /></a>
 <b> 
 <p><h4 align="center">This app is a project for my bachelor's degree thesis. App's purpose is to provide a platform to manage and organise everyday's workload concerning the artist or the manager of a music band/music project.</h4><p>
-</br>
 
 ## Technology and Requirements
 
